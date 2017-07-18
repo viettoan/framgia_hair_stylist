@@ -9,6 +9,9 @@ class RenderBooking extends Model
 {
     use RenderBookingRelations;
 
+    const STATUS_ENABLE = 1;
+    const STATUS_DISABLE = 0;
+
     protected $fillable = [
         'day',
         'time_start',

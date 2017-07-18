@@ -14,6 +14,6 @@ trait RenderBookingRelations
     
     public function getOrderBooking()
     {
-    	return $this->hasMany(OrderBooking::class, 'render_booking_id')
+        return $this->hasMany(OrderBooking::class, 'render_booking_id');
     }
 }

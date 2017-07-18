@@ -12,9 +12,17 @@ class RepositoryServiceProvider extends ServiceProvider
             \App\Contracts\Repositories\CommentRepository::class,
             \App\Repositories\CommentRepositoryEloquent::class,
         ],
+        'department_dayoff' => [
+            \App\Contracts\Repositories\DepartmentDayoffRepository::class,
+            \App\Repositories\DepartmentDayoffRepositoryEloquent::class,
+        ],
         'department' => [
             \App\Contracts\Repositories\DepartmentRepository::class,
             \App\Repositories\DepartmentRepositoryEloquent::class,
+        ],
+        'media' => [
+            \App\Contracts\Repositories\MediaRepository::class,
+            \App\Repositories\MediaRepositoryEloquent::class,
         ],
         'render_booking' => [
             \App\Contracts\Repositories\RenderBookingRepository::class,
@@ -23,6 +31,10 @@ class RepositoryServiceProvider extends ServiceProvider
         'order_booking' => [
             \App\Contracts\Repositories\OrderBookingRepository::class,
             \App\Repositories\OrderBookingRepositoryEloquent::class,
+        ],
+        'timesheet_department' => [
+            \App\Contracts\Repositories\TimeSheetDepartmentRepository::class,
+            \App\Repositories\TimeSheetDepartmentRepositoryEloquent::class,
         ],
         'user' => [
             \App\Contracts\Repositories\UserRepository::class,
