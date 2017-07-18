@@ -11,4 +11,9 @@ class UserRepositoryEloquent extends AbstractRepositoryEloquent implements UserR
     {
         return new User;
     }
+
+    public function getStylistByDepartmentId($with = [], $select = ['*'], $column, $value)
+    {
+        return $this->model()->select($select)->with($with)->where($column, $value)->get();
+    }
 }
