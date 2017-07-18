@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Eloquent\Relations;
+namespace App\Eloquents\Relations;
 
-use App\Eloquent\User;
-use App\Eloquent\DepartmentDayoff;
-use App\Eloquent\RenderBooking;
+use App\Eloquents\User;
+use App\Eloquents\DepartmentDayoff;
+use App\Eloquents\RenderBooking;
 
 trait DepartmentRelations
 {

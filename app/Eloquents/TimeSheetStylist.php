@@ -3,13 +3,13 @@
 namespace App\Eloquents;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Eloquents\Relations\TimeSheetStylistRelations;
 
 class TimeSheetStylist extends Model
 {
     use TimeSheetStylistRelations;
 
     protected $fillable = [
-        'id',
         'stylist_id',
         'mon',
         'tues',

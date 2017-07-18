@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Eloquent\Relations;
+namespace App\Eloquents\Relations;
 
-use App\Eloquent\TimeSheetStylist;
-use App\Eloquent\StylistDayoff;
-use App\Eloquent\OrderBooking;
-use App\Eloquent\Department;
+use App\Eloquents\TimeSheetStylist;
+use App\Eloquents\StylistDayoff;
+use App\Eloquents\OrderBooking;
+use App\Eloquents\Department;
 
 trait UserRelations
 {
