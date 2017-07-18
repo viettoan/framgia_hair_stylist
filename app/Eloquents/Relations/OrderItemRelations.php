@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Eloquent\Relations;
+namespace App\Eloquents\Relations;
 
-use App\Eloquent\OrderBooking;
-use App\Eloquent\ServiceProduct;
+use App\Eloquents\OrderBooking;
+use App\Eloquents\ServiceProduct;
 
 trait DepartmentDayoffRelations
 {

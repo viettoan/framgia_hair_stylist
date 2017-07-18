@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Eloquent\Relations;
+namespace App\Eloquents\Relations;
 
-use App\Eloquent\User;
-use App\Eloquent\RenderBooking;
-use App\Eloquent\OrderItem;
+use App\Eloquents\User;
+use App\Eloquents\RenderBooking;
+use App\Eloquents\OrderItem;
 
 trait OrderBookingRelations
 {

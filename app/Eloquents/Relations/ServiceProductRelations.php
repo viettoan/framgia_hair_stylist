@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Eloquent\Relations;
+namespace App\Eloquents\Relations;
 
-use App\Eloquent\OrderItem;
+use App\Eloquents\OrderItem;
 
 trait ServiceProductRelations
 {

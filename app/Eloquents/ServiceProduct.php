@@ -3,13 +3,13 @@
 namespace App\Eloquents;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Eloquents\Relations\ServiceProductRelations;
 
 class ServiceProduct extends Model
 {
     use ServiceProductRelations;
 
     protected $fillable = [
-        'id',
         'name',
         'short_description',
         'description',

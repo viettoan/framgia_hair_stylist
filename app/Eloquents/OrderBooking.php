@@ -3,13 +3,13 @@
 namespace App\Eloquents;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Eloquents\Relations\OrderBookingRelations;
 
 class OrderBooking extends Model
 {
     use OrderBookingRelations;
 
     protected $fillable = [
-        'id',
         'render_booking_id',
         'user_id',
         'phone',

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Eloquent\Relations;
+namespace App\Eloquents\Relations;
 
-use App\Eloquent\Department;
-use App\Eloquent\OrderBooking;
+use App\Eloquents\Department;
+use App\Eloquents\OrderBooking;
 
 trait RenderBookingRelations
 {

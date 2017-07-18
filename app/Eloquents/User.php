@@ -4,6 +4,7 @@ namespace App\Eloquents;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Eloquents\Relations\UserRelations;
 
 class User extends Authenticatable
 {
@@ -15,7 +16,6 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'id',
         'name',
         'email',
         'phone',

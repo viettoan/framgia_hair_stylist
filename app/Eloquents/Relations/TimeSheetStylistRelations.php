@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Eloquent\Relations;
+namespace App\Eloquents\Relations;
 
-use App\Eloquent\User;
+use App\Eloquents\User;
 
 trait TimeSheetStylistRelations
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Eloquent\Relations;
+namespace App\Eloquents\Relations;
 
 trait MediaRelations
 {
