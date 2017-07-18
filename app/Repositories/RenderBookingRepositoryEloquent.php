@@ -11,4 +11,9 @@ class RenderBookingRepositoryEloquent extends AbstractRepositoryEloquent impleme
     {
         return new RenderBooking;
     }
+
+    public function create($data = [])
+    {
+        $this->model()->create($data);
+    }
 }

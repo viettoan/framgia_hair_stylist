@@ -10,6 +10,11 @@ class User extends Authenticatable
 {
     use Notifiable, UserRelations;
 
+    const PERMISSION_NOMAL = 0;
+    const PERMISSION_ASSISTANT = 1;
+    const PERMISSION_MAIN_WORKER = 2;
+    const PERMISSION_ADMIN = 3;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -28,6 +33,7 @@ class User extends Authenticatable
         'about_me',
         'department_id',
     ];
+    
     /**
      * The attributes that should be hidden for arrays.
      *
