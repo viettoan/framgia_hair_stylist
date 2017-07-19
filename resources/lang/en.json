@@ -2,5 +2,9 @@
 	"Hair Salon": "Hair Salon",
 	"Ha Noi": "Ha Noi",
 	"Render booking successful!": "Render booking successful!",
-	"Booking was rendered!": "Booking was rendered!"
+	"Booking was rendered!": "Booking was rendered!",
+	"This email exits!": "This email exits!",
+	"Email or password not correct!": "Email or password not correct!",
+	"You don't login or Access token expired!": "You don't login or Access token expired!",
+	"You are Logged out.": "You are Logged out."
 }

@@ -2,13 +2,14 @@
 
 namespace App\Eloquents;
 
+use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Eloquents\Relations\UserRelations;
 
 class User extends Authenticatable
 {
-    use Notifiable, UserRelations;
+    use Notifiable, HasApiTokens, UserRelations;
 
     const PERMISSION_NOMAL = 0;
     const PERMISSION_ASSISTANT = 1;
@@ -25,6 +26,7 @@ class User extends Authenticatable
         'email',
         'phone',
         'birthday',
+        'password',
         'avatar',
         'gender',
         'permission',
@@ -42,4 +44,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = bcrypt($value);
+    }
 }
