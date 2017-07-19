@@ -18,22 +18,10 @@ class UserController extends Controller
         $this->userRepo = $userRepo;
     }
 
-    public function getStylistbySalonID(Request $request)
+    public function getStylistbySalonID(Request $request, $departmentId)
     {
         $response = Helper::apiFormat();
-        $validator = Validator::make($request->all(), [
-            'department_id' => 'required',
-        ]);
 
-        if ($validator->fails()) {
-            $response['error'] = true;
-            $response['status'] = '402';
-            $response['message'] = $validator->messages();
-
-            return Response::json($response) ;
-        }
-
-        $departmentId = $request->department_id;
         $data = $this->userRepo->getStylistByDepartmentId([],['*'],'department_id', $departmentId);
         if(empty($data->first()))
         {
