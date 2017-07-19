@@ -20,4 +20,19 @@ class UserRepositoryEloquent extends AbstractRepositoryEloquent implements UserR
 
         return $data;
     }
+
+    public function create($data)
+    {
+        $user = $this->model()->fill($data);
+        $user->save();
+
+        return $user;
+    }
+
+    public function findByEmail($email)
+    {
+        $user = $this->model()->where('email', $email)->first();
+
+        return $user;
+    }
 }

@@ -16,6 +16,14 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('/v0/get-salons', 'Api\DepartmentsController@index');
-Route::get('/v0/get-stylist-by-salonId/{id}', 'Api\UserController@getStylistbySalonID');
-Route::get('/v0/first_render_booking', 'Api\ApiController@firstRenderBooking');
+
+Route::group(['prefix' => 'v0', 'namespace' => 'Api'], function() {
+    Route::get('get-salons', 'DepartmentsController@index');
+    Route::get('get-stylist-by-salonId/{id}', 'UserController@getStylistbySalonID');
+    Route::get('first_render_booking', 'ApiController@firstRenderBooking');
+
+    Route::post('register', 'AuthController@register');
+    Route::post('login', 'AuthController@login');
+    Route::post('refresh-token', 'AuthController@refreshToken');
+    Route::post('logout', 'AuthController@logout');
+});
