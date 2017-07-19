@@ -16,4 +16,9 @@ class DepartmentRepositoryEloquent extends AbstractRepositoryEloquent implements
     {
     	return $this->model()->select($select)->with($with)->get();
     }
+
+    public function find($id ,$with = [], $select = ['*'])
+    {
+    	return $this->model()->select($select)->with($with)->find($id);
+    }
 }
