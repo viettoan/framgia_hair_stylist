@@ -25,35 +25,35 @@ class AuthController extends Controller
         $response = Helper::apiFormat();
 
         $rule = [
-            'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'phone' => 'required|numeric|min:6',
+            'name' => 'required|string|max:255',
             'password' => 'required|string|min:6|confirmed',
         ];
 
+        $response['error'] = true;
+        $response['status'] = 403;
         $validator = Validator::make($request->all(), $rule);
         if ($validator->fails()) {
-            $response['error'] = true;
-            $response['status'] = 403;
+            
             foreach ($rule as $key => $value) {
-                $response['message'][$key] = $validator->messages()->first($key);
+                if ($validator->messages()->first($key)) {
+                    $response['message'][] = $validator->messages()->first($key);
+                }
             }
 
-            return Response::json($response, 403);
+            return Response::json($response, $response['status']);
         }
 
-        $existUser = $this->user->findByEmail($request->email);
+        $existUser = $this->user->existEmailOrPhone($request->email, $request->phone);
         if ($existUser) {
-            $data['error'] = true;
-            $response['status'] = 403;
-            $data['message']['email'] = __('This email exits!');
+            $response['message'][] = __('This email or phone number exits!');
 
-            return Response::json($data, 403);
+            return Response::json($response, $response['status']);
         }
 
-        $this->user->create($request->all());
-        $user = $this->user->findByEmail($request->email);
-        $response['data']['user'] = $user;
+        $user = $this->user->create($request->all());
+        $data['user'] = $user;
 
         $param = [
             'grant_type' => 'password',
@@ -66,9 +66,12 @@ class AuthController extends Controller
 
         $request->request->add($param);
         $proxy = Request::create('oauth/token', 'POST');
-        $response['data']['token'] = json_decode(Route::dispatch($proxy)->getContent());
+        $data['token'] = json_decode(Route::dispatch($proxy)->getContent());
+        $response['data'] = $data;
+        $response['error'] = false;
+        $response['status'] = 200;
 
-        return Response::json($response, 200);
+        return Response::json($response, $response['status']);
     }
 
     public function login(Request $request)
@@ -76,7 +79,7 @@ class AuthController extends Controller
         $response = Helper::apiFormat();
 
         $rule = [
-            'email' => 'required|email|max:255',
+            'email_or_phone' => 'required|max:255',
             'password' => 'required|string|min:6',
         ];
 
@@ -85,34 +88,38 @@ class AuthController extends Controller
             $response['error'] = true;
             $response['status'] = 403;
             foreach ($rule as $key => $value) {
-                $response['message'][$key] = $validator->messages()->first($key);
+                if ($validator->messages()->first($key)) {
+                    $response['message'][] = $validator->messages()->first($key);
+                }
             }
 
             return Response::json($response, 403);
         }
 
-        if (!Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        if (!Auth::attempt(['email' => $request->email_or_phone, 'password' => $request->password])
+            && !Auth::attempt(['phone' => $request->email_or_phone, 'password' => $request->password])
+            ) {
             $response['error'] = true;
             $response['status'] = 403;
-            $response['message'][] = __('Email or password not correct!');
+            $response['message'][] = __('Email, number phone or password not correct!');
 
             return Response::json($response, 403);
         }
 
-        $response['data']['user'] = $this->user->findByEmail($request->email);
-
+        $data['user'] = $this->user->findByEmailOrPhone($request->email_or_phone);
         $param = [
             'grant_type' => 'password',
             'client_id' => env('API_PASSWORD_CLIENT_ID'),
             'client_secret' => env('API_PASSWORD_CLIENT_SECRET'),
-            'username' => $request->email,
+            'username' => $data['user']->email,
             'password' => $request->password,
             'scope' => '*',
         ];
 
         $request->request->add($param);
         $proxy = Request::create('oauth/token', 'POST');
-        $response['data']['token'] = json_decode(Route::dispatch($proxy)->getContent());
+        $data['token'] = json_decode(Route::dispatch($proxy)->getContent());
+        $response['data'] = $data;
 
         return Response::json($response, 200);
     }
@@ -130,7 +137,9 @@ class AuthController extends Controller
             $response['error'] = true;
             $response['status'] = 403;
             foreach ($rule as $key => $value) {
-                $response['message'][$key] = $validator->messages()->first($key);
+                if ($validator->messages()->first($key)) {
+                    $response['message'][] = $validator->messages()->first($key);
+                }
             }
 
             return Response::json($response, 403);
