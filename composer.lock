@@ -524,16 +524,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.4.28",
+            "version": "v5.4.29",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "442511fc62121085d184355e4f964c88942bbecb"
+                "reference": "4f7588c744eb15e49544c99c6ee90d5598b0b50b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/442511fc62121085d184355e4f964c88942bbecb",
-                "reference": "442511fc62121085d184355e4f964c88942bbecb",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/4f7588c744eb15e49544c99c6ee90d5598b0b50b",
+                "reference": "4f7588c744eb15e49544c99c6ee90d5598b0b50b",
                 "shasum": ""
             },
             "require": {
@@ -649,7 +649,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-06-30T13:43:07+00:00"
+            "time": "2017-07-19T13:26:57+00:00"
         },
         {
             "name": "laravel/passport",
@@ -976,16 +976,16 @@
         },
         {
             "name": "league/oauth2-server",
-            "version": "6.0.0",
+            "version": "6.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/oauth2-server.git",
-                "reference": "2824f7d27e7bf3f1a711aad24db96425f3278906"
+                "reference": "a1b8d87b473e9b956b80e7e20b31ae20dc670d30"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/oauth2-server/zipball/2824f7d27e7bf3f1a711aad24db96425f3278906",
-                "reference": "2824f7d27e7bf3f1a711aad24db96425f3278906",
+                "url": "https://api.github.com/repos/thephpleague/oauth2-server/zipball/a1b8d87b473e9b956b80e7e20b31ae20dc670d30",
+                "reference": "a1b8d87b473e9b956b80e7e20b31ae20dc670d30",
                 "shasum": ""
             },
             "require": {
@@ -1040,7 +1040,7 @@
                 "secure",
                 "server"
             ],
-            "time": "2017-07-01T17:46:48+00:00"
+            "time": "2017-07-19T06:58:56+00:00"
         },
         {
             "name": "monolog/monolog",
