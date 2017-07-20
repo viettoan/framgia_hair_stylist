@@ -29,10 +29,16 @@ class UserRepositoryEloquent extends AbstractRepositoryEloquent implements UserR
         return $user;
     }
 
-    public function findByEmail($email)
+    public function findByEmailOrPhone($value)
     {
-        $user = $this->model()->where('email', $email)->first();
+        return $this->model()->orWhere('email', $value)->orWhere('phone', $value)->first();
+    }
 
-        return $user;
+    public function existEmailOrPhone($email, $phone)
+    {
+        $userEmail = $this->model()->where('email', $email)->first();
+        $userPhone = $this->model()->where('phone', $phone)->first();
+
+        return ($userEmail || $userPhone) ? true : false;
     }
 }

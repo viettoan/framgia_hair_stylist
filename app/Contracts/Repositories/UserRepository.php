@@ -6,5 +6,6 @@ interface UserRepository extends AbstractRepository
 {
     public function getStylistByDepartmentId($departmentId, $select = ['*'], $with = []);
     public function create($data);
-    public function findByEmail($email);
+    public function findByEmailOrPhone($value);
+    public function existEmailOrPhone($email, $phone);
 }

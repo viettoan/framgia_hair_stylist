@@ -17,7 +17,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
 Route::group(['prefix' => 'v0', 'namespace' => 'Api'], function() {
     Route::get('get-salons', 'DepartmentsController@index');
     Route::get('get-stylist-by-salonId/{id}', 'UserController@getStylistbySalonID');
