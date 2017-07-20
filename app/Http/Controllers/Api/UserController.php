@@ -32,7 +32,7 @@ class UserController extends Controller
         if (!$department) {
             $response['error'] = true;
             $response['status'] = '404';
-            $response['message'][] = 'This Department does not exists';
+            $response['message'][] = __('This Department does not exists');
 
             return Response::json($response) ;
         }

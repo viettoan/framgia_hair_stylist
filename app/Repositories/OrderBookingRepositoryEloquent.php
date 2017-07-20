@@ -11,4 +11,9 @@ class OrderBookingRepositoryEloquent extends AbstractRepositoryEloquent implemen
     {
         return new OrderBooking;
     }
+
+    public function getBookingByBookingId($bookingId, $with = [], $select = ['*'])
+    {
+        return $this->model()->select($select)->with($with)->find($bookingId);
+    }
 }

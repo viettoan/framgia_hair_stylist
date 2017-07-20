@@ -6,5 +6,8 @@
 	"This email exits!": "This email exits!",
 	"Email or password not correct!": "Email or password not correct!",
 	"You don't login or Access token expired!": "You don't login or Access token expired!",
-	"You are Logged out.": "You are Logged out."
+	"You are Logged out.": "You are Logged out.",
+	"This Department does not exists": "This Department does not exists",
+	"404 not found": "404 not found",
+	"There's no booking currently": "There's no booking currently",
 }
