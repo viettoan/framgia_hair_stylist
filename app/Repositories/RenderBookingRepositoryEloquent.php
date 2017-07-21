@@ -14,7 +14,12 @@ class RenderBookingRepositoryEloquent extends AbstractRepositoryEloquent impleme
 
     public function create($data = [])
     {
-        $this->model()->create($data);
+        return $this->model()->create($data);
+    }
+
+    public function find($id, $with = [], $select = ['*'])
+    {
+    	return $this->model()->select($select)->with($with)->find($id);
     }
 
     public function getRenderDepartment($department_id, $day, $with = [], $select = ['*'])

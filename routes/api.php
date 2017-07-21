@@ -22,9 +22,9 @@ Route::group(['prefix' => 'v0', 'namespace' => 'Api'], function() {
     Route::get('get-stylist-by-salonId/{id}', 'UserController@getStylistbySalonID');
     Route::get('first-render-booking', 'ApiController@firstRenderBooking');
     Route::get('get_booking_by_id/{id}', 'OrderBookingController@getBookingbyId');
+    Route::post('user_booking', 'OrderBookingController@userBooking');
 
     Route::get('get-render-by-depart-stylist', 'RenderBookingController@getRenderBooking');
-    
     Route::post('register', 'AuthController@register');
     Route::post('login', 'AuthController@login');
     Route::post('refresh-token', 'AuthController@refreshToken');

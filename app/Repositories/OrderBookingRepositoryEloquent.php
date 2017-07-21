@@ -12,8 +12,27 @@ class OrderBookingRepositoryEloquent extends AbstractRepositoryEloquent implemen
         return new OrderBooking;
     }
 
+    public function create($data = [])
+    {
+        $order = $this->model()->fill($data);
+        $order->save();
+
+        return $order;
+    }
+    
     public function getBookingByBookingId($bookingId, $with = [], $select = ['*'])
     {
         return $this->model()->select($select)->with($with)->find($bookingId);
     }
+
+    public function checkLastBookingByPhone($value, $with = [], $select = ['*'])
+    {
+    	return $this->model()->select($select)->with($with)->where('phone', $value)->orderBy('id','desc')->first();
+    }
+
+    public function find($id, $with = [], $select = ['*'])
+    {
+        return $this->model()->select($select)->with($with)->find($id);
+    }
+
 }
