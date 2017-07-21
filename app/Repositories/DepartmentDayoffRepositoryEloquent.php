@@ -11,4 +11,9 @@ class DepartmentDayoffRepositoryEloquent extends AbstractRepositoryEloquent impl
     {
         return new DepartmentDayoff;
     }
+
+    public function getDayoffByDepartment($department_id)
+    {
+        return $this->model()->where('department_id', $department_id)->get();
+    }
 }

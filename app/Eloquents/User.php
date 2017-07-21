@@ -16,6 +16,10 @@ class User extends Authenticatable
     const PERMISSION_MAIN_WORKER = 2;
     const PERMISSION_ADMIN = 3;
 
+    const GENDER_MALE = 'male';
+    const GENDER_FEMALE = 'female';
+    const GENDER_ORTHER = 'orther';
+
     /**
      * The attributes that are mass assignable.
      *
