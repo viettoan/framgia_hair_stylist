@@ -7,12 +7,12 @@ use App\Eloquents\OrderBooking;
 
 trait RenderBookingRelations
 {
-    public function getDepartment()
+    public function Department()
     {
         return $this->belongsTo(Department::class, 'department_id');
     }
     
-    public function getOrderBooking()
+    public function OrderBooking()
     {
         return $this->hasMany(OrderBooking::class, 'render_booking_id');
     }

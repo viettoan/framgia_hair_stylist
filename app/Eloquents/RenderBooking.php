@@ -11,6 +11,7 @@ class RenderBooking extends Model
 
     const STATUS_ENABLE = 1;
     const STATUS_DISABLE = 0;
+    const STATUS_OFFWORK = 2;
 
     protected $fillable = [
         'day',
@@ -25,6 +26,7 @@ class RenderBooking extends Model
         return [
             self::STATUS_DISABLE => __('Full'),
             self::STATUS_ENABLE => __('Available'),
+            self::STATUS_OFFWORK => __('Off work'),
         ];
     }
 }
