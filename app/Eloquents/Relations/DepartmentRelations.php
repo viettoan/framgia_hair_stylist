@@ -8,17 +8,17 @@ use App\Eloquents\RenderBooking;
 
 trait DepartmentRelations
 {
-    public function getStylistByDepartment()
+    public function StylistByDepartment()
     {
         return $this->hasMany(User::class, 'department_id');
     }
 
-    public function getDepartmentDayoff()
+    public function DepartmentDayoff()
     {
         return $this->hasMany(DepartmentDayoff::class, 'department_id');
     }
 
-    public function getBookingRender()
+    public function BookingRender()
     {
         return $this->hasMany(RenderBooking::class, 'department_id');
     }

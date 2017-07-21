@@ -38,6 +38,8 @@ class RenderBookingController extends Controller
         $response = Helper::apiFormat();
 
         $department_id = $request->department_id;
+        $currentDay = date('Y-m-d', $request->date);
+
         $department = $this->department->find($department_id);
         if (!$department) {
             $response['status'] = 403;
@@ -54,54 +56,47 @@ class RenderBookingController extends Controller
 
         $dayoffCollection = $this->dayoff->getDayoffByDepartment($department_id);
 
-        $dataRespone = [];
-        for ($i=0; $i < config('default.render_day') ; $i++) { 
-            $currentDay = Carbon::today()->addDay($i)->format('Y-m-d');
+        $dataRenders = ['status' => DepartmentDayoff::ON_WORK, 'title' => ''];
 
-            $dayoff = $dayoffCollection->where('day', $currentDay)->first();
-            if ($dayoff) {
-                $dataRespone[$currentDay] = [
-                    'status' => DepartmentDayoff::OFF_WORK,
-                    'title' => $dayoff->title,
-                    'renders' => [],
-                ];
-                continue;
-            }
+        // Off Work
+        $dayoff = $dayoffCollection->where('day', $currentDay)->first();
+        if ($dayoff) {
+            $dataRenders = ['status' => DepartmentDayoff::OFF_WORK, 'title' => $dayoff->title];
+        }
+        
+        $renderCollection = $this->renderBooking
+            ->getRenderDepartment($department_id, $currentDay, ['OrderBooking']);
 
-            $dataRenders = ['status' => DepartmentDayoff::ON_WORK, 'title' => ''];
-            $renderCollection = $this->renderBooking
-                ->getRenderDepartment($department_id, $currentDay, ['getOrderBooking']);
+        $renders = [];
+        foreach ($renderCollection as $render) {
+            $render->status = RenderBooking::STATUS_ENABLE;
+            $render->statusLabel = $statusOption[RenderBooking::STATUS_ENABLE];
+            $render->total_slot = $totalStylist - $render->OrderBooking->count();
 
-            $renders = [];
-            foreach ($renderCollection as $render) {
-                $render->status = RenderBooking::STATUS_ENABLE;
-                $render->statusLabel = $statusOption[RenderBooking::STATUS_ENABLE];
-                $render->total_slot = $totalStylist - $render->getOrderBooking->count();
-
-                if ($stylist_id) {
-                    $stylistOrder = $render->getOrderBooking->where('stylist_id', $stylist_id)->first();
-                    $render->total_slot = 1;
-                    if ($stylistOrder) {
-                        $render->status = RenderBooking::STATUS_DISABLE;
-                        $render->statusLabel = $statusOption[RenderBooking::STATUS_DISABLE];
-                        $render->total_slot = 0;
-                    } else {
-                        // xu ly ngay stylist nghi, version sau
-                    }
-                } elseif ($render->getOrderBooking->count() >= $totalStylist) {
+            if ($dayoff) { //Department Off Work
+                $render->status = RenderBooking::STATUS_OFFWORK;
+                $render->statusLabel = $statusOption[RenderBooking::STATUS_OFFWORK];
+            } elseif ($stylist_id) {
+                $stylistOrder = $render->OrderBooking->where('stylist_id', $stylist_id)->first();
+                $render->total_slot = 1;
+                if ($stylistOrder) { //Stylist da dc dat
                     $render->status = RenderBooking::STATUS_DISABLE;
                     $render->statusLabel = $statusOption[RenderBooking::STATUS_DISABLE];
                     $render->total_slot = 0;
+                } else {
+                    // xu ly ngay stylist nghi, version sau
                 }
-
-                $renders[] = $render;
+            } elseif ($render->OrderBooking->count() >= $totalStylist) {
+                $render->status = RenderBooking::STATUS_DISABLE;
+                $render->statusLabel = $statusOption[RenderBooking::STATUS_DISABLE];
+                $render->total_slot = 0;
             }
-            $dataRenders['renders'] = $renders;
-
-            $dataRespone[$currentDay] = $dataRenders;
+            
+            $renders[] = $render;
         }
 
-        $response['data'] = $dataRespone;
+        $dataRenders['renders'] = $renders;
+        $response['data'] = $dataRenders;
 
         return Response::json($response, $response['status']);
     }
