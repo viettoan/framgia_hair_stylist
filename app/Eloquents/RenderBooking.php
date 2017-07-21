@@ -19,4 +19,12 @@ class RenderBooking extends Model
         'status',
         'department_id',
     ];
+
+    public static function getOptionStatus()
+    {
+        return [
+            self::STATUS_DISABLE => __('Full'),
+            self::STATUS_ENABLE => __('Available'),
+        ];
+    }
 }

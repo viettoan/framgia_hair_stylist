@@ -53,7 +53,7 @@ class AuthController extends Controller
         }
 
         $user = $this->user->create($request->all());
-        $data['user'] = $user;
+        $data['user'] = $this->user->findByEmailOrPhone($request->email ?: $request->phone);
 
         $param = [
             'grant_type' => 'password',
