@@ -26,7 +26,7 @@ class DepartmentsController extends Controller
     {
         $response = Helper::apiFormat();
         $data = $this->department->getAllData([], $this->selectDepartment);
-
+        
         $response['data'] = $data;
 
         return Response::json($response) ;
