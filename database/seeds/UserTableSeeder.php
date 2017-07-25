@@ -16,7 +16,7 @@ class UserTableSeeder extends Seeder
         $dataUserAdmin = [
             'email' =>  'admin@gmail.com',
             'name' =>  'Admin',
-            'password' =>  bcrypt('admin123'),
+            'password' =>  'admin123',
             'phone' =>  '01234567899',
             'permission' =>  User::PERMISSION_ADMIN,
         ];
@@ -24,7 +24,7 @@ class UserTableSeeder extends Seeder
 
         $department = Department::first();
         $dataUser = [
-            'password' =>  bcrypt('user123'),
+            'password' =>  'user123',
             'phone' =>  '0123456789',
             'permission' =>  User::PERMISSION_MAIN_WORKER,
             'department_id' => $department ? $department->id : '',

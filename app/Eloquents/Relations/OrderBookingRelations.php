@@ -5,6 +5,7 @@ namespace App\Eloquents\Relations;
 use App\Eloquents\User;
 use App\Eloquents\RenderBooking;
 use App\Eloquents\OrderItem;
+use App\Eloquents\Bill;
 
 trait OrderBookingRelations
 {
@@ -17,8 +18,14 @@ trait OrderBookingRelations
     {
         return $this->belongsTo(RenderBooking::class, 'render_booking_id');
     }
+
     public function getOrderItem()
     {
         return $this->hasOne(OrderItem::class, 'order_id');
+    }
+
+    public function getBill()
+    {
+        return $this->hasOne(Bill::class, 'order_booking_id');
     }
 }
