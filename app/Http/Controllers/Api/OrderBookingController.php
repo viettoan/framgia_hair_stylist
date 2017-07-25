@@ -47,7 +47,9 @@ class OrderBookingController extends Controller
             $response['message'][] = __("There's no booking currently");
         }
 
-        return Response::json($booking);
+        $response['data'] = $booking;
+        
+        return Response::json($response);
     }
 
     public function userBooking(Request $request)
@@ -135,4 +137,5 @@ class OrderBookingController extends Controller
 
         return Response::json($response, $response['status']);
     }
+
 }

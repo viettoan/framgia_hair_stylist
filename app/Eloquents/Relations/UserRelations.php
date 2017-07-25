@@ -6,6 +6,8 @@ use App\Eloquents\TimeSheetStylist;
 use App\Eloquents\StylistDayoff;
 use App\Eloquents\OrderBooking;
 use App\Eloquents\Department;
+use App\Eloquents\Bill;
+use App\Eloquents\BillItem;
 
 trait UserRelations
 {
@@ -27,5 +29,15 @@ trait UserRelations
     public function getStylistInDepartment()
     {
         return $this->belongsTo(Department::class, 'department_id');
+    }
+
+    public function getAllBill()
+    {
+        return $this->hasMany(Bill::class, 'customer_id');
+    }
+
+    public function getBillItem()
+    {
+        return $this->hasMany(BillItem::class, 'stylist_id');
     }
 }

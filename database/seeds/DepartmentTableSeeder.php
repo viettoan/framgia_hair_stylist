@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Seeder;
 use App\Eloquents\Department;
-use DB;
 
 class DepartmentTableSeeder extends Seeder
 {
