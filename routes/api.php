@@ -29,4 +29,6 @@ Route::group(['prefix' => 'v0', 'namespace' => 'Api'], function() {
     Route::post('login', 'AuthController@login');
     Route::post('refresh-token', 'AuthController@refreshToken');
     Route::post('logout', 'AuthController@logout');
+
+    Route::resource('service', 'ServiceController');
 });

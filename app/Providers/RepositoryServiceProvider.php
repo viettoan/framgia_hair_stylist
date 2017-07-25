@@ -28,6 +28,10 @@ class RepositoryServiceProvider extends ServiceProvider
             \App\Contracts\Repositories\RenderBookingRepository::class,
             \App\Repositories\RenderBookingRepositoryEloquent::class,
         ],
+        'service_product' => [
+            \App\Contracts\Repositories\ServiceProductRepository::class,
+            \App\Repositories\ServiceProductRepositoryEloquent::class,
+        ],
         'order_booking' => [
             \App\Contracts\Repositories\OrderBookingRepository::class,
             \App\Repositories\OrderBookingRepositoryEloquent::class,
