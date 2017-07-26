@@ -12,6 +12,7 @@ use App\Eloquents\OrderBooking;
 use Validator;
 use Auth;
 use Response;
+use Carbon\Carbon;
 
 class OrderBookingController extends Controller
 {
@@ -136,6 +137,62 @@ class OrderBookingController extends Controller
         }
 
         return Response::json($response, $response['status']);
+    }
+
+    public function getBookingFilterByDay(Request $request)
+    {
+        $response = Helper::apiFormat();
+
+        $today = Carbon::today();
+
+        $dayStart =date('Y-m-d h:i:s', $request->day_start);
+        $dayEnd = date('Y-m-d h:i:s', $request->day_end);
+        
+        $rule = [
+            'day_start' => 'required|integer',
+            'day_end' => 'required|integer',
+        ];
+
+        $validator = Validator::make($request->all(), $rule);
+
+        if ($validator->fails()) {
+            $response['error'] = true;
+            $response['status'] = 403;
+            foreach ($rule as $key => $value) {
+                $response['message'][$key] = $validator->messages()->first($key);
+            }
+
+            return Response::json($response, 403);
+        }
+
+        if($dayStart && $dayEnd)
+        {
+            if(  $request->day_start >  $request->day_end )
+            {
+                $response['status'] = 403;
+                $response['error'] = true;
+                $response['message'][] = 'Day end must be after day start!';
+
+                return Response::json($response);
+            }
+            $perPage = $request->per_page ?: config('model.booking.default_filter_limit');
+
+            $data = $this->OrderBooking->filterBookingByDay($dayStart, $dayEnd, $perPage, 'getBookingRender');
+
+            if($data->count() == 0)
+            {
+                $response['status'] = 403;
+                $response['error'] = true;
+                $response['message'][] = "There's no booking on these day!";
+
+                return Response::json($response);
+            }
+        }
+
+        $response['data'] = $data;
+
+        return Response::json($response);
+
     }
 
 }

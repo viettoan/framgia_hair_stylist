@@ -11,4 +11,7 @@ interface OrderBookingRepository extends AbstractRepository
     public function checkLastBookingByPhone($with = [], $select = ['*'], $value);
 
     public function find($id, $with = [], $select = ['*']);
+
+    public function filterBookingByDay($with = [], $select = ['*'], $dayStart, $dayEnd);
+
 }
