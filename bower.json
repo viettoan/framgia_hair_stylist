@@ -1,0 +1,38 @@
+{
+  "name": "framgia_salon",
+  "description": "Salon",
+  "main": "index.php",
+  "authors": [
+    "Trung"
+  ],
+  "license": "123456",
+  "keywords": [
+    "Salon"
+  ],
+  "homepage": "https://github.com/NguyenVanTrung1996/framgia_hair_stylist",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "public/bower"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "animate.css": "daneden#^3.5.2",
+    "css": "^2.2.1",
+    "icomoon-bower": "^0.1.2",
+    "owlcarousel": "^1.3.2",
+    "jquery.easing": "^1.3.1",
+    "simple-line-icons": "^2.4.1",
+    "waypoints": "^4.0.1",
+    "respond": "Respond#^1.4.2",
+    "owl.carousel": "^2.2.1",
+    "jquery-style-switcher": "camsjams/jquery-style-switcher#^0.9.14",
+    "modernizr-2.6.2.min": "http://www.vale.com/EN/initiatives/innovation/valemax/Documents/valemax/_js/vendor/modernizr-2.6.2.min.js",
+    "jquery-2.1.4.min": "https://code.jquery.com/jquery-2.1.4.min.js",
+    "font-awesome": "^4.7.0"
+  }
+}
