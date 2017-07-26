@@ -14,3 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::group(['prefix' => 'site', 'as' => 'site.'], function () {
+    Route::get('home', 'Site\SiteController@index')->name('home');
+    Route::get('login', 'Site\SiteController@login')->name('login');
+    Route::get('resgiter', 'Site\SiteController@signup')->name('resgiter');
+});
