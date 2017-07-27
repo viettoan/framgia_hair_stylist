@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Contracts\Repositories\OrderBookingRepository;
 use App\Contracts\Repositories\RenderBookingRepository;
 use App\Contracts\Repositories\UserRepository;
+use App\Contracts\Repositories\DepartmentRepository;
 use App\Helpers\Helper;
 use App\Eloquents\OrderBooking;
 use Validator;
@@ -16,16 +17,18 @@ use Carbon\Carbon;
 
 class OrderBookingController extends Controller
 {
-    protected $OrderBooking, $RenderBooking, $user;
+    protected $OrderBooking, $RenderBooking, $user, $department;
 
     public function __construct( 
         OrderBookingRepository $OrderBooking, 
         RenderBookingRepository $RenderBooking,
-        UserRepository $user
+        UserRepository $user,
+        DepartmentRepository $department
     ) {
         $this->OrderBooking = $OrderBooking;
         $this->RenderBooking = $RenderBooking;
         $this->user = $user;
+        $this->department = $department;
     }
 
     public function getBookingbyId($bookingId)
@@ -76,10 +79,8 @@ class OrderBookingController extends Controller
         }
 
         $stylist_id = $request->stylist_chosen;
+        $renderBooking = $this->RenderBooking->find($request->render_booking_id, ['OrderBooking']);
         if (!$stylist_id) {
-            $renderBooking = $this->RenderBooking
-                ->find($request->render_booking_id, ['OrderBooking']);
-
             $orderCollection = $renderBooking->OrderBooking;
             $stylists = $this->user->getStylistByDepartmentId($renderBooking->department_id);
             
@@ -110,7 +111,7 @@ class OrderBookingController extends Controller
                 $bookingChecked->user_id = $user_id;
                 $bookingChecked->save();
 
-                $response['data'] = $this->OrderBooking->find($bookingChecked->id);
+                $dataResponse = $this->OrderBooking->find($bookingChecked->id);
 
             } else {
                 $data = [
@@ -122,8 +123,10 @@ class OrderBookingController extends Controller
                 ];
                 $order = $this->OrderBooking->create($data);
 
-                $response['data'] = $this->OrderBooking->find($order->id);
+                $dataResponse = $this->OrderBooking->find($order->id);
             }
+            $dataResponse->render_booking = $timeUserChosen;
+
         } else {
             $order = $this->OrderBooking->create([
                 'render_booking_id' => $request->render_booking_id,
@@ -133,8 +136,13 @@ class OrderBookingController extends Controller
                 'user_id' => $user_id,
             ]);
 
-            $response['data'] = $this->OrderBooking->find($order->id);
+            $dataResponse = $this->OrderBooking->find($order->id);
+            $dataResponse->render_booking = $this->RenderBooking->find($request->render_booking_id);
         }
+        $dataResponse->department = $this->department->find($renderBooking->department_id);
+        $dataResponse->stylist = $stylist_name = $this->user->find($stylist_id);
+
+        $response['data'] = $dataResponse;
 
         return Response::json($response, $response['status']);
     }

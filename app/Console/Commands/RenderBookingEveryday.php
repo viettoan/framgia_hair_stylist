@@ -52,6 +52,10 @@ class RenderBookingEveryday extends Command
         $departments = Department::all();
 
         $renderDay = Carbon::today()->addDay(config('default.render_day') - 1)->format('Y-m-d');
+        if (RenderBooking::where('day', $renderDay)->first()) {
+            return;
+        }
+
         $workOpen = explode(':', config('default.work_open'));
         $workClose = explode(':', config('default.work_close'));
 

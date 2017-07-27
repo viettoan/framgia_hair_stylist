@@ -32,4 +32,5 @@ Route::group(['prefix' => 'v0', 'namespace' => 'Api'], function() {
     Route::post('logout', 'AuthController@logout');
 
     Route::resource('service', 'ServiceController');
+    Route::resource('user', 'UserController');
 });

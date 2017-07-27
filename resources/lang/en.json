@@ -21,5 +21,11 @@
     "Hair": "Hair",
     "Style": "Style",
     "Login": "Login",
-    "Signin": "Signin"
+    "Signin": "Signin",
+    "You do not have permission to perform this action!": "You do not have permission to perform this action!",
+    "Create service successfully!": "Create service successfully!",
+    "Not found service!": "Not found service!",
+    "Updated service successfully!": "Updated service successfully!",
+    "Create user successfully!": "Create user successfully!",
+    "Not found user!": "Not found user!"
 }

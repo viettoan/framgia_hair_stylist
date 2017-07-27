@@ -41,4 +41,9 @@ class UserRepositoryEloquent extends AbstractRepositoryEloquent implements UserR
 
         return ($userEmail || $userPhone) ? true : false;
     }
+
+    public function find($id, $select = ['*'], $with = [])
+    {
+        return $this->model()->select($select)->with($with)->find($id);
+    }
 }

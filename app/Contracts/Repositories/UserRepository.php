@@ -8,4 +8,5 @@ interface UserRepository extends AbstractRepository
     public function create($data);
     public function findByEmailOrPhone($value);
     public function existEmailOrPhone($email, $phone);
+    public function find($id, $select = ['*'], $with = []);
 }
