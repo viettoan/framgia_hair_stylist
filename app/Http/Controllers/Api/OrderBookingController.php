@@ -153,12 +153,9 @@ class OrderBookingController extends Controller
 
         $today = Carbon::today();
 
-        $dayStart =date('Y-m-d h:i:s', $request->day_start);
-        $dayEnd = date('Y-m-d h:i:s', $request->day_end);
-        
         $rule = [
-            'day_start' => 'required|integer',
-            'day_end' => 'required|integer',
+            'start_date' => 'required|integer',
+            'end_date' => 'required|integer',
         ];
 
         $validator = Validator::make($request->all(), $rule);
@@ -173,9 +170,12 @@ class OrderBookingController extends Controller
             return Response::json($response, 403);
         }
 
-        if($dayStart && $dayEnd)
+        $startDate =date('Y-m-d h:i:s', $request->start_date);
+        $endDate = date('Y-m-d h:i:s', $request->end_date);
+
+        if($startDate && $endDate)
         {
-            if(  $request->day_start >  $request->day_end )
+            if(  $request->start_date >  $request->end_date )
             {
                 $response['status'] = 403;
                 $response['error'] = true;
@@ -185,7 +185,7 @@ class OrderBookingController extends Controller
             }
             $perPage = $request->per_page ?: config('model.booking.default_filter_limit');
 
-            $data = $this->OrderBooking->filterBookingByDay($dayStart, $dayEnd, $perPage, 'getBookingRender');
+            $data = $this->OrderBooking->filterBooking($startDate, $endDate, $perPage, 'getBookingRender');
 
             if($data->count() == 0)
             {
@@ -200,7 +200,71 @@ class OrderBookingController extends Controller
         $response['data'] = $data;
 
         return Response::json($response);
-
     }
 
+    public function getBookingFilterByWeek(Request $request)
+    {
+        $response = Helper::apiFormat();
+
+        $currentDate = Carbon::today();
+
+        $rule = [
+            'start_date' => 'required|integer',
+        ];
+
+        $validator = Validator::make($request->all(), $rule);
+
+        if ($validator->fails()) {
+            $response['error'] = true;
+            $response['status'] = 403;
+            foreach ($rule as $key => $value) {
+                $response['message'][$key] = $validator->messages()->first($key);
+            }
+
+            return Response::json($response, 403);
+        }
+
+        $startDate =date('Y-m-d h:i:s', $request->start_date); 
+        $endDate =date('Y-m-d h:i:s', strtotime('1 week', $request->start_date)); 
+
+        if(strtotime($currentDate) - $request->start_date <= 604800)
+        {
+            $endDate = $currentDate;
+        }
+        
+        if( $startDate)
+        {
+            if($startDate > $currentDate)
+            {
+                $response['status'] = 403;
+                $response['error'] = true;
+                $response['message'][] = 'The start date must be after current date';
+
+                return Response::json($response);
+            }
+        }
+
+        $perPage = $request->per_page ?: config('model.booking.default_filter_limit');
+
+        $data = $this->OrderBooking->filterBooking($startDate, $endDate, $perPage, 'getBookingRender');
+
+        if($data->count() == 0)
+        {
+            $response['status'] = 403;
+            $response['error'] = true;
+            $response['message'][] = "There's no booking on these day!";
+
+            return Response::json($response);
+        }
+
+        $response['data'] = $data;
+
+        return Response::json($response);
+    }   
 }
+
+//Test value:
+//2017-07-25     1500915600
+//2017-07-19     1500397200
+//2017-07-29     1501261200
+//2017-06-12     1497200400
