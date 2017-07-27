@@ -17,9 +17,14 @@ class AdminController extends Controller
         return view('admin._component.manager_customer');
     }
 
-     public function manager_booking()
+    public function manager_booking()
     {
         return view('admin._component.manager_booking');
+    }
+    
+    public function profile()
+    {
+        return view('admin._component.profile');
     }
 }
 

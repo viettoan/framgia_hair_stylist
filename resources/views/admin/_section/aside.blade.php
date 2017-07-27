@@ -20,7 +20,7 @@
         </form>
         <ul class="sidebar-menu">
             <li class="header">{{ __('MAIN NAVIGATION') }}</li>
-            <li class="active treeview">
+            <li class=" treeview">
                 <a href="#">
                     <i class="fa fa-dashboard"></i> <span>{{ __('Dashboard') }}</span>
                     <span class="pull-right-container">
@@ -30,6 +30,18 @@
                 <ul class="treeview-menu">
                     <li class="active"><a href="index.html"><i class="fa fa-circle-o"></i> {{ __('Dashboard v1') }}</a></li>
                     <li><a href="index2.html"><i class="fa fa-circle-o"></i> {{ __('Dashboard v2') }}</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-table"></i> <span>{{ __('Manager') }}</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href={{ asset('admin/manager_customer')  }}><i class="fa fa-circle-o"></i> {{ __('anager Customer') }}M</a></li>
+                    <li><a href={{ asset('admin/manager_booking') }}><i class="fa fa-circle-o"></i>{{ __('Manager Booking') }}</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -98,18 +110,6 @@
                     <li><a href="#"><i class="fa fa-circle-o"></i> General Elements</a></li>
                     <li><a href="#"><i class="fa fa-circle-o"></i> Advanced Elements</a></li>
                     <li><a href="#"><i class="fa fa-circle-o"></i> Editors</a></li>
-                </ul>
-            </li>
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-table"></i> <span>Manager</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href={{ asset('admin/manager_customer')  }}><i class="fa fa-circle-o"></i> Manager Customer</a></li>
-                    <li><a href={{ asset('admin/manager_booking') }}><i class="fa fa-circle-o"></i>Manager Booking</a></li>
                 </ul>
             </li>
             <li>
