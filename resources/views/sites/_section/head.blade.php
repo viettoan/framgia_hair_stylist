@@ -5,6 +5,7 @@
                 <a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"><i></i></a>
                 <a class="navbar-brand" href="/index">{{ trans('site.hair_salon') }}</a> 
             </div>
+
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="active">
@@ -37,29 +38,21 @@
                             <span>{{ trans('site.testimonials') }}</span>
                         </a>
                     </li>
-                    @if(Auth::check())
-                        <li>
-                            <a href="#" data-nav-section="login" >
-                                <span>{{ trans('site.welcome') }} {{ Auth::user()->name }}</span>
-                            </a>
-                        <li>
-                        <li>
-                            <a href="{{ asset('logout') }}" data-nav-section="logout">
-                                <span>{{ trans('site.logout') }}</span>
-                            </a>
-                        </li>
-                    @else
-                        <li>
-                            <a href="{{ route('site.login') }}" data-nav-section="login" >
-                                <span>{{ trans('site.login') }}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('site.resgiter') }}" data-nav-section="signup">
-                            <span>{{ trans('site.resgiter') }}</span>
-                            </a>
-                        </li>
-                    @endif
+                    <li v-if="users">
+                        <a href="#" data-nav-section="login" >
+                            <span>{{ trans('site.welcome') }} : @{{ users }}</span>
+                        </a>
+                    <li>
+                    <li v-if="users === ''">
+                        <a href="{{ route('site.login') }}" data-nav-section="login" >
+                           <span>{{ trans('site.login') }}</span>
+                        </a>
+                    <li>
+                    <li v-if="users">
+                        <a href="javascript:void(0)" v-on:click="logout" data-nav-section="login" >
+                            <span>{{ trans('site.logout') }}</span>
+                        </a>
+                    <li>
                 </ul>
             </div>
         </nav>
