@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Seeder;
 use App\Eloquents\Department;
-use DB;
 
 class DepartmentTableSeeder extends Seeder
 {
@@ -13,12 +12,10 @@ class DepartmentTableSeeder extends Seeder
      */
     public function run()
     {
-        for($i=0; $i<3; $i++)
-        {
-            DB::table('departments')->insert([
-                'name' => str_random(10),
-                'address' => str_random(10).'-Hanoi',
-            ]);
-        }
+        
+        Department::insert([
+            'name' => str_random(10),
+            'address' => str_random(10).'-Hanoi',
+        ]);
     }
 }
