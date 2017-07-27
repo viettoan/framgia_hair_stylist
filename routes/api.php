@@ -35,4 +35,6 @@ Route::group(['prefix' => 'v0', 'namespace' => 'Api'], function() {
 
     Route::resource('service', 'ServiceController');
     Route::resource('user', 'UserController');
+
+    Route::get('user-by-phone', 'UserController@getByPhone');
 });

@@ -115,6 +115,7 @@ class UserController extends Controller
         }
 
         $user = $this->user->create($request->all());
+        $response['error'] = false;
         $response['status'] = 200;
         $response['message'][] = __('Create user successfully!');
 
@@ -129,7 +130,20 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        // 
+        $response = Helper::apiFormat();
+
+        $user = $this->user->find($id);
+        if (!$user) {
+            $response['error'] = true;
+            $response['message'][] = __('Not found user!');
+            $response['status'] = 403;
+
+            return Response::json($response, $response['status']);
+        }
+
+        $response['data'] = $user;
+
+        return Response::json($response, $response['status']);
     }
 
     /**
@@ -193,16 +207,20 @@ class UserController extends Controller
             return Response::json($response, $response['status']);
         }
 
-        $existUser = $this->user->existEmailOrPhone($request->email, $request->phone);
-        if ($existUser && $existUser->id != $id) {
+        $userEmail = $this->user->findByEmailOrPhone($request->email);
+        $userPhone = $this->user->findByEmailOrPhone($request->phone);
+        if (($userEmail && $userEmail->id != $id)
+            || ($userPhone && $userPhone->id != $id)
+        ){
             $response['message'][] = __('This email or phone number exits!');
 
             return Response::json($response, $response['status']);
         }
 
         $user->fill($request->all())->save();
+        $response['error'] = false;
         $response['status'] = 200;
-        $response['message'][] = __('Create user successfully!');
+        $response['message'][] = __('Update user successfully!');
 
         return Response::json($response, $response['status']);
     }
@@ -216,5 +234,23 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getByPhone(Request $request)
+    {
+        $response = Helper::apiFormat();
+
+        $user = $this->user->findByEmailOrPhone($request->phone);
+        if (!$user) {
+            $response['error'] = true;
+            $response['message'][] = __('Not found user!');
+            $response['status'] = 403;
+
+            return Response::json($response, $response['status']);
+        }
+
+        $response['data'] = $user;
+
+        return Response::json($response, $response['status']);
     }
 }
