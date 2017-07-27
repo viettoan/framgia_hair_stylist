@@ -58,7 +58,6 @@ class OrderBookingController extends Controller
 
     public function userBooking(Request $request)
     {
-
         $response = Helper::apiFormat();
 
         $rule = [
@@ -179,19 +178,19 @@ class OrderBookingController extends Controller
             {
                 $response['status'] = 403;
                 $response['error'] = true;
-                $response['message'][] = 'Day end must be after day start!';
+                $response['message'][] = __('Day end must be after day start!');
 
                 return Response::json($response);
             }
             $perPage = $request->per_page ?: config('model.booking.default_filter_limit');
 
-            $data = $this->OrderBooking->filterBooking($startDate, $endDate, $perPage, 'getBookingRender');
+            $data = $this->OrderBooking->filterBookingbyDate($startDate, $endDate, $perPage, 'getBookingRender');
 
             if($data->count() == 0)
             {
                 $response['status'] = 403;
                 $response['error'] = true;
-                $response['message'][] = "There's no booking on these day!";
+                $response['message'][] = __("There's no booking on these day!");
 
                 return Response::json($response);
             }
@@ -238,7 +237,7 @@ class OrderBookingController extends Controller
             {
                 $response['status'] = 403;
                 $response['error'] = true;
-                $response['message'][] = 'The start date must be after current date';
+                $response['message'][] = __('The start date must be after current date');
 
                 return Response::json($response);
             }
@@ -246,13 +245,13 @@ class OrderBookingController extends Controller
 
         $perPage = $request->per_page ?: config('model.booking.default_filter_limit');
 
-        $data = $this->OrderBooking->filterBooking($startDate, $endDate, $perPage, 'getBookingRender');
+        $data = $this->OrderBooking->filterBookingbyDate($startDate, $endDate, $perPage, 'getBookingRender');
 
         if($data->count() == 0)
         {
             $response['status'] = 403;
             $response['error'] = true;
-            $response['message'][] = "There's no booking on these day!";
+            $response['message'][] = __("There's no booking on these day!");
 
             return Response::json($response);
         }
@@ -261,9 +260,46 @@ class OrderBookingController extends Controller
 
         return Response::json($response);
     }   
+    public function getBookingFilterByStatus(Request $request)
+    {
+        $response = Helper::apiFormat();
+
+        $rule = [
+            'status' => 'required|integer',
+        ];
+
+        $validator = Validator::make($request->all(), $rule);
+
+        if ($validator->fails()) {
+            $response['error'] = true;
+            $response['status'] = 403;
+            foreach ($rule as $key => $value) {
+                $response['message'][$key] = $validator->messages()->first($key);
+            }
+
+            return Response::json($response, 403);
+        }
+
+        $perPage = $request->per_page ?: config('model.booking.default_filter_limit');
+
+        $data = $this->OrderBooking->filterBookingByStatus($request->status, $perPage, 'getBookingRender');
+
+        if($data->count() == 0)
+        {
+            $response['status'] = 403;
+            $response['error'] = true;
+            $response['message'][] = __("There's no booking with this status!");
+
+            return Response::json($response);
+        }
+
+        $response['data'] = $data;
+
+        return Response::json($response);
+    }
 }
 
-//Test value:
+//week test value:
 //2017-07-25     1500915600
 //2017-07-19     1500397200
 //2017-07-29     1501261200
