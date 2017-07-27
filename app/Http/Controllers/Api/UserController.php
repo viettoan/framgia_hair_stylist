@@ -10,17 +10,18 @@ use App\Helpers\Helper;
 use App\Eloquents\User;
 use Response;
 use Validator;
+use Auth;
 
 class UserController extends Controller
 {
-    protected $userRepo;
+    protected $user;
     protected $department;
 
     public function __construct(
-        UserRepository $userRepo,
+        UserRepository $user,
         DepartmentRepository $department
     ) {
-        $this->userRepo = $userRepo;
+        $this->user = $user;
         $this->department = $department;
     }
 
@@ -37,12 +38,183 @@ class UserController extends Controller
             return Response::json($response) ;
         }
 
-        $stylist = $this->userRepo->getStylistByDepartmentId($departmentId);
+        $stylist = $this->user->getStylistByDepartmentId($departmentId);
         if ($stylist->count() == 0) {
             $response['message'] = __('Currently this Department have no stylist');
         }
         $response['data'] = $stylist;
 
         return Response::json($response) ;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        //
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        // 
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $response = Helper::apiFormat();
+
+        // Check permission User
+        $user = Auth::guard('api')->user();
+        if (!$user || $user->permission != User::PERMISSION_ADMIN) {
+            $response['error'] = true;
+            $response['message'][] = __('You do not have permission to perform this action!');
+            $response['status'] = 403;
+
+            return Response::json($response, $response['status']);
+        }
+
+        $rule = [
+            'email' => 'required|email|max:255',
+            'phone' => 'required|numeric|min:6',
+            'name' => 'required|string|max:255',
+            'password' => 'required|string|min:6|confirmed',
+        ];
+
+        $response['error'] = true;
+        $response['status'] = 403;
+        $validator = Validator::make($request->all(), $rule);
+        if ($validator->fails()) {
+            foreach ($rule as $key => $value) {
+                if ($validator->messages()->first($key)) {
+                    $response['message'][] = $validator->messages()->first($key);
+                }
+            }
+
+            return Response::json($response, $response['status']);
+        }
+
+        $existUser = $this->user->existEmailOrPhone($request->email, $request->phone);
+        if ($existUser) {
+            $response['message'][] = __('This email or phone number exits!');
+
+            return Response::json($response, $response['status']);
+        }
+
+        $user = $this->user->create($request->all());
+        $response['status'] = 200;
+        $response['message'][] = __('Create user successfully!');
+
+        return Response::json($response, $response['status']);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        // 
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $response = Helper::apiFormat();
+
+        // Check permission User
+        $user = Auth::guard('api')->user();
+        if (!$user || $user->permission != User::PERMISSION_ADMIN) {
+            $response['error'] = true;
+            $response['message'][] = __('You do not have permission to perform this action!');
+            $response['status'] = 403;
+
+            return Response::json($response, $response['status']);
+        }
+
+        $user = $this->user->find($id);
+        if (!$user) {
+            $response['error'] = true;
+            $response['message'][] = __('Not found user!');
+            $response['status'] = 403;
+
+            return Response::json($response, $response['status']);
+        }
+
+        $rule = [
+            'email' => 'required|email|max:255',
+            'phone' => 'required|numeric|min:6',
+            'name' => 'required|string|max:255',
+            'password' => 'string|min:6|confirmed',
+        ];
+
+        $response['error'] = true;
+        $response['status'] = 403;
+        $validator = Validator::make($request->all(), $rule);
+        if ($validator->fails()) {
+            foreach ($rule as $key => $value) {
+                if ($validator->messages()->first($key)) {
+                    $response['message'][] = $validator->messages()->first($key);
+                }
+            }
+
+            return Response::json($response, $response['status']);
+        }
+
+        $existUser = $this->user->existEmailOrPhone($request->email, $request->phone);
+        if ($existUser && $existUser->id != $id) {
+            $response['message'][] = __('This email or phone number exits!');
+
+            return Response::json($response, $response['status']);
+        }
+
+        $user->fill($request->all())->save();
+        $response['status'] = 200;
+        $response['message'][] = __('Create user successfully!');
+
+        return Response::json($response, $response['status']);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
     }
 }

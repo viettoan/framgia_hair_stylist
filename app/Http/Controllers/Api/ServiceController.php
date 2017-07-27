@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Api;
 use App\Contracts\Repositories\ServiceProductRepository;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Policies\ServicePolicy;
+use App\Eloquents\User;
 use App\Helpers\Helper;
 use Validator;
 use Response;
+use Auth;
 
 class ServiceController extends Controller
 {
@@ -48,6 +51,16 @@ class ServiceController extends Controller
     public function store(Request $request)
     {
         $response = Helper::apiFormat();
+
+        // Check permission User
+        $user = Auth::guard('api')->user();
+        if (!$user || $user->permission != User::PERMISSION_ADMIN) {
+            $response['error'] = true;
+            $response['message'][] = __('You do not have permission to perform this action!');
+            $response['status'] = 403;
+
+            return Response::json($response, $response['status']);
+        }
 
         $rule = [
             'name' => 'required|max:255',
@@ -91,7 +104,20 @@ class ServiceController extends Controller
      */
     public function show($id)
     {
-        //
+        $response = Helper::apiFormat();
+
+        $service = $this->service->find($id);
+        if (!$service) {
+            $response['error'] = true;
+            $response['status'] = 403;
+            $response['message'] = __('Not found service!');
+
+            return Response::json($response, $response['status']);
+        }
+
+        $response['data'] = $service;
+
+        return Response::json($response, $response['status']);
     }
 
     /**
@@ -115,6 +141,16 @@ class ServiceController extends Controller
     public function update(Request $request, $id)
     {
         $response = Helper::apiFormat();
+
+        // Check permission User
+        $user = Auth::guard('api')->user();
+        if (!$user || $user->permission != User::PERMISSION_ADMIN) {
+            $response['error'] = true;
+            $response['message'][] = __('You do not have permission to perform this action!');
+            $response['status'] = 403;
+
+            return Response::json($response, $response['status']);
+        }
 
         $service = $this->service->find($id);
         if (!$service) {
