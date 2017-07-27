@@ -25,6 +25,7 @@ Route::group(['prefix' => 'v0', 'namespace' => 'Api'], function() {
     Route::post('user_booking', 'OrderBookingController@userBooking');
     Route::post('booking_filter_by_day', 'OrderBookingController@getBookingFilterByDay');
     Route::post('booking_filter_by_week', 'OrderBookingController@getBookingFilterByWeek');
+    Route::post('booking_filter_by_status', 'OrderBookingController@getBookingFilterByStatus');
 
     Route::get('get-render-by-depart-stylist', 'RenderBookingController@getRenderBooking');
     Route::post('register', 'AuthController@register');
