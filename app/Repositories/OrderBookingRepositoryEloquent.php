@@ -35,8 +35,9 @@ class OrderBookingRepositoryEloquent extends AbstractRepositoryEloquent implemen
         return $this->model()->select($select)->with($with)->find($id);
     }
 
-    public function filterBookingByDay($dayStart, $dayEnd, $perPage, $with = [], $select = ['*'])
+    public function filterBooking($startDate, $endDate, $perPage, $with = [], $select = ['*'])
     {
-        return $this->model()->select($select)->with($with)->whereBetween('created_at', array($dayStart, $dayEnd))->paginate($perPage);
+        
+        return $this->model()->select($select)->with($with)->whereBetween('created_at', array($startDate, $endDate))->paginate($perPage);
     }
 }
