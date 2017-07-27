@@ -27,5 +27,20 @@
     "Not found service!": "Not found service!",
     "Updated service successfully!": "Updated service successfully!",
     "Create user successfully!": "Create user successfully!",
-    "Not found user!": "Not found user!"
+    "Not found user!": "Not found user!",
+    "Name":"Name",
+    "Email":"Email",
+    "Phone":"Phone",
+    "Password":"Password",
+    "Birthday":"Birthday",
+    "Avatar":"Avatar",
+    "Gender":"Gender",
+    "Permission":"Permission",
+    "Experience":"Experience",
+    "Specialize":"Specialize",
+    "About me":"About me",
+    "Department":"Department",
+    "Password Confirm":"Password Confirm",
+    "User Profil":"User Profil",
+    "Hair Salon":"Hair Salon"
 }

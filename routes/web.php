@@ -24,4 +24,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     // Route::get('index', 'Admin\AdminController@index');
     Route::get('manager_customer', 'Admin\AdminController@manager_customer');
     Route::get('manager_booking', 'Admin\AdminController@manager_booking');
+    Route::get('profile', 'Admin\AdminController@profile');
 });
+Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
+    Route::get('profile', 'User\UserController@profile');
+});
+
+

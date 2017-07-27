@@ -27,40 +27,154 @@
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>Rendering engine</th>
-                                <th>Browser</th>
-                                <th>Platform(s)</th>
-                                <th>Engine version</th>
-                                <th>CSS grade</th>
+                                <th>ID</th>
+                                <th>Render booking id</th>
+                                <th>User id</th>
+                                <th>Phone</th>
+                                <th>Name</th>
+                                <th>Name Stylist</th>
+                                <th>Grand total</th>
+                                <th>Action</th>
                             </tr>   
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Trident</td>
-                                <td>Internet
-                                    Explorer 4.0
+                             <tr>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>123456789</td>
+                                <td>User 1</td>
+                                <td>Stylist 1</td>
+                                <td>80.000</td>
+                                <td><a href="#"><i class="fa fa-fw  fa-eyedropper" style="color:red"></i></a>
+                                <a href="#"><i class="fa fa-fw  fa-close" style="color:black"></i></a>
                                 </td>
-                                <td>Win 95+</td>
-                                <td> 4</td>
-                                <td>X</td>
                             </tr>
-                        </tbody>
-                        <tfoot>
                             <tr>
-                                <th>Rendering engine</th>
-                                <th>Browser</th>
-                                <th>Platform(s)</th>
-                                <th>Engine version</th>
-                                <th>CSS grade</th>
-                            </tr>
-                        </tfoot>
+                                <td>2</td>
+                                <td>2</td>
+                                <td>2</td>
+                                <td>123456789</td>
+                                <td>User 2</td>
+                                <td>Stylist 2</td>
+                                <td>80.000</td>
+                                <td><a href="#"><i class="fa fa-fw  fa-eyedropper" style="color:red"></i></a>
+                                <a href="#"><i class="fa fa-fw  fa-close" style="color:black"></i></a>
+                                </td>
+                            </tr>   
+                            <tr>
+                                <td>3</td>
+                                <td>3</td>
+                                <td>3</td>
+                                <td>123456783</td>
+                                <td>User 3</td>
+                                <td>Stylist 3</td>
+                                <td>80.000</td>
+                                <td><a href="#"><i class="fa fa-fw  fa-eyedropper" style="color:red"></i></a>
+                                <a href="#"><i class="fa fa-fw  fa-close" style="color:black"></i></a>
+                                </td>
+                            </tr>   
+                            <tr>
+                                <td>4</td>
+                                <td>4</td>
+                                <td>4</td>
+                                <td>123456784</td>
+                                <td>User 4</td>
+                                <td>Stylist 4</td>
+                                <td>80.000</td>
+                                <td><a href="#"><i class="fa fa-fw  fa-eyedropper" style="color:red"></i></a>
+                                <a href="#"><i class="fa fa-fw  fa-close" style="color:black"></i></a>
+                                </td>
+                            </tr>      
+                            <tr>
+                                <td>5</td>
+                                <td>5</td>
+                                <td>5</td>
+                                <td>153456789</td>
+                                <td>User 5</td>
+                                <td>Stylist 5</td>
+                                <td>80.000</td>
+                                <td><a href="#"><i class="fa fa-fw  fa-eyedropper" style="color:red"></i></a>
+                                <a href="#"><i class="fa fa-fw  fa-close" style="color:black"></i></a>
+                                </td>
+                            </tr>   
+                            <tr>
+                                <td>6</td>
+                                <td>6</td>
+                                <td>6</td>
+                                <td>123456769</td>
+                                <td>User 6</td>
+                                <td>Stylist 6</td>
+                                <td>80.600</td>
+                                <td><a href="#"><i class="fa fa-fw  fa-eyedropper" style="color:red"></i></a>
+                                <a href="#"><i class="fa fa-fw  fa-close" style="color:black"></i></a>
+                                </td>
+                            </tr>   
+                            <tr>
+                                <td>7</td>
+                                <td>7</td>
+                                <td>7</td>
+                                <td>123756789</td>
+                                <td>User 7</td>
+                                <td>Stylist 7</td>
+                                <td>80.070</td>
+                                <td><a href="#"><i class="fa fa-fw  fa-eyedropper" style="color:red"></i></a>
+                                <a href="#"><i class="fa fa-fw  fa-close" style="color:black"></i></a>
+                                </td>
+                            </tr>   
+                            <tr>
+                                <td>8</td>
+                                <td>8</td>
+                                <td>8</td>
+                                <td>123856789</td>
+                                <td>User 8</td>
+                                <td>Stylist 8</td>
+                                <td>80.000</td>
+                                <td><a href="#"><i class="fa fa-fw  fa-eyedropper" style="color:red"></i></a>
+                                <a href="#"><i class="fa fa-fw  fa-close" style="color:black"></i></a>
+                                </td>
+                            </tr>   
+                            <tr>
+                                <td>6</td>
+                                <td>6</td>
+                                <td>6</td>
+                                <td>123456789</td>
+                                <td>User 6</td>
+                                <td>Stylist 6</td>
+                                <td>80.000</td>
+                                <td><a href="#"><i class="fa fa-fw  fa-eyedropper" style="color:red"></i></a>
+                                <a href="#"><i class="fa fa-fw  fa-close" style="color:black"></i></a>
+                                </td>
+                            </tr>   
+                            <tr>
+                                <td>10</td>
+                                <td>10</td>
+                                <td>10</td>
+                                <td>1234510789</td>
+                                <td>User 10</td>
+                                <td>Stylist 10</td>
+                                <td>80.000</td>
+                                <td><a href="#"><i class="fa fa-fw  fa-eyedropper" style="color:red"></i></a>
+                                <a href="#"><i class="fa fa-fw  fa-close" style="color:black"></i></a>
+                                </td>
+                            </tr>   
+                            <tr>
+                                <td>11</td>
+                                <td>11</td>
+                                <td>11</td>
+                                <td>1231456789</td>
+                                <td>User 11</td>
+                                <td>Stylist 11</td>
+                                <td>80.000</td>
+                                <td><a href="#"><i class="fa fa-fw  fa-eyedropper" style="color:red"></i></a>
+                                <a href="#"><i class="fa fa-fw  fa-close" style="color:black"></i></a>
+                                </td>
+                            </tr>   
+                        </tbody>
                     </table>
                 </div>
-                <!-- /.box-body -->
-            </di`v>
-            <!-- /.box -->
+            </div>
         </div>
-        <!-- /.col -->
     </div>
 </section>
 @endsection
