@@ -40,7 +40,7 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href={{ asset('admin/manager_customer')  }}><i class="fa fa-circle-o"></i> {{ __('anager Customer') }}M</a></li>
+                    <li><a href={{ asset('admin/manager_customer')  }}><i class="fa fa-circle-o"></i> {{ __('Manager Customer') }}</a></li>
                     <li><a href={{ asset('admin/manager_booking') }}><i class="fa fa-circle-o"></i>{{ __('Manager Booking') }}</a></li>
                 </ul>
             </li>

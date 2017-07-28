@@ -58,8 +58,8 @@
                         <td>Specialize</td>
                         <td>a hihi</td>
                         <td>Deparment 1</td>
-                        <td><a href="#"><i class="fa fa-fw  fa-eyedropper" style="color:red"></i></a>
-                            <a href="#"><i class="fa fa-fw  fa-close" style="color:black"></i></a>
+                        <td><a href={{ asset('admin/profile#') }}><i class="fa fa-fw  fa-eyedropper get-color-icon-edit" ></i></a>
+                            <a href="#"><i class="fa fa-fw  fa-close get-color-icon-delete" ></i></a>
                         </td>
                     </tr>
                     <tr>
@@ -76,8 +76,8 @@
                         <td>Specialize</td>
                         <td>a hihi</td>
                         <td>Deparment 2</td>
-                        <td><a href="#"><i class="fa fa-fw  fa-eyedropper" style="color:red"></i></a>
-                            <a href="#"><i class="fa fa-fw  fa-close" style="color:black"></i></a>
+                        <td><a href={{ asset('admin/profile#') }}><i class="fa fa-fw  fa-eyedropper get-color-icon-edit" ></i></a>
+                            <a href="#"><i class="fa fa-fw  fa-close get-color-icon-delete" ></i></a>
                         </td>
                     </tr>
                     <tr>
@@ -94,8 +94,8 @@
                         <td>Specialize</td>
                         <td>a hihi</td>
                         <td>Deparment 3</td>
-                        <td><a href="#"><i class="fa fa-fw  fa-eyedropper" style="color:red"></i></a>
-                            <a href="#"><i class="fa fa-fw  fa-close" style="color:black"></i></a>
+                        <td><a href={{ asset('admin/profile#') }}><i class="fa fa-fw  fa-eyedropper get-color-icon-edit" ></i></a>
+                            <a href="#"><i class="fa fa-fw  fa-close get-color-icon-delete" ></i></a>
                         </td>
                     </tr>
                     <tr>
@@ -112,8 +112,8 @@
                         <td>Specialize</td>
                         <td>a hihi</td>
                         <td>Deparment 1</td>
-                        <td><a href="#"><i class="fa fa-fw  fa-eyedropper" style="color:red"></i></a>
-                            <a href="#"><i class="fa fa-fw  fa-close" style="color:black"></i></a>
+                        <td><a href={{ asset('admin/profile#') }}><i class="fa fa-fw  fa-eyedropper get-color-icon-edit" style="color:red"></i></a>
+                            <a href="#"><i class="fa fa-fw  fa-close get-color-icon-delete"></i></a>
                         </td>
                     </tr>
                     <tr>
@@ -130,8 +130,8 @@
                         <td>Specialize</td>
                         <td>a hihi</td>
                         <td>Deparment 2</td>
-                        <td><a href="#"><i class="fa fa-fw  fa-eyedropper" style="color:red"></i></a>
-                            <a href="#"><i class="fa fa-fw  fa-close" style="color:black"></i></a>
+                        <td><a href={{ asset('admin/profile#') }}><i class="fa fa-fw  fa-eyedropper get-color-icon-edit" style="color:red"></i></a>
+                            <a href="#"><i class="fa fa-fw  fa-close get-color-icon-delete" ></i></a>
                         </td>
                     </tr>
                     <tr>
@@ -148,8 +148,8 @@
                         <td>Specialize</td>
                         <td>a hihi</td>
                         <td>Deparment 3</td>
-                        <td><a href="#"><i class="fa fa-fw  fa-eyedropper" style="color:red"></i></a>
-                            <a href="#"><i class="fa fa-fw  fa-close" style="color:black"></i></a>
+                        <td><a href={{ asset('admin/profile#') }}><i class="fa fa-fw  fa-eyedropper get-color-icon-edit" ></i></a>
+                            <a href="#"><i class="fa fa-fw  fa-close get-color-icon-delete" ></i></a>
                         </td>
                     </tr>
                     <tr>
@@ -166,8 +166,8 @@
                         <td>Specialize</td>
                         <td>a hihi</td>
                         <td>Deparment 1</td>
-                        <td><a href="#"><i class="fa fa-fw  fa-eyedropper" style="color:red"></i></a>
-                            <a href="#"><i class="fa fa-fw  fa-close" style="color:black"></i></a>
+                        <td><a href={{ asset('admin/profile#') }}><i class="fa fa-fw  fa-eyedropper get-color-icon-edit"></i></a>
+                            <a href="#"><i class="fa fa-fw  fa-close get-color-icon-delete" ></i></a>
                         </td>
                     </tr>
                     <tr>
@@ -184,8 +184,8 @@
                         <td>Specialize</td>
                         <td>a hihi</td>
                         <td>Deparment 2</td>
-                        <td><a href="#"><i class="fa fa-fw  fa-eyedropper" style="color:red"></i></a>
-                            <a href="#"><i class="fa fa-fw  fa-close" style="color:black"></i></a>
+                        <td><a href={{ asset('admin/profile#') }}><i class="fa fa-fw  fa-eyedropper get-color-icon-edit" ></i></a>
+                            <a href="#"><i class="fa fa-fw  fa-close get-color-icon-delete" ></i></a>
                         </td>
                     </tr>
                     <tr>
@@ -202,8 +202,8 @@
                         <td>Specialize</td>
                         <td>a hihi</td>
                         <td>Deparment 3</td>
-                        <td><a href="#"><i class="fa fa-fw  fa-eyedropper" style="color:red"></i></a>
-                            <a href="#"><i class="fa fa-fw  fa-close" style="color:black"></i></a>
+                        <td><a href={{ asset('admin/profile#') }}><i class="fa fa-fw  fa-eyedropper get-color-icon-edit" ></i></a>
+                            <a href="#"><i class="fa fa-fw  fa-close get-color-icon-delete"></i></a>
                         </td>
                     </tr>
                     <tr>
@@ -220,8 +220,8 @@
                         <td>Specialize</td>
                         <td>a hihi</td>
                         <td>Deparment 1</td>
-                        <td><a href="#"><i class="fa fa-fw  fa-eyedropper" style="color:red"></i></a>
-                            <a href="#"><i class="fa fa-fw  fa-close" style="color:black"></i></a>
+                        <td><a href={{ asset('admin/profile#') }}><i class="fa fa-fw  fa-eyedropper get-color-icon-edit" ></i></a>
+                            <a href="#"><i class="fa fa-fw  fa-close get-color-icon-delete" ></i></a>
                         </td>
                     </tr>
                     <tr>
@@ -238,8 +238,8 @@
                         <td>Specialize</td>
                         <td>a hihi</td>
                         <td>Deparment 2</td>
-                        <td><a href="#"><i class="fa fa-fw  fa-eyedropper" style="color:red"></i></a>
-                            <a href="#"><i class="fa fa-fw  fa-close" style="color:black"></i></a>
+                        <td><a href={{ asset('admin/profile#') }}><i class="fa fa-fw  fa-eyedropper get-color-icon-edit" ></i></a>
+                            <a href="#"><i class="fa fa-fw  fa-close get-color-icon-delete" ></i></a>
                         </td>
                     </tr>
                     <tr>
@@ -256,8 +256,8 @@
                         <td>Specialize</td>
                         <td>a hihi</td>
                         <td>Deparment 3</td>
-                        <td><a href="#"><i class="fa fa-fw  fa-eyedropper" style="color:red"></i></a>
-                            <a href="#"><i class="fa fa-fw  fa-close" style="color:black"></i></a>
+                        <td><a href={{ asset('admin/profile#') }}><i class="fa fa-fw  fa-eyedropper get-color-icon-edit" ></i></a>
+                            <a href="#"><i class="fa fa-fw  fa-close get-color-icon-delete" ></i></a>
                         </td>
                     </tr>
                 </tbody>
@@ -274,3 +274,5 @@
 {{ Html::script('bower/AdminLTE/plugins/datatables/jquery.dataTables.min.js') }}
 {{ Html::script('bower/AdminLTE/plugins/datatables/dataTables.bootstrap.min.js') }}
 @endsection
+
+

@@ -1,4 +1,4 @@
-@extends('admin.master')
+ get-color-icon-edit"@extends('admin.master')
 @section('style')
     {{ Html::style('bower/AdminLTE/plugins/datatables/dataTables.bootstrap.css')}}
     {{ Html::style('css/admin/style.css')}}
@@ -46,8 +46,10 @@
                                 <td>User 1</td>
                                 <td>Stylist 1</td>
                                 <td>80.000</td>
-                                <td><a href="#"><i class="fa fa-fw  fa-eyedropper" style="color:red"></i></a>
-                                <a href="#"><i class="fa fa-fw  fa-close" style="color:black"></i></a>
+                                <td class=" ">
+                                    {{-- <a href="#" class="btn btn-success"><i class="fa fa-search-plus "></i></a> --}}
+                                    <a href="#" class="btn btn-info"><i class="fa fa-edit "></i></a>
+                                    <a class="btn btn-danger" href="#"><i class="fa fa-trash-o "></i></a>
                                 </td>
                             </tr>
                             <tr>
@@ -58,8 +60,9 @@
                                 <td>User 2</td>
                                 <td>Stylist 2</td>
                                 <td>80.000</td>
-                                <td><a href="#"><i class="fa fa-fw  fa-eyedropper" style="color:red"></i></a>
-                                <a href="#"><i class="fa fa-fw  fa-close" style="color:black"></i></a>
+                                <td class=" ">
+                                    <a href="#" class="btn btn-info"><i class="fa fa-edit "></i></a>
+                                    <a class="btn btn-danger" href="#"><i class="fa fa-trash-o "></i></a>
                                 </td>
                             </tr>   
                             <tr>
@@ -70,8 +73,9 @@
                                 <td>User 3</td>
                                 <td>Stylist 3</td>
                                 <td>80.000</td>
-                                <td><a href="#"><i class="fa fa-fw  fa-eyedropper" style="color:red"></i></a>
-                                <a href="#"><i class="fa fa-fw  fa-close" style="color:black"></i></a>
+                                <td class=" ">
+                                    <a href="#" class="btn btn-info"><i class="fa fa-edit "></i></a>
+                                    <a class="btn btn-danger" href="#"><i class="fa fa-trash-o "></i></a>
                                 </td>
                             </tr>   
                             <tr>
@@ -82,8 +86,9 @@
                                 <td>User 4</td>
                                 <td>Stylist 4</td>
                                 <td>80.000</td>
-                                <td><a href="#"><i class="fa fa-fw  fa-eyedropper" style="color:red"></i></a>
-                                <a href="#"><i class="fa fa-fw  fa-close" style="color:black"></i></a>
+                                <td class=" ">
+                                    <a href="#" class="btn btn-info"><i class="fa fa-edit "></i></a>
+                                    <a class="btn btn-danger" href="#"><i class="fa fa-trash-o "></i></a>
                                 </td>
                             </tr>      
                             <tr>
@@ -94,8 +99,9 @@
                                 <td>User 5</td>
                                 <td>Stylist 5</td>
                                 <td>80.000</td>
-                                <td><a href="#"><i class="fa fa-fw  fa-eyedropper" style="color:red"></i></a>
-                                <a href="#"><i class="fa fa-fw  fa-close" style="color:black"></i></a>
+                                <td class=" ">
+                                    <a href="#" class="btn btn-info"><i class="fa fa-edit "></i></a>
+                                    <a class="btn btn-danger" href="#"><i class="fa fa-trash-o "></i></a>
                                 </td>
                             </tr>   
                             <tr>
@@ -106,8 +112,9 @@
                                 <td>User 6</td>
                                 <td>Stylist 6</td>
                                 <td>80.600</td>
-                                <td><a href="#"><i class="fa fa-fw  fa-eyedropper" style="color:red"></i></a>
-                                <a href="#"><i class="fa fa-fw  fa-close" style="color:black"></i></a>
+                                <td class=" ">
+                                    <a href="#" class="btn btn-info"><i class="fa fa-edit "></i></a>
+                                    <a class="btn btn-danger" href="#"><i class="fa fa-trash-o "></i></a>
                                 </td>
                             </tr>   
                             <tr>
@@ -118,8 +125,9 @@
                                 <td>User 7</td>
                                 <td>Stylist 7</td>
                                 <td>80.070</td>
-                                <td><a href="#"><i class="fa fa-fw  fa-eyedropper" style="color:red"></i></a>
-                                <a href="#"><i class="fa fa-fw  fa-close" style="color:black"></i></a>
+                                <td class=" ">
+                                    <a href="#" class="btn btn-info"><i class="fa fa-edit "></i></a>
+                                    <a class="btn btn-danger" href="#"><i class="fa fa-trash-o "></i></a>
                                 </td>
                             </tr>   
                             <tr>
@@ -130,8 +138,9 @@
                                 <td>User 8</td>
                                 <td>Stylist 8</td>
                                 <td>80.000</td>
-                                <td><a href="#"><i class="fa fa-fw  fa-eyedropper" style="color:red"></i></a>
-                                <a href="#"><i class="fa fa-fw  fa-close" style="color:black"></i></a>
+                                <td class=" ">
+                                    <a href="#" class="btn btn-info"><i class="fa fa-edit "></i></a>
+                                    <a class="btn btn-danger" href="#"><i class="fa fa-trash-o "></i></a>
                                 </td>
                             </tr>   
                             <tr>
@@ -142,8 +151,9 @@
                                 <td>User 6</td>
                                 <td>Stylist 6</td>
                                 <td>80.000</td>
-                                <td><a href="#"><i class="fa fa-fw  fa-eyedropper" style="color:red"></i></a>
-                                <a href="#"><i class="fa fa-fw  fa-close" style="color:black"></i></a>
+                                <td class=" ">
+                                    <a href="#" class="btn btn-info"><i class="fa fa-edit "></i></a>
+                                    <a class="btn btn-danger" href="#"><i class="fa fa-trash-o "></i></a>
                                 </td>
                             </tr>   
                             <tr>
@@ -154,10 +164,10 @@
                                 <td>User 10</td>
                                 <td>Stylist 10</td>
                                 <td>80.000</td>
-                                <td><a href="#"><i class="fa fa-fw  fa-eyedropper" style="color:red"></i></a>
-                                <a href="#"><i class="fa fa-fw  fa-close" style="color:black"></i></a>
+                                <td class=" ">
+                                    <a href="#" class="btn btn-info"><i class="fa fa-edit "></i></a>
+                                    <a class="btn btn-danger" href="#"><i class="fa fa-trash-o "></i></a>
                                 </td>
-                            </tr>   
                             <tr>
                                 <td>11</td>
                                 <td>11</td>
@@ -166,8 +176,9 @@
                                 <td>User 11</td>
                                 <td>Stylist 11</td>
                                 <td>80.000</td>
-                                <td><a href="#"><i class="fa fa-fw  fa-eyedropper" style="color:red"></i></a>
-                                <a href="#"><i class="fa fa-fw  fa-close" style="color:black"></i></a>
+                                <td class=" ">
+                                    <a href="#" class="btn btn-info"><i class="fa fa-edit "></i></a>
+                                    <a class="btn btn-danger" href="#"><i class="fa fa-trash-o "></i></a>
                                 </td>
                             </tr>   
                         </tbody>

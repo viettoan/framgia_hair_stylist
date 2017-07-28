@@ -32,5 +32,21 @@
     "There's no booking on these day!": "There's no booking on these day!",
     "The start date must be after current date": "The start date must be after current date",
     "There's no booking with this status!": "There's no booking with this status!",
-    "Update user successfully!": "Update user successfully!"
+    "Update user successfully!": "Update user successfully!",
+    "Name":"Name",
+    "Email":"Email",
+    "Phone":"Phone",
+    "Password":"Password",
+    "Birthday":"Birthday",
+    "Avatar":"Avatar",
+    "Gender":"Gender",
+    "Permission":"Permission",
+    "Experience":"Experience",
+    "Specialize":"Specialize",
+    "About me":"About me",
+    "Department":"Department",
+    "Password Confirm":"Password Confirm",
+    "User Profil":"User Profil",
+    "Hair Salon":"Hair Salon"
 }
+
