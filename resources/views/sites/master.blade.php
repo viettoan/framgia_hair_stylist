@@ -9,12 +9,14 @@
     {{ Html::style('bower/owl.carousel/dist/assets/owl.carousel.min.css') }}
     {{ Html::style('bower/owl.carousel/dist/assets/owl.theme.default.min.css') }}
     {{ Html::style('bower/bootstrap/dist/css/bootstrap.css') }}
+    {{ Html::style('bower/toastr/toastr.min.css') }}
     {{ Html::style('css/style.css') }}
     @yield('style')
 </head>
 <body>
     @yield('content')
     {{ Html::script('bower/vue/dist/vue.js') }}
+    {{ Html::script('bower/jquery/dist/jquery.min.js') }}
     {{ Html::script('bower/toastr/toastr.min.js') }}
     {{ Html::script('bower/axios/dist/axios.min.js') }}
     {{ Html::script('bower/modernizr-2.6.2.min/index.js') }}

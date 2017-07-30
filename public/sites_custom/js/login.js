@@ -26,18 +26,18 @@
                 }
                 
                 axios(authOptions).then((response) => {
-                    // console.log(response.data.data.user);
                     localStorage.access_token = response.data.data.token.access_token;
                     localStorage.name = response.data.data.user.name;
                     localStorage.email = response.data.data.user.email;
                     var permisssion = response.data.data.user.permission;
-                    if (permisssion == 3) {
+                    if (permisssion == 0) {
                         window.location = '/site/home/';
                     } else {
-                        window.location = '/site/resgiter';
+                        window.location = '/admin/index';
                     }
              }).catch((error) => {
                     self.formErrors = error.response.data.message;
+                    toastr.error(this.formErrors, '', {timeOut: 10000});
                 })
             }
         }
