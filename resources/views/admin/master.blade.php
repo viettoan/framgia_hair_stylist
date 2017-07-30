@@ -16,12 +16,21 @@
     {{ Html::style('bower/AdminLTE/plugins/datepicker/datepicker3.css') }}
     {{ Html::style('bower/AdminLTE/plugins/daterangepicker/daterangepicker.css') }}
     {{ Html::style('bower/AdminLTE/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css')}}
+    {{ Html::style('bower/toastr/toastr.min.css') }}
+
     @yield('style')
+
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
+
     @include('admin._section.header')
     @include('admin._section.aside')
     @yield('content')
+
+    {{ Html::script('bower/vue/dist/vue.js') }}
+    {{ Html::script('bower/jquery/dist/jquery.min.js') }}
+    {{ Html::script('bower/toastr/toastr.min.js') }}
+    {{ Html::script('bower/axios/dist/axios.min.js') }}
     {{ Html::script('bower/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js') }}
     {{ Html::script('bower/AdminLTE/bootstrap/js/bootstrap.min.js') }}
     {{-- {{ Html::script('bower/AdminLTE/plugins/morris/morris.min.js') }} --}}
@@ -37,6 +46,7 @@
     {{ Html::script('bower/AdminLTE/dist/js/app.min.js') }}
     {{--   {{ Html::script('bower/AdminLTE/dist/js/pages/dashboard.js') }} --}}
     {{ Html::script('bower/AdminLTE/dist/js/demo.js') }}
+    {{ Html::script('js/admin/header.js') }}
     @yield('script')
 </body>
 </html>
