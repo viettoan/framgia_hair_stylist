@@ -45,4 +45,19 @@ class OrderBookingRepositoryEloquent extends AbstractRepositoryEloquent implemen
     {
         return $this->model()->select($select)->with($with)->where('status', $status)->paginate($perPage);
     }
+    
+    public function getAllBooking($perPage, $with = [], $select = ['*'])
+    {
+        return $this->model()->select($select)->with($with)->paginate($perPage);
+    }
+
+    public function filterBookingByMonth($month, $year, $perPage, $with = [], $select = ['*'])
+    {
+        return $this->model()->select($select)->with($with)->whereMonth('created_at', $month)->whereYear('created_at', $year)->paginate($perPage);
+    }
+
+    public function getFilterChoice()
+    {
+        return $this->model()->getOptionFilter();
+    }
 }

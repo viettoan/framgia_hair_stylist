@@ -4,7 +4,6 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "fefcde1359a2e4d2de4b6bfa82f882b2",
     "content-hash": "7aa2d124ef88d2f8aa61ea24821d1bf8",
     "packages": [
         {
@@ -69,7 +68,7 @@
                 "slug",
                 "slugify"
             ],
-            "time": "2017-03-23 21:52:55"
+            "time": "2017-03-23T21:52:55+00:00"
         },
         {
             "name": "cviebrock/eloquent-sluggable",
@@ -128,7 +127,7 @@
                 "laravel",
                 "slug"
             ],
-            "time": "2017-07-04 14:15:50"
+            "time": "2017-07-04T14:15:50+00:00"
         },
         {
             "name": "defuse/php-encryption",
@@ -3037,7 +3036,7 @@
             ],
             "authors": [
                 {
-                    "name": "Padraic Brady",
+                    "name": "Pádraic Brady",
                     "email": "padraic.brady@gmail.com",
                     "homepage": "http://blog.astrumfutura.com"
                 },
