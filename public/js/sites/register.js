@@ -38,7 +38,9 @@ var Register = new Vue({
                  }).catch((error) => {
                     if (error.response.status == 403) {
                         self.formErrors = error.response.data.message;
-                        toastr.error(this.formErrors, '', {timeOut: 6000});
+                        for (key in self.formErrors) {
+                            toastr.error(self.formErrors[key], '', {timeOut: 10000});
+                        }     
                     }
                 });
             }

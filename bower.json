@@ -35,6 +35,7 @@
     "jquery-2.1.4.min": "https://code.jquery.com/jquery-2.1.4.min.js",
     "font-awesome": "^4.7.0",
     "Ionicons": "ionicons#^2.0.1",
-    "AdminLTE": "adminLTE#^2.3.11"
+    "AdminLTE": "adminLTE#^2.3.11",
+    "vue-localstorage": "^0.3.0"
   }
 }

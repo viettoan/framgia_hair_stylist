@@ -274,5 +274,3 @@
 {{ Html::script('bower/AdminLTE/plugins/datatables/jquery.dataTables.min.js') }}
 {{ Html::script('bower/AdminLTE/plugins/datatables/dataTables.bootstrap.min.js') }}
 @endsection
-
-
