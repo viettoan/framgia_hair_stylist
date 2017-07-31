@@ -26,5 +26,10 @@ class AdminController extends Controller
     {
         return view('admin._component.profile');
     }
+
+    public function manager_service()
+    {
+        return view('admin._component.manage_service');
+    }
 }
 
