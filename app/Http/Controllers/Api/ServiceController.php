@@ -29,7 +29,21 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        //
+        $response = Helper::apiFormat();
+
+        $service = $this->service->getAllService();
+
+        if (!$service) {
+            $response['error'] = true;
+            $response['status'] = '404';
+            $response['message'][] = __('404 not found');
+
+            return Response::json($response);
+        }
+
+        $response['data'] = $service;
+
+        return Response::json($response);
     }
 
     /**
