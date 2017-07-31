@@ -12,12 +12,13 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
 Route::group(['prefix' => 'site', 'as' => 'site.'], function () {
     Route::get('home', 'Site\SiteController@index')->name('home');
     Route::get('login', 'Site\SiteController@login')->name('login');
     Route::get('resgiter', 'Site\SiteController@signup')->name('resgiter');
+    Route::get('profile', 'User\UserController@profile');
 });
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('home','Admin\AdminController@home');
@@ -26,7 +27,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('manager_service', 'Admin\AdminController@manager_service')->name('manager_service');
     Route::get('profile', 'Admin\AdminController@profile');
     Route::get('bill', 'Admin\AdminController@bill');
+    Route::get('list_bill', 'Admin\AdminController@list_bill');
 });
-Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
-    Route::get('profile', 'User\UserController@profile');
-});
+

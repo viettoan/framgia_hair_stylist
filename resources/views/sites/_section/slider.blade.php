@@ -1,7 +1,7 @@
 <div id="slider" data-section="home">
     <div class="owl-carousel owl-carousel-fullwidth">
-        <div class="item" style="background: #352f44;">
-            <div class="container" style="position: relative;">
+        <div class="item background_home">
+            <div class="container slide_fix">
                 <div class="row">
                     <div class="col-md-7 col-sm-7">
                         <div class="fh5co-owl-text-wrap">

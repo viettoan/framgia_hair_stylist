@@ -8,12 +8,12 @@
     <div class="content-wrapper">
       <section class="content-header">
         <h1>
-            {{ _('Hi Admin 1') }}
+            {{ __('Hi Admin 1') }}
         </h1>
         <ol class="breadcrumb">
-          <li><a href="#"><i class="fa fa-dashboard"></i> {{ _('Home') }} </a></li>
-          <li><a href="#"> {{ _('Manager') }}</a></li>
-          <li class="active"> {{ _('Booking And Customer') }}</li>
+          <li><a href="#"><i class="fa fa-dashboard"></i> {{ __('Home') }} </a></li>
+          <li><a href="#"> {{ __('Manager') }}</a></li>
+          <li class="active"> {{ __('Booking And Customer') }}</li>
         </ol>
     </section>
     <section class="content">
@@ -21,7 +21,7 @@
           <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">{{ _('Manager Booking') }}</h3>
+                    <h3 class="box-title">{{ __('Manager Booking') }}</h3>
                 </div>
                 <div class="box-body over-flow-edit">
                     <table id="example1" class="table table-bordered table-striped">

@@ -7,7 +7,7 @@
 <div class="content-wrapper" id="manager_servece">
     <section class="content-header">
         <h1>
-            {{ __('Service') }}
+            {{ __('Bill') }}
         </h1>
         <ol class="breadcrumb">
             <li>
@@ -22,7 +22,7 @@
                 </a>
             </li>
             <li class="active">
-                {{ __('Service') }}
+                {{ __('List Bill') }}
             </li>
         </ol>
     </section>
@@ -31,38 +31,35 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">{{ _('Manager Service') }}</h3>
+                        <h3 class="box-title">{{ _('Manager List Bill') }}</h3>
                         <button class="col-md-offset-1 btn btn-success" v-on:click="addItem">
                             <i class="fa fa-plus" aria-hidden="true"></i>
-                            {{ __('Create Service') }}
+                            {{ __('Create bill') }}
                         </button>
                     </div>
                     <div class="box-body over-flow-edit">
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>{{ __('ID') }}</th>
-                                    <th>{{ __('admin.Name') }}</th>
-                                    <th>{{ __('admin.Short_description') }}</th>
-                                    <th>{{ __('admin.Description') }}</th>
-                                    <th>{{ __('admin.Price') }}</th>
-                                    <th>{{ __('admin.Avg_rate') }}</th>
-                                    <th>{{ __('admin.Total_rate') }}</th>
-                                    <th>{{ __('admin.Action') }}</th>
+                                    <th>{{ __('Customer_name') }}</th>
+                                    <th>{{ __('Phone') }}</th>
+                                    <th>{{ __('Status') }}</th>
+                                    <th>{{ __('Service_total') }}</th>
+                                    <th>{{ __('Grand_total') }}</th>
+                                    <th>{{ __('Action') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>1</td>
                                     <td>name_1</td>
-                                    <td>name_1@gmail.com</td>
                                     <td>0984010953</td>
-                                    <td>12345678</td>
-                                    <td>12/11/1994</td>
-                                    <td>name_1.jpg</td>
-                                    <td><a href=""><i class="fa fa-fw  fa-eyedropper get-color-icon-edit" ></i></a>
-                                        <a href="#"><i class="fa fa-fw  fa-close get-color-icon-delete" ></i></a>
-                                    </td>
+                                    <td>display</td>
+                                    <td>3</td>
+                                    <td>800000</td>
+                                    <td>
+                                    <a href="#" class="btn btn-info"><i class="fa fa-edit "></i></a>
+                                    <a class="btn btn-danger" href="#"><i class="fa fa-trash-o "></i></a>
+                                </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -83,29 +80,28 @@
                         <div class="form-group">
                             <label for="name">{{ __('Name') }}</label>
                                 <span class="text-danger">(*)</span>
-                                    <input type="text" name="name" class="form-control" v-model="newItem.name"/>
-                                    <div v-if="formErrors.length == 2">
-                                        <span v-if="formErrors['0']" class="error text-danger">
-                                            @{{ formErrors['0'] }}
-                                        </span>
-                                    </div>
+                                <select class="form-control te">
+                                  <option>Name 1</option>
+                                  <option>Name 2</option>
+                                </select>
                                     <br>
-                            <label for="name">{{ __('admin.Short_description') }}</label>
-                                <input type="text" name="short_description" class="form-control" v-model="newItem.short_description"/>
-                            <label for="name">{{ __('admin.Description') }}</label>
-                                <textarea type="text" name="description" class="form-control" v-model="newItem.description">
-                                </textarea>
+                            <label for="name">{{ __('Phone') }}</label>
+                                <span class="text-danger">(*)</span>
+                                <input type="text" name="phone" class="form-control"/>
+                            <label for="name">{{ __('Service') }}:</label><br>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="inlineCheckbox1" value="option1"> Service 1
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="inlineCheckbox2" value="option2"> Service 2
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="inlineCheckbox3" value="option3"> Service 3
+                                </label>
+                                <br><br>    
                             <label for="name">{{ __('Price') }}</label>
                                 <span class="text-danger">(*)</span>
                                 <input type="number" name="price" class="form-control" v-model="newItem.price"/>
-                                <div v-if="formErrors.length == 1">
-                                    <span v-if="formErrors['0']" class="error text-danger">
-                                        @{{ formErrors['0'] }}
-                                    </span>
-                                </div>
-                                <span v-if="formErrors['1']" class="error text-danger">
-                                    @{{ formErrors['1'] }}
-                                </span>
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-success">
@@ -125,5 +121,5 @@
 @endsection
 
 @section('script')
-    {{ Html::script('js/admin/manage_service.js') }}
+    {{-- {{ Html::script('js/admin/manage_service.js') }} --}}
 @endsection
