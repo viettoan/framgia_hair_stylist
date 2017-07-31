@@ -60,4 +60,14 @@ class OrderBookingRepositoryEloquent extends AbstractRepositoryEloquent implemen
     {
         return $this->model()->getOptionFilter();
     }
+
+    public function getBookingByCustomerId($customer_id, $with = [], $select = ['*'])
+    {
+        return $this->model()
+            ->select($select)
+            ->with($with)
+            ->where('user_id', $customer_id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+    }
 }
