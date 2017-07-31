@@ -23,7 +23,7 @@ trait UserRelations
 
     public function getOrderBooking()
     {
-        return $this->hasOne(OrderBooking::class);
+        return $this->hasMany(OrderBooking::class);
     }
 
     public function getStylistInDepartment()

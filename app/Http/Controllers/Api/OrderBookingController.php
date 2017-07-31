@@ -356,8 +356,30 @@ class OrderBookingController extends Controller
 
             return Response::json($response);
         }
+
+        
     }
-    
+
+    public function getBookingbyUserId($user_id)
+    {
+        $response = Helper::apiFormat();
+
+        $booking = $this->OrderBooking->getBookingByCustomerId($user_id);
+
+        if(!$booking) {
+            $response['error'] = true;
+            $response['status'] = '404';
+            $response['message'][] = __('404 not found');
+
+            return Response::json($response);
+
+        }
+        
+        $response['data'] = $booking;
+
+        return Response::json($response);
+    }
+}
 //week test value:
 //2017-07-25     1500915600
 //2017-07-19     1500397200
