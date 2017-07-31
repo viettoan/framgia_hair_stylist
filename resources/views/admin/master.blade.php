@@ -23,7 +23,6 @@
 
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-
     @include('admin._section.header')
     @include('admin._section.aside')
     @yield('content')
