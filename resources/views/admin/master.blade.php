@@ -23,10 +23,11 @@
 
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
     @include('admin._section.header')
     @include('admin._section.aside')
     @yield('content')
-
+    </div>
     {{ Html::script('bower/vue/dist/vue.js') }}
     {{ Html::script('bower/jquery/dist/jquery.min.js') }}
     {{ Html::script('bower/toastr/toastr.min.js') }}

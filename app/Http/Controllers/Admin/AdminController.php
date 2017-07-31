@@ -36,5 +36,10 @@ class AdminController extends Controller
     {
         return view('admin._component.manage_service');
     }
+
+    public function list_bill()
+    {
+        return view('admin._component.manager_bill');
+    }
 }
 

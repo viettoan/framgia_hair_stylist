@@ -58,6 +58,11 @@
                             {{ __('Manager Sevirce') }}
                         </a>
                     </li>
+                    <li>
+                        <a href={{ asset('admin/list_bill') }}><i class="fa fa-circle-o"></i>
+                            {{ __('Manager Bill') }}
+                        </a>
+                    </li>
                 </ul>
             <li><a href="#"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
             <li class="header">LABELS</li>

@@ -51,5 +51,11 @@
     "User Profil":"User Profil",
     "Hair Salon":"Hair Salon",
     "There's no bill belong to this customer": "There's no bill belong to this customer",
+    "Customer_name":"Customer_name",
+    "Phone":"Phone",
+    "Status":"Status",
+    "Grand_total":"Grand_total",
+    "Service_total":"Service_total",
+    "Action":"Action",
 }
 

@@ -7,4 +7,5 @@
     @include('sites._section.about')
     @include('sites._section.service')
     @include('sites._section.testimonials')
+    @include('sites._section.footer')
 @endsection
