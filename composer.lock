@@ -1444,7 +1444,11 @@
                 "parser",
                 "php"
             ],
+<<<<<<< HEAD
+            "time": "2017-06-28 20:53:48"
+=======
             "time": "2017-07-28 14:45:09"
+>>>>>>> e97dc4669a53db58b04dfe41e4bf566a76d2f270
         },
         {
             "name": "paragonie/random_compat",
@@ -1754,7 +1758,11 @@
                 "interactive",
                 "shell"
             ],
+<<<<<<< HEAD
+            "time": "2017-07-22 15:14:19"
+=======
             "time": "2017-07-29 19:30:02"
+>>>>>>> e97dc4669a53db58b04dfe41e4bf566a76d2f270
         },
         {
             "name": "ramsey/uuid",

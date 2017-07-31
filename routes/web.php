@@ -14,18 +14,18 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
 Route::group(['prefix' => 'site', 'as' => 'site.'], function () {
     Route::get('home', 'Site\SiteController@index')->name('home');
     Route::get('login', 'Site\SiteController@login')->name('login');
     Route::get('resgiter', 'Site\SiteController@signup')->name('resgiter');
 });
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
-    Route::get('index', 'Admin\AdminController@index');
+    Route::get('home','Admin\AdminController@home');
     Route::get('manager_customer', 'Admin\AdminController@manager_customer');
     Route::get('manager_booking', 'Admin\AdminController@manager_booking');
     Route::get('manager_service', 'Admin\AdminController@manager_service')->name('manager_service');
     Route::get('profile', 'Admin\AdminController@profile');
+    Route::get('bill', 'Admin\AdminController@bill');
 });
 Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
     Route::get('profile', 'User\UserController@profile');

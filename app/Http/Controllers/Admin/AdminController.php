@@ -7,9 +7,9 @@ use App\Http\Controllers\Controller;
 
 class AdminController extends Controller
 {
-    public function index()
+    public function home()
     {
-        return view('admin.master');
+        return view('admin._component.home');
     } 
 
     public function manager_customer()
@@ -25,6 +25,11 @@ class AdminController extends Controller
     public function profile()
     {
         return view('admin._component.profile');
+    }
+
+    public function bill()
+    {
+        return view('admin._component.bill');
     }
 
     public function manager_service()
