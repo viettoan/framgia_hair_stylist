@@ -14,8 +14,8 @@ class UpdateSericeProductsTable extends Migration
     public function up()
     {
         Schema::table('service_products', function (Blueprint $table) {
-            $table->float('avg_rate')->nullable();
-            $table->integer('total_rate')->nullable();
+            $table->float('avg_rate')->nullable()->change();
+            $table->integer('total_rate')->nullable()->change();
         });
 
     }
@@ -27,6 +27,9 @@ class UpdateSericeProductsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('service_products', function (Blueprint $table) {
+            $table->float('avg_rate')->change();
+            $table->integer('total_rate')->change();
+        });
     }
 }
