@@ -1,40 +1,43 @@
- axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+options = {
+  namespace: 'vuejs__'
+};
+Vue.use(VueLocalStorage, options);
 
-    var header = new Vue({
-        el: '#header_admin',
+axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-        data: {
-            users: '',
-            email: ''
-        },
-        mounted : function(){
-            this.users = localStorage.name;
-            this.email = localStorage.email;
-            console.log(this.email);
-        },
-        methods: {
-            logout: function() {
-                var self = this;
-                var authOptions = {
-                    method: 'POST',
-                    url: '/api/v0/logout',
-                    headers: {
-                        'Authorization': "Bearer " + localStorage.access_token,
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        'crossDomain': true 
-                    },
-                    json: true
-                }
-                
-                axios(authOptions).then(response => {
-                    localStorage.name = '';
-                    localStorage.access_token = '';
-                    localStorage.email = null;
-                    this.user = '';
-                    window.location = '/site/home/';
-                }).catch(function (error) {
-                    self.errors = error.response.data.message;
-                });
+var header = new Vue({
+    el: '#header_admin',
+
+    data: {
+        users: {},
+        token: {}
+    },
+    mounted : function(){
+        this.users = Vue.ls.get('user', {});
+        this.token = Vue.ls.get('token', {});
+    },
+    methods: {
+        logout: function() {
+            var self = this;
+            var authOptions = {
+                method: 'POST',
+                url: '/api/v0/logout',
+                headers: {
+                    'Authorization': "Bearer " + this.token.access_token,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                json: true
             }
+            
+            axios(authOptions).then(response => {
+                Vue.ls.remove('token');
+                Vue.ls.remove('user');
+                this.users = {};
+                this.token = {};
+                window.location = '/site/home/';
+            }).catch(function (error) {
+                self.errors = error.response.data.message;
+            });
         }
-    });
+    }
+});

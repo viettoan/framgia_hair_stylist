@@ -38,19 +38,19 @@
                             <span>{{ trans('site.testimonials') }}</span>
                         </a>
                     </li>
-                    <li v-if="users">
+                    <li v-if="users.name">
                         <a href="#" data-nav-section="login" >
-                            <span>{{ trans('site.welcome') }} : @{{ users }}</span>
+                            <span>{{ trans('site.welcome') }} : @{{ users.name }}</span>
                         </a>
                     <li>
-                    <li v-if="users === ''">
-                        <a href="{{ route('site.login') }}" data-nav-section="login" >
-                           <span>{{ trans('site.login') }}</span>
-                        </a>
-                    <li>
-                    <li v-if="users">
+                    <li v-if="users.name">
                         <a href="javascript:void(0)" v-on:click="logout" data-nav-section="login" >
                             <span>{{ trans('site.logout') }}</span>
+                        </a>
+                    <li>
+                    <li v-if="!users.id">
+                        <a href="{{ route('site.login') }}" data-nav-section="login" >
+                           <span>{{ trans('site.login') }}</span>
                         </a>
                     <li>
                 </ul>
