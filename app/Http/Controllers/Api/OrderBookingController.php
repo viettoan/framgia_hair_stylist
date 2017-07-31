@@ -24,7 +24,8 @@ class OrderBookingController extends Controller
         RenderBookingRepository $RenderBooking,
         UserRepository $user,
         DepartmentRepository $department
-    ) {
+    ) 
+    {
         $this->OrderBooking = $OrderBooking;
         $this->RenderBooking = $RenderBooking;
         $this->user = $user;
@@ -37,7 +38,7 @@ class OrderBookingController extends Controller
 
         $booking = $this->OrderBooking->getBookingByBookingId($bookingId);
 
-        if (empty($booking))
+        if (!$booking)
         {
             $response['error'] = true;
             $response['status'] = '404';
@@ -46,11 +47,6 @@ class OrderBookingController extends Controller
             return Response::json($response);
         }
         
-        if ($booking->count() == 0)
-        {
-            $response['message'][] = __("There's no booking currently");
-        }
-
         $response['data'] = $booking;
         
         return Response::json($response);
@@ -145,12 +141,239 @@ class OrderBookingController extends Controller
 
         return Response::json($response, $response['status']);
     }
+    public function filterByDate(Request $request)
+    {
 
-    public function getBookingFilterByDay(Request $request)
+        $response = Helper::apiFormat();
+
+        $currentDate = Carbon::today(); //2017-07-28 00:00:00
+
+        $perPage = $request->per_page ?: config('model.booking.default_filter_limit');
+        // if no choice filter, default is none, display all
+            // default is get all booking today
+        if(!$request->start_date && !$request->end_date)
+        {
+
+            $tomorrow = Carbon::tomorrow(); // 2017-07-29 00:00:00
+
+            $response['data'] = $this->OrderBooking->filterBookingbyDate($currentDate, $tomorrow, $perPage, 'getBookingRender');
+
+            if($response['data']->count() == 0)
+            {
+                $response['status'] = 403;
+                $response['error'] = true;
+                $response['message'][] = __("There's no booking today!");
+
+                return Response::json($response);   
+            } 
+            else
+            {
+                return Response::json($response);
+            }
+
+        }
+
+        $rule = [
+        'start_date' => 'required|integer',
+        'end_date' => 'required|integer',
+        ];
+
+        $validator = Validator::make($request->all(), $rule);
+
+        if ($validator->fails()) {
+            $response['error'] = true;
+            $response['status'] = 403;
+            foreach ($rule as $key => $value) {
+                $response['message'][$key] = $validator->messages()->first($key);
+            }
+
+            return Response::json($response, 403);
+        }
+
+        $startDate =date('Y-m-d h:i:s', $request->start_date);
+        $endDate = date('Y-m-d h:i:s', $request->end_date);
+
+        if(  $request->start_date >  $request->end_date )
+        {
+            $response['status'] = 403;
+            $response['error'] = true;
+            $response['message'][] = __('Day end must be after day start!');
+
+            return Response::json($response);
+        }
+
+
+        $data = $this->OrderBooking->filterBookingbyDate($startDate, $endDate, $perPage, 'getBookingRender');
+
+        if($data->count() == 0)
+        {
+            $response['status'] = 403;
+            $response['error'] = true;
+            $response['message'][] = __("There's no booking on these day!");
+
+            return Response::json($response);
+        }
+
+        $response['data'] = $data;
+
+        return Response::json($response);
+    }
+
+    public function filterByMonth(Request $request)
     {
         $response = Helper::apiFormat();
 
         $currentDate = Carbon::today(); //2017-07-28 00:00:00
+
+        $perPage = $request->per_page ?: config('model.booking.default_filter_limit');
+        // default is get all booking current month
+        if(!$request->month_input && !$request->year_input)
+        {
+
+             $response['data'] = $this->OrderBooking->filterBookingByMonth($currentDate->month, $currentDate->year, $perPage, 'getBookingRender');
+
+             return Response::json($response);
+        }
+
+        $rule = [
+            'month_input' => 'required|integer|min:1|max:12',
+            'year_input' => 'required|integer',
+        ];
+
+        $validator = Validator::make($request->all(), $rule);
+
+        if ($validator->fails()) {
+            $response['error'] = true;
+            $response['status'] = 403;
+            foreach ($rule as $key => $value) {
+                $response['message'][$key] = $validator->messages()->first($key);
+            }
+
+            return Response::json($response, 403);
+        }
+
+        $data = $this->OrderBooking->filterBookingByMonth($request->month_input, $request->year_input, $perPage, 'getBookingRender');
+
+        if($data->count() == 0)
+        {
+            $response['status'] = 403;
+            $response['error'] = true;
+            $response['message'][] = __("There's no booking on these day!");
+
+            return Response::json($response);
+        }
+
+        $response['data'] = $data;
+
+        return Response::json($response);
+    }
+
+    public function filterByWeek(Request $request)
+    {
+        $response = Helper::apiFormat();
+
+        $currentDate = Carbon::today(); //2017-07-28 00:00:00
+
+        $perPage = $request->per_page ?: config('model.booking.default_filter_limit');
+        // default is get all booking current month
+        //set date default to get the first monday in month
+        $startOfMonth =strtotime($request->year_input.'-'.$request->month_input.'-01');
+
+        $rule = [
+            'week_input' => 'required|integer|min:1|max:5',
+            'month_input' => 'required|integer|min:1|max:12',
+            'year_input' => 'required|integer',
+        ];
+
+        $validator = Validator::make($request->all(), $rule);
+
+        if ($validator->fails()) {
+            $response['error'] = true;
+            $response['status'] = 403;
+            foreach ($rule as $key => $value) {
+                $response['message'][$key] = $validator->messages()->first($key);
+            }
+
+            return Response::json($response, 403);
+        }
+
+        switch ($request->week_input) {
+            case "1":
+                $startDate = date('Y-m-d H:i:s', $startOfMonth);
+                break;
+            case "2":
+                $startDate = date('Y-m-d H:i:s', strtotime('+1 week', $startOfMonth));
+                break;
+            case "3":
+                $startDate = date('Y-m-d H:i:s', strtotime('+2 week', $startOfMonth));
+                break;
+            case "4":
+                $startDate = date('Y-m-d H:i:s', strtotime('+3 week', $startOfMonth));
+                break;
+            case "5":
+                $startDate = date('Y-m-d H:i:s', strtotime('+4 week', $startOfMonth));
+                break;
+        }
+
+        $endDate = date('Y-m-d H:i:s', strtotime('+1 week', strtotime($startDate)));
+
+        $data = $this->OrderBooking->filterBookingbyDate($startDate, $endDate, $perPage, 'getBookingRender');
+
+        if($data->count() == 0)
+        {
+            $response['status'] = 403;
+            $response['error'] = true;
+            $response['message'][] = __("There's no booking on these day!");
+
+            return Response::json($response);
+        }
+
+        $response['data'] = $data;
+
+        return Response::json($response);
+    }
+
+    public function filterByStatus(Request $request)
+    {
+        $response = Helper::apiFormat();
+        
+        $perPage = $request->per_page ?: config('model.booking.default_filter_limit');
+
+        $rule = [
+        'status' => 'required|integer',
+        ];
+
+        $validator = Validator::make($request->all(), $rule);
+
+        if ($validator->fails()) {
+            $response['error'] = true;
+            $response['status'] = 403;
+            foreach ($rule as $key => $value) {
+                $response['message'][$key] = $validator->messages()->first($key);
+            }
+
+            return Response::json($response, 403);
+        }
+
+        $data = $this->OrderBooking->filterBookingByStatus($request->status, $perPage, 'getBookingRender');
+
+        if($data->count() == 0)
+        {
+            $response['status'] = 403;
+            $response['error'] = true;
+            $response['message'][] = __("There's no booking with this status!");
+
+            return Response::json($response);
+        }
+
+        $response['data'] = $data;
+
+        return Response::json($response);
+    }
+
+    public function getBookingFilterByDay(Request $request)
+    {
+        $response = Helper::apiFormat();
 
         $perPage = $request->per_page ?: config('model.booking.default_filter_limit');
 
@@ -161,205 +384,28 @@ class OrderBookingController extends Controller
 
             return Response::json($response);
         }
-        // if filter by day
+        // // if filter by day
         if($request->filter_choice == 1)
         {   
-            // default is get all booking today
-            if(!$request->start_date && !$request->end_date)
-            {
-                 $tomorrow = Carbon::tomorrow(); // 2017-07-29 00:00:00
-
-                 $response['data'] = $this->OrderBooking->filterBookingbyDate($currentDate, $tomorrow, $perPage, 'getBookingRender');
-
-                 return Response::json($response);
-            }
-
-            $rule = [
-                'start_date' => 'required|integer',
-                'end_date' => 'required|integer',
-            ];
-
-            $validator = Validator::make($request->all(), $rule);
-
-            if ($validator->fails()) {
-                $response['error'] = true;
-                $response['status'] = 403;
-                foreach ($rule as $key => $value) {
-                    $response['message'][$key] = $validator->messages()->first($key);
-                }
-
-                return Response::json($response, 403);
-            }
-
-            $startDate =date('Y-m-d h:i:s', $request->start_date);
-            $endDate = date('Y-m-d h:i:s', $request->end_date);
-
-            if(  $request->start_date >  $request->end_date )
-            {
-                $response['status'] = 403;
-                $response['error'] = true;
-                $response['message'][] = __('Day end must be after day start!');
-
-                return Response::json($response);
-            }
-
-
-            $data = $this->OrderBooking->filterBookingbyDate($startDate, $endDate, $perPage, 'getBookingRender');
-
-            if($data->count() == 0)
-            {
-                $response['status'] = 403;
-                $response['error'] = true;
-                $response['message'][] = __("There's no booking on these day!");
-
-                return Response::json($response);
-            }
-
-            $response['data'] = $data;
-
-            return Response::json($response);
+            return $this->filterByDate($request);
         }
         // if filter by month       
         if($request->filter_choice == 2)
         {
-            // default is get all booking current month
-            if(!$request->month_input && !$request->year_input)
-            {
-
-                 $response['data'] = $this->OrderBooking->filterBookingByMonth($currentDate->month, $currentDate->year, $perPage, 'getBookingRender');
-
-                 return Response::json($response);
-            }
-
-            $rule = [
-                'month_input' => 'required|integer|min:1|max:12',
-                'year_input' => 'required|integer',
-            ];
-
-            $validator = Validator::make($request->all(), $rule);
-
-            if ($validator->fails()) {
-                $response['error'] = true;
-                $response['status'] = 403;
-                foreach ($rule as $key => $value) {
-                    $response['message'][$key] = $validator->messages()->first($key);
-                }
-
-                return Response::json($response, 403);
-            }
-
-            $data = $this->OrderBooking->filterBookingByMonth($request->month_input, $request->year_input, $perPage, 'getBookingRender');
-
-            if($data->count() == 0)
-            {
-                $response['status'] = 403;
-                $response['error'] = true;
-                $response['message'][] = __("There's no booking on these day!");
-
-                return Response::json($response);
-            }
-
-            $response['data'] = $data;
-
-            return Response::json($response);
+            return $this->filterByMonth($request);
         }
 
         if($request->filter_choice == 3)
         {
-            //set date default to get the first monday in month
-            $startOfMonth =strtotime($request->year_input.'-'.$request->month_input.'-01');
-
-            $rule = [
-                'week_input' => 'required|integer|min:1|max:5',
-                'month_input' => 'required|integer|min:1|max:12',
-                'year_input' => 'required|integer',
-            ];
-
-            $validator = Validator::make($request->all(), $rule);
-
-            if ($validator->fails()) {
-                $response['error'] = true;
-                $response['status'] = 403;
-                foreach ($rule as $key => $value) {
-                    $response['message'][$key] = $validator->messages()->first($key);
-                }
-
-                return Response::json($response, 403);
-            }
-
-            switch ($request->week_input) {
-                case "1":
-                    $startDate = date('Y-m-d H:i:s', $startOfMonth);
-                    break;
-                case "2":
-                    $startDate = date('Y-m-d H:i:s', strtotime('+1 week', $startOfMonth));
-                    break;
-                case "3":
-                    $startDate = date('Y-m-d H:i:s', strtotime('+2 week', $startOfMonth));
-                    break;
-                case "4":
-                    $startDate = date('Y-m-d H:i:s', strtotime('+3 week', $startOfMonth));
-                    break;
-                case "5":
-                    $startDate = date('Y-m-d H:i:s', strtotime('+4 week', $startOfMonth));
-                    break;
-            }
-
-            $endDate = date('Y-m-d H:i:s', strtotime('+1 week', strtotime($startDate)));
-
-            $data = $this->OrderBooking->filterBookingbyDate($startDate, $endDate, $perPage, 'getBookingRender');
-
-            if($data->count() == 0)
-            {
-                $response['status'] = 403;
-                $response['error'] = true;
-                $response['message'][] = __("There's no booking on these day!");
-
-                return Response::json($response);
-            }
-
-            $response['data'] = $data;
-
-            return Response::json($response);
+            return $this->filterByWeek($request);
         }
         // filter by status
         if($request->filter_choice == 4)
         {
-            $rule = [
-            'status' => 'required|integer',
-            ];
-
-            $validator = Validator::make($request->all(), $rule);
-
-            if ($validator->fails()) {
-                $response['error'] = true;
-                $response['status'] = 403;
-                foreach ($rule as $key => $value) {
-                    $response['message'][$key] = $validator->messages()->first($key);
-                }
-
-                return Response::json($response, 403);
-            }
-
-            $data = $this->OrderBooking->filterBookingByStatus($request->status, $perPage, 'getBookingRender');
-
-            if($data->count() == 0)
-            {
-                $response['status'] = 403;
-                $response['error'] = true;
-                $response['message'][] = __("There's no booking with this status!");
-
-                return Response::json($response);
-            }
-
-            $response['data'] = $data;
-
-            return Response::json($response);
+            return $this->filterByStatus($request);
         }
-
-        
     }
-
+    
     public function getBookingbyUserId($user_id)
     {
         $response = Helper::apiFormat();

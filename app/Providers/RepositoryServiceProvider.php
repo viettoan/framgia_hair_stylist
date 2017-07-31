@@ -8,6 +8,14 @@ class RepositoryServiceProvider extends ServiceProvider
 {
 
     protected static $repositories = [
+        'bill_item' => [
+            \App\Contracts\Repositories\BillItemRepository::class,
+            \App\Repositories\BillItemRepositoryEloquent::class,
+        ],
+        'bill' => [
+            \App\Contracts\Repositories\BillRepository::class,
+            \App\Repositories\BillRepositoryEloquent::class,
+        ],
         'comment' => [
             \App\Contracts\Repositories\CommentRepository::class,
             \App\Repositories\CommentRepositoryEloquent::class,
