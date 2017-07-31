@@ -4,6 +4,8 @@ var manage_service = new Vue({
     el: '#manager_servece   ',
 
     data: {
+        users: {},
+        token: {},
         items: [],
         pagination: {
             total: 0,
@@ -45,6 +47,9 @@ var manage_service = new Vue({
         }
     },
     mounted : function(){
+        this.users = Vue.ls.get('user');
+        this.token = Vue.ls.get('token');
+        console.log(this.token);
         // this.showInfor(this.pagination.current_page);
     },
 
@@ -63,7 +68,6 @@ var manage_service = new Vue({
         createItem: function(){
             var self = this;
             var input = this.newItem;
-            console.log(input);
             input.avg_rate = 0;
             input.total_rate = 0;
             var authOptions = {
@@ -71,9 +75,8 @@ var manage_service = new Vue({
                     url: '/api/v0/service',
                     params: input,
                     headers: {
-                        'Authorization': "Bearer " + localStorage.access_token,
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        'crossDomain': true 
+                        'Authorization': "Bearer " + this.token.access_token,
+                        'Content-Type': 'application/x-www-form-urlencoded'
                     },
                     json: true
                 }

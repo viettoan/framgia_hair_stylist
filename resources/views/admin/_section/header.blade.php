@@ -11,14 +11,14 @@
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <img src={{ asset('bower/AdminLTE/dist/img/user2-160x160.jpg') }} class="user-image" alt="User Image">
-                        <span class="hidden-xs"> @{{ users }}</span>
+                        <span class="hidden-xs"> @{{ users.name }}</span>
                     </a>
                     <ul class="dropdown-menu">
                         <li class="user-header">
                             <img src={{ asset('bower/AdminLTE/dist/img/user2-160x160.jpg') }} class="img-circle" alt="User Image">
                             <p>
-                                @{{ users }}
-                                <small> @{{ email }}</small>
+                                @{{ users.name }}
+                                <small> @{{ users.email }}</small>
                             </p>
                         </li>
                         <li class="user-footer">

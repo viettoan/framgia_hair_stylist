@@ -16,6 +16,8 @@
 <body>
     @yield('content')
     {{ Html::script('bower/vue/dist/vue.js') }}
+    {{ Html::script('bower/vue-ls/dist/vue-ls.js') }}
+    {{ Html::script('bower/vue-ls/dist/vue-ls.min.js') }}
     {{ Html::script('bower/jquery/dist/jquery.min.js') }}
     {{ Html::script('bower/toastr/toastr.min.js') }}
     {{ Html::script('bower/axios/dist/axios.min.js') }}
