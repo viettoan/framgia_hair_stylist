@@ -146,9 +146,9 @@ class OrderBookingController extends Controller
 
         $response = Helper::apiFormat();
 
-        $select = ['render_booking_id', 'name', 'status', 'stylist_id'];
+        $select =['*'];// ['render_booking_id', 'name', 'status', 'stylist_id'];
         $with = ['getBookingRender', 'getStylist'];
-        
+
         $perPage = $request->per_page ?: config('model.booking.default_filter_limit');
         // if no choice filter, default is none, display all
             // default is get all booking today
@@ -167,7 +167,6 @@ class OrderBookingController extends Controller
         $status = $request->status;
         $data = $this->orderBooking
         ->filterBookingbyDate($startDate, $endDate, $perPage, $status, $with, $select);
-
         if($data->count() == 0)
         {
             $response['status'] = 403;

@@ -8,7 +8,7 @@ use App\Eloquents\OrderBooking;
 
 trait BillRelations
 {
-    public function BillItems()
+    public function getAllBillItems()
     {
         return $this->hasMany(BillItem::class, 'bill_id');
     }
