@@ -1,281 +1,36 @@
-input[type="button"],input[type="submit"]{
-    transition:0.5s all;
-}
-.bill_fix_height {
-    padding: 20px 0px;
-}
-
-h1,h2,h3,h4,h5,h6 {
-    margin:0;   
-    font-weight:400;
-    transition:0.5s all;
-} 
-.clear {
-    clear:both;
-}
-
-p {
-    margin:0;
-}
-
-ul {
-    margin:0;
-    padding:0;
-}
-
-label {
-    margin:0;
-}
-
-.text-center {
-    text-align:center;
-}
-
-img {
-    width:100%;
-}
-
-.booking-agile h1 {
-    font-size: 40px;
-    font-weight: 500;
-    text-align: center;
-    text-transform: capitalize;
-    color: #fff;
-    letter-spacing:2px;
-    font-family: 'Raleway', sans-serif;
-}
-.bookingleft-agile h2 {
-    font-size: 30px;
-    font-weight: 500;
-    text-align: center;
-    text-transform: capitalize;
-    letter-spacing: 2px;
-    color:rgba(216, 171, 23, 0.99)  ;
-    font-family: 'Raleway', sans-serif;
-}
-
-.headbooking-agile {
-    width: 100%;
-    margin: 0 auto;
-}
-
-.bookingleft-agile {
-    width: 100%;
-    float: left;
-    background: rgba(16, 15, 15, 0.55);
-    padding: 2em;
-}
-
-.arrival-agile {
-    width: 50%;
-    float: left;
-}
-
-.departure-agile {
-    width: 50%;
-    float: right;
-}
-
-.stylist-agile {
-    float: left;
-    width: 50%;
-}
-
-.department-agile {
-    float: left;
-    width: 50%;
-}
-
-.time-agile
-{
-    float: left;
-    width: 50%;
-}
-
-.service-agile
-{
-    float: left;
-    width: 50%;
-}
-
-.phone-agile
-{
-    float: left;
-    width: 50%;
-}
-
-.address-agile
-{
-    float: left;
-    width: 103%;
-}
-
-.email-agile
-{
-    float: left;
-    width: 50%;
-}
-
-.date{
-    cursor:pdaointer;
-}
-
-input#datepicker {
-    font-size: 14px;
-    font-weight: 500;
-    text-align: left;
-    border: none;
-    outline: none;
-    border-bottom: 1px solid #fff;
-    width:95%;
-    color:#fff;
-    font-family: 'Poiret One', cursive;
-}
-
-input#datepicker1 {
-    font-size: 15px;
-    font-weight: 500;
-    text-align: left;
-    border: none;
-    outline: none;
-    border-bottom: 1px solid #fff;
-    width:87%;
-    color:#fff;
-    font-family: 'Poiret One', cursive;
-}
-
-.arrival-agile p, .departure-agile p,.name-agile p,.stylist-agile p, .department-agile p, .time-agile p,.service-agile p,.phone-agile p,.email-agile p,.address-agile p,.total-agile p{
-    font-size: 14px;
-    font-weight: 600;
-    text-align: left;
-    letter-spacing: 1px;
-    margin: 0.8em 0;
-    color: #fff;
-    font-family: 'Poiret One', cursive;
-}
-
-.stylist-agile select,.department-agile select,.time-agile select,.service-agile select {
-    width: 95%;
-    border: none;
-    background: transparent;
-    color:#fff;
-    border-bottom: 1px solid #fff;
-    font-size: 14px;
-    font-weight: 500;
-    text-align: left;
-    letter-spacing: 1px;
-    font-family: 'Poiret One', cursive;
-    height: 23px;
-}
-
-#ui-datepicker-div {
-    font-family: 'Open Sans', sans-serif;
-    background: none !important;
-}
-
-.ui-datepicker {
-    width: 13% !important;
-}
-
 .name-agile{
     width:50%;
     float:left;
 }
 
-.total-agile{
-    width:103%;
-    float:left;
-    padding-bottom: 20px;
+.font_bill {
+    font-family: Times, Times New Roman, Georgia, serif;
 }
 
-.name-agile input[type="text"], .phone-agile input[type="text"],.email-agile input[type="email"],.address-agile input[type="text"],.total-agile input[type="text"] ,.stylist-agile input[tyle ="text"],.department-agile input[tyle ="text"]{
-    font-size: 14px;
-    font-weight: 500;
-    text-align: left;
-    letter-spacing: 1px;
-    border: none;
-    outline: none;
-    width: 95%;
-    background: none;
-    color:#fff;
-    border-bottom: 1px solid #fff;
-    font-family: 'Poiret One', cursive;
+.icon_salon {
+    padding-top: 15px;
 }
 
-.submit-agile input[type="submit"] {
-    font-size: 17px;
-    font-weight: 500;
-    text-align: center;
-    text-transform: capitalize;
-    letter-spacing: 1px;
-    margin: 0 auto;
-    width: 40%;
-    display: block;
-    border: none;
-    outline: none;
-    background:rgba(216, 171, 23, 0.99);
-    color: #fff;
-    cursor:pointer;
-    padding:0.8em 0.8em;
-    font-family: 'Raleway', sans-serif;
-}
-.submit-agile input[type="submit"]:hover {
-    background:rgba(12, 255, 133, 0.68);
-    color:#fff;
-    transition:.5s ease-in;
-
+.fix_size_icon {
+    width: 119px; height:99px;
 }
 
-option {
-    background:rgba(214, 169, 23, 0.75);
-    color: #fff;
+.border_bill {
+    border:1px solid black;
 }
 
-.ui-datepicker table{
-    background: #d6a917!important;  
+.fix_padding {
+    padding: 4px;margin: 0px;
 }
 
-.ui-datepicker .ui-datepicker-header{
-    background: rgba(128, 111, 59, 0.84)!important; 
+.border_botton {
+    border-top:1px solid black;border-bottom: 1px solid #fff;padding: 0px;
 }
 
-footer {
-    font-size: 15px;
-    font-weight: 500;
-    text-align: center;
-    text-transform: capitalize;
-    letter-spacing: 1px;
-    padding: 3em 0em;
-    color: #fff;
-    font-family: 'Raleway', sans-serif;
+.total_bill {
+    border-top:1px solid black;padding:  0px;
 }
 
-footer a { text-decoration:none;color:#fff; }
-
-footer a:hover{
-    text-decoration:none;
-    color:#fff;
-}
-
-.arrival-agile p, .departure-agile p, .name-agile p, .phone-agile p,.stylist-agile p, .department-agile p,.time-agile p,.service-agile p,.total-agile p , .address-agile p{
-    font-size: 14px;
-}
-
-.submit-agile input[type="submit"] {
-    width: 85%;
-}
-
-footer {
-    font-size: 11px;
-}
-
-.bookingleft-agile h2 {
-    font-size: 20px;
-}
-
-.date {
-    background: url()no-repeat 117px 13px;
-}
-.ui-datepicker {
-    width: 55%!important;
+.footer {
+    border-bottom:1px solid black;
 }

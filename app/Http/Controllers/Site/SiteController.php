@@ -21,4 +21,5 @@ class SiteController extends Controller
     {
     	return view('sites._component.signup');
     }
+    
 }
