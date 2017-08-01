@@ -14,6 +14,11 @@ trait OrderBookingRelations
         return $this->belongsTo(User::class);
     }
 
+    public function getStylist()
+    {
+        return $this->belongsTo(User::class, 'stylist_id');
+    }
+
     public function getBookingRender()
     {
         return $this->belongsTo(RenderBooking::class, 'render_booking_id');

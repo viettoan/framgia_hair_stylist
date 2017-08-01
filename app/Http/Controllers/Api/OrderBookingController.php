@@ -17,17 +17,17 @@ use Carbon\Carbon;
 
 class OrderBookingController extends Controller
 {
-    protected $OrderBooking, $RenderBooking, $user, $department;
+    protected $orderBooking, $renderBooking, $user, $department;
 
     public function __construct( 
-        OrderBookingRepository $OrderBooking, 
-        RenderBookingRepository $RenderBooking,
+        OrderBookingRepository $orderBooking, 
+        RenderBookingRepository $renderBooking,
         UserRepository $user,
         DepartmentRepository $department
     ) 
     {
-        $this->OrderBooking = $OrderBooking;
-        $this->RenderBooking = $RenderBooking;
+        $this->orderBooking = $orderBooking;
+        $this->renderBooking = $renderBooking;
         $this->user = $user;
         $this->department = $department;
     }
@@ -36,7 +36,7 @@ class OrderBookingController extends Controller
     {
         $response = Helper::apiFormat();
 
-        $booking = $this->OrderBooking->getBookingByBookingId($bookingId);
+        $booking = $this->orderBooking->getBookingByBookingId($bookingId, 'getBookingRender');
 
         if (!$booking)
         {
@@ -74,7 +74,7 @@ class OrderBookingController extends Controller
         }
 
         $stylist_id = $request->stylist_chosen;
-        $renderBooking = $this->RenderBooking->find($request->render_booking_id, ['OrderBooking']);
+        $renderBooking = $this->renderBooking->find($request->render_booking_id, ['OrderBooking']);
         if (!$stylist_id) {
             $orderCollection = $renderBooking->OrderBooking;
             $stylists = $this->user->getStylistByDepartmentId($renderBooking->department_id);
@@ -93,10 +93,10 @@ class OrderBookingController extends Controller
             $user_id = $user->id;
         }
 
-        $bookingChecked = $this->OrderBooking->checkLastBookingByPhone($request->phone);
+        $bookingChecked = $this->orderBooking->checkLastBookingByPhone($request->phone);
 
         if($bookingChecked) {
-            $timeUserChosen = $this->RenderBooking->find($bookingChecked->render_booking_id);
+            $timeUserChosen = $this->renderBooking->find($bookingChecked->render_booking_id);
 
             $difference_time = strtotime($timeUserChosen->day . ' ' . $timeUserChosen->time_start)- time();
 
@@ -106,7 +106,7 @@ class OrderBookingController extends Controller
                 $bookingChecked->user_id = $user_id;
                 $bookingChecked->save();
 
-                $dataResponse = $this->OrderBooking->find($bookingChecked->id);
+                $dataResponse = $this->orderBooking->find($bookingChecked->id);
 
             } else {
                 $data = [
@@ -116,14 +116,14 @@ class OrderBookingController extends Controller
                     'stylist_id' => $stylist_id,
                     'user_id' => $user_id,
                 ];
-                $order = $this->OrderBooking->create($data);
+                $order = $this->orderBooking->create($data);
 
-                $dataResponse = $this->OrderBooking->find($order->id);
+                $dataResponse = $this->orderBooking->find($order->id);
             }
             $dataResponse->render_booking = $timeUserChosen;
 
         } else {
-            $order = $this->OrderBooking->create([
+            $order = $this->orderBooking->create([
                 'render_booking_id' => $request->render_booking_id,
                 'phone' => $request->phone,
                 'name' => $request->name,
@@ -131,8 +131,8 @@ class OrderBookingController extends Controller
                 'user_id' => $user_id,
             ]);
 
-            $dataResponse = $this->OrderBooking->find($order->id);
-            $dataResponse->render_booking = $this->RenderBooking->find($request->render_booking_id);
+            $dataResponse = $this->orderBooking->find($order->id);
+            $dataResponse->render_booking = $this->renderBooking->find($request->render_booking_id);
         }
         $dataResponse->department = $this->department->find($renderBooking->department_id);
         $dataResponse->stylist = $stylist_name = $this->user->find($stylist_id);
@@ -146,64 +146,27 @@ class OrderBookingController extends Controller
 
         $response = Helper::apiFormat();
 
-        $currentDate = Carbon::today(); //2017-07-28 00:00:00
-
+        $select = ['render_booking_id', 'name', 'status', 'stylist_id'];
+        $with = ['getBookingRender', 'getStylist'];
+        
         $perPage = $request->per_page ?: config('model.booking.default_filter_limit');
         // if no choice filter, default is none, display all
             // default is get all booking today
-        if(!$request->start_date && !$request->end_date)
-        {
 
-            $tomorrow = Carbon::tomorrow(); // 2017-07-29 00:00:00
+        $startDate =date('Y-m-d', $request->start_date) . ' 00:00:00';
+        $endDate = date('Y-m-d', $request->end_date) . ' 23:59:59';
 
-            $response['data'] = $this->OrderBooking->filterBookingbyDate($currentDate, $tomorrow, $perPage, 'getBookingRender');
-
-            if($response['data']->count() == 0)
-            {
-                $response['status'] = 403;
-                $response['error'] = true;
-                $response['message'][] = __("There's no booking today!");
-
-                return Response::json($response);   
-            } 
-            else
-            {
-                return Response::json($response);
-            }
-
+        if (!$request->start_date) {
+            $startDate = Carbon::now()->format('Y-m-d') . ' 00:00:00';
         }
 
-        $rule = [
-        'start_date' => 'required|integer',
-        'end_date' => 'required|integer',
-        ];
-
-        $validator = Validator::make($request->all(), $rule);
-
-        if ($validator->fails()) {
-            $response['error'] = true;
-            $response['status'] = 403;
-            foreach ($rule as $key => $value) {
-                $response['message'][$key] = $validator->messages()->first($key);
-            }
-
-            return Response::json($response, 403);
+        if (!$request->end_date) {
+            $endDate = Carbon::now()->format('Y-m-d') . ' 23:59:59';
         }
 
-        $startDate =date('Y-m-d h:i:s', $request->start_date);
-        $endDate = date('Y-m-d h:i:s', $request->end_date);
-
-        if(  $request->start_date >  $request->end_date )
-        {
-            $response['status'] = 403;
-            $response['error'] = true;
-            $response['message'][] = __('Day end must be after day start!');
-
-            return Response::json($response);
-        }
-
-
-        $data = $this->OrderBooking->filterBookingbyDate($startDate, $endDate, $perPage, 'getBookingRender');
+        $status = $request->status;
+        $data = $this->orderBooking
+        ->filterBookingbyDate($startDate, $endDate, $perPage, $status, $with, $select);
 
         if($data->count() == 0)
         {
@@ -222,38 +185,26 @@ class OrderBookingController extends Controller
     public function filterByMonth(Request $request)
     {
         $response = Helper::apiFormat();
+        $currentDate = Carbon::now();
 
-        $currentDate = Carbon::today(); //2017-07-28 00:00:00
+        $select = ['render_booking_id', 'name', 'status', 'stylist_id'];
+        $with = ['getBookingRender', 'getStylist'];
 
         $perPage = $request->per_page ?: config('model.booking.default_filter_limit');
         // default is get all booking current month
-        if(!$request->month_input && !$request->year_input)
-        {
+        $month = $request->month_input;
+        $year = $request->year_input;
 
-             $response['data'] = $this->OrderBooking->filterBookingByMonth($currentDate->month, $currentDate->year, $perPage, 'getBookingRender');
-
-             return Response::json($response);
+        if (!$request->month_input) {
+            $month = $currentDate->month;
         }
 
-        $rule = [
-            'month_input' => 'required|integer|min:1|max:12',
-            'year_input' => 'required|integer',
-        ];
-
-        $validator = Validator::make($request->all(), $rule);
-
-        if ($validator->fails()) {
-            $response['error'] = true;
-            $response['status'] = 403;
-            foreach ($rule as $key => $value) {
-                $response['message'][$key] = $validator->messages()->first($key);
-            }
-
-            return Response::json($response, 403);
+        if (!$request->year_input) {
+            $year = $currentDate->year;
         }
-
-        $data = $this->OrderBooking->filterBookingByMonth($request->month_input, $request->year_input, $perPage, 'getBookingRender');
-
+        $status = $request->status;
+        $data = $this->orderBooking
+        ->filterBookingByMonth($month, $year, $perPage, $status, $with, $select);
         if($data->count() == 0)
         {
             $response['status'] = 403;
@@ -272,17 +223,19 @@ class OrderBookingController extends Controller
     {
         $response = Helper::apiFormat();
 
-        $currentDate = Carbon::today(); //2017-07-28 00:00:00
+        $currentDate = Carbon::today(); //2017-07-31 00:00:00
+
+        if($request->status)
+        {
+            $status = $request->status;
+        }
+        $select = ['render_booking_id', 'name', 'status', 'stylist_id'];
+        $with = ['getBookingRender', 'getStylist'];
 
         $perPage = $request->per_page ?: config('model.booking.default_filter_limit');
         // default is get all booking current month
-        //set date default to get the first monday in month
-        $startOfMonth =strtotime($request->year_input.'-'.$request->month_input.'-01');
-
         $rule = [
-            'week_input' => 'required|integer|min:1|max:5',
-            'month_input' => 'required|integer|min:1|max:12',
-            'year_input' => 'required|integer',
+            'day_of_week' => 'integer',
         ];
 
         $validator = Validator::make($request->all(), $rule);
@@ -296,28 +249,21 @@ class OrderBookingController extends Controller
 
             return Response::json($response, 403);
         }
-
-        switch ($request->week_input) {
-            case "1":
-                $startDate = date('Y-m-d H:i:s', $startOfMonth);
-                break;
-            case "2":
-                $startDate = date('Y-m-d H:i:s', strtotime('+1 week', $startOfMonth));
-                break;
-            case "3":
-                $startDate = date('Y-m-d H:i:s', strtotime('+2 week', $startOfMonth));
-                break;
-            case "4":
-                $startDate = date('Y-m-d H:i:s', strtotime('+3 week', $startOfMonth));
-                break;
-            case "5":
-                $startDate = date('Y-m-d H:i:s', strtotime('+4 week', $startOfMonth));
-                break;
+        if(!$request->day_of_week)
+        {
+            $startDate = Carbon::now()->startOfWeek();
         }
-
+        else
+        {
+            $date = Carbon::createFromTimestamp($request->day_of_week);  
+            // To get the first week of the day we can do this
+            $startDate = $date->startOfWeek(); 
+        }
         $endDate = date('Y-m-d H:i:s', strtotime('+1 week', strtotime($startDate)));
 
-        $data = $this->OrderBooking->filterBookingbyDate($startDate, $endDate, $perPage, 'getBookingRender');
+        $status = $request->status;
+        $data = $this->orderBooking
+        ->filterBookingbyDate($startDate, $endDate, $perPage, $status, $with, $select);
 
         if($data->count() == 0)
         {
@@ -339,23 +285,7 @@ class OrderBookingController extends Controller
         
         $perPage = $request->per_page ?: config('model.booking.default_filter_limit');
 
-        $rule = [
-        'status' => 'required|integer',
-        ];
-
-        $validator = Validator::make($request->all(), $rule);
-
-        if ($validator->fails()) {
-            $response['error'] = true;
-            $response['status'] = 403;
-            foreach ($rule as $key => $value) {
-                $response['message'][$key] = $validator->messages()->first($key);
-            }
-
-            return Response::json($response, 403);
-        }
-
-        $data = $this->OrderBooking->filterBookingByStatus($request->status, $perPage, 'getBookingRender');
+        $data = $this->orderBooking->filterBookingByStatus($request->status, $perPage, 'getBookingRender');
 
         if($data->count() == 0)
         {
@@ -378,31 +308,26 @@ class OrderBookingController extends Controller
         $perPage = $request->per_page ?: config('model.booking.default_filter_limit');
 
         // if no choice filter, default is none, display all
-        if( $request->filter_choice == 0)
+        if( !$request->filter_choice)
         {
-            $response['data'] = $this->OrderBooking->getAllBooking($perPage, 'getBookingRender');
+            $response['data'] = $this->orderBooking->getAllBooking($perPage, 'getBookingRender');
 
             return Response::json($response);
         }
         // // if filter by day
-        if($request->filter_choice == 1)
+        if($request->filter_choice == 'day')
         {   
             return $this->filterByDate($request);
         }
         // if filter by month       
-        if($request->filter_choice == 2)
+        if($request->filter_choice == 'month')
         {
             return $this->filterByMonth($request);
         }
 
-        if($request->filter_choice == 3)
+        if($request->filter_choice == 'week')
         {
             return $this->filterByWeek($request);
-        }
-        // filter by status
-        if($request->filter_choice == 4)
-        {
-            return $this->filterByStatus($request);
         }
     }
     
@@ -410,7 +335,7 @@ class OrderBookingController extends Controller
     {
         $response = Helper::apiFormat();
 
-        $booking = $this->OrderBooking->getBookingByCustomerId($user_id);
+        $booking = $this->orderBooking->getBookingByCustomerId($user_id);
 
         if(!$booking) {
             $response['error'] = true;
@@ -418,7 +343,6 @@ class OrderBookingController extends Controller
             $response['message'][] = __('404 not found');
 
             return Response::json($response);
-
         }
         
         $response['data'] = $booking;

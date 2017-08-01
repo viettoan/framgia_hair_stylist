@@ -38,9 +38,8 @@ class OrderBooking extends Model
     public static function getOptionStatus()
     {
         return [
-            self::STATUS_NONE => __('None'),
-            self::STATUS_DONE => __('Done'),
-            self::STATUS_CANCEL => __('Cancel'),
+            self::STATUS_FINISHED => __('Finished'),
+            self::STATUS_CANCELED => __('Canceled'),
         ];
     }
 
@@ -51,7 +50,6 @@ class OrderBooking extends Model
             self::FILTER_DAY => __('Day'),
             self::FILTER_MONTH => __('Month'),
             self::FILTER_WEEK => __('Week'),
-            self::FILTER_STATUS => __('Status'),
         ];
     }
 }
