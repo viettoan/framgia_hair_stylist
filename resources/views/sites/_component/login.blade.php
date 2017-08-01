@@ -8,7 +8,7 @@
             <div class="col-md-4"></div>
             <div class="col-md-4">
                 <section class="login-form">
-                    <form role="login">
+                    <form role="login" method="POST" enctype="multipart/form-data" v-on:submit.prevent="login">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <div  class="text-center">
                                 <span v-for="error in formErrors">
@@ -28,13 +28,15 @@
                             </span>
                         <br>
                         <div class="pwstrength_viewport_progress"></div>
-                        <a href="javascript:void(0)" id = "button" name="go" v-on:click="login" class="btn btn-lg btn-primary btn-block"> {{ trans('site.sign_in') }}
-                        </a>
+                        <button type="submit"  id = "button" name="go" class="btn btn-lg btn-primary btn-block">
+                            {{ trans('site.login') }}
+                         </button>
                         <div>
                             <a href="{{ route('site.resgiter') }}">{{ trans('site.create_account') }}</a> | 
                             <a href="#">{{ trans('site.reset_password') }}</a>
                         </div>
                     </form>
+
                     <div class="form-links">
                         <a href="#">{{ trans('site.web_hair') }}</a>
                     </div>

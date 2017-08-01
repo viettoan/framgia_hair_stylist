@@ -52,16 +52,17 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>name_1</td>
-                                    <td>name_1@gmail.com</td>
-                                    <td>0984010953</td>
-                                    <td>12345678</td>
-                                    <td>12/11/1994</td>
-                                    <td>name_1.jpg</td>
-                                    <td><a href=""><i class="fa fa-fw  fa-eyedropper get-color-icon-edit" ></i></a>
-                                        <a href="#"><i class="fa fa-fw  fa-close get-color-icon-delete" ></i></a>
+                                <tr v-for="item in items">
+                                    <td>@{{ item.id }}</td>
+                                    <td>@{{ item.name }}</td>
+                                    <td>@{{ item.short_description }}</td>
+                                    <td>@{{ item.description }}</td>
+                                    <td>@{{ item.price }}</td>
+                                    <td>@{{ item.avg_rate }}</td>
+                                    <td>@{{ item.total_rate }}</td>
+                                    <td>
+                                        <a href="javascript:void(0)" v-on:click="edit_Service(item)"><i class="fa fa-fw  fa-eyedropper get-color-icon-edit" ></i></a>
+                                        <a href="javascript:void(0)" v-on:click="comfirmDeleteItem(item)"><i class="fa fa-fw  fa-close get-color-icon-delete" ></i></a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -106,6 +107,68 @@
                                 <span v-if="formErrors['1']" class="error text-danger">
                                     @{{ formErrors['1'] }}
                                 </span>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fa fa-plus" aria-hidden="true"></i> {{ __('Create') }}
+                            </button>
+                            <button class="btn btn-default" data-dismiss="modal">
+                                <i class="fa fa-external-link-square" aria-hidden="true"></i>
+                                {{ __('Close') }}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+     <!-- comfirm delete item -->
+     <div class="modal fade" id="delete-item" tabindex="-1" role="dialog" aria-labelledby="Heading" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                    </button>
+                    <h4 class="modal-title custom_align" id="Heading">{{ trans('admin.deleteUser') }}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-danger">
+                        <span class="glyphicon glyphicon-warning-sign"></span> {{ trans('admin.user_comfirm_delete') . ': ' }} @{{ deleteItem.name }}
+                    </div>
+                </div>
+                <div class="modal-footer ">
+                    <a href="javascript:void(0)" v-on:click="delItem(deleteItem.id)" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-ok-sign"></span> {{ trans('admin.yes') }}
+                    </a>
+                    <button type="button" class="btn btn-success" data-dismiss="modal">
+                        <span class="glyphicon glyphicon-remove"></span> {{ trans('admin.no') }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+     {{-- edit service --}}
+    <div class="modal fade" id="edit_Service" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">{{ __('Create Service') }}</h4>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" enctype="multipart/form-data" v-on:submit.prevent="updateService(fillItem.id)">
+                        <div class="form-group">
+                            <label for="name">{{ __('Name') }}</label>
+                                <span class="text-danger">(*)</span>
+                                    <input type="text" name="name" class="form-control" v-model="fillItem.name"/>
+                            <label for="name">{{ __('admin.Short_description') }}</label>
+                                <input type="text" name="short_description" class="form-control" v-model="fillItem.short_description"/>
+                            <label for="name">{{ __('admin.Description') }}</label>
+                                <textarea type="text" name="description" class="form-control" v-model="fillItem.description">
+                                </textarea>
+                            <label for="name">{{ __('Price') }}</label>
+                                <span class="text-danger">(*)</span>
+                                <input type="number" name="price" class="form-control" v-model="fillItem.price"/>
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-success">
