@@ -185,7 +185,83 @@ class BillController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $response = Helper::apiFormat();
+
+        // Check permission User
+        $user = Auth::guard('api')->user();
+        if (!$user || $user->permission != User::PERMISSION_ADMIN) {
+            $response['error'] = true;
+            $response['message'][] = __('You do not have permission to perform this action!');
+            $response['status'] = 403;
+
+            return Response::json($response, $response['status']);
+        }
+
+        $rule = [
+            'phone' => 'required|numeric|min:6',
+            'customer_name' => 'required|string|max:255',
+        ];
+
+        $response['error'] = true;
+        $response['status'] = 403;
+        $validator = Validator::make($request->all(), $rule);
+        if ($validator->fails()) {
+            foreach ($rule as $key => $value) {
+                if ($validator->messages()->first($key)) {
+                    $response['message'][] = $validator->messages()->first($key);
+                }
+            }
+
+            return Response::json($response, $response['status']);
+        }
+
+        $bill = $this->bill->find($id);
+        if (!$bill) {
+            $response['message'][] = __('Bill not found!');
+
+            return Response::json($response, $response['status']);
+        }
+
+        DB::beginTransaction();
+        try {
+            $billItems = json_decode($request->bill_items, true);
+            $bill->fill($request->all());
+            $bill->service_total = count($billItems);
+            $bill->save();
+
+            $itemIds = [];
+            $itemColection = $this->billItem->getItemsByBillId($id);
+            foreach ($billItems as $billItem) {
+                if (isset($billItem['id']) && $billItem['id']) { //Edit Bill Item
+                    $itemModel = $this->billItem->find($billItem['id']);
+                    $itemModel->fill($billItem)->save();
+                    $itemIds[] = $billItem['id'];
+                } else {  // Create Bill Item
+                    $billItem['bill_id'] = $id;
+                    $this->billItem->create($billItem);
+                }
+            }
+            // Delete BillItem
+            foreach ($itemColection as $item) {
+                if (!in_array($item->id, $itemIds)) {
+                    $item->delete();
+                }
+            }
+
+            // Xu ly Complete Booking
+            
+            $response['error'] = false;
+            $response['data'] = $this->bill->find($bill->id, 'BillItems');
+            $response['message'][] = __('Edit bill successfully!');
+            DB::commit();
+        } catch (Exception $e) {
+            $response['status'] = 403;
+            $response['error'] = true;
+            $response['message'][] = $e->getMessages();
+            DB::rollback();
+        }
+
+        return Response::json($response, $response['status']);
     }
 
     /**
