@@ -35,10 +35,14 @@ class OrderBookingRepositoryEloquent extends AbstractRepositoryEloquent implemen
         return $this->model()->select($select)->with($with)->find($id);
     }
 
-    public function filterBookingbyDate($startDate, $endDate, $perPage, $with = [], $select = ['*'])
+    public function filterBookingbyDate($startDate, $endDate, $perPage, $status, $with = [], $select = ['*'])
     {
+        $query =  $this->model()->select($select)->with($with)->whereBetween('created_at', array($startDate, $endDate));
+        if ($status) {
+            $query->where('status', $status);
+        }
         
-        return $this->model()->select($select)->with($with)->whereBetween('created_at', array($startDate, $endDate))->paginate($perPage);
+        return $query->paginate($perPage);
     }
 
     public function filterBookingByStatus($status, $perPage, $with = [], $select = ['*'])
@@ -51,9 +55,14 @@ class OrderBookingRepositoryEloquent extends AbstractRepositoryEloquent implemen
         return $this->model()->select($select)->with($with)->paginate($perPage);
     }
 
-    public function filterBookingByMonth($month, $year, $perPage, $with = [], $select = ['*'])
+    public function filterBookingByMonth($month, $year, $perPage, $status, $with = [], $select = ['*'])
     {
-        return $this->model()->select($select)->with($with)->whereMonth('created_at', $month)->whereYear('created_at', $year)->paginate($perPage);
+        $query = $this->model()->select($select)->with($with)->whereMonth('created_at', $month)->whereYear('created_at', $year);
+        if ($status) {
+            $query->where('status', $status);
+        }
+        
+        return $query->paginate($perPage);
     }
 
     public function getFilterChoice()
