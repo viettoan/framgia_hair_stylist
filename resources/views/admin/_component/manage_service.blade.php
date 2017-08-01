@@ -31,7 +31,7 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">{{ _('Manager Service') }}</h3>
+                        <h3 class="box-title">{{ __('Manager Service') }}</h3>
                         <button class="col-md-offset-1 btn btn-success" v-on:click="addItem">
                             <i class="fa fa-plus" aria-hidden="true"></i>
                             {{ __('Create Service') }}

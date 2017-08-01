@@ -34,9 +34,11 @@ Route::group(['prefix' => 'v0', 'namespace' => 'Api'], function() {
     Route::post('login', 'AuthController@login');
     Route::post('refresh-token', 'AuthController@refreshToken');
     Route::post('logout', 'AuthController@logout');
+    Route::post('send-reset-password', 'AuthController@sendResetLinkEmail');
 
     Route::resource('service', 'ServiceController');
     Route::resource('user', 'UserController');
+    Route::resource('bill', 'BillController');
 
     Route::get('user-by-phone', 'UserController@getByPhone');
 });

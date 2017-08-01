@@ -11,4 +11,9 @@ class BillItemRepositoryEloquent extends AbstractRepositoryEloquent implements B
     {
         return new BillItem;
     }
+
+    public function create($data)
+    {
+        return $this->model()->create($data);
+    }
 }

@@ -258,16 +258,23 @@ class UserController extends Controller
     {
         $response = Helper::apiFormat();
         $per_page = $request->per_page ? : config('model.custommer.default_filter_limit');
-        $custommer = $this->user->getAllCustommer($per_page);
+        
+        $select = [
+            'id',
+            'name',
+            'email',
+            'phone',
+            'birthday',
+            'avatar',
+            'gender',
+            'permission',
+            'about_me',
+            'department_id',
+            'created_at',
+            'updated_at',
+        ];
 
-        if (!$custommer) {
-            $response['error'] = true;
-            $response['message'][] = __('Not found user!');
-            $response['status'] = 403;
-
-            return Response::json($response);
-        }
-
+        $custommer = $this->user->getAllCustommer($per_page, [], $select);
         $response['data'] = $custommer;
 
         return Response::json($response);

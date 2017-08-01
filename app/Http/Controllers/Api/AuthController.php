@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Contracts\Repositories\UserRepository;
+use Illuminate\Support\Facades\Password;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Helpers\Helper;
@@ -13,7 +14,7 @@ use Auth;
 
 class AuthController extends Controller
 {
-    protected $user;
+    protected $user, $userProvider, $tokens;
 
     public function __construct(UserRepository $user)
     {
@@ -174,5 +175,29 @@ class AuthController extends Controller
         }
         
         return Response::json($response, $response['status']);
+    }
+
+    public function sendResetLinkEmail(Request $request)
+    {
+        // $this->validate($request, ['email' => 'required|email']);
+
+        // We will send the password reset link to this user. Once we have attempted
+        // to send the link, we will examine the response then see the message we
+        // need to show to the user. Finally, we'll send out a proper response.
+    
+
+        // $user = $this->userProvider($request->email);
+
+        // if (is_null($user)) {
+        //     return  trans('passwords.sent');
+        // }
+
+        // Once we have the reset token, we are ready to send the message out to this
+        // user with a link to reset their password. We will then redirect back to
+        // the current URI having nothing set in the session to indicate errors.
+        // $user->sendPasswordResetNotification(
+        //     $this->tokens->create($user)
+        // );
+        // return trans('passwords.sent');
     }
 }

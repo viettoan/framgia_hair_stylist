@@ -9,6 +9,10 @@ class Bill extends Model
 {
     use BillRelations;
 
+    const STATUS_PENDING = 0;
+    const STATUS_COMPLETE = 1;
+    const STATUS_CANCEL = 2;
+
     protected $fillable = [
         'customer_id',
         'customer_name',
