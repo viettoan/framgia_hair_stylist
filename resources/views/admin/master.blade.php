@@ -44,7 +44,7 @@
 {{--     {{ Html::script('bower/AdminLTE/plugins/daterangepicker/daterangepicker.js') }} --}}
     {{ Html::script('bower/AdminLTE/plugins/datepicker/bootstrap-datepicker.js') }}
     {{ Html::script('bower/AdminLTE/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}
-    {{ Html::script('js/admin/manager_customer.js') }}
+    {{-- {{ Html::script('js/admin/manager_customer.js') }} --}}
     {{ Html::script('bower/AdminLTE/plugins/datatables/jquery.dataTables.min.js') }}
     {{ Html::script('bower/AdminLTE/plugins/datatables/dataTables.bootstrap.min.js') }}
     {{ Html::script('bower/AdminLTE/plugins/slimScroll/jquery.slimscroll.min.js') }}
@@ -53,6 +53,7 @@
     {{--   {{ Html::script('bower/AdminLTE/dist/js/pages/dashboard.js') }} --}}
     {{ Html::script('bower/AdminLTE/dist/js/demo.js') }}
     {{ Html::script('js/admin/header.js') }}
+    {{ Html::script('js/admin/aside_admin.js') }}
     @yield('script')
 </body>
 </html>

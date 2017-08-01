@@ -18,6 +18,7 @@ var Register = new Vue({
                     'password': '',
                     'password_confirmation': '',
                 },
+        token: [],
         formErrors: {'email': '',
                         'phone': '',
                         'name': '',
@@ -31,9 +32,8 @@ var Register = new Vue({
                 var self = this;
                 var input = this.newItem;
                  axios.post('/api/v0/register', input).then((response) => {
-                    localStorage.access_token = response.data.data.token.access_token;
-                    localStorage.name = response.data.data.user.name;
-                    localStorage.email = response.data.data.user.email;
+                    Vue.ls.set('token', response.data.data.token);
+                    Vue.ls.set('user', response.data.data.user);
                         window.location = '/site/home/';
                  }).catch((error) => {
                     if (error.response.status == 403) {
