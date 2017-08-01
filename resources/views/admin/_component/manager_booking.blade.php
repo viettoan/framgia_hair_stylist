@@ -66,3 +66,12 @@
     {{ Html::script('bower/AdminLTE/plugins/datatables/jquery.dataTables.min.js') }}
     {{ Html::script('bower/AdminLTE/plugins/datatables/dataTables.bootstrap.min.js') }}
 @endsection
+
+Tiếng Nhật 7 JP2210
+Tiếng Nhật chuyên ngành 1 JP3110
+{{-- Hệ thống thông tin trên Web IT3402 --}}
+Thực hành Lập trình mạng IT4062
+{{-- Thực hành Lập trình Web  IT4552 --}}
+{{-- Bảo mật thông tin IT4012 --}}
+{{-- Hệ thống máy tinh   IT4272 --}}
+{{-- Hệ điều hành và quản trị mạng Linux theo chuẩn kỹ năng ITSS IT4944 --}}
