@@ -17,7 +17,6 @@ class UpdateSericeProductsTable extends Migration
             $table->float('avg_rate')->nullable()->change();
             $table->integer('total_rate')->nullable()->change();
         });
-
     }
 
     /**

@@ -16,4 +16,17 @@ class BillRepositoryEloquent extends AbstractRepositoryEloquent implements BillR
     {
     	return $this->model()->select($select)->where('customer_id', $customerId)->with($with)->paginate($perPage);
     }
+
+    public function create($data)
+    {
+        $bill = $this->model()->fill($data);
+        $bill->save();
+
+        return $bill;
+    }
+
+    public function find($id, $with = [], $select = ['*'])
+    {
+        return $this->model()->select($select)->with($with)->find($id);
+    }
 }
