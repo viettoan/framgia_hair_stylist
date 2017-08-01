@@ -414,8 +414,28 @@ class OrderBookingController extends Controller
 
         if(!$booking) {
             $response['error'] = true;
-            $response['status'] = '404';
+            $response['status'] = 403;
             $response['message'][] = __('404 not found');
+
+            return Response::json($response);
+
+        }
+        
+        $response['data'] = $booking;
+
+        return Response::json($response);
+    }
+
+    public function getBookingbyPhoneLastest(Request $request)
+    {
+        $response = Helper::apiFormat();
+
+        $booking = $this->OrderBooking->checkLastBookingByPhone($request->phone);
+
+        if(!$booking) {
+            $response['error'] = true;
+            $response['status'] = '404';
+            $response['message'][] = __("There's no booking with this phone!");
 
             return Response::json($response);
 
