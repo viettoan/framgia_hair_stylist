@@ -30,9 +30,11 @@ class BillController extends Controller
     public function getBillByCustomerId(Request $request)
     {
         $response = Helper::apiFormat();
+        
         $perPage = $request->per_page ?: config('model.booking.default_filter_limit');
 
         $billByCustomerId = $this->bill->getBillByCustomerId($request->customer_id, $perPage, 'getAllBillItems');
+        
         if($billByCustomerId->count() == 0)
         {
             $response['error'] = true;
