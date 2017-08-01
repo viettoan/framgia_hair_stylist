@@ -27,7 +27,7 @@ class OrderBookingRepositoryEloquent extends AbstractRepositoryEloquent implemen
 
     public function checkLastBookingByPhone($value, $with = [], $select = ['*'])
     {
-    	return $this->model()->select($select)->with($with)->where('phone', $value)->orderBy('id','desc')->first();
+        return $this->model()->select($select)->with($with)->where('phone', $value)->orderBy('id','desc')->first();
     }
 
     public function find($id, $with = [], $select = ['*'])

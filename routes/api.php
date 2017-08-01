@@ -24,6 +24,7 @@ Route::group(['prefix' => 'v0', 'namespace' => 'Api'], function() {
     Route::get('first-render-booking', 'ApiController@firstRenderBooking');
     Route::get('get_booking_by_id/{id}', 'OrderBookingController@getBookingbyId');
     Route::get('get_booking_by_user_id/{id}', 'OrderBookingController@getBookingbyUserId');
+    Route::get('get_last_booking_by_phone', 'OrderBookingController@getBookingbyPhoneLastest');
     Route::post('user_booking', 'OrderBookingController@userBooking');
     Route::get('booking_filter_by_day', 'OrderBookingController@getBookingFilterByDay');
 
