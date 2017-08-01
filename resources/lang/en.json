@@ -57,5 +57,7 @@
     "Grand_total":"Grand_total",
     "Service_total":"Service_total",
     "Action":"Action",
+    "Bill not found!": "Bill not found!",
+    "Create bill successfully!": "Create bill successfully!",
+    "Edit bill successfully!": "Edit bill successfully!"
 }
-
