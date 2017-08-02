@@ -17,5 +17,6 @@ class BillItem extends Model
         'price',
         'discount',
         'row_total',
+        'qty',
     ];
 }

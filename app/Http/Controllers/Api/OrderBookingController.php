@@ -141,6 +141,79 @@ class OrderBookingController extends Controller
 
         return Response::json($response, $response['status']);
     }
+
+    public function filterBooking(Request $request)
+    {
+        $response = Helper::apiFormat();
+
+        $startDate = Carbon::today()->format('Y-m-d H:i:s');
+        $endDate = Carbon::today()->endOfDay();
+        $filter_date = $request->date;
+        $filter_type = $request->type;//today - week - month //default today
+
+        $date_start = Carbon::createFromTimestamp($request->start_date);
+        $date_end = Carbon::createFromTimestamp($request->end_date);
+        switch ($filter_type) {
+            case 'day':
+                $startDate = $date_start->startOfDay()->format('Y-m-d H:i:s');
+                $endDate = $date_start->endOfDay();
+                break;
+            case 'space':
+                $startDate = $date_start->startOfWeek()->format('Y-m-d H:i:s');
+                $endDate = $date_end->endOfWeek()->endOfDay();
+                break;
+        }
+
+        $filter_status = $request->status; //cancel - finished - pending
+        $perPage = $request->per_page ?: config('model.booking.default_filter_limit');
+        $page = (int) $request->page ?: 1;
+
+        $with = [];
+        $select = [
+            'id',
+            'render_booking_id',
+            'phone',
+            'name',
+            'stylist_id',
+            'created_at',
+            'updated_at',
+            'status',
+        ];
+
+        $currentDate = Carbon::now()->timestamp(strtotime($startDate))->addDay($perPage*($page-1));
+        $responseData = [];
+        for ($i = $perPage * ($page - 1); $i < $perPage * $page; $i++) {
+            if ($currentDate->gt($endDate)) {
+                break;
+            }
+            $start = $currentDate->format('Y-m-d') . ' 00:00:00';
+            $end = $currentDate->format('Y-m-d') . ' 23:59:59';
+            $orderBookings = $this->orderBooking
+                ->filterBookingbyDate($start, $end, $filter_status, $with, $select);
+            $data['date_book'] = $currentDate->format('Y-m-d');
+
+            $dataBooks = [];
+            foreach ($orderBookings as $orderBooking) {
+                $renderBooking = $this->renderBooking->find($orderBooking->render_booking_id);
+                $orderBooking->time_start = $renderBooking->time_start;
+                $orderBooking->department = $this->department
+                    ->find($renderBooking->department_id, [], ['name', 'address']);
+                $orderBooking->stylist = $this->user
+                    ->find($orderBooking->stylist_id, ['name', 'email', 'phone']);
+
+                $dataBooks[] = $orderBooking;
+            }
+
+            $data['list_book'] = $dataBooks;
+            $responseData[] = $data;
+            $currentDate->addDay(1);
+        }
+        $response['data'] = $responseData;
+
+        return Response::json($response, $response['status']);
+    }
+
+
     public function filterByDate(Request $request)
     {
 
@@ -366,8 +439,3 @@ class OrderBookingController extends Controller
         return Response::json($response);
     }
 }
-//week test value:
-//2017-07-25     1500915600
-//2017-07-19     1500397200
-//2017-07-29     1501261200
-//2017-06-12     1497200400
