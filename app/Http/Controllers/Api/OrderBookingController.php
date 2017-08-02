@@ -434,6 +434,8 @@ class OrderBookingController extends Controller
             $booking->stylist = $this->user->find($booking->stylist_id);
 
             $response['data'] = $booking;
+        } else {
+            $response['data'] = (object)[];
         }
 
         return Response::json($response);
