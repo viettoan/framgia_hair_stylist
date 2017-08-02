@@ -353,7 +353,7 @@ class OrderBookingController extends Controller
     {
         $response = Helper::apiFormat();
 
-        $booking = $this->OrderBooking->checkLastBookingByPhone($request->phone);
+        $booking = $this->orderBooking->checkLastBookingByPhone($request->phone);
 
         if(!$booking) {
             $response['error'] = true;
@@ -364,6 +364,10 @@ class OrderBookingController extends Controller
 
         }
         
+        $booking->render_booking = $this->renderBooking->find($booking->render_booking_id);
+        $booking->department = $this->department->find($booking->render_booking->department_id);
+        $booking->stylist = $this->user->find($booking->stylist_id);
+
         $response['data'] = $booking;
 
         return Response::json($response);
