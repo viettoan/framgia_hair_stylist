@@ -276,4 +276,19 @@ class BillController extends Controller
     {
         //
     }
+
+    public function getBillByBillId($id)
+    {
+        $response = Helper::apiFormat();
+
+        if (!$bill_by_bill_id = $this->bill->find($id)) {
+            $response['error'] = true;
+            $response['status'] = 404;
+            $response['message'][] = __("There's no bill belong to this bill id");
+        } else {
+            $response['data'] = $bill_by_bill_id;
+        }
+
+        return Response::json($response);
+    }
 }
