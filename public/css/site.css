@@ -1,0 +1,37 @@
+body {
+    color:white;
+    background-image: url('../images/c.jpg');
+}
+
+.box-info{
+    border: 1px solid white;
+    text-align: center;
+    margin:20px;
+}
+
+.box-info p
+{
+    font-size:17px;
+}
+
+.content {
+    background-color: #1a0000;
+}
+
+.fix-top {
+    padding:100px;
+}
+
+.button {
+    border:1px solid white;
+    margin-bottom: 15px;
+}
+
+.box h3 {
+    border-bottom:1px solid white;margin:15px 300px;
+}
+
+.box-info a {
+    text-decoration: none;
+    color:white;
+}

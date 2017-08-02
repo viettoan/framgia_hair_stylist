@@ -21,5 +21,16 @@ class SiteController extends Controller
     {
     	return view('sites._component.signup');
     }
+
+    public function accept()
+    {
+        return view('sites._component.accept');
+    }
+
+    public function success()
+    {
+        return view('sites._component.success');
+    }
+    
     
 }

@@ -18,6 +18,8 @@ Route::group(['prefix' => 'site', 'as' => 'site.'], function () {
     Route::get('home', 'Site\SiteController@index')->name('home');
     Route::get('login', 'Site\SiteController@login')->name('login');
     Route::get('resgiter', 'Site\SiteController@signup')->name('resgiter');
+    Route::get('success_booking', 'Site\SiteController@success');
+    Route::get('accept', 'Site\SiteController@accept');
     Route::get('profile', 'User\UserController@profile');
 });
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {

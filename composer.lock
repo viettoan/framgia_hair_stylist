@@ -1849,10 +1849,14 @@
                 "php"
             ],
 <<<<<<< HEAD
+<<<<<<< HEAD
             "time": "2017-07-28T14:45:09+00:00"
 =======
             "time": "2017-07-28 14:45:09"
 >>>>>>> 3fa33bbbe172de14b1b94337dd4c210daa47a9c7
+=======
+            "time": "2017-07-28 14:45:09"
+>>>>>>> 3fa33bb... Edit Export Bill
         },
         {
             "name": "paragonie/random_compat",
@@ -2162,7 +2166,12 @@
                 "interactive",
                 "shell"
             ],
+<<<<<<< HEAD
             "time": "2017-07-29T19:30:02+00:00"
+=======
+            "time": "2017-07-29 19:30:02"
+        },
+>>>>>>> 3fa33bb... Edit Export Bill
         {
             "name": "ramsey/uuid",
             "version": "3.6.1",
