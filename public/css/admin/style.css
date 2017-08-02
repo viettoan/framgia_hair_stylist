@@ -5,16 +5,36 @@
 
 .get-color-icon-edit
 {
-	color:red;
+    color:red;
 }
 
 .get-color-icon-delete
 {
-	color:black;
+    color:black;
 }
 
 #bar-chart {
   width: 450px;
   height: 300px;
   position: relative;
+}
+
+#showBooking div {
+    width: 790px;
+}
+
+#showBooking div div div {
+    background-color: #42f4aa;font-family: Times, Times New Roman, Georgia, serif;
+}
+
+#showBooking div div div div {
+    background-color: #1a0000;color:#fff;border:1px solid white;
+}
+
+#showBooking div div div div table tbody {
+    color:black;
+}
+
+#showBooking div div div h3 , #showBooking div div div h4 {
+    font-family: Times, Times New Roman, Georgia, serif;
 }
