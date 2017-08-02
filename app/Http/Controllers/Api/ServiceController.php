@@ -217,6 +217,28 @@ class ServiceController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $response = Helper::apiFormat();
+
+        // Check permission User
+        $user = Auth::guard('api')->user();
+        if (!$user || $user->permission != User::PERMISSION_ADMIN) {
+            $response['error'] = true;
+            $response['message'][] = __('You do not have permission to perform this action!');
+            $response['status'] = 403;
+
+            return Response::json($response, $response['status']);
+        }
+
+        if ($service = $this->service->delete_service($id)) {
+            $response['error'] = false;
+            $response['status'] = 200;
+            $response['message'][] = __('Delete service successfully!');
+        } else {
+            $response['error'] = true;
+            $response['status'] = 404;
+            $response['message'][] = __('Not found service!');
+        }
+
+        return Response::json($response);
     }
 }

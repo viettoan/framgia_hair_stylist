@@ -26,4 +26,9 @@ class ServiceProductRepositoryEloquent extends AbstractRepositoryEloquent implem
     {
         return $this->model()->select($select)->with($with)->get();
     }
+
+    public function delete_service($id)
+    {
+        return $this->model()->where('id', $id)->delete();
+    }
 }
