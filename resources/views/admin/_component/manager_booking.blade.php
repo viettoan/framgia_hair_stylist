@@ -1,11 +1,11 @@
 @extends('admin.master')
 @section('style')
-    {{ Html::style('bower/AdminLTE/plugins/datatables/dataTables.bootstrap.css')}}
-    {{ Html::style('css/admin/style.css')}}
+    {{ Html::style('bower/AdminLTE/plugins/datatables/dataTables.bootstrap.css') }}
+    {{ Html::style('css/admin/style.css') }}
 @endsection
 
 @section('content')
-    <div class="content-wrapper">
+    <div class="content-wrapper ">
       <section class="content-header">
         <h1>
             {{ __('Hi Admin 1') }}
@@ -16,7 +16,7 @@
           <li class="active"> {{ __('Booking And Customer') }}</li>
         </ol>
     </section>
-    <section class="content">
+    <section class="content " id="manager_booking">
         <div class="row">
           <div class="col-xs-12">
             <div class="box">
@@ -50,6 +50,7 @@
                                     {{-- <a href="#" class="btn btn-success"><i class="fa fa-search-plus "></i></a> --}}
                                     <a href="#" class="btn btn-info"><i class="fa fa-edit "></i></a>
                                     <a class="btn btn-danger" href="#"><i class="fa fa-trash-o "></i></a>
+                                     <a class="btn btn-success" href="javascript:void(0)" v-on:click="showBooking"><i class="fa fa-map-o"></i></a>
                                 </td>
                             </tr>  
                         </tbody>
@@ -58,10 +59,48 @@
             </div>
         </div>
     </div>
-</section>
+    </section>
+    <div class="modal fade" id="showBooking" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body" >
+                    <h3 class ="text-center"><i>{{ __('Booking #123') }}</i></h3>
+                    <h4 class ="text-center">{{ __('FSalon 434 Tran Khac Chan') }}</h4>
+                    <div class="row">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>{{ __('User Name') }}</th>
+                                    <th>{{ __('Phone') }}</th>
+                                    <th>{{ __('Stylist') }}</th>
+                                    <th>{{ __('Service') }}</th>
+                                    <td>{{ __('Time') }}</td>
+                                    <td>{{ __('Day') }}</td>
+                                    <th>{{ __('Grand total') }}</th>
+                                </tr>   
+                            </thead>
+                            <tbody>
+                                 <tr>
+                                    <td>{{ __('Nguyen Thi Hanh') }}</td>
+                                    <td>{{ __('123456789') }}</td>
+                                    <td>{{ __('Japan') }}</td>
+                                    <td>{{ __('Shammpo') }}</td>
+                                    <td>{{ __('15:00 PM') }}</td>
+                                    <td>{{ __('15-4-2018') }}</td>
+                                    <td>{{ __('100.000 VND') }}</td>
+                                </tr>  
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('script')
+    {{ Html::script('js/admin/manager_booking.js') }}
     {{ Html::script('js/admin/manager_customer.js') }}
     {{ Html::script('bower/AdminLTE/plugins/datatables/jquery.dataTables.min.js') }}
     {{ Html::script('bower/AdminLTE/plugins/datatables/dataTables.bootstrap.min.js') }}
