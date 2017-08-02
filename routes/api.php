@@ -29,7 +29,9 @@ Route::group(['prefix' => 'v0', 'namespace' => 'Api'], function() {
     Route::get('booking_filter_by_day', 'OrderBookingController@getBookingFilterByDay');
 
     Route::get('get-bill-by-customer-id', 'BillController@getBillByCustomerId');
-    Route::get('get-bill-by-bill-id/{id}', 'BillController@getBillByBillId');
+
+    Route::get('filter-order-booking', 'OrderBookingController@filterBooking');
+
     Route::get('get-render-by-depart-stylist', 'RenderBookingController@getRenderBooking');
     Route::post('register', 'AuthController@register');
     Route::post('login', 'AuthController@login');

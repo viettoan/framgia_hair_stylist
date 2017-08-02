@@ -9,4 +9,6 @@ interface RenderBookingRepository extends AbstractRepository
     public function find($id, $with = [], $select = ['*']);
 
     public function getRenderDepartment($deparment_id, $day, $with = [], $select = ['*']);
+
+    public function getRenderByDate($date, $with = [], $select = ['*']);
 }

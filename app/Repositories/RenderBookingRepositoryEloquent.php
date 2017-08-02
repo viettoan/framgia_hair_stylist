@@ -28,4 +28,9 @@ class RenderBookingRepositoryEloquent extends AbstractRepositoryEloquent impleme
             ->where('department_id', $department_id)
             ->where('day', $day)->get();
     }
+
+    public function getRenderByDate($date, $with = [], $select = ['*'])
+    {
+        return $this->model()->select($select)->with($with)->where('day', $date)->get();
+    }
 }

@@ -14,7 +14,7 @@ interface OrderBookingRepository extends AbstractRepository
 
     public function getAllBooking($perPage, $with = [], $select = ['*']);
 
-    public function filterBookingbyDate($startDate, $endDate, $perPage, $status, $with = [], $select = ['*']);
+    public function filterBookingbyDate($startDate, $endDate, $status, $with = [], $select = ['*']);
 
     public function filterBookingByMonth($month, $year, $perPage, $status, $with = [], $select = ['*']);
 
