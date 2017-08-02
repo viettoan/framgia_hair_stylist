@@ -18,7 +18,7 @@ var manage_service = new Vue({
         formErrors: {},
         formErrorsUpdate: {},
         newItem: {'id': '', 'name': '', 'short_description': '', 'description': '', 'price': '', 'avg_rate': '', 'total_rate': ''},
-        fillItem: {'id': '', 'name': '', 'short_description': '', 'description': '', 'price': '', 'avg_rate': '', 'total_rate': ''},
+        fillItem: {'id': '', 'name': '', 'short_description': '', 'description': '', 'price': ''},
         deleteItem: {'name':'','id':''}
     },
 
@@ -122,7 +122,7 @@ var manage_service = new Vue({
                 }
 
             axios(authOptions).then((response) => {
-                this.newItem = {'id': '', 'name': '', 'short_description': '', 'description': '', 'price': '', 'avg_rate': '', 'total_rate': ''},
+                this.newItem = {'id': '', 'name': '', 'short_description': '', 'description': '', 'price': ''},
                 this.formErrors = '';
                 $("#edit_Service").modal('hide');
                     toastr.success('Update Service Success', 'Success', {timeOut: 5000});

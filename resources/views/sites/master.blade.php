@@ -2,15 +2,18 @@
 <html class="no-js"> 
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="favicon.ico">
     {{ Html::style('bower/icomoon-bower/style.css') }}
     {{ Html::style('bower/animate.css/animate.css') }}
+    {{ Html::style('bower/font-awesome/css/font-awesome.min.css') }}
     {{ Html::style('bower/simple-line-icons/css/simple-line-icons.css')}}
     {{ Html::style('bower/owl.carousel/dist/assets/owl.carousel.min.css') }}
     {{ Html::style('bower/owl.carousel/dist/assets/owl.theme.default.min.css') }}
     {{ Html::style('bower/bootstrap/dist/css/bootstrap.css') }}
     {{ Html::style('bower/toastr/toastr.min.css') }}
     {{ Html::style('css/style.css') }}
+    {{ Html::style('css/site.css') }}
     @yield('style')
 </head>
 <body>
@@ -28,9 +31,10 @@
     {{ Html::script('bower/waypoints/lib/jquery.waypoints.min.js') }}
     {{ Html::script('bower/owl.carousel/docs/assets/owlcarousel/owl.carousel.min.js') }}
     {{ Html::script('bower/jquery-style-switcher/jQuery.style.switcher.js') }}
-    {{ Html::script('js/booking.js')}}
-    {{ Html::script('js/main.js')}}
-    {{ Html::script('js/header.js')}}
+    {{ Html::script('js/booking.js') }}
+    {{ Html::script('js/main.js') }}
+    {{ Html::script('js/header.js') }}
+    {{ Html::script('sites_custom/js/booking.js') }}
     @yield('script')
 </body>
 </html>

@@ -17,7 +17,7 @@
                                     </span>
                                 </span>   
                             </div>
-                        <input type="email" name="email_or_phone" v-model="newItem.email_or_phone" class="form-control input-lg" placeholder="{{ trans('site.email_phone')}}"/>
+                        <input  name="email_or_phone" v-model="newItem.email_or_phone" class="form-control input-lg" placeholder="{{ trans('site.email_phone')}}"/>
                             <span v-if="formErrors['email_or_phone']" class="error text-danger">
                                 @{{ formErrors['email_or_phone'][0] }}
                             </span>
