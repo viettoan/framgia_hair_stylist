@@ -13,7 +13,7 @@
                     <h2>{{ __('Đặt hàng thành công') }}</h2>  
                     <h4>{{ __('Cảm ơn Quý Khách !!!') }}</h4>
                     <div class="box text-center" style="">
-                        <h3>{{ __('Thong Tin Khach Hang') }}</h3>
+                        <h3>{{ __('Thông Tin Khách Hàng') }}</h3>
                         <p>{{ __('Nguyen Thi Hanh') }}</p>
                         <p>{{ __('0987423412') }}</p>
                         <p>{{ __('15-7-2017 - 15:00 PM ') }}</p>

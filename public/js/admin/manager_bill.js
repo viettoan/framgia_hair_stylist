@@ -21,6 +21,9 @@ var manage_service = new Vue({
     methods: {
         showBill: function() {
             $('#showBill').modal('show');
+        },
+        addItem: function() {
+            $('#showEditItem').modal('show');
         }
     }
 });

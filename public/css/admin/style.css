@@ -19,22 +19,20 @@
   position: relative;
 }
 
-#showBooking div {
-    width: 790px;
-}
-
-#showBooking div div div {
-    background-color: #42f4aa;font-family: Times, Times New Roman, Georgia, serif;
-}
-
-#showBooking div div div div {
-    background-color: #1a0000;color:#fff;border:1px solid white;
-}
-
-#showBooking div div div div table tbody {
-    color:black;
-}
-
-#showBooking div div div h3 , #showBooking div div div h4 {
+.modal-header h3 , .modal-header h4{
     font-family: Times, Times New Roman, Georgia, serif;
+}
+
+.border-content {
+    border-radius: 13px;
+    box-shadow: 10px 9px 1px 0px rgba(0,0,0,0.2);
+    font-family: Times, Times New Roman, Georgia, serif;
+}
+
+.fix-row {
+  padding:10px 0px;
+}
+
+.fix-row div {
+  font-family: Times, Times New Roman, Georgia, serif;
 }
