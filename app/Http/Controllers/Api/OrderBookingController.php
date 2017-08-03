@@ -428,15 +428,12 @@ class OrderBookingController extends Controller
 
         $booking = $this->orderBooking->checkLastBookingByPhone($request->phone);
 
-        if($booking) {
-            $booking->render_booking = $this->renderBooking->find($booking->render_booking_id);
-            $booking->department = $this->department->find($booking->render_booking->department_id);
-            $booking->stylist = $this->user->find($booking->stylist_id);
-
-            $response['data'] = $booking;
-        } else {
-            $response['data'] = (object)[];
-        }
+        if(!$booking) {
+            $response['error'] = true;
+            $response['status'] = '404';
+            $response['message'][] = __("There's no booking with this phone!");
+        }        
+        $response['data'] = $booking;
 
         return Response::json($response);
     }
