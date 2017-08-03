@@ -35,15 +35,15 @@ class OrderBookingController extends Controller
     public function getBookingbyId($bookingId)
     {
         $response = Helper::apiFormat();
-        $with = ['getBookingRender', 'getStylist'];
 
-        
-
-        $booking = $this->orderBooking->getBookingByBookingId($bookingId, $with);
+        $booking = $this->orderBooking->getBookingByBookingId($bookingId);
         if($booking)
         {
-            $renderBooking = $this->renderBooking->find($booking->render_booking_id, ['OrderBooking']);
+            $renderBooking = $this->renderBooking->find($booking->render_booking_id);
+            
+            $booking->render_booking = $renderBooking;
             $booking->department = $this->department->find($renderBooking->department_id);
+            $booking->stylist =  $this->user->find($booking->stylist_id);
         }
         
         if (!$booking)
