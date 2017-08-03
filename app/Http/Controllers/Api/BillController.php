@@ -78,8 +78,6 @@ class BillController extends Controller
         $perPage = (int) $request->per_page ?: config('model.booking.default_filter_limit');
         $page = (int) $request->page ?: 1;
 
-
-
     }
 
     /**

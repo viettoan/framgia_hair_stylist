@@ -67,15 +67,21 @@ class RenderBookingController extends Controller
         $renderCollection = $this->renderBooking
             ->getRenderDepartment($department_id, $currentDay, ['OrderBooking']);
 
+        $timeNow = Carbon::now()->addMinute(config('default.time_slot'));
         $renders = [];
         foreach ($renderCollection as $render) {
             $render->status = RenderBooking::STATUS_ENABLE;
             $render->statusLabel = $statusOption[RenderBooking::STATUS_ENABLE];
             $render->total_slot = $totalStylist - $render->OrderBooking->count();
 
+            $renderTime = Carbon::createFromTimestamp(strtotime($render->day . ' ' . $render->time_start));
             if ($dayoff) { //Department Off Work
                 $render->status = RenderBooking::STATUS_OFFWORK;
                 $render->statusLabel = $statusOption[RenderBooking::STATUS_OFFWORK];
+            } elseif ($timeNow->gte($renderTime)) { // Qua gio
+                $render->status = RenderBooking::STATUS_DISABLE;
+                $render->statusLabel = $statusOption[RenderBooking::STATUS_DISABLE];
+                $render->total_slot = 0;
             } elseif ($stylist_id) {
                 $stylistOrder = $render->OrderBooking->where('stylist_id', $stylist_id)->first();
                 $render->total_slot = 1;
@@ -91,6 +97,7 @@ class RenderBookingController extends Controller
                 $render->statusLabel = $statusOption[RenderBooking::STATUS_DISABLE];
                 $render->total_slot = 0;
             }
+            
             
             $renders[] = $render;
         }
