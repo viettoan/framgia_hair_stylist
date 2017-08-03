@@ -67,7 +67,9 @@ class OrderBookingController extends Controller
             $response['error'] = true;
             $response['status'] = 403;
             foreach ($rule as $key => $value) {
-                $response['message'][$key] = $validator->messages()->first($key);
+                if ($validator->messages()->first($key)) {
+                    $response['message'][] = $validator->messages()->first($key);
+                }
             }
 
             return Response::json($response, 403);
@@ -159,13 +161,80 @@ class OrderBookingController extends Controller
                 $endDate = $date_start->endOfDay();
                 break;
             case 'space':
-                $startDate = $date_start->startOfWeek()->format('Y-m-d H:i:s');
-                $endDate = $date_end->endOfWeek()->endOfDay();
+                $startDate = $date_start->format('Y-m-d H:i:s');
+                $endDate = $date_end->endOfDay();
                 break;
         }
 
         $filter_status = $request->status; //cancel - finished - pending
-        $perPage = $request->per_page ?: config('model.booking.default_filter_limit');
+        $perPage = (int) $request->per_page ?: config('model.booking.default_filter_limit');
+        $page = (int) $request->page ?: 1;
+
+        $currentDate = Carbon::now()->timestamp(strtotime($startDate))->addDay($perPage*($page-1));
+        $responseData = [];
+        for ($i = $perPage * ($page - 1); $i < $perPage * $page; $i++) {
+            if ($currentDate->gt($endDate)) {
+                break;
+            }
+
+            $date_filter = $currentDate->format('Y-m-d');
+
+            $renderBookings = $this->renderBooking
+                ->getRenderByDate($date_filter, ['OrderBooking', 'Department']);
+
+            $data['date_book'] = $date_filter;
+            $dataBooks = [];
+            foreach ($renderBookings as $renderBooking) {
+                $department = [
+                    'name' => $renderBooking->Department->name,
+                    'address' => $renderBooking->Department->address,
+                ];
+                foreach ($renderBooking->OrderBooking as $orderBooking) {
+                    if (null !== $filter_status && $orderBooking->status != $filter_status) {
+                        continue;
+                    }
+                    $orderBooking->time_start = $renderBooking->day . ' ' . $renderBooking->time_start;
+                    $orderBooking->department = $department;
+                    $orderBooking->stylist = $this->user
+                        ->find($orderBooking->stylist_id, ['name', 'email', 'phone']);
+
+                    $dataBooks[] = $orderBooking;
+                }
+            }
+            $data['list_book'] = $dataBooks;
+            $responseData[] = $data;
+
+            $currentDate->addDay(1);
+        }
+        $response['data'] = $responseData;
+
+        return Response::json($response, $response['status']);
+    }
+
+    public function filterBooking_backup(Request $request)
+    {
+        $response = Helper::apiFormat();
+
+        $startDate = Carbon::today()->format('Y-m-d H:i:s');
+        $endDate = Carbon::today()->endOfDay();
+        $filter_date = $request->date;
+        $filter_type = $request->type;//today - week - month //default today
+
+        $date_start = Carbon::createFromTimestamp($request->start_date);
+        $date_end = Carbon::createFromTimestamp($request->end_date);
+        switch ($filter_type) {
+            case 'day':
+                $startDate = $date_start->startOfDay()->format('Y-m-d H:i:s');
+                $endDate = $date_start->endOfDay();
+                break;
+            case 'space':
+                $startDate = $date_start->format('Y-m-d H:i:s');
+                $endDate = $date_end->endOfDay();
+                break;
+        }
+
+        $filter_status = $request->status; //cancel - finished - pending
+        $perPage = (int) $request->per_page ?: config('model.booking.default_filter_limit');
         $page = (int) $request->page ?: 1;
 
         $with = [];
@@ -212,7 +281,6 @@ class OrderBookingController extends Controller
 
         return Response::json($response, $response['status']);
     }
-
 
     public function filterByDate(Request $request)
     {
@@ -427,7 +495,6 @@ class OrderBookingController extends Controller
         $response = Helper::apiFormat();
 
         $booking = $this->orderBooking->checkLastBookingByPhone($request->phone);
-
         if(!$booking) {
             $response['error'] = true;
             $response['status'] = '404';
