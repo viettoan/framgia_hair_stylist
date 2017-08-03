@@ -48,8 +48,8 @@ var manage_service = new Vue({
     },
     
     mounted : function(){
-        this.users = Vue.ls.get('user');
-        this.token = Vue.ls.get('token');
+        this.users = Vue.ls.get('user', {});
+        this.token = Vue.ls.get('token', {});
         this.showInfor(this.pagination.current_page);
     },
 
