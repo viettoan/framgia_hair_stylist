@@ -30,7 +30,7 @@ var Login = new Vue({
                 if (permisssion == 3) {
                     window.location = '/admin/home/';
                 } else {
-                    window.location = '/site/home';
+                    window.location = '/';
                 }
          }).catch((error) => {
                 self.formErrors = error.response.data.message;

@@ -2,126 +2,160 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 section-heading text-center">
-                <h2 class="single-animate animate-pricing-1">Booking Start</h2>
+                <h2 class="single-animate animate-pricing-1">{{ __('Booking Start') }}</h2>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4 col-sm-6">
+            <div class="col-md-4 col-sm-6" id="infor_user">
                 <div class="price-box to-animate">
                     <div>
                         <form>
-                            <div class="form-group">Input info</label>
-                                <input type="name" class="form-control" placeholder="your name">
+                                <label class="text-success">
+                                    <h4>
+                                        <i class="fa fa-info" aria-hidden="true"></i>
+                                        {{ __('Input info') }}
+                                    </h4>
+                                </label>
+                            <div class="form-group">
+                                <input type="name" class="form-control" v-model="newItem.name" placeholder="{{ __('Your name') }}">
                             </div>
                             <div class="form-group">
-                                <input type="Phone" class="form-control" placeholder="your phone number">
+                                <input type="Phone" class="form-control" v-model="newItem.phone" placeholder="{{ __('Your phone number') }}">
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 col-sm-6">
+            <div class="col-md-4 col-sm-6 choice_address" id="choice_address">
                 <div class="price-box to-animate">
-                    <label for="#">Choice Deparment</label>
+                    <h4> 
+                        <i class="fa fa-map-marker" aria-hidden="true"></i>
+                            {{ __('Choice Deparment') }}
+                    </h4>
                     <div>
-                        <div class="table-responsive">
-                            <table class="table department">
-                            <tr>
-                                <td class="warning">Deparment 1</td>
-                                <td class="warning">Deparment 2</td>
-                                <td class="warning">Deparment 3</td>
-                            </tr>
-                            <tr>
-                                <td class="warning">Deparment 4</td>
-                                <td class="warning">Deparment 5</td>
-                                <td class="warning">Deparment 6</td>
-                            </tr>
-                            <tr>
-                                <td class="warning">Deparment 7</td>
-                                <td class="warning">Deparment 8</td>
-                                <td class="warning">Deparment 9</td>
-                            </tr>
-                            </table>
+                        <div v-for="item in items">
+                            <div v-bind:class="{den: selected.department_id == item.id}" class="choose-department ok" v-on:click="selectDepartment(item.id)">
+                                <a href="javascript:void(0)" >
+                                    @{{ item.address }}
+                                </a>
+                            </div>
                         </div>
                     </div>
-                    <label for="#">Choice Day</label>
+                    <div class="clearfix"></div>
+                    <hr/>
+                        <h4>
+                            <i class="fa fa-calendar-o" aria-hidden="true"></i>
+                            {{ __('Choice Day') }}
+                        </h4>
                     <div>
                         <div class="table-responsive">
-                            <table class="table day_choice">
+                            <table class="table select-day">
                             <tr>
-                                <td class="warning">Day 1</td>
-                                <td class="warning">Day 2</td>
-                                <td class="warning">Day 3</td>
+                                <td class="danger" v-bind:class="{active: selected.date == 1}" v-on:click="selectDay(1)">{{ __('Today') }}</td>
+                                <td class="danger" v-bind:class="{active: selected.date == 2}" v-on:click="selectDay(2)">{{ __('Tomorrow') }}</td>
+                                <td class="danger"  v-bind:class="{active: selected.date == 3}" v-on:click="selectDay(3)">{{ __('Next Day') }}</td>
                             </tr>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 col-sm-6">
+            <div class="col-md-4 col-sm-6" id="choice_list_time">
                 <div class="price-box to-animate">
-                    <label for="">Choice Stylist</label>
                     <div>
-                        <input list="browsers" name="myBrowser" style="width: 296px" placeholder=" choice stylist"/></label>
-                        <datalist id="browsers">
-                            <option value="Style 2">
-                            <option value="Style 3">
-                            <option value="Style 4">
-                            <option value="Style 5">
-                            <option value="Style 6">
-                            <option value="Style 7">
-                        </datalist>
-                    </div>
-                    <label for="">Choice Time</label>
-                    <div>
-                        <div class="table-responsive">
-                            <table class="table choice_time">
-                            <tr>
-                                <td class="success">8:00 8:30</td>
-                                <td class="success">8:30 9:00</td>
-                                <td class="success">9:00 9:30</td>
-                                <td class="success">9:30 10:00</td>
-                            </tr>
-                            <tr>
-                                <td class="success">10:00 10:30</td>
-                                <td class="success">10:30 11:00</td>
-                                <td class="success">11:00 11:30</td>
-                                <td class="success">11:30 12:00</td>
-                            </tr>
-                            <tr>
-                                <td class="success">12:00 12:30</td>
-                                <td class="success">12:30 13:00</td>
-                                <td class="success">13:00 13:30</td>
-                                <td class="success">13:30 14:00</td>
-                            </tr>
-                            <tr>
-                                <td class="success">14:00 14:30</td>
-                                <td class="success">14:30 15:00</td>
-                                <td class="success">15:00 15:30</td>
-                                <td class="success">15:30 16:00</td>
-                            </tr>
-                            <tr>
-                                <td class="success">16:00 16:30</td>
-                                <td class="success">16:30 17:00</td>
-                                <td class="success">17:00 17:30</td>
-                                <td class="success">17:30 18:00</td>
-                            </tr>
-                            <tr>
-                                <td class="success">18:00 18:30</td>
-                                <td class="success">18:30 19:00</td>
-                                <td class="success">19:00 19:30</td>
-                                <td class="success">19:30 20:00</td>
-                            </tr>
-                            <tr>
-                                <td class="success">20:00 20:30</td>
-                                <td class="success">20:30 21:00</td>
-                            </tr>
-                            </table>
+                        <h4>
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                            {{ __('Choice Stylist') }}
+                        </h4>
+                
+                        <div class="form-group">
+                            <select class="form-control" id="sel1" v-on:change="changeStylist">
+                                <option  class="active" value="">{{ __('No Choice Stylist')  }}</option>
+                                <option v-for="stylist in renderStylists" v-bind:value="stylist.id">
+                                    @{{ stylist.name }}
+                                </option>
+                            </select>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-default">Booking</button>
+                    <h4>
+                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                        {{ __('Choice Time') }}
+                    </h4>
+                    <div>
+                        <div v-for="render in renderBookings" class="text-center">
+                            <div v-if="render.status == 0">
+                                <div class="choice-time-full" v-on:click="full">
+                                    <a href="javascript:void(0)">
+                                        @{{ convertTimeMinute(render.time_start) }}
+                                    </a>
+                                    <br/>
+                                    <span class="label label-warning">@{{render.statusLabel }}</span>
+                                </div>
+                            </div>
+                            <div v-if="render.status == 1" class="select-time" v-on:click="selectTime(render.id)">
+                                <div  v-bind:class="{active: selected.render_id == render.id}" class="choice-time">
+                                    <a href="javascript:void(0)">@{{ convertTimeMinute(render.time_start) }}</a>
+                                     <br/>
+                                    <span class="label label-success">@{{render.statusLabel }}</span>
+                                </div>
+                            </div>
+                            <div v-if="render.status == 2">
+                                <div class="choice_time" v-on:click="offDay">
+                                    <a href="javascript:void(0)">@{{ convertTimeMinute(render.time_start) }}</a>
+                                     <br/>
+                                    <span class="label label-success">@{{render.statusLabel }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" :disabled="!select_render_booking" v-on:click="clickBooking" class="btn btn-success booking_btn">
+                        <i class="fa fa-bookmark-o" aria-hidden="true"></i> 
+                        {{ __('Booking') }}
+                    </button>
                 </div>
-            </div>  
+            </div>
+            <div class="col-md-12" id ="order_booking">
+                <div class="row fix-top">
+                    <div class = "col-md-12 content" >
+                        <div class="box-info">
+                            <div class="text-center top_success">
+                                <p class="success_booking">{{ __('Set the schedule to success') }}</p>  
+                                <p class="success_thank">{{ __('Thank you!!!') }}</p>
+                            </div>
+                                <p class="label label-success"> {{ __('Customer information') }}
+                                </p>
+                            <div class="text-center">
+                                <p>Name:@{{ newItem.name }}</p>
+                                <p>Phone:@{{ newItem.phone }}</p>
+                            </div>
+                            <hr>
+                            <div class="col-md-4 text-center" style="">
+                                <p class="label label-success">{{ __('Stylist information') }}</p>
+                                <p>@{{ success_stylist.name }}</p>
+                                <p>@{{ success_stylist.email }}</p>
+                                <p>@{{ success_stylist.phone }}</p>
+                            </div>
+                            <div class="col-md-4 text-center" style="">
+                                <p class="label label-success">{{ __('Deparment information') }}</p>
+                                <p>@{{ success_deparment.name }}</p>
+                                <p>@{{ success_deparment.address }}</p>
+                            </div>
+                            <div class="col-md-4 text-center" style="">
+                                <p class="label label-success">{{ __('Time information') }}</p>
+                                <p>@{{ success_time.day }}</p>
+                                <p>@{{ success_time.time_start }}</p>
+                            </div>
+                            <br>
+                            <div class="clearfix"></div>
+                            <div>
+                                <a href="/">
+                                    <button class="btn btn-info">{{ __('BACK') }}</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+            </div>
         </div>
     </div>
 </div>

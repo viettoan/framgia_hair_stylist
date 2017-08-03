@@ -153,7 +153,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title" id="myModalLabel">{{ __('Create Service') }}</h4>
+                    <h4 class="modal-title" id="myModalLabel">{{ __('Update Service') }}</h4>
                 </div>
                 <div class="modal-body">
                     <form method="POST" enctype="multipart/form-data" v-on:submit.prevent="updateService(fillItem.id)">
@@ -172,7 +172,7 @@
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-success">
-                                <i class="fa fa-plus" aria-hidden="true"></i> {{ __('Create') }}
+                                <i class="fa fa-plus" aria-hidden="true"></i> {{ __('Update') }}
                             </button>
                             <button class="btn btn-default" data-dismiss="modal">
                                 <i class="fa fa-external-link-square" aria-hidden="true"></i>
