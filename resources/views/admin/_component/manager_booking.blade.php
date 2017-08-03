@@ -47,8 +47,6 @@
                                 <td>Stylist 1</td>
                                 <td>80.000</td>
                                 <td class=" ">
-                                    {{-- <a href="#" class="btn btn-success"><i class="fa fa-search-plus "></i></a> --}}
-                                    <a href="#" class="btn btn-info"><i class="fa fa-edit "></i></a>
                                     <a class="btn btn-danger" href="#"><i class="fa fa-trash-o "></i></a>
                                      <a class="btn btn-success" href="javascript:void(0)" v-on:click="showBooking"><i class="fa fa-map-o"></i></a>
                                 </td>
@@ -62,36 +60,41 @@
     </section>
     <div class="modal fade" id="showBooking" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-body" >
+            <div class="modal-content border-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     <h3 class ="text-center"><i>{{ __('Booking #123') }}</i></h3>
                     <h4 class ="text-center">{{ __('FSalon 434 Tran Khac Chan') }}</h4>
+                </div>
+                <div class="modal-body" >
                     <div class="row">
-                        <table id="example1" class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>{{ __('User Name') }}</th>
-                                    <th>{{ __('Phone') }}</th>
-                                    <th>{{ __('Stylist') }}</th>
-                                    <th>{{ __('Service') }}</th>
-                                    <td>{{ __('Time') }}</td>
-                                    <td>{{ __('Day') }}</td>
-                                    <th>{{ __('Grand total') }}</th>
-                                </tr>   
-                            </thead>
-                            <tbody>
-                                 <tr>
-                                    <td>{{ __('Nguyen Thi Hanh') }}</td>
-                                    <td>{{ __('123456789') }}</td>
-                                    <td>{{ __('Japan') }}</td>
-                                    <td>{{ __('Shammpo') }}</td>
-                                    <td>{{ __('15:00 PM') }}</td>
-                                    <td>{{ __('15-4-2018') }}</td>
-                                    <td>{{ __('100.000 VND') }}</td>
-                                </tr>  
-                            </tbody>
-                        </table>
-                    </div>
+                        <div class="col-md-12">
+                            <div class = "row fix-row" >
+                                <div class="col-md-5 text-right">{{ __('Name :') }}</div>
+                                <div class="col-md-5 col-md-offset-1">Nguyen Van Nam</div>
+                            </div>
+                            <div class = "row fix-row" >
+                                <div class="col-md-5 text-right">{{ __('Phone :') }}</div>
+                                <div class="col-md-5 col-md-offset-1">123456789</div>
+                            </div>
+                            <div class = "row fix-row" >
+                                <div class="col-md-5 text-right">{{ __('Time :') }}</div>
+                                <div class="col-md-5 col-md-offset-1">14:00 PM</div>
+                            </div>
+                            <div class = "row fix-row" >
+                                <div class="col-md-5 text-right">{{ __('Day :') }}</div>
+                                <div class="col-md-5 col-md-offset-1">15-3-2018</div>
+                            </div>
+                            <div class = "row fix-row" >
+                                <div class="col-md-5 text-right">{{ __('Stylist :') }}</div>
+                                <div class="col-md-5 col-md-offset-1">Juli - Fram</div>
+                            </div>
+                            <div class = "row fix-row" >
+                                <div class="col-md-5 text-right">{{ __('Deparment :') }}</div>
+                                <div class="col-md-5 col-md-offset-1">FSalon 434 Tra  Khac Chan</div>
+                            </div>
+                        </div>
+                    </div>  
                 </div>
             </div>
         </div>

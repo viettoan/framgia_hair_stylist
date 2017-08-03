@@ -34,3 +34,19 @@
 .footer {
     border-bottom:1px solid black;
 }
+
+
+.fix-label{
+    margin:0px 265px;
+    font-family: Times, Times New Roman, Georgia, serif;
+}
+
+.modal-header h3 , .modal-header h4{
+    font-family: Times, Times New Roman, Georgia, serif;
+}
+
+.border-content {
+    border-radius: 13px;
+    box-shadow: 10px 9px 1px 0px rgba(0,0,0,0.2);
+    font-family: Times, Times New Roman, Georgia, serif;
+}

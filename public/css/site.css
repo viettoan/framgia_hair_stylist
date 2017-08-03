@@ -1,6 +1,7 @@
 body {
     color:white;
     background-image: url('../images/c.jpg');
+    font-family: Times, Times New Roman, Georgia, serif;
 }
 .content {
     border-radius: 10px;
