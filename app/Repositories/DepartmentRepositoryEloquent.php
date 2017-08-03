@@ -21,4 +21,17 @@ class DepartmentRepositoryEloquent extends AbstractRepositoryEloquent implements
     {
     	return $this->model()->select($select)->with($with)->find($id);
     }
+
+    public function getDepartmentByAdress($address, $with = [], $select = ['*'])
+    {
+        return $this->model()->select($select)->with($with)->where('address', $address)->first();
+    }
+
+    public function create($data)
+    {
+        $department = $this->model()->fill($data);
+        $department->save();
+
+        return $department;
+    }
 }

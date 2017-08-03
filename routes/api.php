@@ -30,6 +30,7 @@ Route::group(['prefix' => 'v0', 'namespace' => 'Api'], function() {
 
     Route::get('get-bill-by-customer-id', 'BillController@getBillByCustomerId');
 
+    Route::post('department-create', 'DepartmentsController@createDepartment');
     Route::get('filter-order-booking', 'OrderBookingController@filterBooking');
 
     Route::get('report-bill', 'BillController@filterBill');

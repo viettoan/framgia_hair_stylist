@@ -59,5 +59,6 @@
     "Action":"Action",
     "Bill not found!": "Bill not found!",
     "Create bill successfully!": "Create bill successfully!",
-    "Edit bill successfully!": "Edit bill successfully!"
+    "Edit bill successfully!": "Edit bill successfully!",
+    "This department already exist!": "This department already exist!",
 }

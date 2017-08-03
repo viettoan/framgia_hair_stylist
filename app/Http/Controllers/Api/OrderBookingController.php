@@ -35,9 +35,17 @@ class OrderBookingController extends Controller
     public function getBookingbyId($bookingId)
     {
         $response = Helper::apiFormat();
+        $with = ['getBookingRender', 'getStylist'];
 
-        $booking = $this->orderBooking->getBookingByBookingId($bookingId, 'getBookingRender');
+        
 
+        $booking = $this->orderBooking->getBookingByBookingId($bookingId, $with);
+        if($booking)
+        {
+            $renderBooking = $this->renderBooking->find($booking->render_booking_id, ['OrderBooking']);
+            $booking->department = $this->department->find($renderBooking->department_id);
+        }
+        
         if (!$booking)
         {
             $response['error'] = true;
@@ -280,195 +288,6 @@ class OrderBookingController extends Controller
         $response['data'] = $responseData;
 
         return Response::json($response, $response['status']);
-    }
-
-    public function filterByDate(Request $request)
-    {
-
-        $response = Helper::apiFormat();
-
-        $select =['*'];// ['render_booking_id', 'name', 'status', 'stylist_id'];
-        $with = ['getBookingRender', 'getStylist'];
-
-        $perPage = $request->per_page ?: config('model.booking.default_filter_limit');
-        // if no choice filter, default is none, display all
-            // default is get all booking today
-
-        $startDate =date('Y-m-d', $request->start_date) . ' 00:00:00';
-        $endDate = date('Y-m-d', $request->end_date) . ' 23:59:59';
-
-        if (!$request->start_date) {
-            $startDate = Carbon::now()->format('Y-m-d') . ' 00:00:00';
-        }
-
-        if (!$request->end_date) {
-            $endDate = Carbon::now()->format('Y-m-d') . ' 23:59:59';
-        }
-
-        $status = $request->status;
-        $data = $this->orderBooking
-        ->filterBookingbyDate($startDate, $endDate, $perPage, $status, $with, $select);
-        if($data->count() == 0)
-        {
-            $response['status'] = 403;
-            $response['error'] = true;
-            $response['message'][] = __("There's no booking on these day!");
-
-            return Response::json($response);
-        }
-
-        $response['data'] = $data;
-
-        return Response::json($response);
-    }
-
-    public function filterByMonth(Request $request)
-    {
-        $response = Helper::apiFormat();
-        $currentDate = Carbon::now();
-
-        $select = ['render_booking_id', 'name', 'status', 'stylist_id'];
-        $with = ['getBookingRender', 'getStylist'];
-
-        $perPage = $request->per_page ?: config('model.booking.default_filter_limit');
-        // default is get all booking current month
-        $month = $request->month_input;
-        $year = $request->year_input;
-
-        if (!$request->month_input) {
-            $month = $currentDate->month;
-        }
-
-        if (!$request->year_input) {
-            $year = $currentDate->year;
-        }
-        $status = $request->status;
-        $data = $this->orderBooking
-        ->filterBookingByMonth($month, $year, $perPage, $status, $with, $select);
-        if($data->count() == 0)
-        {
-            $response['status'] = 403;
-            $response['error'] = true;
-            $response['message'][] = __("There's no booking on these day!");
-
-            return Response::json($response);
-        }
-
-        $response['data'] = $data;
-
-        return Response::json($response);
-    }
-
-    public function filterByWeek(Request $request)
-    {
-        $response = Helper::apiFormat();
-
-        $currentDate = Carbon::today(); //2017-07-31 00:00:00
-
-        if($request->status)
-        {
-            $status = $request->status;
-        }
-        $select = ['render_booking_id', 'name', 'status', 'stylist_id'];
-        $with = ['getBookingRender', 'getStylist'];
-
-        $perPage = $request->per_page ?: config('model.booking.default_filter_limit');
-        // default is get all booking current month
-        $rule = [
-            'day_of_week' => 'integer',
-        ];
-
-        $validator = Validator::make($request->all(), $rule);
-
-        if ($validator->fails()) {
-            $response['error'] = true;
-            $response['status'] = 403;
-            foreach ($rule as $key => $value) {
-                $response['message'][$key] = $validator->messages()->first($key);
-            }
-
-            return Response::json($response, 403);
-        }
-        if(!$request->day_of_week)
-        {
-            $startDate = Carbon::now()->startOfWeek();
-        }
-        else
-        {
-            $date = Carbon::createFromTimestamp($request->day_of_week);  
-            // To get the first week of the day we can do this
-            $startDate = $date->startOfWeek(); 
-        }
-        $endDate = date('Y-m-d H:i:s', strtotime('+1 week', strtotime($startDate)));
-
-        $status = $request->status;
-        $data = $this->orderBooking
-        ->filterBookingbyDate($startDate, $endDate, $perPage, $status, $with, $select);
-
-        if($data->count() == 0)
-        {
-            $response['status'] = 403;
-            $response['error'] = true;
-            $response['message'][] = __("There's no booking on these day!");
-
-            return Response::json($response);
-        }
-
-        $response['data'] = $data;
-
-        return Response::json($response);
-    }
-
-    public function filterByStatus(Request $request)
-    {
-        $response = Helper::apiFormat();
-        
-        $perPage = $request->per_page ?: config('model.booking.default_filter_limit');
-
-        $data = $this->orderBooking->filterBookingByStatus($request->status, $perPage, 'getBookingRender');
-
-        if($data->count() == 0)
-        {
-            $response['status'] = 403;
-            $response['error'] = true;
-            $response['message'][] = __("There's no booking with this status!");
-
-            return Response::json($response);
-        }
-
-        $response['data'] = $data;
-
-        return Response::json($response);
-    }
-
-    public function getBookingFilterByDay(Request $request)
-    {
-        $response = Helper::apiFormat();
-
-        $perPage = $request->per_page ?: config('model.booking.default_filter_limit');
-
-        // if no choice filter, default is none, display all
-        if( !$request->filter_choice)
-        {
-            $response['data'] = $this->orderBooking->getAllBooking($perPage, 'getBookingRender');
-
-            return Response::json($response);
-        }
-        // // if filter by day
-        if($request->filter_choice == 'day')
-        {   
-            return $this->filterByDate($request);
-        }
-        // if filter by month       
-        if($request->filter_choice == 'month')
-        {
-            return $this->filterByMonth($request);
-        }
-
-        if($request->filter_choice == 'week')
-        {
-            return $this->filterByWeek($request);
-        }
     }
     
     public function getBookingbyUserId($user_id)
