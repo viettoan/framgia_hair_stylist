@@ -12,6 +12,11 @@ use Auth;
 
 class DepartmentsController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     protected $department;
     protected $selectDepartment = [
         'id',
@@ -27,6 +32,7 @@ class DepartmentsController extends Controller
     public function index()
     {
         $response = Helper::apiFormat();
+
         $data = $this->department->getAllData([], $this->selectDepartment);
         
         $response['data'] = $data;
@@ -34,7 +40,23 @@ class DepartmentsController extends Controller
         return Response::json($response) ;
     }
 
-    public function createDepartment(Request $request)
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
     {
         $response = Helper::apiFormat();
 
@@ -83,10 +105,40 @@ class DepartmentsController extends Controller
 
         $response['data'] = $this->department->find($departmentCreated->id);
         $response['message'][] = __('Create department successfully!');
+
         return Response::json($response);
     }
 
-    public function editDepartment(Request $request, $id)
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
     {
         $response = Helper::apiFormat();
 
@@ -139,5 +191,16 @@ class DepartmentsController extends Controller
         }
 
         return Response::json($response, $response['status']);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
     }
 }
