@@ -66,7 +66,7 @@ class OrderBookingController extends Controller
 
         $rule = [
             'render_booking_id' => 'required',
-            'phone' => 'required|numeric|min:6',
+            'phone' => 'required|numeric|size:6',
             'name' => 'required|string',
         ];
 
@@ -132,13 +132,14 @@ class OrderBookingController extends Controller
 
         $bookingChecked = $this->orderBooking->checkLastBookingByPhone($request->phone);
 
-        if($bookingChecked) {
+        if ($bookingChecked) {
             $timeUserChosen = $this->renderBooking->find($bookingChecked->render_booking_id);
 
             $timeSelect = strtotime($timeUserChosen->day . ' ' . $timeUserChosen->time_start);
             $timeSelected = Carbon::createFromTimestamp($timeSelect);
 
-            if($timeSelected->gt(Carbon::now())) {
+            if ($timeSelected->gt(Carbon::now())) { 
+                // Da booking va chua het han, thay doi booking
                 $bookingChecked->fill($request->all());
                 $bookingChecked->stylist_id = $stylist_id;
                 $bookingChecked->user_id = $user_id;
@@ -148,6 +149,7 @@ class OrderBookingController extends Controller
                 $response['message'][] = __('You have changed your booking to new booking!');
 
             } else {
+                // Tao moi booking
                 $data = [
                     'render_booking_id' => $request->render_booking_id,
                     'phone' => $request->phone,
@@ -162,6 +164,7 @@ class OrderBookingController extends Controller
             $dataResponse->render_booking = $this->renderBooking->find($request->render_booking_id);
 
         } else {
+            // Tao moi booking
             $order = $this->orderBooking->create([
                 'render_booking_id' => $request->render_booking_id,
                 'phone' => $request->phone,
