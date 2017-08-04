@@ -85,7 +85,10 @@ var manage_service = new Vue({
             }
 
             axios(authOptions).then(response => {
-                toastr.success('Booking Success!', '', {timeOut: 10000});
+                for (key in response.data.message) {
+                    toastr.success(response.data.message[key], '', {timeOut: 10000});
+                }
+                
                 $('#infor_user').hide(500);
                 $('#choice_address').hide(800);
                 $('#choice_list_time').hide(900);
@@ -96,7 +99,6 @@ var manage_service = new Vue({
             }).catch((error) => {
                 if (error.response.status == 403) {
                     self.formErrors = error.response.data.message;
-                    console.log(self.formErrors);
                     for (key in self.formErrors) {
                         toastr.error(self.formErrors[key], '', {timeOut: 10000});
                     }    

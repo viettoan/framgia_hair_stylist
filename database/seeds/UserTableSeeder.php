@@ -25,13 +25,13 @@ class UserTableSeeder extends Seeder
         $department = Department::first();
         $dataUser = [
             'password' =>  'user123',
-            'phone' =>  '0123456789',
             'permission' =>  User::PERMISSION_MAIN_WORKER,
             'department_id' => $department ? $department->id : '',
         ];
         for ($i=0; $i < 3; $i++) { 
             $dataUser['email'] = 'main.worker' . $i . '@gmail.com';
             $dataUser['name'] = 'Main Worker ' . $i;
+            $dataUser['phone'] = '0123456789' . $i;
             User::create($dataUser);
         }
     }

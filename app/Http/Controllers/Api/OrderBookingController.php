@@ -85,18 +85,45 @@ class OrderBookingController extends Controller
 
         $stylist_id = $request->stylist_chosen;
         $renderBooking = $this->renderBooking->find($request->render_booking_id, ['OrderBooking']);
+
+        // Tim stylist ranh nhat
         if (!$stylist_id) {
             $orderCollection = $renderBooking->OrderBooking;
+
+            $allRenderday = $this->renderBooking->getRenderByDate($renderBooking->day, ['OrderBooking']);
+
             $stylists = $this->user->getStylistByDepartmentId($renderBooking->department_id);
-            
+            $listStylist = [];
             foreach ($stylists as $stylist) {
-                if(!$orderCollection->where('stylist_id', $stylist->id)->first()) {
-                    $stylist_id = $stylist->id;
+                $listStylist[$stylist->id] = 0;
+            }
+
+            foreach ($allRenderday as $renderday) {
+                foreach ($renderday->OrderBooking as $bookingDay) {
+                    if (isset($listStylist[$bookingDay->stylist_id])) {
+                        $listStylist[$bookingDay->stylist_id] += 1;
+                    }
+                }
+            }
+
+            krsort($listStylist);
+            foreach ($listStylist as $key => $stylist) {
+                if(!$orderCollection->where('stylist_id', $key)->first()) {
+                    $stylist_id = $key;
                     break;
                 }
             }
         }
-        
+
+        if (!$stylist_id) {
+            $response['error'] = true;
+            $response['status'] = 403;
+            $response['message'][] = __('You can not book because no stylist in your time book!');
+
+            return Response::json($response, $response['status']);
+        }
+        // End Tim stylist ranh nhat
+    
         $user = Auth::guard('api')->user();
         $user_id = null;
         if ($user) {
@@ -104,19 +131,21 @@ class OrderBookingController extends Controller
         }
 
         $bookingChecked = $this->orderBooking->checkLastBookingByPhone($request->phone);
-        // dd($bookingChecked);
+
         if($bookingChecked) {
             $timeUserChosen = $this->renderBooking->find($bookingChecked->render_booking_id);
 
-            $difference_time = strtotime($timeUserChosen->day . ' ' . $timeUserChosen->time_start)- time();
+            $timeSelect = strtotime($timeUserChosen->day . ' ' . $timeUserChosen->time_start);
+            $timeSelected = Carbon::createFromTimestamp($timeSelect);
 
-            if($difference_time < 0) {
+            if($timeSelected->gt(Carbon::now())) {
                 $bookingChecked->fill($request->all());
                 $bookingChecked->stylist_id = $stylist_id;
                 $bookingChecked->user_id = $user_id;
                 $bookingChecked->save();
 
                 $dataResponse = $this->orderBooking->find($bookingChecked->id);
+                $response['message'][] = __('You have changed your booking to new booking!');
 
             } else {
                 $data = [
@@ -127,8 +156,8 @@ class OrderBookingController extends Controller
                     'user_id' => $user_id,
                 ];
                 $order = $this->orderBooking->create($data);
-
                 $dataResponse = $this->orderBooking->find($order->id);
+                $response['message'][] = __('You have successfully booked!');
             }
             $dataResponse->render_booking = $this->renderBooking->find($request->render_booking_id);
 
@@ -140,13 +169,13 @@ class OrderBookingController extends Controller
                 'stylist_id' => $stylist_id,
                 'user_id' => $user_id,
             ]);
-
             $dataResponse = $this->orderBooking->find($order->id);
             $dataResponse->render_booking = $this->renderBooking->find($request->render_booking_id);
+            $response['message'][] = __('You have successfully booked!');
         }
+
         $dataResponse->department = $this->department->find($renderBooking->department_id);
         $dataResponse->stylist = $stylist_name = $this->user->find($stylist_id);
-        // dd($dataResponse->render_booking->id);
 
         $response['data'] = $dataResponse;
 
