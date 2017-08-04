@@ -50,36 +50,6 @@ class BillController extends Controller
         return Response::json($response);
     }
 
-    public function filterBill(Request $request)
-    {
-        $response = Helper::apiFormat();
-
-        $startDate = Carbon::today()->format('Y-m-d H:i:s');
-        $endDate = Carbon::today()->endOfDay();
-        $filter_type = $request->type;//day - space - month //default today
-
-        $date_start = Carbon::createFromTimestamp($request->start_date);
-        $date_end = Carbon::createFromTimestamp($request->end_date);
-        switch ($filter_type) {
-            case 'day':
-                $startDate = $date_start->startOfDay()->format('Y-m-d H:i:s');
-                $endDate = $date_start->endOfDay();
-                break;
-            case 'space':
-                $startDate = $date_start->format('Y-m-d H:i:s');
-                $endDate = $date_end->endOfDay();
-                break;
-            case 'month':
-                # code...
-                break;
-        }
-
-        $filter_status = $request->status; //cancel - finished - pending
-        $perPage = (int) $request->per_page ?: config('model.booking.default_filter_limit');
-        $page = (int) $request->page ?: 1;
-
-    }
-
     /**
      * Display a listing of the resource.
      *

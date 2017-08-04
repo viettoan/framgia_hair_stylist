@@ -9,4 +9,10 @@ interface BillRepository extends AbstractRepository
     public function create($data);
 
     public function find($id, $with = [], $select = ['*']);
+
+    public function getBillByYear($year, $status, $select = ['*'], $with = []);
+
+    public function getBillByMonth($month, $year, $status, $select = ['*'], $with = []);
+
+    public function getBillByDate($date, $status, $select = ['*'], $with = []);
 }
