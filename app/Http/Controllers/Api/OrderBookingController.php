@@ -352,6 +352,11 @@ class OrderBookingController extends Controller
             $response['status'] = '404';
             $response['message'][] = __("There's no booking with this phone!");
         }        
+
+        $booking->render_booking = $this->renderBooking->find($booking->render_booking_id);
+        $booking->department = $this->department->find($booking->render_booking->department_id);
+        $booking->stylist = $this->user->find($booking->stylist_id);
+
         $response['data'] = $booking;
 
         return Response::json($response);
