@@ -32,34 +32,6 @@ class OrderBookingController extends Controller
         $this->department = $department;
     }
 
-    public function getBookingbyId($bookingId)
-    {
-        $response = Helper::apiFormat();
-
-        $booking = $this->orderBooking->getBookingByBookingId($bookingId);
-        if($booking)
-        {
-            $renderBooking = $this->renderBooking->find($booking->render_booking_id);
-            
-            $booking->render_booking = $renderBooking;
-            $booking->department = $this->department->find($renderBooking->department_id);
-            $booking->stylist =  $this->user->find($booking->stylist_id);
-        }
-        
-        if (!$booking)
-        {
-            $response['error'] = true;
-            $response['status'] = '404';
-            $response['message'][] = __('404 not found');
-
-            return Response::json($response);
-        }
-        
-        $response['data'] = $booking;
-        
-        return Response::json($response);
-    }
-
     public function userBooking(Request $request)
     {
         $response = Helper::apiFormat();
@@ -351,6 +323,8 @@ class OrderBookingController extends Controller
             $response['error'] = true;
             $response['status'] = '404';
             $response['message'][] = __("There's no booking with this phone!");
+
+            return Response::json($response, $response['status']);
         }        
 
         $booking->render_booking = $this->renderBooking->find($booking->render_booking_id);
@@ -360,5 +334,30 @@ class OrderBookingController extends Controller
         $response['data'] = $booking;
 
         return Response::json($response);
+    }
+
+    public function getBookingbyId($bookingId)
+    {
+        $response = Helper::apiFormat();
+
+        $booking = $this->orderBooking->getBookingByBookingId($bookingId);
+
+        if (!$booking)
+        {
+            $response['error'] = true;
+            $response['status'] = '404';
+            $response['message'][] = __('404 not found');
+
+            return Response::json($response, $response['status']);
+        }
+
+        $renderBooking = $this->renderBooking->find($booking->render_booking_id);
+        $booking->render_booking = $renderBooking;
+        $booking->department = $this->department->find($renderBooking->department_id);
+        $booking->stylist =  $this->user->find($booking->stylist_id);
+        
+        $response['data'] = $booking;
+        
+        return Response::json($response, $response['status']);
     }
 }
