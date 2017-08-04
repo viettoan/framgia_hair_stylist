@@ -13,12 +13,12 @@
                 <div class="price-box to-animate">
                     <div>
                         <form>
-                                <label class="text-success">
-                                    <h4>
-                                        <i class="fa fa-info" aria-hidden="true"></i>
-                                        {{ __('Input info') }}
-                                    </h4>
-                                </label>
+                            <label class="text-success">
+                                <h4>
+                                    <i class="fa fa-info" aria-hidden="true"></i>
+                                    {{ __('Input info') }}
+                                </h4>
+                            </label>
                             <div class="form-group">
                                 <input type="name" class="form-control" v-model="newItem.name" placeholder="{{ __('Your name') }}">
                             </div>
@@ -121,24 +121,31 @@
                 <div class="row fix-top">
                     <div class = "col-md-12 content" >
                         <div class="box-info">
+                            <div class="logo-img">
+                                <img src="/images/logo.png" alt="logo image">
+                            </div>
                             <div class="text-center top_success">
-                                <p class="success_booking">{{ __('Set the schedule to success') }}</p>  
-                                <p class="success_thank">{{ __('Thank you!!!') }}</p>
+                                <p class="success_booking">
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                    {{ __('Set the schedule to success') }}
+                                </p>  
+                                <p class="success_thank"><em>{{ __('Thank you!!!') }}</em></p>
                             </div>
-                                <p class="label label-success"> {{ __('Customer information') }}
-                                </p>
+                            <p class="label label-success customer-info"> {{ __('Customer information') }}
+                            </p>
                             <div class="text-center">
-                                <p>Name:@{{ newItem.name }}</p>
-                                <p>Phone:@{{ newItem.phone }}</p>
+                                <p class="name">@{{ newItem.name }}</p>
+                                <p class="phone">@{{ newItem.phone }}</p>
                             </div>
+                            
                             <hr>
-                            <div class="col-md-4 text-center" style="">
+                            <div class="col-md-4 text-center right-border" style="">
                                 <p class="label label-success">{{ __('Stylist information') }}</p>
                                 <p>@{{ success_stylist.name }}</p>
                                 <p>@{{ success_stylist.email }}</p>
                                 <p>@{{ success_stylist.phone }}</p>
                             </div>
-                            <div class="col-md-4 text-center" style="">
+                            <div class="col-md-4 text-center right-border" style="">
                                 <p class="label label-success">{{ __('Deparment information') }}</p>
                                 <p>@{{ success_deparment.name }}</p>
                                 <p>@{{ success_deparment.address }}</p>
@@ -150,7 +157,7 @@
                             </div>
                             <br>
                             <div class="clearfix"></div>
-                            <div>
+                            <div class="exit-btn">
                                 <a href="/">
                                     <button class="btn btn-info">{{ __('BACK') }}</button>
                                 </a>
