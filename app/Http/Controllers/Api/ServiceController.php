@@ -124,7 +124,7 @@ class ServiceController extends Controller
         if (!$service) {
             $response['error'] = true;
             $response['status'] = 403;
-            $response['message'] = __('Not found service!');
+            $response['message'][] = __('Not found service!');
 
             return Response::json($response, $response['status']);
         }
@@ -170,7 +170,7 @@ class ServiceController extends Controller
         if (!$service) {
             $response['error'] = true;
             $response['status'] = 403;
-            $response['message'] = __('Not found service!');
+            $response['message'][] = __('Not found service!');
 
             return Response::json($response, $response['status']);
         }
