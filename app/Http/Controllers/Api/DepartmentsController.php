@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Contracts\Repositories\DepartmentRepository;
 use App\Helpers\Helper;
+use App\Eloquents\User;
 use Validator;
 use Response;
 use Auth;
@@ -156,7 +157,7 @@ class DepartmentsController extends Controller
         if (!$department) {
             $response['error'] = true;
             $response['status'] = 403;
-            $response['message'] = __('Not found department!');
+            $response['message'][] = __('Not found department!');
 
             return Response::json($response);
         }

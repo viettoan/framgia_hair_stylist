@@ -40,7 +40,7 @@ class UserController extends Controller
 
         $stylist = $this->user->getStylistByDepartmentId($departmentId);
         if ($stylist->count() == 0) {
-            $response['message'] = __('Currently this Department have no stylist');
+            $response['message'][] = __('Currently this Department have no stylist');
         }
         $response['data'] = $stylist;
 
