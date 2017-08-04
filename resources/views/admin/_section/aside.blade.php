@@ -22,19 +22,7 @@
         <ul class="sidebar-menu">
             <li class="header">{{ __('MAIN NAVIGATION') }}</li>
             <li class=" treeview">
-                <a href="#">
-                    <i class="fa fa-dashboard"></i>
-                        <span>{{ __('Dashboard') }}</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li class="active">
-                        <a href="index.html"><i class="fa fa-circle-o"></i> {{ __('Dashboard v1') }}
-                        </a>
-                    </li>
-                </ul>
+             <li><a href="{{ asset('admin/home')  }}"><i class="fa fa-circle-o text-red"></i> <span>{{ __('Sales Report') }}</span></a></li>
             </li>
             <li class="treeview">
                 <a href="#">
@@ -64,12 +52,13 @@
                             {{ __('Manager Bill') }}
                         </a>
                     </li>
+                    <li>
+                        <a href={{ asset('admin/manager_department') }}><i class="fa fa-circle-o"></i>
+                            {{ __('Manager Department') }}
+                        </a>
+                    </li>
                 </ul>
-            <li><a href="#"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
             <li class="header">LABELS</li>
-            <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
-            <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
-            <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
         </ul>
     </section>
 </aside>

@@ -34,9 +34,14 @@ var header = new Vue({
                 Vue.ls.remove('user');
                 this.users = {};
                 this.token = {};
-                window.location = '/site/home/';
+                window.location = '/';
             }).catch(function (error) {
+                Vue.ls.remove('token');
+                Vue.ls.remove('user');
+                this.users = {};
+                this.token = {};
                 self.errors = error.response.data.message;
+                window.location = '/';
             });
         }
     }

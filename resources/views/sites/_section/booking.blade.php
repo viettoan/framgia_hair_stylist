@@ -5,7 +5,10 @@
                 <h2 class="single-animate animate-pricing-1">{{ __('Booking Start') }}</h2>
             </div>
         </div>
-        <div class="row">
+        <div class="row" style="position: relative;">
+            <div class="indicator hide frontend-booking-indicator">
+                <div class="spinner"></div>
+            </div>
             <div class="col-md-4 col-sm-6" id="infor_user">
                 <div class="price-box to-animate">
                     <div>
