@@ -117,4 +117,9 @@ class ReportController extends Controller
 
         return Response::json($response, $response['status']);
     }
+
+    public function reportBills(Request $request)
+    {
+        
+    }
 }

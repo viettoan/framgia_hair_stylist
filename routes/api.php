@@ -36,6 +36,7 @@ Route::group(['prefix' => 'v0', 'namespace' => 'Api'], function() {
     Route::get('filter-order-booking', 'OrderBookingController@filterBooking');
 
     Route::get('report-sales', 'ReportController@reportSales');
+    Route::get('report-bill', 'ReportController@reportBills');
 
     Route::get('get-render-by-depart-stylist', 'RenderBookingController@getRenderBooking');
     Route::post('register', 'AuthController@register');
