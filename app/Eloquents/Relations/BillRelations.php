@@ -13,6 +13,11 @@ trait BillRelations
         return $this->hasMany(BillItem::class, 'bill_id');
     }
 
+    public function BillItems()
+    {
+        return $this->hasMany(BillItem::class, 'bill_id');
+    }
+
     public function getUser()
     {
         return $this->belongsTo(User::class, 'customer_id');

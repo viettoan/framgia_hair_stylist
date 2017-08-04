@@ -57,7 +57,7 @@ class DepartmentsController extends Controller
             $response['error'] = true;
             $response['status'] = 403;
             foreach ($rule as $key => $value) {
-                $response['message'][$key] = $validator->messages()->first($key);
+                $response['message'][] = $validator->messages()->first($key);
             }
 
             return Response::json($response, 403);
