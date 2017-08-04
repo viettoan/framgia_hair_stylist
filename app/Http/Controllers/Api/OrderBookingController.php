@@ -66,7 +66,7 @@ class OrderBookingController extends Controller
 
         $rule = [
             'render_booking_id' => 'required',
-            'phone' => 'required|numeric|size:6',
+            'phone' => 'required|numeric|digits_between:6,25',
             'name' => 'required|string',
         ];
 
