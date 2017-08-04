@@ -71,7 +71,7 @@
         </div>
     </section>
     <div class="modal fade" id="showBill" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
@@ -80,39 +80,53 @@
                 <div class="modal-body">
                     <form method="POST" enctype="multipart/form-data" v-on:submit.prevent="createItem">
                         <div class="form-group">
-                            {{-- <label for="name">{{ __('Select Customer') }}</label>
-                            <select  class="form-control" id="sel1" v-on:change="selectUser">
-                                <option value="0">{{ __('Select User') }}</option>
-                                <option v-bind:value="user.id " v-for="user in items">@{{ user.name }}</option>
-                            </select> --}}
-                            <br>
-                            <label for="name">{{ __('Name Customer') }}</label>
-                            <input type="text" name="short_description" class="form-control" v-model="newUser.name"/>
-                            <label for="name">{{ __('Phone Customer') }}</label>
-                            <span class="text-danger">
-                                @{{formErrors.phone}}
-                            </span>
-                            <input type="text" name="phone" class="form-control" v-on:keyup="keyPhone" v-model="newItem.phone"/>
+                            <div class="col-sm-6">
+                                <label for="name">{{ __('Phone Customer') }}</label>
+                                <span class="text-danger">
+                                    @{{formErrors.phone}}
+                                </span>
+                                <input type="text" name="phone" class="form-control" v-on:keyup="keyPhone" v-model="bookingUser.phone"/>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="name">{{ __('Name Customer') }}</label>
+                                <input type="text" name="short_description" class="form-control" v-model="bookingUser.name"/>
+                            </div>
                             <label for="name" class="text-center">
                                 <p class="text-center">{{ __('Infor Booking') }}</p>
                             </label>
-                            <div>
-                             <p>Day Booking:</p>
-                             <p>Time Start:</p>
-                             <p>Department:</p>
-                             <p>Stylist:</p>
-                             <p>Email Stylist:</p>
-                             <p>Phone Stylist:</p>
-                         </div>
-                     </div>
-                     <hr>
-                     <button class="btn btn_success" v-on:click="addService">{{__('Add Service') }}</button>
-                     <hr>
+                            <div v-if="booking.id">
+                                <div class="col-sm-4">
+                                    <p>Department: @{{ booking.department.name }}</p>
+                                    <p>Address: @{{ booking.department.address }}</p>
+                                </div>
+                                <div class="col-sm-4">
+                                    <p>Day Booking: @{{ booking.render_booking.day }}</p>
+                                    <p>Time start: @{{ booking.render_booking.time_start }}</p>
+                                </div>
+                                <div class="col-sm-4">
+                                    <p>Stylist: @{{ booking.stylist.name }}</p>
+                                    <p>Phone: @{{ booking.stylist.phone }}</p>
+                                </div>
+                            </div>
+                            <div v-if="!booking.id">
+                                <div class="col-sm-4" class="text-danger">
+                                    Khong co booking nao
+                                </div>
+                            </div>
+                    </div>
+                    <hr>
+                    <a class="btn btn-success" v-on:click="addService">
+                        {{__('Add Service') }}
+                    </a>
+                    <hr>
                     <div class="form-group col-md-12">
                        <div class="well">
                             <span class="">Service</span>
                             <select  class="form-control" id="sel1" v-on:change="">
                                 <option value="">{{ __('Select Service') }}</option>
+                                <option vbind:value="service.id" v-for="service in services">
+                                    @{{ service.name }}
+                                </option>
                             </select>
                             <br>
                             <span class="">Stylist</span>
@@ -126,17 +140,15 @@
                     </div>
                         <span>Service List:</span>
                         <div class="well" id ="list_service">
-                            <span class="">Service</span>
-                            <select  class="form-control" id="sel1" v-on:change="">
-                                <option value="">{{ __('Select Service') }}</option>
-                            </select>
-                            <br>
-                            <span class="">Stylist</span>
-                            <select  class="form-control" id="sel1" v-on:change="">
-                                <option value="">{{ __('Select Stylist') }}</option>
-                            </select>
-                            <span class="">Price</span>
-                            <input type="text" name="short_description" class="form-control"/>
+                        <span>1</span>
+                            <span class="">Service:</span>
+                            Goi dau
+                                <br>
+                            <span class="">Stylist:</span>
+                            Tran Van My
+                                 <br>
+                            <span class="">Price:</span>
+                            500$
                             <br>
                             <button class="btn btn-success">{{ __('Edit Service') }}</button>
                             <button class="btn btn-danger">{{ __('Delete Service') }}</button>

@@ -16,9 +16,19 @@ var manage_service = new Vue({
         },
         offset: 4,
         formErrors: {},
+        params: {},
         formErrorsUpdate: {},
-        newItem: {'id': '', 'name': '', 'short_description': '', 'description': '', 'price': '', 'avg_rate': '', 'total_rate': ''},
-        fillItem: {'id': '', 'name': '', 'short_description': '', 'description': '', 'price': ''},
+        newItem: {'id': '',
+        'name': '',
+        'email': '',
+        'password': '',
+        'phone': '',
+        'birthday': '',
+        'department_id': '',
+        'gender': '',
+        'permission': ''
+    },
+        fillItem: {'id': '', 'name': '', 'phone': '', 'about': '', 'gender': '', 'permission': '', 'birthday': ''},
         deleteItem: {'name':'','id':''}
     },
 
@@ -51,14 +61,40 @@ var manage_service = new Vue({
         this.users = Vue.ls.get('user', {});
         this.token = Vue.ls.get('token', {});
         this.showInfor(this.pagination.current_page);
+        this.params.per_page = '';
     },
 
     methods: {
-        showInfor: function(page) {
-            axios.get('/api/v0/service').then(response => {
-                console.log(response.data.data);
-                this.$set(this, 'items', response.data.data);
-            })
+        showInfor: function() {
+            var authOptions = {
+                method: 'get',
+                url: '/api/v0/get-custommer',
+                params: this.params,
+                headers: {
+                    'Authorization': "Bearer " + this.token.access_token
+                }
+            }
+            axios(authOptions).then(response => {
+                this.$set(this, 'items', response.data.data.data);
+                console.log(this.items);
+            }).catch(function (error) {
+            });
+        },
+        selectPerPage: function(event) {
+            this.params.per_page = event.target.value;
+            this.showInfor();
+        },
+        viewUser: function(item) {
+                this.fillItem.name = item.name;
+                this.fillItem.email = item.email;
+                this.fillItem.phone = item.phone;
+                this.fillItem.gender = item.gender;
+                this.fillItem.about = item.about_me;
+                this.fillItem.email = item.email;
+                // this.fillItem.description = item.description;
+                // this.fillItem.price = item.price;
+                // this.fillItem.id = item.id;
+            $('#showUser').modal('show');
         },
         addItem: function(){
             this.formErrors = '';
@@ -139,7 +175,7 @@ var manage_service = new Vue({
         },
 
         changePage: function (page) {
-            this.pagination.current_page = page;
+            this.params.page = page;
             this.showInfor(page);
         }
     }

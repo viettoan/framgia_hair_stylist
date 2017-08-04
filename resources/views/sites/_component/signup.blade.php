@@ -1,5 +1,7 @@
 @extends('sites.master')
 
+@section('siteTitle', __('Register'))
+
 @section('style')
 {{ Html::style('css/signup/style.css') }}
 @endsection
