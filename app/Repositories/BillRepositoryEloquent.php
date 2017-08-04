@@ -60,4 +60,35 @@ class BillRepositoryEloquent extends AbstractRepositoryEloquent implements BillR
         
         return $query->get();
     }
+
+    public function getGroupBillByYear($year, $select = ['*'], $with = [])
+    {
+        $query = $this->model()->select($select)->with($with)
+            ->whereYear('updated_at', $year)->groupBy('phone');
+        
+        return $query->get();
+    }
+
+    public function getGroupBillByMonth($month, $year, $select = ['*'], $with = [])
+    {
+        $query = $this->model()->select($select)->with($with)
+            ->whereYear('updated_at', $year)
+            ->whereMonth('updated_at', $month)
+            ->groupBy('phone');
+        
+        return $query->get();
+    }
+
+    public function getGroupBillByDate($date, $select = ['*'], $with = [])
+    {
+        $query = $this->model()->select($select)->with($with)
+            ->whereDate('updated_at', $date)->groupBy('phone');
+        
+        return $query->get();
+    }
+
+    public function countBillByPhone($phone)
+    {
+        return $this->model()->where('phone', $phone)->count();
+    }
 }

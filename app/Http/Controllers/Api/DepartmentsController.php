@@ -91,7 +91,7 @@ class DepartmentsController extends Controller
         {
             $response['error'] = true;
             $response['status'] = 403;
-            $response['message'] = __('This department already exist!');
+            $response['message'][] = __('This department already exist!');
 
             return Response::json($response, 403);
         }
