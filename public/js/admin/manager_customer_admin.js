@@ -84,27 +84,26 @@ var manage_service = new Vue({
             axios(authOptions).then((response) => {
                 this.newItem = {'id': '', 'name': '', 'short_description': '', 'description': '', 'price': '', 'avg_rate': '', 'total_rate': ''},
                 this.formErrors = '';
-
-                self.formErrors = response.data.message;
-                for (key in self.formErrors) {
-                    toastr.success(self.formErrors[key], '', {timeOut: 5000});
-                }   
                 $("#create-item").modal('hide');
-                this.changePage(this.pagination.current_page);
+                    toastr.success('Create Service Success', 'Success', {timeOut: 5000});
+                    this.changePage(this.pagination.current_page);
             }).catch((error) => {
-                self.formErrors = error.response.data.message;
-                for (key in self.formErrors) {
-                    toastr.error(self.formErrors[key], '', {timeOut: 10000});
-                }    
+                    if (error.response.status == 403) {
+                        self.formErrors = error.response.data.message;
+                        console.log(self.formErrors);
+                        for (key in self.formErrors) {
+                            toastr.error(self.formErrors[key], '', {timeOut: 10000});
+                        }    
+                    }
             });
         },
 
         edit_Service: function(item) {
-                this.fillItem.name = item.name;
-                this.fillItem.short_description = item.short_description;
-                this.fillItem.description = item.description;
-                this.fillItem.price = item.price;
-                this.fillItem.id = item.id;
+            this.fillItem.name = item.name;
+            this.fillItem.short_description = item.short_description;
+            this.fillItem.description = item.description;
+            this.fillItem.price = item.price;
+            this.fillItem.id = item.id;
             $('#edit_Service').modal('show');
         },
 
@@ -126,16 +125,16 @@ var manage_service = new Vue({
                 this.newItem = {'id': '', 'name': '', 'short_description': '', 'description': '', 'price': ''},
                 this.formErrors = '';
                 $("#edit_Service").modal('hide');
-                    toastr.success('Update Service Success', 'Success', {timeOut: 5000});
-                    this.showInfor(this.pagination.current_page);
-                    this.changePage(this.pagination.current_page);
+                toastr.success('Update Service Success', 'Success', {timeOut: 5000});
+                this.showInfor(this.pagination.current_page);
+                this.changePage(this.pagination.current_page);
             }).catch((error) => {
-                    if (error.response.status == 403) {
-                        self.formErrors = error.response.data.message;
-                        for (key in self.formErrors) {
-                            toastr.error(self.formErrors[key], '', {timeOut: 10000});
-                        }    
-                    }
+                if (error.response.status == 403) {
+                    self.formErrors = error.response.data.message;
+                    for (key in self.formErrors) {
+                        toastr.error(self.formErrors[key], '', {timeOut: 10000});
+                    }    
+                }
             });
         },
 

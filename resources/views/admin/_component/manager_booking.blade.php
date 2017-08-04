@@ -48,7 +48,7 @@
                                 <option value="">{{ __('All') }}</option>
                                 <option value="0">{{ __('Cancel') }}</option>
                                 <option value="1">{{ __('Wating') }}</option>
-                                <option value="2">{{ __('Wating') }}</option>
+                                <option value="2">{{ __('Finish') }}</option>
                             </select>
                         </div>
                         <label class="col-md-4">{{ __('Number day') }}</label>

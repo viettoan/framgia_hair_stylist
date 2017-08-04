@@ -20,7 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['prefix' => 'v0', 'namespace' => 'Api'], function() {
     Route::get('get-salons', 'DepartmentsController@index');
     Route::get('get-stylist-by-salonId/{id}', 'UserController@getStylistbySalonID');
-    Route::post('get-custommer', 'UserController@getAllCustommerByPage');
+    Route::get('get-custommer', 'UserController@getAllCustommerByPage');
     Route::get('first-render-booking', 'ApiController@firstRenderBooking');
     Route::get('get_booking_by_id/{id}', 'OrderBookingController@getBookingbyId');
     Route::get('get_booking_by_user_id/{id}', 'OrderBookingController@getBookingbyUserId');

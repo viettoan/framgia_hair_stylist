@@ -15,6 +15,9 @@ var header = new Vue({
     mounted : function(){
         this.users = Vue.ls.get('user', {});
         this.token = Vue.ls.get('token', {});
+        if (this.users.permission != 3) {
+            window.location = '/';
+        }
     },
     methods: {
         logout: function() {
@@ -34,8 +37,13 @@ var header = new Vue({
                 Vue.ls.remove('user');
                 this.users = {};
                 this.token = {};
-                window.location = '/site/home/';
+                window.location = '/';
             }).catch(function (error) {
+                Vue.ls.remove('token');
+                Vue.ls.remove('user');
+                this.users = {};
+                this.token = {};
+                window.location = '/';
                 self.errors = error.response.data.message;
             });
         }

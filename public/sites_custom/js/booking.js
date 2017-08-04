@@ -51,6 +51,7 @@ var manage_service = new Vue({
                 this.$set(this, 'items', response.data.data);
                 this.params.department_id = this.items[0].id;
                 this.selected.department_id = this.items[0].id;
+                this.getStylist(this.selected.department_id);
                 this.getRenderBooking();
             })
         },
@@ -106,6 +107,7 @@ var manage_service = new Vue({
 
         getRenderBooking: function()
         {
+            $('.frontend-booking-indicator').removeClass('hide');
             var authOptions = {
                 method: 'get',
                 url: '/api/v0/get-render-by-depart-stylist',
@@ -120,7 +122,10 @@ var manage_service = new Vue({
             axios(authOptions).then(response => {
                 this.renderBookings = response.data.data.renders;
                 this.params.stylist_id = '';
-            })
+                $('.frontend-booking-indicator').addClass('hide');
+            }).catch((error) => {
+                $('.frontend-booking-indicator').addClass('hide');
+            });
         },
         full: function() {
             toastr.error('This time is full! Please choose another time', '', {timeOut: 3000});
