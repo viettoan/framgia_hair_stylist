@@ -18,7 +18,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group(['prefix' => 'v0', 'namespace' => 'Api'], function() {
-    Route::get('get-salons', 'DepartmentsController@index');
     Route::get('get-stylist-by-salonId/{id}', 'UserController@getStylistbySalonID');
     Route::post('get-custommer', 'UserController@getAllCustommerByPage');
     Route::get('first-render-booking', 'ApiController@firstRenderBooking');
@@ -30,9 +29,7 @@ Route::group(['prefix' => 'v0', 'namespace' => 'Api'], function() {
 
     Route::get('get-bill-by-customer-id', 'BillController@getBillByCustomerId');
 
-    Route::get('department-create', 'DepartmentsController@createDepartment');
-    Route::get('department-edit/{id}', 'DepartmentsController@editDepartment');
-
+    
     Route::get('filter-order-booking', 'OrderBookingController@filterBooking');
 
     Route::get('report-sales', 'ReportController@reportSales');
@@ -48,6 +45,7 @@ Route::group(['prefix' => 'v0', 'namespace' => 'Api'], function() {
     Route::resource('service', 'ServiceController');
     Route::resource('user', 'UserController');
     Route::resource('bill', 'BillController');
-
+    Route::resource('department', 'DepartmentsController');
+    
     Route::get('user-by-phone', 'UserController@getByPhone');
 });
