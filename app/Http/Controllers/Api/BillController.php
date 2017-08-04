@@ -143,6 +143,7 @@ class BillController extends Controller
                 $this->billItem->create($billItem);
             }
             $response['error'] = false;
+            $response['status'] = 200;
             $response['data'] = $this->bill->find($bill->id, 'BillItems');
             $response['message'][] = __('Create bill successfully!');
             DB::commit();
@@ -264,6 +265,7 @@ class BillController extends Controller
             // Xu ly Complete Booking
             
             $response['error'] = false;
+            $response['status'] = 200;
             $response['data'] = $this->bill->find($bill->id, 'BillItems');
             $response['message'][] = __('Edit bill successfully!');
             DB::commit();
