@@ -61,4 +61,7 @@
     "Create bill successfully!": "Create bill successfully!",
     "Edit bill successfully!": "Edit bill successfully!",
     "This department already exist!": "This department already exist!",
+    "You can not book because no stylist in your time book!": "You can not book because no stylist in your time book!",
+    "You have changed your booking to new booking!": "You have changed your booking to new booking!",
+    "You have successfully booked!": "You have successfully booked!"
 }
