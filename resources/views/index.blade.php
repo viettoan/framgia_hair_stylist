@@ -1,4 +1,7 @@
 @extends('sites.master')
+
+@section('siteTitle', __('Home'))
+
 @section('content')
     @include('sites._section.head')
     @include('sites._section.slider')

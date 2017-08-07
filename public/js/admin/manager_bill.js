@@ -9,14 +9,18 @@ var Manager_bill = new Vue({
         items: [],
         users: {'name': '', 'phone': ''},
         newItem: {'phone': ''},
-        newUser: {'name': ''},
+        bookingUser: {'name': '', 'phone': ''},
         params: {},
+        services:{},
         formErrors: {'phone': ''},
+        booking: {}
+
     },
     mounted : function(){
         this.users = Vue.ls.get('user', {});
         this.token = Vue.ls.get('token', {});
         this.showUser();
+        this.findService();
         this.users = '';
         $('#list_service').hide();
     },
@@ -59,19 +63,14 @@ var Manager_bill = new Vue({
                 json: true
             }
             axios(authOptions).then(response => {
-                this.$set(this, 'users', response.data.data);
-                // console.log(this.users[0].name)
-
-            }).catch((error) => {
+                this.$set(this, 'users', response.data.data)
+                }).catch((error) => {
             });
         },
-        keyPhone: function(event){
-            var input = this.newItem;
-            var self = this;
+        findService: function(){
             var authOptions = {
                 method: 'GET',
-                url: '/api/v0/get_last_booking_by_phone',
-                params: this.newItem,
+                url: '/api/v0/service',
                 headers: {
                     'Authorization': "Bearer " + this.token.access_token,
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -79,10 +78,30 @@ var Manager_bill = new Vue({
                 json: true
             }
             axios(authOptions).then(response => {
-                    this.newUser = response.data;
-                    // console.log(this.newUser.data.name);
-                    this.formErrors.phone = response.data.message;
-                }).catch((error) => {
+                this.$set(this, 'services', response.data.data);
+            }).catch((error) => {
+            });
+        },
+
+        keyPhone: function(event){
+            var input = this.newItem;
+            var self = this;
+            var authOptions = {
+                method: 'GET',
+                url: '/api/v0/get_last_booking_by_phone',
+                params: this.bookingUser,
+                headers: {
+                    'Authorization': "Bearer " + this.token.access_token,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                json: true
+            }
+            axios(authOptions).then(response => {
+                this.bookingUser.name = response.data.data.name;
+                this.booking = response.data.data;
+            }).catch((error) => {
+                this.booking = {};
+                this.formErrors.phone = error.response.data.message[0];
             });
         },
         createBill: function(){

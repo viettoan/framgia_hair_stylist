@@ -1,4 +1,7 @@
 @extends('sites.master')
+
+@section('siteTitle', __('Login'))
+
 @section('style')
     {{ Html::style('bower/bootstrap/dist/css/bootstrap.css') }}
     {{ Html::style('css/login/style_login.css') }}
