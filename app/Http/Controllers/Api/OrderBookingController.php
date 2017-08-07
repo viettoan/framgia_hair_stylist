@@ -165,6 +165,7 @@ class OrderBookingController extends Controller
         $endDate = Carbon::today()->endOfDay();
         $filter_date = $request->date;
         $filter_type = $request->type;//today - week - month //default today
+        $filter_department = $request->department_id;
 
         $date_start = Carbon::createFromTimestamp($request->start_date);
         $date_end = Carbon::createFromTimestamp($request->end_date);
@@ -174,26 +175,21 @@ class OrderBookingController extends Controller
                 $endDate = $date_start->endOfDay();
                 break;
             case 'space':
-                $startDate = $date_start->format('Y-m-d H:i:s');
+                $startDate = $date_start->startOfDay()->format('Y-m-d H:i:s');
                 $endDate = $date_end->endOfDay();
                 break;
         }
 
         $filter_status = $request->status; //cancel - finished - pending
-        $perPage = (int) $request->per_page ?: config('model.booking.default_filter_limit');
-        $page = (int) $request->page ?: 1;
 
-        $currentDate = Carbon::now()->timestamp(strtotime($startDate))->addDay($perPage*($page-1));
+        $currentDate = Carbon::now()->timestamp(strtotime($startDate));
         $responseData = [];
-        for ($i = $perPage * ($page - 1); $i < $perPage * $page; $i++) {
-            if ($currentDate->gt($endDate)) {
-                break;
-            }
+        for (;$currentDate->lte($endDate);) {
 
             $date_filter = $currentDate->format('Y-m-d');
 
             $renderBookings = $this->renderBooking
-                ->getRenderByDate($date_filter, ['OrderBooking', 'Department']);
+                ->getRenderByDate($date_filter, $filter_department, ['OrderBooking', 'Department']);
 
             $data['date_book'] = $currentDate->format('d-m-Y');
             $dataBooks = [];
