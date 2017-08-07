@@ -10,6 +10,7 @@ use App\Contracts\Repositories\UserRepository;
 use App\Contracts\Repositories\DepartmentRepository;
 use App\Helpers\Helper;
 use App\Eloquents\OrderBooking;
+use App\Eloquents\User;
 use Validator;
 use Auth;
 use Response;
@@ -332,6 +333,64 @@ class OrderBookingController extends Controller
         return Response::json($response);
     }
 
+    public function changeStatus(Request $request, $id)
+    {
+        $response = Helper::apiFormat();
+
+        $user = Auth::guard('api')->user();
+        if (!$user || $user->permission != User::PERMISSION_ADMIN) {
+            $response['error'] = true;
+            $response['message'][] = __('You do not have permission to perform this action!');
+            $response['status'] = 403;
+
+            return Response::json($response, $response['status']);
+        }
+
+        $orderBooking = $this->orderBooking->find($id);
+
+        if (!$orderBooking) {
+            $response['error'] = true;
+            $response['status'] = 404;
+            $response['message'][] = __('Not found this booking ordered!');
+
+            return Response::json($response);
+        }
+
+        $rule = [
+            'status' => 'numeric',
+        ];
+        $validator = Validator::make($request->all(), $rule);
+        if ($validator->fails()) {
+            $response['error'] = true;
+            $response['status'] = 403;
+            foreach ($rule as $key => $value) {
+                if ($validator->messages()->first($key)) {
+                    $response['message'][] = $validator->messages()->first($key);
+                }
+            }
+
+            return Response::json($response, $response['status']);
+        }
+
+        $dataEdit = [
+            'status' =>$request->status,
+        ];
+        if($dataEdit['status'] > 3 || $dataEdit['status'] < 0)
+        {
+            $dataEdit['status'] = 1;
+        }
+        try {
+            $orderBooking->fill($dataEdit)->save();
+            $response['message'][] = __('Updated Status booking successfully!');
+        } catch (Exception $e) {
+            $response['error'] = true;
+            $response['status'] = 403;
+            $response['message'][] = $e->getMessage();
+        }
+
+        return Response::json($response, $response['status']);
+    }
+
     public function getBookingbyId($bookingId)
     {
         $response = Helper::apiFormat();
@@ -343,10 +402,9 @@ class OrderBookingController extends Controller
             $response['error'] = true;
             $response['status'] = '404';
             $response['message'][] = __('404 not found');
-
             return Response::json($response, $response['status']);
         }
-
+        
         $renderBooking = $this->renderBooking->find($booking->render_booking_id);
         $booking->render_booking = $renderBooking;
         $booking->department = $this->department->find($renderBooking->department_id);
@@ -357,3 +415,4 @@ class OrderBookingController extends Controller
         return Response::json($response, $response['status']);
     }
 }
+

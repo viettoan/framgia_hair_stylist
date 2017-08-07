@@ -21,12 +21,15 @@ class OrderBooking extends Model
         'name',
         'stylist_id',
         'grand_total',
+        'status'
     ];
 
     public function setStatusAttribute($value)
     {
         if (!$value) {
             $this->attributes['status'] = 1;
+        } else {
+            $this->attributes['status'] = $value;
         }
     }
 
