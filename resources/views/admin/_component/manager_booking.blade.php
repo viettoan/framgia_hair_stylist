@@ -48,18 +48,13 @@
                                 <option value="">{{ __('All') }}</option>
                                 <option value="0">{{ __('Cancel') }}</option>
                                 <option value="1">{{ __('Wating') }}</option>
-                                <option value="2">{{ __('Finish') }}</option>
+                                <option value="2">{{ __('Inlate') }}</option>
+                                <option value="2">{{ __('Complete') }}</option>
                             </select>
                         </div>
-                        <label class="col-md-4">{{ __('Number day') }}</label>
+                        <label class="col-md-4">{{ __('Search') }}</label>
                         <div class="form-group col-md-8 select_booking_manage">
-                            <select  class="form-control" id="sel1" v-on:change="selectPerPage">
-                                <option value="5">5</option>
-                                <option value="10" selected>10</option>
-                                <option value="20">20</option>
-                                <option value="25">25</option>
-                                <option value="50">50</option>
-                            </select>
+                            <input type="" name="" id='search_department' placeholder="search for department...">
                         </div>
                     </div>
                 </div>

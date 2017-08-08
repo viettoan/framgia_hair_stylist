@@ -26,19 +26,26 @@
             </li>
         </ol>
     </section>
-    <br>
-    <div class="col-md-4 col-md-offset-7">
-       <label class="col-md-4">{{ __('Number User') }}</label>
-       <div class="form-group col-md-8 select_booking_manage">
-        <select  class="form-control" id="sel1" v-on:change="selectPerPage">
-            <option value="" selected>{{ __('Select') }}</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value="25">25</option>
-            <option value="50">50</option>
-        </select>
-        </div> 
+    <div class="col-md-12">  
+        <div class="col-md-4 search_customer">
+            <label class="col-md-4">{{ __('Search') }}</label>
+            <div class="col-md-8">
+                <input id="myInput" onkeyup="myFunction()" placeholder="Search for phone number..">
+            </div>
+        </div>
+        <div class="col-md-4 col-md-offset-2">
+           <label class="col-md-4">{{ __('Number User') }}</label>
+           <div class="form-group col-md-8 select_booking_manage">
+            <select  class="form-control" id="sel1" v-on:change="selectPerPage">
+                <option value="" selected>{{ __('Select') }}</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+            </select>
+            </div> 
+        </div>
     </div>
     <section class="content">
         <div class="row">
@@ -319,4 +326,7 @@
 
 @section('script')
     {{ Html::script('js/admin/manager_customer_admin.js') }}
+<script>
+
+</script>
 @endsection
