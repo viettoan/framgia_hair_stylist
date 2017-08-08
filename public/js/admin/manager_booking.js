@@ -17,6 +17,7 @@ var manage_service = new Vue({
         show_input: {},
         offset: 4,
         formErrors: {},
+        showDepartments:{},
         formErrorsUpdate: {},
         newItem: {},
         params: {},
@@ -36,7 +37,7 @@ var manage_service = new Vue({
         var curentDay = new Date().toISOString().slice(0, 10);
         this.start_date = curentDay;
         this.end_date = curentDay;
-
+        this.showDepartment();
         this.getBooking();
     },
 
@@ -97,18 +98,20 @@ var manage_service = new Vue({
         },
 
         selectStatus: function(event) {
-            this.params.status = event.target.value;
+            var arrStatus = $(event.target).val();
+            this.params.status = arrStatus.join(',');
+
             this.getBooking();
         },
-
-        selectPerPage: function(event) {
-            this.params.per_page = event.target.value;
-            this.getBooking();
+        showDepartment: function(page) {
+            axios.get('/api/v0/department').then(response => {
+                this.$set(this, 'showDepartments', response.data.data);
+            })
         },
 
-        changePage: function (page) {
-            this.params.page = page;
-            this.showInfor(page);
+        selectDepartment: function(event) {
+            this.params.department_id = event.target.value;
+            this.getBooking();
         }
     }
 });
