@@ -181,6 +181,9 @@ class OrderBookingController extends Controller
         }
 
         $filter_status = $request->status; //cancel - finished - pending
+        if (null !== $filter_status) {
+            $filter_status = explode(',', $filter_status);
+        }
 
         $currentDate = Carbon::now()->timestamp(strtotime($startDate));
         $responseData = [];
@@ -199,7 +202,7 @@ class OrderBookingController extends Controller
                     'address' => $renderBooking->Department->address,
                 ];
                 foreach ($renderBooking->OrderBooking as $orderBooking) {
-                    if (null !== $filter_status && $orderBooking->status != $filter_status) {
+                    if (null !== $filter_status && !in_array($orderBooking->status, $filter_status)) {
                         continue;
                     }
                     $orderBooking->time_start = $renderBooking->day . ' ' . $renderBooking->time_start;
