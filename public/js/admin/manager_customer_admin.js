@@ -7,6 +7,7 @@ var manage_service = new Vue({
         users: {},
         token: {},
         items: [],
+        showDepartments:{},
         pagination: {
             total: 0,
             per_page: 2,
@@ -26,41 +27,19 @@ var manage_service = new Vue({
         'birthday': '',
         'department_id': '',
         'gender': '',
-        'permission': ''
+        'permission': '',
+        'password_confirmation': '',
+        'specialize': '',
+        'about_me': ''
     },
         fillItem: {'id': '', 'name': '', 'phone': '', 'about': '', 'gender': '', 'permission': '', 'birthday': ''},
         deleteItem: {'name':'','id':''}
     },
-
-    computed: {
-        isActived: function () {
-            return this.pagination.current_page;
-        },
-        pagesNumber: function () {
-            if (!this.pagination.to) {
-                return [];
-            }
-            var from = this.pagination.current_page - this.offset;
-            if (from < 1) {
-                from = 1;
-            }
-            var to = from + (this.offset * 2);
-            if (to >= this.pagination.last_page) {
-                to = this.pagination.last_page;
-            }
-            var pagesArray = [];
-            while (from <= to) {
-                pagesArray.push(from);
-                from++;
-            }
-            return pagesArray;
-        }
-    },
-    
     mounted : function(){
         this.users = Vue.ls.get('user', {});
         this.token = Vue.ls.get('token', {});
-        this.showInfor(this.pagination.current_page);
+        this.showDepartment();
+        this.showInfor();
         this.params.per_page = '';
     },
 
@@ -91,10 +70,15 @@ var manage_service = new Vue({
                 this.fillItem.gender = item.gender;
                 this.fillItem.about = item.about_me;
                 this.fillItem.email = item.email;
-                // this.fillItem.description = item.description;
+                this.fillItem.birthday = item.birthday;
                 // this.fillItem.price = item.price;
                 // this.fillItem.id = item.id;
             $('#showUser').modal('show');
+        },
+        showDepartment: function(page) {
+            axios.get('/api/v0/department').then(response => {
+                this.$set(this, 'showDepartments', response.data.data);
+            })
         },
         addItem: function(){
             this.formErrors = '';
@@ -103,13 +87,10 @@ var manage_service = new Vue({
             
         createItem: function(){
             var self = this;
-            var input = this.newItem;
-            input.avg_rate = 0;
-            input.total_rate = 0;
             var authOptions = {
                     method: 'POST',
-                    url: '/api/v0/service',
-                    params: input,
+                    url: '/api/v0/user',
+                    params: this.newItem,
                     headers: {
                         'Authorization': "Bearer " + this.token.access_token,
                         'Content-Type': 'application/x-www-form-urlencoded'
@@ -118,7 +99,7 @@ var manage_service = new Vue({
                 }
 
             axios(authOptions).then((response) => {
-                this.newItem = {'id': '', 'name': '', 'short_description': '', 'description': '', 'price': '', 'avg_rate': '', 'total_rate': ''},
+                this.newItem = {},
                 this.formErrors = '';
                 $("#create-item").modal('hide');
                     toastr.success('Create Service Success', 'Success', {timeOut: 5000});
