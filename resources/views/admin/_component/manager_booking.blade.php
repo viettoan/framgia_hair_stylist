@@ -44,17 +44,19 @@
                     <div class="col-md-4">
                         <label class="col-md-4">{{ __('Status') }}</label>
                         <div class="form-group col-md-8 select_booking_manage">
-                            <select  class="form-control" id="sel1" v-on:change="selectStatus">
-                                <option value="">{{ __('All') }}</option>
+                            <select  class="form-control select-multi-status" id="sel1" v-on:change="selectStatus" multiple>
                                 <option value="0">{{ __('Cancel') }}</option>
                                 <option value="1">{{ __('Wating') }}</option>
-                                <option value="2">{{ __('Inlate') }}</option>
+                                <option value="3">{{ __('Inlate') }}</option>
                                 <option value="2">{{ __('Complete') }}</option>
                             </select>
                         </div>
-                        <label class="col-md-4">{{ __('Search') }}</label>
+                        <label class="col-md-4">{{ __('Department') }}</label>
                         <div class="form-group col-md-8 select_booking_manage">
-                            <input type="" name="" id='search_department' placeholder="search for department...">
+                            <select  class="form-control" id="sel1" v-on:change="selectDepartment">
+                                <option value="">{{ __('All') }}</option>
+                                <option v-bind:value="department.id" v-for="department in showDepartments">@{{ department.name }}</option>
+                            </select>
                         </div>
                     </div>
                 </div>

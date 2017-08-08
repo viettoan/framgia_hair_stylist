@@ -18,6 +18,7 @@
     {{ Html::style('bower/AdminLTE/plugins/daterangepicker/daterangepicker.css') }}
     {{ Html::style('bower/AdminLTE/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css')}}
     {{ Html::style('bower/toastr/toastr.min.css') }}
+    {{ Html::style('bower/AdminLTE/plugins/select2/select2.min.css') }}
 
     @yield('style')
 
@@ -54,6 +55,7 @@
     {{ Html::script('bower/AdminLTE/dist/js/demo.js') }}
     {{ Html::script('js/admin/header.js') }}
     {{ Html::script('js/admin/aside_admin.js') }}
+    {{ Html::script('bower/AdminLTE/plugins/select2/select2.min.js') }}
     @yield('script')
 </body>
 </html>
