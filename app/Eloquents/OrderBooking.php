@@ -12,6 +12,7 @@ class OrderBooking extends Model
     const STATUS_CANCEL = 0;
     const STATUS_PENDING = 1;
     const STATUS_FINISHED = 2;
+    const STATUS_INLATE = 3;
 
 
     protected $fillable = [
@@ -27,7 +28,7 @@ class OrderBooking extends Model
     public function setStatusAttribute($value)
     {
         if (!$value) {
-            $this->attributes['status'] = 1;
+            $this->attributes['status'] = self::STATUS_PENDING;
         } else {
             $this->attributes['status'] = $value;
         }
@@ -37,8 +38,9 @@ class OrderBooking extends Model
     {
         return [
             self::STATUS_CANCELED => __('Canceled'),
-            self::STATUS_PENDING => __('Pending'),
+            self::STATUS_PENDING => __('Waiting'),
             self::STATUS_FINISHED => __('Finished'),
+            self::STATUS_INLATE => __('In Late'),
         ];
     }
 }

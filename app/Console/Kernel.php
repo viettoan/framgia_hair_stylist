@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         \App\Console\Commands\RenderBookingEveryday::class,
+        \App\Console\Commands\ChangeInlateBooking::class,
     ];
 
     /**
@@ -25,7 +26,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('render:booking')->daily();
+        $schedule->command('booking:render')->daily();
+        $schedule->command('booking:change-inlate')->everyThirtyMinutes();
     }
 
     /**

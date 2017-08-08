@@ -63,8 +63,7 @@ class OrderBookingController extends Controller
         if (!$stylist_id) {
             $orderCollection = $renderBooking->OrderBooking;
 
-            $allRenderday = $this->renderBooking->getRenderByDate($renderBooking->day, ['OrderBooking']);
-
+            $allRenderday = $this->renderBooking->getRenderByDate($renderBooking->day, null, ['OrderBooking']);
             $stylists = $this->user->getStylistByDepartmentId($renderBooking->department_id);
             $listStylist = [];
             foreach ($stylists as $stylist) {
@@ -78,8 +77,8 @@ class OrderBookingController extends Controller
                     }
                 }
             }
-
-            krsort($listStylist);
+            asort($listStylist);
+            
             foreach ($listStylist as $key => $stylist) {
                 if(!$orderCollection->where('stylist_id', $key)->first()) {
                     $stylist_id = $key;

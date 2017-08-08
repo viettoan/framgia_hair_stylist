@@ -13,7 +13,7 @@ class DepartmentTableSeeder extends Seeder
     public function run()
     {
         
-        Department::insert([
+        Department::create([
             'name' => str_random(10),
             'address' => str_random(10).'-Hanoi',
         ]);

@@ -18,7 +18,7 @@ use DB;
 class BillController extends Controller
 {
 
-    protected $bill, $billItem;
+    protected $bill, $billItem, $department;
 
     public function __construct(
         BillRepository $bill,
@@ -110,8 +110,9 @@ class BillController extends Controller
         **/
 
         $rule = [
-            'phone' => 'required|numeric|min:6',
+            'phone' => 'required|numeric|digits_between:6,25',
             'customer_name' => 'required|string|max:255',
+            'department_id' => 'required',
         ];
 
         $response['error'] = true;
@@ -133,7 +134,7 @@ class BillController extends Controller
             $billItems = json_decode($request->bill_items, true);
             $dataBill['service_total'] = count($billItems);
 
-            $bill = $this->bill->create($request->all());
+            $bill = $this->bill->create($dataBill);
 
             // Xu ly Complete Booking
 
@@ -144,7 +145,7 @@ class BillController extends Controller
             }
             $response['error'] = false;
             $response['status'] = 200;
-            $response['data'] = $this->bill->find($bill->id, 'BillItems');
+            $response['data'] = $this->bill->find($bill->id, ['BillItems', 'Department']);
             $response['message'][] = __('Create bill successfully!');
             DB::commit();
             
@@ -213,8 +214,9 @@ class BillController extends Controller
         }
 
         $rule = [
-            'phone' => 'required|numeric|min:6',
+            'phone' => 'required|numeric|digits_between:6,25',
             'customer_name' => 'required|string|max:255',
+            'department_id' => 'required',
         ];
 
         $response['error'] = true;
@@ -267,7 +269,7 @@ class BillController extends Controller
             
             $response['error'] = false;
             $response['status'] = 200;
-            $response['data'] = $this->bill->find($bill->id, 'BillItems');
+            $response['data'] = $this->bill->find($bill->id, ['BillItems', 'Department']);
             $response['message'][] = __('Edit bill successfully!');
             DB::commit();
         } catch (Exception $e) {
@@ -289,5 +291,10 @@ class BillController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function filterBill(Request $request)
+    {
+
     }
 }

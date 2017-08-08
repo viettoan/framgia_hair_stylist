@@ -14,7 +14,7 @@ class RenderBookingEveryday extends Command
      *
      * @var string
      */
-    protected $signature = 'render:booking';
+    protected $signature = 'booking:render';
 
     /**
      * The console command description.
@@ -40,6 +40,8 @@ class RenderBookingEveryday extends Command
      */
     public function handle()
     {
+        $this->info('Start render booking Everyday!');
+
         // Disable Booking yesterday
         $currentDay = Carbon::today()->addDay(-1)->format('Y-m-d');
         $oldRenders = RenderBooking::where('day', $currentDay)->get();
@@ -53,7 +55,7 @@ class RenderBookingEveryday extends Command
 
         $renderDay = Carbon::today()->addDay(config('default.render_day') - 1)->format('Y-m-d');
         if (RenderBooking::where('day', $renderDay)->first()) {
-            return;
+            return $this->error('Today the booking has already rendered!');
         }
 
         $workOpen = explode(':', config('default.work_open'));
@@ -87,7 +89,8 @@ class RenderBookingEveryday extends Command
                 $workOpenHour++;
                 $workOpenMinute -=60;
             }
-
         }
+
+        return $this->info('The booking rendered successfully!');
     }
 }

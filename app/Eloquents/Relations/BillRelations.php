@@ -5,6 +5,7 @@ namespace App\Eloquents\Relations;
 use App\Eloquents\BillItem;
 use App\Eloquents\User;
 use App\Eloquents\OrderBooking;
+use App\Eloquents\Department;
 
 trait BillRelations
 {
@@ -16,6 +17,11 @@ trait BillRelations
     public function BillItems()
     {
         return $this->hasMany(BillItem::class, 'bill_id');
+    }
+
+    public function Department()
+    {
+        return $this->belongsTo(Department::class, 'department_id');
     }
 
     public function getUser()

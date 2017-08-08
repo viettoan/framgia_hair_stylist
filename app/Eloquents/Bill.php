@@ -21,5 +21,6 @@ class Bill extends Model
         'status',
         'grand_total',
         'service_total',
+        'department_id',
     ];
 }
