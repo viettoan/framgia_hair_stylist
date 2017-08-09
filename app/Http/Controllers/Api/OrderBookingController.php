@@ -194,7 +194,7 @@ class OrderBookingController extends Controller
             $renderBookings = $this->renderBooking
                 ->getRenderByDate($date_filter, $filter_department, ['OrderBooking', 'Department']);
 
-            $data['date_book'] = $currentDate->format('d-m-Y');
+            $data['date_book'] = $currentDate->format(config('default.format_date'));
             $dataBooks = [];
             foreach ($renderBookings as $renderBooking) {
                 $department = [

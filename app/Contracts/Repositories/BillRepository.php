@@ -23,4 +23,6 @@ interface BillRepository extends AbstractRepository
     public function getGroupBillByDate($date, $select = ['*'], $with = []);
 
     public function countBillByPhone($phone);
+
+    public function getFilterBillByDate($date, $filter, $select = ['*'], $with = []);
 }

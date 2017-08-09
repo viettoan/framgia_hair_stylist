@@ -86,7 +86,7 @@ class ReportController extends Controller
                     $total_sales += $sales;
 
                     $statistical[] = [
-                        'label' => $date_start->format('d-m-Y'),
+                        'label' => $date_start->format(config('default.format_date')),
                         'value' => $sales,
                     ];
                     $date_start->addDay(1);
@@ -104,7 +104,7 @@ class ReportController extends Controller
                     }
                     $total_sales += $sales;
                     $statistical[] = [
-                        'label' => $now->format('d-m-Y'),
+                        'label' => $now->format(config('default.format_date')),
                         'value' => $sales,
                     ];
                 }
@@ -167,7 +167,7 @@ class ReportController extends Controller
                     $total_sales += $sales;
 
                     $statistical[] = [
-                        'label' => $date_start->format('d-m-Y'),
+                        'label' => $date_start->format(config('default.format_date')),
                         'value' => $sales,
                     ];
                     $date_start->addDay(1);
@@ -181,7 +181,7 @@ class ReportController extends Controller
                     $sales = $billCollection->count();
                     $total_sales += $sales;
                     $statistical[] = [
-                        'label' => $now->format('d-m-Y'),
+                        'label' => $now->format(config('default.format_date')),
                         'value' => $sales,
                     ];
                 }
@@ -243,7 +243,7 @@ class ReportController extends Controller
                 while ($date_start->lte($date_end)) {
                     $billCollection = $this->bill->getGroupBillByDate($date_start->format('Y-m-d'), $select);
                     $statistical[] = [
-                        'label' => $date_start->format('d-m-Y'),
+                        'label' => $date_start->format(config('default.format_date')),
                         'value' => $billCollection->count(),
                     ];
                     foreach ($billCollection as $value) {
@@ -257,7 +257,7 @@ class ReportController extends Controller
                     $now = Carbon::now()->addDay(-$i);
                     $billCollection = $this->bill->getGroupBillByDate($now->format('Y-m-d'), $select);
                     $statistical[] = [
-                        'label' => $now->format('d-m-Y'),
+                        'label' => $now->format(config('default.format_date')),
                         'value' => $billCollection->count(),
                     ];
                     foreach ($billCollection as $value) {
