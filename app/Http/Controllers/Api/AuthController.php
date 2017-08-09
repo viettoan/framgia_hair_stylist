@@ -171,7 +171,7 @@ class AuthController extends Controller
             $response['message'][] = __("You don't login or Access token expired!");
         } else {
             $user->token()->revoke();
-            $response['message'][] = __('You are Logged out.');
+            $response['data'][] = __('You are Logged out.');
         }
         
         return Response::json($response, $response['status']);
