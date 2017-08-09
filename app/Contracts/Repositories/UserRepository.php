@@ -15,4 +15,6 @@ interface UserRepository extends AbstractRepository
     public function find($id, $select = ['*'], $with = []);
 
     public function getAllCustommer($per_page, $with = [], $select = ['*']);
+
+    public function findByPhone($phone);
 }

@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Contracts\Repositories\BillRepository;
 use App\Contracts\Repositories\BillItemRepository;
+use App\Contracts\Repositories\UserRepository;
+use App\Contracts\Repositories\OrderBookingRepository;
 use App\Http\Controllers\Controller;
 use App\Eloquents\Bill;
 use App\Eloquents\User;
+use App\Eloquents\OrderBooking;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Helpers\Helper;
@@ -18,14 +21,18 @@ use DB;
 class BillController extends Controller
 {
 
-    protected $bill, $billItem, $department;
+    protected $bill, $billItem, $user, $orderBooking;
 
     public function __construct(
         BillRepository $bill,
-        BillItemRepository $billItem
+        BillItemRepository $billItem,
+        UserRepository $user,
+        OrderBookingRepository $orderBooking
     ) {
         $this->bill = $bill;
         $this->billItem = $billItem;
+        $this->user = $user;
+        $this->orderBooking = $orderBooking;
     }
 
     public function getBillByCustomerId(Request $request)
@@ -128,15 +135,48 @@ class BillController extends Controller
             return Response::json($response, $response['status']);
         }
 
+        // Create user if not exits phone
+        $findUser = $this->user->findByPhone($request->phone);
+        $customer_id = null;
+        if (!$findUser) {
+            for($number = 1; $number < 10000; $number++) {
+                $email = 'email.' . $request->phone . '.' . $number . '@gmail.com';
+                $existUser = $this->user->existEmailOrPhone($email, $request->phone);
+                if (!$existUser) {
+                    $user = [
+                        'email' => $email,
+                        'phone' => $request->phone,
+                        'name' => $request->customer_name,
+                        'password' => $request->phone,
+                    ];
+                    $newUser = $this->user->create($user);
+                    $customer_id = $newUser->id;
+                    break;
+                }
+            }
+        } else {
+            $customer_id = $findUser->id;
+        }
+        // End Create User
+
         DB::beginTransaction();
         try {
             $dataBill = $request->all();
             $billItems = json_decode($request->bill_items, true);
             $dataBill['service_total'] = count($billItems);
+            if (!$request->customer_id) {
+                $dataBill['customer_id'] = $customer_id;
+            }
 
             $bill = $this->bill->create($dataBill);
 
-            // Xu ly Complete Booking
+            // Xu ly Complete Booking neu complete bill
+            $orderBooking = $this->orderBooking->find($request->order_booking_id);
+            if ($orderBooking && $bill->status == Bill::STATUS_COMPLETE) {
+                $orderBooking->status = OrderBooking::STATUS_FINISHED;
+                $orderBooking->save();
+            }
+            // End
 
             // Create Bill Item
             foreach ($billItems as $billItem) {
@@ -265,7 +305,13 @@ class BillController extends Controller
                 }
             }
 
-            // Xu ly Complete Booking
+            // Xu ly Complete Booking neu complete bill
+            $orderBooking = $this->orderBooking->find($request->order_booking_id);
+            if ($orderBooking && $bill->status == Bill::STATUS_COMPLETE) {
+                $orderBooking->status = OrderBooking::STATUS_FINISHED;
+                $orderBooking->save();
+            }
+            // End
             
             $response['error'] = false;
             $response['status'] = 200;
@@ -298,10 +344,11 @@ class BillController extends Controller
         $response = Helper::apiFormat();
 
         $startDate = Carbon::today()->format('Y-m-d H:i:s');
-        $endDate = Carbon::today()->endOfDay();
-        $filter_date = $request->date;
-        $filter_type = $request->type;//today - week - month //default today
+        $endDate = Carbon::now()->endOfDay();
+
+        $filter_type = $request->type;//today - day - space //default today
         $filter_department = $request->department_id;
+        $filter_customer = $request->customer_id;
 
         $date_start = Carbon::createFromTimestamp($request->start_date);
         $date_end = Carbon::createFromTimestamp($request->end_date);
@@ -317,8 +364,32 @@ class BillController extends Controller
         }
 
         $filter_status = $request->status; //cancel - finished - pending
+        if (null !== $filter_status) {
+            $filter_status = explode(',', $filter_status);
+        }
 
+        $filter = [
+            'status' => $filter_status,
+            'department_id' => $filter_department,
+            'customer_id' => $filter_customer,
+        ];
         $currentDate = Carbon::now()->timestamp(strtotime($startDate));
         $responseData = [];
+
+        for (;$currentDate->lte($endDate);) {
+            if ($currentDate->gt($endDate)) {
+                break;
+            }
+            $data['date'] = $currentDate->format(config('default.format_date'));
+            $date_filter = $currentDate->format('Y-m-d');
+
+            $data['list_bill'] = $this->bill->getFilterBillByDate($date_filter, $filter, ['*'], 'BillItems');
+            $responseData[] = $data;
+            $currentDate->addDay(1);
+            // dd($responseData);
+        }
+        $response['data'] = $responseData;
+
+        return Response::json($response, $response['status']);
     }
 }

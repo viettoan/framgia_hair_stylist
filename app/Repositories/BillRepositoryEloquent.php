@@ -91,4 +91,21 @@ class BillRepositoryEloquent extends AbstractRepositoryEloquent implements BillR
     {
         return $this->model()->where('phone', $phone)->count();
     }
+
+    public function getFilterBillByDate($date, $filter, $select = ['*'], $with = [])
+    {
+        $query = $this->model()->select($select)->with($with)->whereDate('updated_at', $date);
+
+        if (isset($filter['status']) && null !== $filter['status']) {
+            $query->whereIn('status', $filter['status']);
+        }
+        if (isset($filter['department_id']) && null !== $filter['department_id']) {
+            $query->where('department_id', $filter['department_id']);
+        }
+        if (isset($filter['customer_id']) && null !== $filter['customer_id']) {
+            $query->where('customer_id', $filter['customer_id']);
+        }
+        
+        return $query->get();
+    }
 }

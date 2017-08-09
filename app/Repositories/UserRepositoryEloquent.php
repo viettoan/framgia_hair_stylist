@@ -51,4 +51,9 @@ class UserRepositoryEloquent extends AbstractRepositoryEloquent implements UserR
     {
         return $this->model()->select($select)->with($with)->paginate($per_page);
     }
+
+    public function findByPhone($phone)
+    {
+        return $this->model()->where('phone', $phone)->first();
+    }
 }
