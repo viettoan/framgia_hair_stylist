@@ -85,12 +85,23 @@
                                 <span class="text-danger">
                                     @{{formErrors.phone}}
                                 </span>
-                                <input type="text" name="phone" class="form-control" v-on:keyup="keyPhone" v-model="bookingUser.phone"/>
+                                <input type="text" name="phone" class="form-control" v-on:keyup="keyPhone" v-model="bill.phone"/>
                             </div>
                             <div class="col-sm-6">
                                 <label for="name">{{ __('Name Customer') }}</label>
-                                <input type="text" name="short_description" class="form-control" v-model="bookingUser.name"/>
+                                <input type="text" class="form-control" v-model="bill.customer_name"/>
                             </div>
+                            <select  class="form-control" v-model="bill.department_id" v-on:change="changeDeparment">
+                                <option value="">{{ __('Select Department') }}</option>
+                                <option v-bind:value="department.id" v-for="department in departments">
+                                    @{{ department.name }}
+                                </option>
+                            </select>
+                            <select  class="form-control" v-model="bill.status">
+                                <option value="0">{{ __('Waitting') }}</option>
+                                <option value="1">{{ __('Complete') }}</option>
+                                <option value="2">{{ __('Cancel') }}</option>
+                            </select>
                             <label for="name" class="text-center">
                                 <p class="text-center">{{ __('Infor Booking') }}</p>
                             </label>
@@ -122,42 +133,52 @@
                     <div class="form-group col-md-12">
                        <div class="well">
                             <span class="">Service</span>
-                            <select  class="form-control" id="sel1" v-on:change="">
+                            <select  class="form-control" v-model="billItem.service_product_id" v-on:change="select_service">
                                 <option value="">{{ __('Select Service') }}</option>
-                                <option vbind:value="service.id" v-for="service in services">
+                                <option v-bind:value="service.id" v-for="service in services">
                                     @{{ service.name }}
                                 </option>
                             </select>
                             <br>
                             <span class="">Stylist</span>
-                            <select  class="form-control" id="sel1" v-on:change="">
+                            <select  class="form-control" v-model="billItem.stylist_id" v-on:change="select_stylist">
                                 <option value="">{{ __('Select Stylist') }}</option>
+                                <option v-bind:value="stylist.id" v-for="stylist in stylists">
+                                    @{{ stylist.name }}
+                                </option>
                             </select>
                             <span class="">Price</span>
-                            <input type="text" name="short_description" class="form-control"/>
+                            <input type="text"   v-model="billItem.price" class="form-control"/>
+                            <input type="number" v-model="billItem.qty" value="1" class="form-control"/>
                             <br>
                         </div>
                     </div>
                         <span>Service List:</span>
-                        <div class="well" id ="list_service">
+                        <div class="well" id ="list_service" v-for="billItem in billItems">
                         <span>1</span>
                             <span class="">Service:</span>
-                            Goi dau
-                                <br>
+                            @{{ billItem.name }}
+                                <br/>
+                             <span class="">Price:</span>
+                             @{{ billItem.price }}
+                            <br/>
                             <span class="">Stylist:</span>
-                            Tran Van My
+                             @{{ billItem.stylist_name }}
                                  <br>
-                            <span class="">Price:</span>
-                            500$
-                            <br>
+                            <span class="">Qty:</span>
+                             @{{ billItem.qty }}
+                             <br/>
+                            <span class="">Row Total:</span>
+                             @{{ billItem.row_total }}
+                        <br/>
                             <button class="btn btn-success">{{ __('Edit Service') }}</button>
                             <button class="btn btn-danger">{{ __('Delete Service') }}</button>
                         </div>
                         <br>
-                    <span>Total:</span>
+                    <span>Total: @{{ bill.grand_total }}</span>
                 <hr>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-success">
+                    <button type="submit" class="btn btn-success" v-on:click="createBill">
                         <i class="fa fa-plus" aria-hidden="true"></i> {{ __('Create') }}
                     </button>
                     <button class="btn btn-default" data-dismiss="modal">

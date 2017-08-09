@@ -89,7 +89,7 @@
                                                 <th>{{ __('Department') }}</th>
                                                 <th>{{ __('NameStylist') }}</th>
                                                 <th>{{ __('TimeStart') }}</th>
-                                                <th>{{ __('Action') }}</th>
+                                                <th>{{ __('Status') }}</th>
                                             </tr>   
                                         </thead>
                                         <tbody>
@@ -100,8 +100,25 @@
                                             <td>@{{ list.department.address }}</td>
                                             <td>@{{ list.stylist.name }}</td>
                                             <td>@{{ convertHourMinute( list.time_start) }}</td>
-                                            <td class=" ">
-                                                <a class="btn btn-success" href="javascript:void(0)" v-on:click="showBooking"><i class="fa fa-map-o"></i></a>
+                                            <td v-if="list.status == 0">
+                                                <span class="label label-danger">
+                                                    {{ __('Danger') }}
+                                                </span>
+                                            </td>
+                                            <td v-if="list.status == 1">
+                                                <span class="label label-warning">
+                                                    {{ __('Waiting') }}
+                                                </span>
+                                            </td>
+                                            <td v-if="list.status == 2">
+                                                <span class="label label-success">
+                                                    {{ __('Complete') }}
+                                                </span>
+                                            </td>
+                                            <td v-if="list.status == 3">
+                                                <span class="label label-warning">
+                                                    {{ __('Inlate') }}
+                                                </span>
                                             </td>
                                         </tr>  
                                     </tbody>

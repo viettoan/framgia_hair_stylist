@@ -40,7 +40,7 @@ var manage_service = new Vue({
         this.token = Vue.ls.get('token', {});
         this.showDepartment();
         this.showInfor();
-        this.params.per_page = '';
+        this.params.per_page = 10;
     },
 
     methods: {

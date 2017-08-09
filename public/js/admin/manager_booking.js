@@ -99,8 +99,11 @@ var manage_service = new Vue({
 
         selectStatus: function(event) {
             var arrStatus = $(event.target).val();
-            this.params.status = arrStatus.join(',');
-
+            if (!arrStatus) {
+                this.params.status = '';
+            } else {
+                this.params.status = arrStatus.join(',');
+            }
             this.getBooking();
         },
         showDepartment: function(page) {
