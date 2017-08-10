@@ -87,13 +87,13 @@ class OrderBookingController extends Controller
             }
         }
 
-        if (!$stylist_id) {
+        if (!$stylist_id || $renderBooking->OrderBooking()->where('stylist_id', $stylist_id)->first()) {
             $response['error'] = true;
             $response['status'] = 403;
             $response['message'][] = __('You can not book because no stylist in your time book!');
 
             return Response::json($response, $response['status']);
-        }
+        } 
         // End Tim stylist ranh nhat
     
         $user = Auth::guard('api')->user();
