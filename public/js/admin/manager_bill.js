@@ -110,7 +110,6 @@ var Manager_bill = new Vue({
             }
             axios(authOptions).then(response => {
                     this.$set(this, 'items', response.data.data.data);
-                    console.log(this.items);
                 }).catch((error) => {
             });
         },
@@ -161,6 +160,29 @@ var Manager_bill = new Vue({
                 this.$set(this, 'stylists', []);
             });
         },
+        getNameStylist: function(stylist_id) {
+            var stylistName = '';
+            for (var i = 0; i < this.stylists.length; i++) {
+                if (this.stylists[i].id == stylist_id) {
+                    stylistName = this.stylists[i].name;
+                    break;
+                }
+            }
+
+            return stylistName;
+        },
+        getNameService: function(service_id) {
+            var serviceName = '';
+            for (var i = 0; i < this.services.length; i++) {
+                if (this.services[i].id == service_id) {
+                    serviceName = this.services[i].name;
+                    break;
+                }
+            }
+
+            return serviceName;
+        },
+
         showService: function(){
             var authOptions = {
                 method: 'GET',
@@ -190,14 +212,8 @@ var Manager_bill = new Vue({
         },
         select_stylist: function(event){
             var stylist_id = event.target.value;
-            var stylist = {};
-            for (var i = 0; i < this.stylists.length; i++) {
-                if (this.stylists[i].id == stylist_id) {
-                    stylist = this.stylists[i];
-                    break;
-                }
-            }
-            this.billItem.stylist_name = stylist.name;
+            
+            this.billItem.stylist_name = this.getNameStylist(stylist_id);
         },
         editBillItem: function(key) {
             this.isEditBillItem = {'status': true, 'index': key};
@@ -258,6 +274,12 @@ var Manager_bill = new Vue({
                 },
                 json: true
             }
+
+            if (this.bill.id) {
+                authOptions.method = 'PUT';
+                authOptions.url = '/api/v0/bill/' + this.bill.id;
+            }
+
             axios(authOptions).then(response => {
                 this.billSuccess = response.data.data;
                 for (key in response.data.message) {
@@ -271,6 +293,18 @@ var Manager_bill = new Vue({
                     toastr.error(error.response.data.message[key], '', {timeOut: 5000});
                 }
             });
+        },
+        editBill: function(bill) {
+            this.bill = bill;
+            this.billItems = bill.bill_items;
+            for (var i = this.billItems.length - 1; i >= 0; i--) {
+                this.billItems[i].stylist_name = this.getNameStylist(this.billItems[i].stylist_id);
+                if (!this.billItems[i].service_name) {
+                    this.billItems[i].service_name = this.getNameService(this.billItems[i].service_product_id);
+                }
+            }
+            this.showStylist();
+            $('#showBill').modal('show');
         }
 
     }
