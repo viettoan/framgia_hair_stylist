@@ -117,7 +117,9 @@
                                                 </span>
                                             </td>
                                             <td>
-                                                <a href="javascript:void(0)"><i class="fa fa-fw  fa-eyedropper get-color-icon-edit"></i></a>
+                                                <a href="javascript:void(0)" v-on:click="editBill(list)">
+                                                    <i class="fa fa-fw  fa-eyedropper get-color-icon-edit"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -229,7 +231,7 @@
                                 <a class="btn btn-success" v-on:click="addService" v-if="!isEditBillItem.status">
                                     {{__('Add Service') }}
                                 </a>
-                                <a class="btn btn-warning" v-on:click="submitEditBillItem(isEditBillItem.index)" v-else="billItem.index">
+                                <a class="btn btn-warning" v-on:click="submitEditBillItem(isEditBillItem.index)" v-else>
                                     {{__('Update Service') }}
                                 </a>
                             </div>
@@ -268,8 +270,11 @@
                         </div>
 
                         <div class="form-group text-right">
-                            <button type="submit" class="btn btn-success" v-on:click="createBill">
+                            <button class="btn btn-success" v-on:click="createBill" v-if="!bill.id">
                                 <i class="fa fa-plus" aria-hidden="true"></i> {{ __('Create Bill') }}
+                            </button>
+                            <button class="btn btn-warning" v-on:click="createBill" v-else>
+                                <i class="fa fa-plus" aria-hidden="true"></i> {{ __('Update Bill') }}
                             </button>
                         </div>
                     </form>
