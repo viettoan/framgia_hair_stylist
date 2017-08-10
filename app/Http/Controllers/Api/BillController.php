@@ -384,7 +384,8 @@ class BillController extends Controller
             $data['date'] = $currentDate->format(config('default.format_date'));
             $date_filter = $currentDate->format('Y-m-d');
 
-            $data['list_bill'] = $this->bill->getFilterBillByDate($date_filter, $filter, ['*'], 'BillItems');
+            $data['list_bill'] = $this->bill
+                ->getFilterBillByDate($date_filter, $filter, ['*'], ['BillItems', 'Department']);
             $responseData[] = $data;
             $currentDate->addDay(1);
             // dd($responseData);

@@ -6,10 +6,13 @@ var Manager_bill = new Vue({
     data: {
         users: {},
         token: {},
+        filterParams: {'type': '', 'department_id': ''},
+        inputDate: {'start_date': '', 'end_date': ''},
+        listBill: [],
+        show_input: {},
         items: [],
         users: {'name': '', 'phone': ''},
         newItem: {'phone': ''},
-        bookingUser: {'name': '', 'phone': ''},
         departments: [],
         stylists:[],
         services:[],
@@ -17,7 +20,7 @@ var Manager_bill = new Vue({
             'order_booking_id': '', 'grand_total': 0, 'department_id': '', 'bill_items': []},
         formErrors: {'phone': ''},
         booking: {},
-        billItem: {'qty': 1, 'price': '', 'stylist_id': '', 'service_product_id': ''},
+        billItem: {'index': '', 'qty': 1, 'price': '', 'stylist_id': '', 'service_product_id': ''},
         billItems: [],
         billSuccess: {},
 
@@ -25,20 +28,64 @@ var Manager_bill = new Vue({
     mounted : function(){
         this.users = Vue.ls.get('user', {});
         this.token = Vue.ls.get('token', {});
+        this.getListBill();
         this.showUser();
         this.showService();
         this.showDepartment();
         this.showStylist();
-        this.users = '';
+        var timestamp = new Date().getTime() / 1000 | 0;
+        this.filterParams.start_date = timestamp;
+        this.filterParams.end_date = timestamp;
+
+        var curentDay = new Date().toISOString().slice(0, 10);
+        this.inputDate.start_date = curentDay;
+        this.inputDate.end_date = curentDay;
+
         $('#list_service').hide();
     },
 
     methods: {
+        getListBill: function() {
+            var authOptions = {
+                method: 'get',
+                url: '/api/v0/filter-bill',
+                params: this.filterParams,
+                headers: {
+                    'Authorization': "Bearer " + this.token.access_token,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                json: true
+            }
+            axios(authOptions).then(response => {
+                this.$set(this, 'listBill', response.data.data);
+            })
+        },
+
         showBill: function() {
             $('#create-item').modal('show');
         },
         addBill: function() {
             $('#showBill').modal('show');
+        },
+        selectStartDay: function(event) {
+            var timestamp = new Date(event.target.value).getTime() / 1000 | 0;
+            this.filterParams.start_date = timestamp;
+            this.getListBill();
+        },
+
+        selectEndDay: function(event) {
+            var timestamp = new Date(event.target.value).getTime() / 1000 | 0;
+            this.filterParams.end_date = timestamp;
+            this.getListBill();
+        },
+        selectStatus: function(event) {
+            var arrStatus = $(event.target).val();
+            if (!arrStatus) {
+                this.filterParams.status = '';
+            } else {
+                this.filterParams.status = arrStatus.join(',');
+            }
+            this.getListBill();
         },
         showUser: function() {
             var authOptions = {
@@ -59,18 +106,18 @@ var Manager_bill = new Vue({
         addService: function(){
             var error = false;
             if (!this.billItem.stylist_id) {
-                toastr.error('Please chon stylist', '', {timeOut: 5000});
+                toastr.error('Please select stylist!', '', {timeOut: 5000});
                 error = true;
             }
             if (!this.billItem.service_product_id) {
-                toastr.error('Please chon service', '', {timeOut: 5000});
+                toastr.error('Please select service', '', {timeOut: 5000});
                 error = true;
             }
             if (error) return;
 
             this.billItem.row_total = this.billItem.price * this.billItem.qty;
             this.billItems.push(this.billItem);
-            this.billItem = {'qty': 1, 'price': '', 'stylist_id': '', 'service_product_id': ''};
+            this.billItem = {'index': '', 'qty': 1, 'price': '', 'stylist_id': '', 'service_product_id': ''};
             var grand_total = 0;
             for (var i = 0; i < this.billItems.length; i++) {
                 grand_total += this.billItems[i].row_total;
@@ -101,22 +148,6 @@ var Manager_bill = new Vue({
                 this.$set(this, 'stylists', []);
             });
         },
-        selectUser: function(event){
-            var value = event.target.value;
-            var authOptions = {
-                method: 'GET',
-                url: '/api/v0/get_booking_by_user_id/'+ value,
-                headers: {
-                    'Authorization': "Bearer " + this.token.access_token,
-                    // 'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                json: true
-            }
-            axios(authOptions).then(response => {
-                this.$set(this, 'users', response.data.data)
-                }).catch((error) => {
-            });
-        },
         showService: function(){
             var authOptions = {
                 method: 'GET',
@@ -142,6 +173,7 @@ var Manager_bill = new Vue({
                 }
             }
             this.billItem.price = service.price;
+            this.billItem.service_name = service.name;
         },
         select_stylist: function(event){
             var stylist_id = event.target.value;
@@ -153,6 +185,12 @@ var Manager_bill = new Vue({
                 }
             }
             this.billItem.stylist_name = stylist.name;
+        },
+        editBillItem: function(key) {
+
+        },
+        deleteBillItem: function(key) {
+
         },
         keyPhone: function(event){
             var input = this.newItem;
@@ -171,17 +209,22 @@ var Manager_bill = new Vue({
                 this.bill.customer_name = response.data.data.name;
                 this.bill.department_id = response.data.data.department.id;
                 this.booking = response.data.data;
+                this.bill.order_booking_id = this.booking.id;
             }).catch((error) => {
                 this.booking = {};
                 this.formErrors.phone = error.response.data.message[0];
+
+                this.bill.customer_name = '';
+                this.bill.department_id = '';
+                this.bill.order_booking_id = '';
             });
         },
         createBill: function(event){
             if (this.bill.bill_items.length == 0) {
-                toastr.error('Please add it nhat 1 service!', '', {timeOut: 5000});
+                toastr.error('Please add at least one service!', '', {timeOut: 5000});
                 return;
             }
-
+            this.bill.bill_items = JSON.stringify(this.billItems);
             var authOptions = {
                 method: 'POST',
                 url: '/api/v0/bill',
@@ -196,7 +239,9 @@ var Manager_bill = new Vue({
                 this.billSuccess = response.data.data;
                 for (key in response.data.message) {
                     toastr.success(response.data.message[key], '', {timeOut: 5000});
-                }   
+                }
+                this.getListBill();
+                $('#showBill').modal('hide');
             }).catch((error) => {
                 for (key in error.response.data.message) {
                     toastr.error(error.response.data.message[key], '', {timeOut: 5000});
