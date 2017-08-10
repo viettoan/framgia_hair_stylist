@@ -20,7 +20,8 @@ var Manager_bill = new Vue({
             'order_booking_id': '', 'grand_total': 0, 'department_id': '', 'bill_items': []},
         formErrors: {'phone': ''},
         booking: {},
-        billItem: {'index': '', 'qty': 1, 'price': '', 'stylist_id': '', 'service_product_id': ''},
+        billItem: {'qty': 1, 'price': '', 'stylist_id': '', 'service_product_id': ''},
+        isEditBillItem: {'status': false, 'index' : ''},
         billItems: [],
         billSuccess: {},
 
@@ -45,6 +46,16 @@ var Manager_bill = new Vue({
     },
 
     methods: {
+        resetData: function() {
+            this.formErrors = {'phone': ''};
+            this.bill = {'customer_id': '', 'phone': '', 'status': 0, 'customer_name': '', 
+                'order_booking_id': '', 'grand_total': 0, 'department_id': '', 'bill_items': []};
+            this.billItems = [];
+            this.billItem = {'qty': 1, 'price': '', 'stylist_id': '', 'service_product_id': ''};
+            this.booking = {};
+            this.isEditBillItem = {'status': false, 'index' : ''};
+        },
+
         getListBill: function() {
             var authOptions = {
                 method: 'get',
@@ -117,13 +128,15 @@ var Manager_bill = new Vue({
 
             this.billItem.row_total = this.billItem.price * this.billItem.qty;
             this.billItems.push(this.billItem);
-            this.billItem = {'index': '', 'qty': 1, 'price': '', 'stylist_id': '', 'service_product_id': ''};
+            this.billItem = {'qty': 1, 'price': '', 'stylist_id': '', 'service_product_id': ''};
+            this.grand_total();
+        },
+        grand_total: function(){
             var grand_total = 0;
             for (var i = 0; i < this.billItems.length; i++) {
                 grand_total += this.billItems[i].row_total;
             }
             this.bill.grand_total = grand_total;
-            this.bill.bill_items = this.billItems;
         },
         showDepartment: function(page) {
             axios.get('/api/v0/department').then(response => {
@@ -144,7 +157,7 @@ var Manager_bill = new Vue({
             }
             axios(authOptions).then(response => {
                 this.$set(this, 'stylists', response.data.data);
-            }).catch(function (error) {
+            }).catch(error => {
                 this.$set(this, 'stylists', []);
             });
         },
@@ -187,10 +200,20 @@ var Manager_bill = new Vue({
             this.billItem.stylist_name = stylist.name;
         },
         editBillItem: function(key) {
-
+            this.isEditBillItem = {'status': true, 'index': key};
+            this.billItem = this.billItems[key];
+        },
+        submitEditBillItem: function(key) {
+            this.isEditBillItem = {'status': false, 'index': ''};
+            this.billItems[key] = this.billItem;
+            this.billItem.row_total = this.billItem.price * this.billItem.qty;
+            this.billItem = {'qty': 1, 'price': '', 'stylist_id': '', 'service_product_id': ''};
+            this.grand_total();
         },
         deleteBillItem: function(key) {
-
+            if (!confirm('Do you want to delete this service!')) return;
+            this.billItems.splice(key, 1);
+            this.grand_total();
         },
         keyPhone: function(event){
             var input = this.newItem;
@@ -220,7 +243,7 @@ var Manager_bill = new Vue({
             });
         },
         createBill: function(event){
-            if (this.bill.bill_items.length == 0) {
+            if (this.billItems.length == 0) {
                 toastr.error('Please add at least one service!', '', {timeOut: 5000});
                 return;
             }
@@ -241,6 +264,7 @@ var Manager_bill = new Vue({
                     toastr.success(response.data.message[key], '', {timeOut: 5000});
                 }
                 this.getListBill();
+                this.resetData();
                 $('#showBill').modal('hide');
             }).catch((error) => {
                 for (key in error.response.data.message) {
