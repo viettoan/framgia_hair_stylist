@@ -208,7 +208,9 @@ class BillController extends Controller
     public function show($id)
     {
         $response = Helper::apiFormat();
+
         $bill_by_bill_id = $this->bill->find($id, 'BillItems');
+        
         if (!$bill_by_bill_id) {
             $response['error'] = true;
             $response['status'] = 404;

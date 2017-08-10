@@ -35,7 +35,7 @@
                         <i class="fa fa-map-marker" aria-hidden="true"></i>
                             {{ __('Choice Deparment') }}
                     </h4>
-                    <div>
+                    <div class="row">
                         <div v-for="item in items">
                             <div v-bind:class="{den: selected.department_id == item.id}" class="choose-department ok" v-on:click="selectDepartment(item.id)">
                                 <a href="javascript:void(0)" >
