@@ -57,7 +57,7 @@
                 </div>
                 <label class="col-md-4">{{ __('Department') }}</label>
                 <div class="form-group col-md-8 select_booking_manage">
-                    <select  class="form-control" v-model="filterParams.department_id">
+                    <select  class="form-control" v-model="filterParams.department_id" v-on:change="getListBill">
                         <option value="">{{ __('All') }}</option>
                         <option v-bind:value="department.id" v-for="department in departments">@{{ department.name }}</option>
                     </select>
