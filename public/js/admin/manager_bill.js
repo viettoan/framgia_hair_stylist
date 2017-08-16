@@ -249,6 +249,7 @@ var Manager_bill = new Vue({
                 this.bill.department_id = response.data.data.department.id;
                 this.booking = response.data.data;
                 this.bill.order_booking_id = this.booking.id;
+                this.showStylist();
             }).catch((error) => {
                 this.booking = {};
                 this.formErrors.phone = error.response.data.message[0];
@@ -256,6 +257,7 @@ var Manager_bill = new Vue({
                 this.bill.customer_name = '';
                 this.bill.department_id = '';
                 this.bill.order_booking_id = '';
+                this.showStylist();
             });
         },
         createBill: function(event){

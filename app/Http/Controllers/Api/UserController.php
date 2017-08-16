@@ -274,7 +274,7 @@ class UserController extends Controller
         $per_page = $request->per_page ? : config('model.custommer.default_filter_limit');
 
         $custommer = $this->user->getAllCustommer($per_page, [], $this->selectCustomer);
-        $response['data'] = $custommer;
+        $response['data'] = Helper::reFormatPaginate($custommer);
 
         return Response::json($response);
     }

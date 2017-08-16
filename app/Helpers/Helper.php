@@ -18,15 +18,15 @@ class Helper
 
     public static function reFormatPaginate(LengthAwarePaginator $paginate)
     {
-    	$currentPage = $paginate->currentPage();
+        $currentPage = $paginate->currentPage();
 
-    	return [
-    		'total' => $paginate->total(),
+        return [
+            'total' => $paginate->total(),
             'per_page' => $paginate->perPage(),
             'current_page' => $currentPage,
             'next_page' => ($paginate->lastPage() > $currentPage) ? $currentPage + 1 : null,
             'prev_page' => $currentPage - 1 ?: null,
             'data' => $paginate->items(),
-    	];
+        ];
     }
 }

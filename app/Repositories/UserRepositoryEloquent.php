@@ -49,7 +49,8 @@ class UserRepositoryEloquent extends AbstractRepositoryEloquent implements UserR
 
     public function getAllCustommer($per_page, $with = [], $select = ['*'])
     {
-        return $this->model()->select($select)->with($with)->paginate($per_page);
+        return $this->model()->select($select)->with($with)
+            ->orderBy('id', 'desc')->paginate($per_page);
     }
 
     public function findByPhone($phone)
