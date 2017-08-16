@@ -68,6 +68,36 @@
 
 #myInput {
     padding:4px;
+
+}
+
+#search_department {
+    padding:4px 8px;
+}
+
+.create_customer, .create_service, .create_department {
+    background: transparent;
+    border: none;
+    border-bottom: 1px dashed rgba(81, 203, 238, 1);
+}
+
+#sel1 {
+    padding:0px;
+}
+
+.fix-button-creat-customer
+{
+    margin-top:10px;
+}
+
+.content_create_customer {
+    box-shadow: 3px 3px 5px 6px rgba(0, 0, 0, 0.4);
+}
+
+.col-sm-4 label , #specialize {
+     color: #7c795d; font-family: 'Trocchi', serif;font-weight: normal; line-height: 48px; margin: 0;
+}
+
 }
 
 #search_department {
@@ -82,4 +112,6 @@
 /*#specialize {
     margin-left: -300px !important;
 }*/
-
+.label_service ,.label_department, .label_bill {
+    color: #7c795d; font-family: 'Trocchi', serif;font-weight: normal; line-height: 48px; margin: 0;
+}

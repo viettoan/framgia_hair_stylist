@@ -39,7 +39,7 @@
                         <div v-for="item in items">
                             <div v-bind:class="{den: selected.department_id == item.id}" class="choose-department ok" v-on:click="selectDepartment(item.id)">
                                 <a href="javascript:void(0)" >
-                                    @{{ item.address }}
+                                    @{{ item.name }}
                                 </a>
                             </div>
                         </div>

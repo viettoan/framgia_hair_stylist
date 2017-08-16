@@ -1,6 +1,7 @@
 @extends('admin.master')
 @section('style')
 {{ Html::style('bower/AdminLTE/plugins/datatables/dataTables.bootstrap.css')}}
+{{ Html::style('css/admin/style.css')}}
 @endsection
 
 @section('content')
@@ -21,7 +22,7 @@
                     {{ __('Manager') }}
                 </a>
             </li>
-            <li class="active">
+            <li class="active"> 
                 {{ __('Service') }}
             </li>
         </ol>
@@ -61,7 +62,7 @@
                                     <td>@{{ item.avg_rate }}</td>
                                     <td>@{{ item.total_rate }}</td>
                                     <td>
-                                        <a href="javascript:void(0)" v-on:click="edit_Service(item)"><i class="fa fa-fw  fa-eyedropper get-color-icon-edit" ></i></a>
+                                        <a href="javascript:void(0)" v-on:click="edit_Service(item)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                         <a href="javascript:void(0)" v-on:click="comfirmDeleteItem(item)"><i class="fa fa-fw  fa-close get-color-icon-delete" ></i></a>
                                     </td>
                                 </tr>
@@ -82,23 +83,23 @@
                 <div class="modal-body">
                     <form method="POST" enctype="multipart/form-data" v-on:submit.prevent="createItem">
                         <div class="form-group">
-                            <label for="name">{{ __('Name') }}</label>
+                            <i><label for="name" class="label_service">{{ __('Name') }}</label></i>
                                 <span class="text-danger">(*)</span>
-                                    <input type="text" name="name" class="form-control" v-model="newItem.name"/>
+                                    <input type="text" name="name" class="form-control create_service" v-model="newItem.name"/>
                                     <div v-if="formErrors.length == 2">
                                         <span v-if="formErrors['0']" class="error text-danger">
                                             @{{ formErrors['0'] }}
                                         </span>
                                     </div>
                                     <br>
-                            <label for="name">{{ __('admin.Short_description') }}</label>
-                                <input type="text" name="short_description" class="form-control" v-model="newItem.short_description"/>
-                            <label for="name">{{ __('admin.Description') }}</label>
-                                <textarea type="text" name="description" class="form-control" v-model="newItem.description">
+                            <i><label for="name" class="label_service">{{ __('admin.Short_description') }}</label>
+                                <input type="text" name="short_description" class="form-control create_service" v-model="newItem.short_description"/>
+                            <i><label for="name" class="label_service">{{ __('admin.Description') }}</label></i>
+                                <textarea type="text" name="description" class="form-control create_service" v-model="newItem.description">
                                 </textarea>
-                            <label for="name">{{ __('Price') }}</label>
+                            <i><label for="name" class="label_service">{{ __('Price') }}</label></i>
                                 <span class="text-danger">(*)</span>
-                                <input type="number" name="price" class="form-control" v-model="newItem.price"/>
+                                <input type="number" name="price" class="form-control create_service" v-model="newItem.price"/>
                                 <div v-if="formErrors.length == 1">
                                     <span v-if="formErrors['0']" class="error text-danger">
                                         @{{ formErrors['0'] }}
@@ -158,17 +159,17 @@
                 <div class="modal-body">
                     <form method="POST" enctype="multipart/form-data" v-on:submit.prevent="updateService(fillItem.id)">
                         <div class="form-group">
-                            <label for="name">{{ __('Name') }}</label>
+                            <label for="name" class="label_service">{{ __('Name') }}</label>
                                 <span class="text-danger">(*)</span>
-                                    <input type="text" name="name" class="form-control" v-model="fillItem.name"/>
-                            <label for="name">{{ __('admin.Short_description') }}</label>
-                                <input type="text" name="short_description" class="form-control" v-model="fillItem.short_description"/>
-                            <label for="name">{{ __('admin.Description') }}</label>
+                                    <input type="text" name="name" class="form-control create_service" v-model="fillItem.name"/>
+                            <label for="name" class="label_service">{{ __('admin.Short_description') }}</label>
+                                <input type="text" name="short_description" class="form-control create_service" v-model="fillItem.short_description"/>
+                            <label for="name" class="label_service">{{ __('admin.Description') }}</label>
                                 <textarea type="text" name="description" class="form-control" v-model="fillItem.description">
                                 </textarea>
-                            <label for="name">{{ __('Price') }}</label>
+                            <label for="name" class="label_service">{{ __('Price') }}</label>
                                 <span class="text-danger">(*)</span>
-                                <input type="number" name="price" class="form-control" v-model="fillItem.price"/>
+                                <input type="number" name="price" class="form-control create_service" v-model="fillItem.price"/>
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-success">

@@ -2,6 +2,7 @@
 @section('style')
 {{ Html::style('bower/AdminLTE/plugins/datatables/dataTables.bootstrap.css')}}
 {{ Html::style('css/admin/bill.css') }}
+{{ Html::style('css/admin/style.css') }}
 @endsection
 
 @section('content')
@@ -72,7 +73,6 @@
                             {{ __('Create bill') }}
                         </button>
                     </div>
-
                     <div class="panel panel-default" v-for="item in listBill">
                         <div class="panel-heading">
                             <h4 class="panel-title">
@@ -118,8 +118,9 @@
                                             </td>
                                             <td>
                                                 <a href="javascript:void(0)" v-on:click="editBill(list)">
-                                                    <i class="fa fa-fw  fa-eyedropper get-color-icon-edit"></i>
+                                                    <i aria-hidden="true" class="fa fa-pencil-square-o"></i>
                                                 </a>
+                                                <a href="javascript:void(0)" v-on:click="exportshowBill(list)"><i class="fa fa-external-link-square" aria-hidden="true"></i></a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -127,7 +128,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -143,20 +143,20 @@
                     <form method="POST" enctype="multipart/form-data" v-on:submit.prevent="createItem" class="form-horizontal">
                         <div class="form-group">
                             <div class="col-sm-6">
-                                <label for="name">{{ __('Phone Customer') }}</label>
+                                <label for="name" class="label_bill ">{{ __('Phone Customer') }}</label>
                                 <span class="text-danger">
                                     @{{formErrors.phone}}
                                 </span>
                                 <input type="text" name="phone" class="form-control" v-on:keyup="keyPhone" v-model="bill.phone"/>
                             </div>
                             <div class="col-sm-6">
-                                <label for="name">{{ __('Name Customer') }}</label>
+                                <label for="name" class="label_bill">{{ __('Name Customer') }}</label>
                                 <input type="text" class="form-control" v-model="bill.customer_name"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-6">
-                                <label for="name">{{ __('Department') }}</label>
+                                <label for="name" class="label_bill">{{ __('Department') }}</label>
                                 <select  class="form-control" v-model="bill.department_id" v-on:change="changeDeparment">
                                     <option value=""></option>
                                     <option v-bind:value="department.id" v-for="department in departments">
@@ -165,7 +165,7 @@
                                 </select>
                             </div>
                             <div class="col-sm-6">
-                                <label for="name">{{ __('Status') }}</label>
+                                <label for="name" class="label_bill">{{ __('Status') }}</label>
                                 <select  class="form-control" v-model="bill.status">
                                     <option value="0">{{ __('Waitting') }}</option>
                                     <option value="1">{{ __('Complete') }}</option>
@@ -175,7 +175,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-12">
-                                <label for="name" class="text-center">
+                                <label for="name" class="text-center label_bill">
                                     {{ __('Infor Booking') }}
                                 </label>
                                 <div v-if="booking.id">
@@ -199,7 +199,7 @@
                                 </div>
                             </div>  
                         </div>
-                        <div class="form-group col-md-12 well">
+                        <div class="form-group col-md-12 ">
                             <div class="col-sm-3">
                                 <label>{{ __('Service') }}</label>
                                 <select  class="form-control" v-model="billItem.service_product_id" v-on:change="select_service">
@@ -218,16 +218,16 @@
                                     </option>
                                 </select>
                             </div>
-                            <div class="col-sm-2">
-                                <label>{{ __('Price') }}</label>
+                            <div class="col-sm-2 ">
+                                <label >{{ __('Price') }}</label>
                                 <input type="text"   v-model="billItem.price" class="form-control"/>
                             </div>
                             <div class="col-sm-2">
-                                <label>{{ __('Qty') }}</label>
+                                <label >{{ __('Qty') }}</label>
                                 <input type="number" v-model="billItem.qty" value="1" class="form-control"/>
                             </div>
                             <div class="col-sm-2">
-                                <label>{{ __('Qty') }}</label>
+                                <label >{{ __('Qty') }}</label>
                                 <a class="btn btn-success" v-on:click="addService" v-if="!isEditBillItem.status">
                                     {{__('Add Service') }}
                                 </a>
@@ -256,7 +256,7 @@
                                 <div class="col-sm-2 text-right">@{{ billItem.row_total }}</div>
                                 <div class="col-sm-2 text-right">
                                     <a href="javascript:void(0)" v-on:click="editBillItem(keyObject)">
-                                        <i class="fa fa-fw  fa-eyedropper get-color-icon-edit"></i>
+                                        <i aria-hidden="true" class="fa fa-pencil-square-o"></i>
                                     </a>
                                     <a href="javascript:void(0)" v-on:click="deleteBillItem(keyObject)">
                                         <i class="fa fa-fw  fa-close get-color-icon-delete"></i>
@@ -269,7 +269,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group text-right">
+                        <div class="form-group text-center">
                             <button class="btn btn-success" v-on:click="createBill" v-if="!bill.id">
                                 <i class="fa fa-plus" aria-hidden="true"></i> {{ __('Create Bill') }}
                             </button>
@@ -282,8 +282,8 @@
             </div>
         </div>
     </div>
-
-    <div class="modal fade" id="showBill" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    {{-- Export Bill --}}
+    <div class="modal fade" id="exportshowBill" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -292,74 +292,57 @@
                 </div>
                 <div class="modal-body" >
                     <div class="row">
-                        <div class="col-md-10 col-md-offset-1 border_bill "> 
+                        <div class="col-md-10 col-md-offset-1 border_bill col-xs-10 col-xs-offset-1"> 
                             <div class="bookingleft-agile font_bill" >
-                                <div class="col-md-12">
-                                    <div class="col-md-3 icon_salon"> <img class = "fix_size_icon" src={{ asset('images/salon1.png')}} alt=""> 
+                                <div class="col-md-12 col-xs-12">
+                                    <div class="col-md-3 icon_salon"> <img class = "fix_size_icon" src={{ asset('images/logo.png')}} alt=""> 
                                     </div>
-                                    <div class="col-md-9">
+                                    <div class="col-md-9 col-xs-9">
                                         <h2 class="text-center font_bill"><i> {{ __(' FSalon Bill ') }} <i> </h2>
-                                        <h5 class="text-center"> <b> {{ __('434 Tran Khat Chan - Hai Ba Trung - Ha Noi') }}</b></h5>
+                                        <h5 class="text-center"> <b> @{{exportBill.department_address}}</b></h5>
                                         <p  class="text-center">{{ __('Tel: +8432 123 456  -  Email: admin@support.com') }}</p>
                                     </div>
                                 </div>
-                                <p>{{ __('ID: 0007') }} </p>
-                                <p>{{ __('Name : Juliet  -  Phone : 123 456 678') }} </p>
-                                <p>{{ __('Check-in date : 22/12/2017  -  Time : 14:00:PM ') }}</p>
-                                <p>{{ __('Check-out date : 23/12/2017  -  Time : 15:00:PM') }} </p>
-                                <form action="#" method="get">
-                                    <div class="name-agile">
-                                        <p>{{ __('Chair Number') }} : <i></i> </p>
-                                    </div>
-                                    <div class="name-agile">
-                                        12
-                                    </div>
-                                </form>
-                                <p>{{ __('Stylist : Juliet') }} </p>
-                                <div class="col-md-12" >
-                                    <div class="col-md-4 fix_padding" >{{ __('Service') }}</div>
-                                    <div class="col-md-2 fix_padding" >{{ __('Nb') }}</div>
-                                    <div class="col-md-3 fix_padding" >{{ __('Price') }}</div>
-                                    <div class="col-md-3 fix_padding" >{{ __('T.Tien') }}</div>
+                                <p v-if="exportBill.id < 10">{{__('ID : ') }}000@{{exportBill.id}}</p>
+                                <p v-else-if="exportBill.id < 100 && exportBill.id > 10">{{__('ID : ') }}00@{{exportBill.id}}</p>
+                                <p v-else-if="exportBill.id <1000 && exportBill.id>100">{{__('ID : ') }}0@{{exportBill.id}}</p>
+                                <p v-else>{{__('ID : ') }}@{{exportBill.id}}</p>
+                                <p>{{ __('Name :') }} @{{exportBill.name_customer}}  {{__('-  Phone :') }} @{{exportBill.phone_customer}} </p>
+                                <p>{{ __('Check-in date : ') }}</p>
+                                <p>{{ __('Check-out date : ') }}@{{exportBill.checkout}} </p>
+                                <p>{{ __('Stylist :') }} 
+                                <span v-for="stylist_bill in exportBill.exportBill_item">-
+                                    @{{stylist_bill.stylist.name}}
+                                </span>
+                                </p>
+                                <div class="col-md-12 col-xs-12 border_botton" >
+                                    <div class="col-md-4 fix_padding col-xs-4" >{{ __('Service') }}</div>
+                                    <div class="col-md-2 fix_padding col-xs-2" >{{ __('Nb') }}</div>
+                                    <div class="col-md-3 fix_padding col-xs-3" >{{ __('Price') }}</div>
+                                    <div class="col-md-3 fix_padding col-xs-3" >{{ __('T.Tien') }}</div>
                                 </div>
-                                <div class="col-md-12 border_botton">
-                                    <div class="col-md-4" >
-                                        <div class="name-agile">
-                                            Hair cuts
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2 ">
-                                        <div class="name-agile">
-                                            1
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="name-agile">
-                                            80.000
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="name-agile">
-                                            80.000
-                                        </div>
-                                    </div>
+                                <div class="col-md-12 col-xs-12 border_botton" v-for="export_bill in exportBill.exportBill_item" >
+                                    <div class="col-md-4 fix_padding col-xs-4" >  @{{export_bill.service_name}}</div>
+                                    <div class="col-md-2 fix_padding col-xs-2" >@{{export_bill.qty}}</div>
+                                    <div class="col-md-3 fix_padding col-xs-3" > @{{export_bill.price}}.000</div>
+                                    <div class="col-md-3 fix_padding col-xs-3" >@{{export_bill.row_total}}.000</div>
                                 </div>
-                                <div class="col-md-12 total_bill">
-                                    <div class="col-md-4">TOTAL</div>
-                                    <div class="col-md-2">6</div>
-                                    <div class="col-md-3"></div>
-                                    <div class="col-md-3 ">200.000 VND</div>
+                                <div class="col-md-12 col-xs-12 border_botton_total" >
+                                    <div class="col-md-4 fix_padding col-xs-4" >TOTAL</div>
+                                    <div class="col-md-2 fix_padding col-xs-2" >@{{exportBill.service_total}}</div>
+                                    <div class="col-md-3 fix_padding col-xs-3" ></div>
+                                    <div class="col-md-3 fix_padding col-xs-3" >@{{exportBill.grand_total}}.000 VND</div>
                                 </div>
                                 <br>
-                                <div class="col-md-12">
-                                    <div class="col-md-4" ><h3 class = "font_bill">{{ __('Pay Cash :') }}</h3></div>
-                                    <div class="col-md-8" ><h3 class = "font_bill"><b>500.000 VND</b></h3></div>
+                                <div class="col-md-12 col-xs-12">
+                                    <div class="col-md-4 col-xs-4" ><h3 class = "font_bill">{{ __('Pay Cash :') }}</h3></div>
+                                    <div class="col-md-8 col-xs-8" ><h3 class = "font_bill"><b>500.000 VND</b></h3></div>
                                 </div>
-                                <div class="col-md-12 footer" >
-                                    <div class="col-md-4"><h3 class = "font_bill">{{ __('Change :') }}</h3></div>
-                                    <div class="col-md-8"><h3 class = "font_bill"><b>300.000 VND</b></h3></div>
+                                <div class="col-md-12 footer col-xs-12" >
+                                    <div class="col-md-4 col-xs-4"><h3 class = "font_bill">{{ __('Change :') }}</h3></div>
+                                    <div class="col-md-8 col-xs-8"><h3 class = "font_bill"><b>300.000 VND</b></h3></div>
                                 </div>
-                                <div class="col-md-12" >
+                                <div class="col-md-12 col-xs-12" >
                                     <h3 class="text-center font_bill"><i class="fa fa-asterisk" aria-hidden="true"></i>{{ __('Have a nice day') }} <i class="fa fa-asterisk" aria-hidden="true"></i></h3>
                                 </div>
                             </div>
@@ -381,9 +364,7 @@
             </div>
         </div>
     </div>
-</div>
 @endsection
-
 @section('script')
 {{ Html::script('js/admin/manager_bill.js') }}
 @endsection

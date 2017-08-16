@@ -24,7 +24,11 @@
 }
 
 .border_botton {
-    border-top:1px solid black;border-bottom: 1px solid #fff;padding: 0px;
+    border-bottom: 1px solid black;
+    padding: 0px;
+}
+.border_botton_total {
+    padding: 0px;
 }
 
 .total_bill {

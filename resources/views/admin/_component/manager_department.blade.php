@@ -1,6 +1,7 @@
 @extends('admin.master')
 @section('style')
 {{ Html::style('bower/AdminLTE/plugins/datatables/dataTables.bootstrap.css')}}
+{{ Html::style('css/admin/style.css')}}
 @endsection
 
 @section('content')
@@ -53,7 +54,7 @@
                                     <td>@{{ item.name }}</td>
                                     <td>@{{ item.address }}</td>
                                     <td>
-                                        <a href="javascript:void(0)" v-on:click="edit_Service(item)"><i class="fa fa-fw  fa-eyedropper get-color-icon-edit" ></i></a>
+                                        <a href="javascript:void(0)" v-on:click="edit_Service(item)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                         <a href="javascript:void(0)" v-on:click="comfirmDeleteItem(item)"><i class="fa fa-fw  fa-close get-color-icon-delete" ></i></a>
                                     </td>
                                 </tr>
@@ -74,10 +75,10 @@
                 <div class="modal-body">
                     <form method="POST" enctype="multipart/form-data" v-on:submit.prevent="createItem">
                         <div class="form-group">
-                            <label for="name">{{ __('Name') }}</label>
+                            <i><label for="name" class="label_department">{{ __('Name') }}</label></i>
                                 <span class="text-danger">(*)</span>
-                                    <input type="text" class="form-control" v-model="newItem.department_name"/>
-                            <label for="name">{{ __('Address') }}</label>
+                                    <input type="text" class="form-control create_department" v-model="newItem.department_name"/>
+                            <i><label for="name" class="label_department">{{ __('Address') }}</label></i>
                             <span class="text-danger">(*)</span>
                                 <textarea type="text" class="form-control" v-model="newItem.department_address">
                                 </textarea>
@@ -132,10 +133,10 @@
                 <div class="modal-body">
                     <form method="POST" enctype="multipart/form-data" v-on:submit.prevent="updateService(fillItem.id)">
                        <div class="form-group">
-                            <label for="name">{{ __('Name') }}</label>
+                           <i> <label for="name" class="label_department">{{ __('Name') }}</label></i>
                             <span class="text-danger">(*)</span>
-                            <input type="text" name="name" class="form-control" v-model="fillItem.department_name"/>
-                            <label for="name">{{ __('Address') }}</label>
+                            <input type="text" name="name" class="form-control create_department" v-model="fillItem.department_name"/>
+                            <i><label for="name" class="label_department">{{ __('Address') }}</label></i>
                             <span class="text-danger">(*)</span>
                             <textarea type="text" name="description" class="form-control" v-model="fillItem.department_address">
                             </textarea>
