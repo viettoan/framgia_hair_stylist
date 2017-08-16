@@ -90,6 +90,7 @@
                                                 <th>{{ __('NameStylist') }}</th>
                                                 <th>{{ __('TimeStart') }}</th>
                                                 <th>{{ __('Status') }}</th>
+                                                <th>{{ __('Action') }}</th>
                                             </tr>   
                                         </thead>
                                         <tbody>
@@ -120,11 +121,49 @@
                                                     {{ __('Inlate') }}
                                                 </span>
                                             </td>
+                                            <td>
+                                                <a href="javascript:void(0)" v-on:click="changer_status(list)"><i class="fa fa-fw  fa-eyedropper get-color-icon-edit" ></i></a>
+                                            </td>
                                         </tr>  
                                     </tbody>
                                 </table>
                             </div>
                         </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="update_status" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">{{ __('Update Booking') }}</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="POST" enctype="multipart/form-data" v-on:submit.prevent="update_status(changer_status_booking.id)">
+                                        <div class="form-group">
+                                         <label class="col-md-1">{{ __('Status') }}</label>
+                                        <div class="form-group col-md-5 select_booking_manage">
+                                            <select  class="form-control select-multi-status" id="sel1" v-model="changer_status_booking.status">
+                                                    <option v-bind:value="0">{{ __('Cancel') }}</option>
+                                                    <option v-bind:value="1">{{ __('Wating') }}</option>
+                                                    <option v-bind:value="3">{{ __('Inlate') }}</option>
+                                                    <option v-bind:value="2">{{ __('Complete') }}</option>
+                                            </select>
+                                        <br/>    
+                                        </div> 
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-success">
+                                                <i class="fa fa-plus" aria-hidden="true"></i> {{ __('Create') }}
+                                            </button>
+                                            <button class="btn btn-default" data-dismiss="modal">
+                                                <i class="fa fa-external-link-square" aria-hidden="true"></i>
+                                                {{ __('Close') }}
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

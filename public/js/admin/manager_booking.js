@@ -18,6 +18,7 @@ var manage_service = new Vue({
         offset: 4,
         formErrors: {},
         showDepartments:{},
+        changer_status_booking:{'id': '', 'status': ''},
         formErrorsUpdate: {},
         newItem: {},
         params: {},
@@ -67,7 +68,40 @@ var manage_service = new Vue({
                 $('.list-booking-indicator').addClass('hide');
             });
         },
+        changer_status(item){
+            this.changer_status_booking.status = item.status;
+            this.changer_status_booking.id = item.id;
+            $('#update_status').modal('show');
+            console.log(this.changer_status_booking.status);
+        },
+        update_status: function(id){
+            this.params.status = this.changer_status_booking.status;
+            var self = this;
+            var authOptions = {
+                    method: 'PUT',
+                    url: '/api/v0/change-status-booking/' + id,
+                    params: this.params,
+                    headers: {
+                        'Authorization': "Bearer " + this.token.access_token,
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    json: true
+                }
 
+            axios(authOptions).then((response) => {
+                this.changer_status_booking = {'id': '', 'status': ''},
+                 $('#update_status').modal('hide');
+                    toastr.success('Update Booking Success', 'Success', {timeOut: 5000});
+                    this.getBooking();
+            }).catch((error) => {
+                    if (error.response.status == 403) {
+                        self.formErrors = error.response.data.message;
+                        for (key in self.formErrors) {
+                            toastr.error(self.formErrors[key], '', {timeOut: 10000});
+                        }    
+                    }
+            });
+        },
         selectDay: function(event){
             var value = event.target.value;
             this.params.type = value;
