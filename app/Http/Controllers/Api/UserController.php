@@ -16,6 +16,20 @@ class UserController extends Controller
 {
     protected $user;
     protected $department;
+    protected  $selectCustomer = [
+        'id',
+        'name',
+        'email',
+        'phone',
+        'birthday',
+        'avatar',
+        'gender',
+        'permission',
+        'about_me',
+        'department_id',
+        'created_at',
+        'updated_at',
+    ];
 
     public function __construct(
         UserRepository $user,
@@ -258,25 +272,24 @@ class UserController extends Controller
     {
         $response = Helper::apiFormat();
         $per_page = $request->per_page ? : config('model.custommer.default_filter_limit');
-        
-        $select = [
-            'id',
-            'name',
-            'email',
-            'phone',
-            'birthday',
-            'avatar',
-            'gender',
-            'permission',
-            'about_me',
-            'department_id',
-            'created_at',
-            'updated_at',
-        ];
 
-        $custommer = $this->user->getAllCustommer($per_page, [], $select);
+        $custommer = $this->user->getAllCustommer($per_page, [], $this->selectCustomer);
         $response['data'] = $custommer;
 
         return Response::json($response);
+    }
+
+    public function filterCustomer(Request $request)
+    {
+        $response = Helper::apiFormat();
+
+        $keyword = $request->keyword;
+        $per_page = (int) $request->per_page ? : config('model.custommer.default_filter_limit');
+
+        $custommers = $this->user->filterCustomer($keyword, $per_page, [], $this->selectCustomer);
+        $response['data'] = Helper::reFormatPaginate($custommers);
+
+        return Response::json($response, $response['status']);
+
     }
 }

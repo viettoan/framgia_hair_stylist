@@ -56,4 +56,12 @@ class UserRepositoryEloquent extends AbstractRepositoryEloquent implements UserR
     {
         return $this->model()->where('phone', $phone)->first();
     }
+
+    public function filterCustomer($keyword, $per_page, $with = [], $select = ['*'])
+    {
+        return $this->model()->select($select)->with($with)
+            ->orWhere('name', 'like', '%' . $keyword . '%')
+            ->orWhere('phone', 'like', '%' . $keyword . '%')
+            ->paginate($per_page);
+    }
 }
