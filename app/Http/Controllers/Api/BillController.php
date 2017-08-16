@@ -185,7 +185,7 @@ class BillController extends Controller
             }
             $response['error'] = false;
             $response['status'] = 200;
-            $response['data'] = $this->bill->find($bill->id, ['BillItems', 'Department']);
+            $response['data'] = $this->bill->find($bill->id, ['BillItems', 'BillItems.ServiceProduct', 'BillItems.Stylist', 'Department']);
             $response['message'][] = __('Create bill successfully!');
             DB::commit();
             
@@ -209,7 +209,7 @@ class BillController extends Controller
     {
         $response = Helper::apiFormat();
 
-        $bill_by_bill_id = $this->bill->find($id, 'BillItems');
+        $bill_by_bill_id = $this->bill->find($id, ['BillItems', 'BillItems.ServiceProduct', 'BillItems.Stylist', 'Department']);
         
         if (!$bill_by_bill_id) {
             $response['error'] = true;
@@ -316,7 +316,7 @@ class BillController extends Controller
             
             $response['error'] = false;
             $response['status'] = 200;
-            $response['data'] = $this->bill->find($bill->id, ['BillItems', 'Department']);
+            $response['data'] = $this->bill->find($bill->id, ['BillItems', 'BillItems.ServiceProduct', 'BillItems.Stylist', 'Department']);
             $response['message'][] = __('Edit bill successfully!');
             DB::commit();
         } catch (Exception $e) {
@@ -385,7 +385,7 @@ class BillController extends Controller
             $date_filter = $currentDate->format('Y-m-d');
 
             $data['list_bill'] = $this->bill
-                ->getFilterBillByDate($date_filter, $filter, ['*'], ['BillItems', 'Department']);
+                ->getFilterBillByDate($date_filter, $filter, ['*'], ['BillItems', 'BillItems.ServiceProduct', 'BillItems.Stylist', 'Department']);
             $responseData[] = $data;
             $currentDate->addDay(1);
             // dd($responseData);
