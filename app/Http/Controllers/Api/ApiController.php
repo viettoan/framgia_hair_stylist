@@ -77,7 +77,6 @@ class ApiController extends Controller
 
         $message[] = __('Render booking successful!');
 
-        return Response::json(Helper::apiFormat(false, [], $message, 200), 200);
-
+        return Response::json(Helper::apiFormat(false, [], $message), 200);
     }
 }

@@ -67,7 +67,7 @@ class RenderBookingController extends Controller
         $renderCollection = $this->renderBooking
             ->getRenderDepartment($department_id, $currentDay, ['OrderBooking']);
 
-        $timeNow = Carbon::now()->addMinute(config('default.time_slot'));
+        $timeNow = Carbon::now();
         $renders = [];
         foreach ($renderCollection as $render) {
             $render->status = RenderBooking::STATUS_ENABLE;

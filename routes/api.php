@@ -27,9 +27,8 @@ Route::group(['prefix' => 'v0', 'namespace' => 'Api'], function() {
     Route::get('get_last_booking_by_phone', 'OrderBookingController@getBookingbyPhoneLastest');
     Route::post('user_booking', 'OrderBookingController@userBooking');
     Route::get('booking_filter_by_day', 'OrderBookingController@getBookingFilterByDay');
-
     Route::get('get-bill-by-customer-id', 'BillController@getBillByCustomerId');
-
+    Route::get('filter-customer', 'UserController@filterCustomer');
     
     Route::get('filter-order-booking', 'OrderBookingController@filterBooking');
     Route::put('change-status-booking/{id}', 'OrderBookingController@changeStatus');
