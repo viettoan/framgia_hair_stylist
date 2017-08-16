@@ -75,12 +75,11 @@ var manage_service = new Vue({
             console.log(this.changer_status_booking.status);
         },
         update_status: function(id){
-            this.params.status = this.changer_status_booking.status;
             var self = this;
             var authOptions = {
                     method: 'PUT',
                     url: '/api/v0/change-status-booking/' + id,
-                    params: this.params,
+                    params: {status: this.changer_status_booking.status},
                     headers: {
                         'Authorization': "Bearer " + this.token.access_token,
                         'Content-Type': 'application/x-www-form-urlencoded'
