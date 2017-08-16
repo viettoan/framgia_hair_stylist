@@ -24,6 +24,7 @@ var Manager_bill = new Vue({
         isEditBillItem: {'status': false, 'index' : ''},
         billItems: [],
         billSuccess: {},
+        exportBill:{'id':'','name_stylist':[],'name_customer':'','phone_customer' :'', 'department_address':'','checkout':'','exportBill_item':[],'service_total':'','grand_total':'',}
 
     },
     mounted : function(){
@@ -75,6 +76,17 @@ var Manager_bill = new Vue({
         showBill: function() {
             $('#create-item').modal('show');
         },
+        exportshowBill: function(item){
+            $('#exportshowBill').modal('show');
+            this.exportBill.id = item.id;
+            this.exportBill.name_customer = item.customer_name;
+            this.exportBill.phone_customer = item.phone;
+            this.exportBill.checkout=item.created_at;
+            this.exportBill.department_address = item.department.address;
+            this.exportBill.exportBill_item = item.bill_items;
+            this.exportBill.grand_total = item.grand_total;
+            this.exportBill.service_total = item.service_total;
+            },
         addBill: function() {
             $('#showBill').modal('show');
         },
