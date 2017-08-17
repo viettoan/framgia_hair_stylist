@@ -33,7 +33,6 @@
                             </div>
                         </form>
                     </div>
-                    
                 </div>
             </div>
             <div class="col-md-7 col-sm-12 choice_address" id="choice_address">
@@ -45,53 +44,18 @@
                         </h4>
                     </label>
                     <ul class="ul-booking department-booking">
-                        <li class=" li-booking choose-department">
-                            <a class="a-booking" href="javascript:void(0)" >
-                                36 Trần Quốc Hoàn 
-                                <span class="span_address">Q.Cầu Giấy - HN </span>
-                            </a>
-                        </li>
-                        <li class=" li-booking choose-department">
-                            <a class="a-booking" href="javascript:void(0)" >
-                                36 Trần Quốc Hoàn 
-                                <span class="span_address">Q.Cầu Giấy - HN </span>
-                            </a>
-                        </li>
-                        <li class=" li-booking choose-department">
-                            <a class="a-booking" href="javascript:void(0)" >
-                                36 Trần Quốc Hoàn 
-                                <span class="span_address">Q.Cầu Giấy - HN </span>
-                            </a>
-                        </li>
-                        <li class=" li-booking choose-department">
-                            <a class="a-booking" href="javascript:void(0)" >
-                                36 Trần Quốc Hoàn 
-                                <span class="span_address">Q.Cầu Giấy - HN </span>
-                            </a>
-                        </li>
-                        <li class=" li-booking choose-department">
-                            <a class="a-booking" href="javascript:void(0)" >
-                                36 Trần Quốc Hoàn 
-                                <span class="span_address">Q.Cầu Giấy - HN </span>
-                            </a>
-                        </li>
-                        <li class=" li-booking choose-department">
-                            <a class="a-booking" href="javascript:void(0)" >
-                                36 Trần Quốc Hoàn
-                                <span class="span_address">Q.Cầu Giấy - HN </span>
-                            </a>
-                        </li>
-                        <li class=" li-booking choose-department">
-                            <a class="a-booking" href="javascript:void(0)" >
-                                36 Trần Quốc Hoàn 
-                                <span class="span_address">Q.Cầu Giấy - HN </span>
-                            </a>
-                        </li>
-                        <li class=" li-booking choose-department">
-                            <a class="a-booking" href="javascript:void(0)" >
-                                36 Trần Quốc Hoàn 
-                                <span class="span_address">Q.Cầu Giấy - HN </span>
-                            </a>
+                        <li class=" li-booking choose-department" v-for="item in items"
+                        >
+                        <a>
+                            <div  v-bind:class="{den: selected.department_id == item.id}"
+                            v-on:click="selectDepartment(item.id)">
+                                <span class="a-booking" href="javascript:void(0)" >
+                                    @{{ item.name }}
+                                    <span class="span_address"> 
+                                    @{{ item.address }} </span>
+                                </span>
+                            </div>
+                        </a>
                         </li>
                     </ul>
                 </div>
@@ -106,51 +70,45 @@
                                     {{ __('Choose Stylist') }}
                                 </h4>
                             </label>
-
                             <div class="form-group">
                                 <select class="form-control input-lg" id="sel1" v-on:change="changeStylist">
                                     <option  class="active " value="">{{ __('No Stylist Choosen')  }}</option>
-                                    <option>Test</option>
-                                    <option>Test</option>
-                                    <option>Test</option>
-                                    <option>Test</option>
-                                    <option>Test</option>
-                                    <option>Test</option>
-                                    <option>Test</option>
-                                    <option>Test</option>
-                                    <option>Test</option>
-                                    <option>Test</option>
-                                    <option>Test</option>
-                                    <option>Test</option>
-                                    <option>Test</option>
+                                    <option v-for="stylist in renderStylists" v-bind:value="stylist.id">
+                                    @{{ stylist.name }}
+                                </option>
                                 </select>
                             </div>
                             <div class="wrap-choose-date">
                                 <div>
                                     <ul class="ul-date-booking">
                                         <li class="li-date-booking">
-                                            <a class="a-booking" href="javascript:void(0)" >
-                                                Today
-                                                <span class="span_address">8/4</span>
+                                        <div v-bind:class="{active1: selected.date == 1}" v-on:click="selectDay(1)">
+                                            <a class="a-booking" href="javascript:void(0)" 
+                                            >
+                                                {{ __('Today') }}
                                             </a>
+                                        </div>
                                         </li>
                                         <li class="li-date-booking">
-                                            <a class="a-booking" href="javascript:void(0)" >
-                                                Tomorow
-                                                <span class="span_address">9/4</span>
+                                        <div v-bind:class="{active1: selected.date == 2}" v-on:click="selectDay(2)">
+                                            <a class="a-booking" href="javascript:void(0)" 
+                                            >
+                                                {{ __('Tomorrow') }}
                                             </a>
+                                        </div>
                                         </li>
                                         <li class="li-date-booking">
-                                            <a class="a-booking" href="javascript:void(0)" >
-                                                The next day
-                                                <span class="span_address">10/4</span>
-                                            </a>
+                                            <div v-bind:class="{active1: selected.date == 3}" v-on:click="selectDay(3)">
+                                                <a class="a-booking" href="javascript:void(0)" 
+                                                >
+                                                    {{__('The next day') }}
+                                                </a>
+                                            </div>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
-
                         <div class="wrap-booking-time col-md-7 col-sm-12">
                             <label class="text-success form-name">
                                 <h4>
@@ -159,92 +117,86 @@
                                 </h4>
                             </label>
                             <div class="booking-time">
-                                <ul class="wrap-all-item ul-booking-time">
-                                    <li class="li-booking-time">
-                                        <a class="a-time-booking" href="javascript:void(0)"> 10:05
-                                        </a>
-                                        <div class="bottom-div-status">
-                                            <span>Full</span>
+                                <ul class="wrap-all-item ul-booking-time" >
+                                    <li class="li-booking-time"  v-for="render in renderBookings">
+                                        <div v-if="render.status == 0" v-on:click="full">
+                                            <a class="a-time-booking" href="javascript:void(0)">  @{{ convertTimeMinute(render.time_start) }}
+                                            </a>
+                                            <div class="bottom-div-status full_booking">
+                                                <span>@{{render.statusLabel }}</span>
+                                            </div>
                                         </div>
-                                    </li>
-                                    <li class="li-booking-time">
-                                        <a class="a-time-booking" href="javascript:void(0)"> 10:15
-                                        </a>
-                                        <div class="bottom-div-status">
-                                            <span>Full</span>
+                                        <div v-if="render.status == 1" v-on:click="selectTime(render.id)" v-bind:class="{active2: selected.render_id == render.id}">
+                                            <a class="a-time-booking" href="javascript:void(0)">  @{{ convertTimeMinute(render.time_start) }}
+                                            </a>
+                                            <div class="bottom-div-status">
+                                                <span>@{{render.statusLabel }}</span>
+                                            </div>
                                         </div>
-                                    </li>
-                                    <li class="li-booking-time">
-                                        <a class="a-time-booking" href="javascript:void(0)"> 10:30
-                                        </a>
-                                        <div class="bottom-div-status">
-                                            <span>Full</span>
-                                        </div>
-                                    </li>
-                                    <li class="li-booking-time">
-                                        <a class="a-time-booking" href="javascript:void(0)"> 10:45
-                                        </a>
-                                        <div class="bottom-div-status">
-                                            <span>Full</span>
-                                        </div>
-                                    </li>
-                                    <li class="li-booking-time">
-                                        <a class="a-time-booking" href="javascript:void(0)"> 11:00
-                                        </a>
-                                        <div class="bottom-div-status">
-                                            <span>Full</span>
-                                        </div>
-                                    </li>
-                                    <li class="li-booking-time">
-                                        <a class="a-time-booking" href="javascript:void(0)"> 11:15
-                                        </a>
-                                        <div class="bottom-div-status">
-                                            <span>Full</span>
-                                        </div>
-                                    </li>
-                                    <li class="li-booking-time available-booking">
-                                        <a class="a-time-booking" href="javascript:void(0)"> 11:30
-                                        </a>
-                                        <div class="bottom-div-status">
-                                            <span>Available</span>
-                                        </div>
-                                    </li>
-                                    <li class="li-booking-time available-booking">
-                                        <a class="a-time-booking" href="javascript:void(0)"> 11:45
-                                        </a>
-                                        <div class="bottom-div-status">
-                                            <span>Available</span>
-                                        </div>
-                                    </li>
-                                    <li class="li-booking-time available-booking">
-                                        <a class="a-time-booking" href="javascript:void(0)"> 11:50
-                                        </a>
-                                        <div class="bottom-div-status ">
-                                            <span>Available</span>
-                                        </div>
-                                    </li>
-                                    <li class="li-booking-time available-booking">
-                                        <a class="a-time-booking " href="javascript:void(0)"> 16:05
-                                        </a>
-                                        <div class="bottom-div-status">
-                                            <span>Available</span>
-                                        </div>
-                                    </li>
-                                    <li class="li-booking-time available-booking">
-                                        <a class="a-time-booking" href="javascript:void(0)"> 16:05
-                                        </a>
-                                        <div class="bottom-div-status">
-                                            <span>Available</span>
+                                        <div v-if="render.status == 2" v-on:click="offDay">
+                                            <a class="a-time-booking" href="javascript:void(0)">  @{{ convertTimeMinute(render.time_start) }}
+                                            </a>
+                                            <div class="bottom-div-status">
+                                                <span>@{{render.statusLabel }}</span>
+                                            </div>
                                         </div>
                                     </li>
                                 </ul>
-                                <button type="button" v-on:click="clickBooking" class="btn btn-success booking_btn">
+                                <button type="button" :disabled="!select_render_booking" v-on:click="clickBooking" class="btn btn-success booking_btn">
                                     <i class="fa fa-bookmark-o" aria-hidden="true"></i> 
                                     {{ __('Booking') }}
                                 </button>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="col-md-12" id ="order_booking">
+                <div class="row fix-top">
+                    <div class = "col-md-12 content" >
+                        <div class="box-info">
+                            <div class="logo-img">
+                                <img src="/images/logo.png" alt="logo image">
+                            </div>
+                            <div class="text-center top_success">
+                                <p class="success_booking">
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                    {{ __('Set the schedule to success') }}
+                                </p>  
+                                <p class="success_thank"><em>{{ __('Thank you!!!') }}</em></p>
+                            </div>
+                            <p class="label label-success customer-info"> {{ __('Customer information') }}
+                            </p>
+                            <div class="text-center">
+                                <p class="name">@{{ newItem.name }}</p>
+                                <p class="phone">@{{ newItem.phone }}</p>
+                            </div>
+                            <hr>
+                            <div class="col-md-4 text-center right-border" style="">
+                                <p class="label label-success">{{ __('Stylist information') }}</p>
+                                <p>@{{ success_stylist.name }}</p>
+                                <p>@{{ success_stylist.email }}</p>
+                                <p>@{{ success_stylist.phone }}</p>
+                            </div>
+                            <div class="col-md-4 text-center right-border" style="">
+                                <p class="label label-success">{{ __('Deparment information') }}</p>
+                                <p>@{{ success_deparment.name }}</p>
+                                <p>@{{ success_deparment.address }}</p>
+                            </div>
+                            <div class="col-md-4 text-center" style="">
+                                <p class="label label-success">{{ __('Time information') }}</p>
+                                <p>@{{ success_time.day }}</p>
+                                <p>@{{ success_time.time_start }}</p>
+                            </div>
+                            <br>
+                            <div class="clearfix"></div>
+                            <div class="exit-btn">
+                                <a href="/">
+                                    <button class="btn btn-info">{{ __('BACK') }}</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>  
                 </div>
             </div>
         </div>

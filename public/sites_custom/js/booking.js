@@ -92,10 +92,11 @@ var manage_service = new Vue({
                 $('#infor_user').hide(500);
                 $('#choice_address').hide(800);
                 $('#choice_list_time').hide(900);
+                $('body').scroll($('#order_booking').show());
+                // $('#order_booking').show(1000);
                 this.success_deparment = response.data.data.department;
                 this.success_time = response.data.data.render_booking;
                 this.success_stylist = response.data.data.stylist;
-                $('#order_booking').show(1000);
             }).catch((error) => {
                 if (error.response.status == 403) {
                     self.formErrors = error.response.data.message;

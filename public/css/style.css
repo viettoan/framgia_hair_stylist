@@ -1144,8 +1144,9 @@ h1, h2, h3, h4, h5, h6 {
    border-radius: 10px;
    cursor: pointer;
 }
+
 .den {
-    width: 80px;
+    /*width: 80px;
     float: left;
     height: 60px;
     background-color: black;
@@ -1153,8 +1154,38 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: 5px; 
     box-shadow: 10px 10px 5px #888888;
     border-radius: 10px;
-    cursor: pointer;
+    cursor: pointer;*/
+    height: 63px;
+    background-color: #7f7f7f;
+    border: 1px solid #ccc;
 }
+
+.den span
+{
+    color:#fff !important;
+}
+
+.active1 {
+    background-color: #7f7f7f;
+    border: 1px solid #ccc;
+}
+
+.active1  a{
+    color:#fff !important;
+}
+
+.active2  {
+     background-color: #7f7f7f !important;
+}
+
+.active2 div {
+    background-color: red;
+}
+
+.active2 a {
+    color:#fff;
+}
+
 
 .choice-time {
    width: 110px; 

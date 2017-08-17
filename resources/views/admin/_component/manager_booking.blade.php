@@ -102,7 +102,7 @@
                                             <td>@{{ list.stylist.name }}</td>
                                             <td>@{{ convertHourMinute( list.time_start) }}</td>
                                             <td v-if="list.status == 0">
-                                                <span class="label label-danger">
+                                                <span class="label label-danger" >
                                                     {{ __('Danger') }}
                                                 </span>
                                             </td>
@@ -122,7 +122,7 @@
                                                 </span>
                                             </td>
                                             <td>
-                                                <a href="javascript:void(0)" v-on:click="changer_status(list)"><i class="fa fa-fw  fa-eyedropper get-color-icon-edit" ></i></a>
+                                                <a href="javascript:void(0)" v-on:click="changer_status(list)"> <i aria-hidden="true" class="fa fa-pencil-square-o"></i></a>
                                             </td>
                                         </tr>  
                                     </tbody>

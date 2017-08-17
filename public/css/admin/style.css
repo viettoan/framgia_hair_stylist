@@ -115,3 +115,8 @@
 .label_service ,.label_department, .label_bill {
     color: #7c795d; font-family: 'Trocchi', serif;font-weight: normal; line-height: 48px; margin: 0;
 }
+
+.status_width {
+    width: 57px;
+}
+
