@@ -153,38 +153,34 @@
             </div>
             <div class="col-md-12" id ="order_booking">
                 <div class="row fix-top">
-                    <div class = "col-md-12 content" >
+                    <div class = "col-md-12 content">
                         <div class="box-info">
-                            <div class="logo-img">
-                                <img src="/images/logo.png" alt="logo image">
-                            </div>
                             <div class="text-center top_success">
                                 <p class="success_booking">
                                     <i class="fa fa-check" aria-hidden="true"></i>
-                                    {{ __('Set the schedule to success') }}
+                                    {{ __('Success!') }}
                                 </p>  
-                                <p class="success_thank"><em>{{ __('Thank you!!!') }}</em></p>
                             </div>
-                            <p class="label label-success customer-info"> {{ __('Customer information') }}
-                            </p>
                             <div class="text-center">
+                                <i class="fa fa-user fa-2x" aria-hidden="true"></i>
                                 <p class="name">@{{ newItem.name }}</p>
-                                <p class="phone">@{{ newItem.phone }}</p>
+                                <p><a :href="'tel:' + newItem.phone">@{{ newItem.phone }}</a></p>
                             </div>
+                            
                             <hr>
                             <div class="col-md-4 text-center right-border" style="">
-                                <p class="label label-success">{{ __('Stylist information') }}</p>
+                                <i class="fa fa-scissors fa-2x" aria-hidden="true"></i>
                                 <p>@{{ success_stylist.name }}</p>
-                                <p>@{{ success_stylist.email }}</p>
-                                <p>@{{ success_stylist.phone }}</p>
+                                <p><a :href="'mailto:' + success_stylist.email">@{{ success_stylist.email }}</a></p>
+                                <p><a :href="'tel:' + success_stylist.phone">@{{ success_stylist.phone }}</a></p>
                             </div>
                             <div class="col-md-4 text-center right-border" style="">
-                                <p class="label label-success">{{ __('Deparment information') }}</p>
+                                <i class="fa fa-home fa-2x" aria-hidden="true"></i>
                                 <p>@{{ success_deparment.name }}</p>
                                 <p>@{{ success_deparment.address }}</p>
                             </div>
                             <div class="col-md-4 text-center" style="">
-                                <p class="label label-success">{{ __('Time information') }}</p>
+                                <i class="fa fa-clock-o fa-2x" aria-hidden="true"></i>
                                 <p>@{{ success_time.day }}</p>
                                 <p>@{{ success_time.time_start }}</p>
                             </div>
