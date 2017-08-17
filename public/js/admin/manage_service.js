@@ -7,6 +7,7 @@ var manage_service = new Vue({
         users: {},
         token: {},
         items: [],
+        detele_item:[],
         pagination: {
             total: 0,
             per_page: 2,
@@ -56,7 +57,7 @@ var manage_service = new Vue({
     methods: {
         showInfor: function(page) {
             axios.get('/api/v0/service').then(response => {
-                console.log(response.data.data);
+                // console.log(response.data.data);
                 this.$set(this, 'items', response.data.data);
             })
         },
@@ -129,6 +130,35 @@ var manage_service = new Vue({
                     toastr.success('Update Service Success', 'Success', {timeOut: 5000});
                     this.showInfor(this.pagination.current_page);
                     this.changePage(this.pagination.current_page);
+            }).catch((error) => {
+                    if (error.response.status == 403) {
+                        self.formErrors = error.response.data.message;
+                        for (key in self.formErrors) {
+                            toastr.error(self.formErrors[key], '', {timeOut: 10000});
+                        }    
+                    }
+            });
+        },
+
+        comfirmDeleteItem:function(item_id){
+            $('#delete-item').modal('show');
+            this.delete_item = item_id;
+        },
+        delItem:function(item){
+            var self = this;
+            var authOptions = {
+                    method: 'DELETE',
+                    url: ' /api/v0/service/' + item.id,
+                    headers: {
+                        'Authorization': "Bearer " + this.token.access_token,
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    json: true
+                }
+            axios(authOptions).then((response) => {
+                $("#delete-item").modal('hide');
+                    toastr.success('Delete Service Success', 'Success', {timeOut: 5000});
+                    this.showInfor();
             }).catch((error) => {
                     if (error.response.status == 403) {
                         self.formErrors = error.response.data.message;

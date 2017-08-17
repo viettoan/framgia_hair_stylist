@@ -130,19 +130,20 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
                     </button>
-                    <h4 class="modal-title custom_align" id="Heading">{{ trans('admin.deleteUser') }}</h4>
+                    <h4 class="modal-title custom_align" id="Heading">{{ __('
+                    Delete') }}</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="alert alert-danger">
-                        <span class="glyphicon glyphicon-warning-sign"></span> {{ trans('admin.user_comfirm_delete') . ': ' }} @{{ deleteItem.name }}
-                    </div>
+                    <p class="alert alert-danger">
+                        <span class="glyphicon glyphicon-warning-sign"></span> {{ __('Are you sure you want to detele this item ?') }}
+                    </p>
                 </div>
                 <div class="modal-footer ">
-                    <a href="javascript:void(0)" v-on:click="delItem(deleteItem.id)" class="btn btn-danger">
-                        <span class="glyphicon glyphicon-ok-sign"></span> {{ trans('admin.yes') }}
+                    <a href="javascript:void(0)" v-on:click="delItem(delete_item)" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-ok-sign"></span> {{ __('Yes') }}
                     </a>
                     <button type="button" class="btn btn-success" data-dismiss="modal">
-                        <span class="glyphicon glyphicon-remove"></span> {{ trans('admin.no') }}
+                        <span class="glyphicon glyphicon-remove"></span> {{ __('No') }}
                     </button>
                 </div>
             </div>

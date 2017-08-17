@@ -51,6 +51,7 @@
                 <label class="col-md-4">{{ __('Status') }}</label>
                 <div class="form-group col-md-8 select_booking_manage">
                     <select  class="form-control select-multi-status" id="sel1" v-on:change="selectStatus" multiple>
+                        <option value="">{{ __('All') }}</option>
                         <option value="0">{{ __('Wating') }}</option>
                         <option value="1">{{ __('Complete') }}</option>
                         <option value="2">{{ __('Cancel') }}</option>
@@ -194,7 +195,7 @@
                                 </div>
                                 <div v-if="!booking.id">
                                     <div class="col-sm-4" class="text-danger">
-                                        Khong co booking nao
+                                      <i> {{ __('Not Booking') }} </i>
                                     </div>
                                 </div>
                             </div>  
@@ -237,38 +238,45 @@
                             </div>
                         </div>
                         <div class="col-sm-12">
-                            <div class="well">
-                                <div class="col-sm-1">{{ __('STT') }}</div>
-                                <div class="col-sm-2">{{ __('Service Name') }}</div>
-                                <div class="col-sm-2">{{ __('Stylist Name') }}</div>
-                                <div class="col-sm-2 text-right">{{ __('Price') }}</div>
-                                <div class="col-sm-1 text-right">{{ __('Qty') }}</div>
-                                <div class="col-sm-2 text-right">{{ __('Row Total') }}</div>
-                                <div class="col-sm-2 text-right">{{ __('Action') }}</div>
-                            </div>
-
-                            <div class="well" id ="list_service" v-for="(billItem, keyObject) in billItems" v-bind:class="{'label-warning': isEditBillItem.status && isEditBillItem.index == keyObject}">
-                                <div class="col-sm-1">@{{ keyObject + 1 }}</div>
-                                <div class="col-sm-2">@{{ billItem.service_name }}</div>
-                                <div class="col-sm-2">@{{ billItem.stylist_name }}</div>
-                                <div class="col-sm-2 text-right">@{{ billItem.price }}</div>
-                                <div class="col-sm-1 text-right">@{{ billItem.qty }}</div>
-                                <div class="col-sm-2 text-right">@{{ billItem.row_total }}</div>
-                                <div class="col-sm-2 text-right">
-                                    <a href="javascript:void(0)" v-on:click="editBillItem(keyObject)">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>{{ __('STT') }}</th>
+                                        <th>{{ __('Service Name') }}</th>
+                                        <th>{{ __('Stylist Name') }}</th>
+                                        <th>{{ __('Price') }}</th>
+                                        <th>{{ __('Qty') }}</th>
+                                        <th>{{ __('Row Total') }}</th>
+                                        <th>{{ __('Action') }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr id ="list_service" v-for="(billItem, keyObject) in billItems" v-bind:class="{'label-warning': isEditBillItem.status && isEditBillItem.index == keyObject}">
+                                        <td>@{{ keyObject + 1 }}</td>
+                                        <td>@{{ billItem.service_name }}</td>
+                                        <td>@{{ billItem.stylist_name }}</td>
+                                        <td>@{{ billItem.price }}</td>
+                                        <td>@{{ billItem.qty }}</td>
+                                        <td>@{{ billItem.row_total }}.000 VND</td>
+                                        <td> <a href="javascript:void(0)" v-on:click="editBillItem(keyObject)">
                                         <i aria-hidden="true" class="fa fa-pencil-square-o"></i>
                                     </a>
                                     <a href="javascript:void(0)" v-on:click="deleteBillItem(keyObject)">
                                         <i class="fa fa-fw  fa-close get-color-icon-delete"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="well">
-                                <div class="col-sm-8 text-right">{{ __('Grand Total') }}</div>
-                                <div class="col-sm-2 text-right">@{{ bill.grand_total }}</div>
-                            </div>
+                                    </a></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>{{ __('Grand Total : ') }}</td>
+                                        <td>@{{ bill.grand_total }}.000 VND</td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-
                         <div class="form-group text-center">
                             <button class="btn btn-success" v-on:click="createBill" v-if="!bill.id">
                                 <i class="fa fa-plus" aria-hidden="true"></i> {{ __('Create Bill') }}
@@ -288,27 +296,18 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title" id="myModalLabel">{{ __('Export Bill') }}</h4>
+                    <h4 class="modal-title" id="myModalLabel">{{ __('Bill Detail') }}</h4>
                 </div>
                 <div class="modal-body" >
                     <div class="row">
                         <div class="col-md-10 col-md-offset-1 border_bill col-xs-10 col-xs-offset-1"> 
                             <div class="bookingleft-agile font_bill" >
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="col-md-3 icon_salon"> <img class = "fix_size_icon" src={{ asset('images/logo.png')}} alt=""> 
-                                    </div>
-                                    <div class="col-md-9 col-xs-9">
-                                        <h2 class="text-center font_bill"><i> {{ __(' FSalon Bill ') }} <i> </h2>
-                                        <h5 class="text-center"> <b> @{{exportBill.department_address}}</b></h5>
-                                        <p  class="text-center">{{ __('Tel: +8432 123 456  -  Email: admin@support.com') }}</p>
-                                    </div>
-                                </div>
                                 <p v-if="exportBill.id < 10">{{__('ID : ') }}000@{{exportBill.id}}</p>
                                 <p v-else-if="exportBill.id < 100 && exportBill.id > 10">{{__('ID : ') }}00@{{exportBill.id}}</p>
                                 <p v-else-if="exportBill.id <1000 && exportBill.id>100">{{__('ID : ') }}0@{{exportBill.id}}</p>
                                 <p v-else>{{__('ID : ') }}@{{exportBill.id}}</p>
                                 <p>{{ __('Name :') }} @{{exportBill.name_customer}}  {{__('-  Phone :') }} @{{exportBill.phone_customer}} </p>
-                                <p>{{ __('Check-in date : ') }}</p>
+                               {{--  <p>{{ __('Check-in date : ') }}</p> --}}
                                 <p>{{ __('Check-out date : ') }}@{{exportBill.checkout}} </p>
                                 <p>{{ __('Stylist :') }} 
                                 <span v-for="stylist_bill in exportBill.exportBill_item">-
@@ -334,17 +333,6 @@
                                     <div class="col-md-3 fix_padding col-xs-3" >@{{exportBill.grand_total}}.000 VND</div>
                                 </div>
                                 <br>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="col-md-4 col-xs-4" ><h3 class = "font_bill">{{ __('Pay Cash :') }}</h3></div>
-                                    <div class="col-md-8 col-xs-8" ><h3 class = "font_bill"><b>500.000 VND</b></h3></div>
-                                </div>
-                                <div class="col-md-12 footer col-xs-12" >
-                                    <div class="col-md-4 col-xs-4"><h3 class = "font_bill">{{ __('Change :') }}</h3></div>
-                                    <div class="col-md-8 col-xs-8"><h3 class = "font_bill"><b>300.000 VND</b></h3></div>
-                                </div>
-                                <div class="col-md-12 col-xs-12" >
-                                    <h3 class="text-center font_bill"><i class="fa fa-asterisk" aria-hidden="true"></i>{{ __('Have a nice day') }} <i class="fa fa-asterisk" aria-hidden="true"></i></h3>
-                                </div>
                             </div>
                         </div>
                     </div>
