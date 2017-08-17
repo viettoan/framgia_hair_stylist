@@ -52,7 +52,7 @@ class BillController extends Controller
             return Response::json($response);
         }
 
-        $response['data'] = $billByCustomerId;
+        $response['data'] = Helper::reFormatPaginate($billByCustomerId);
         
         return Response::json($response);
     }

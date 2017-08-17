@@ -377,10 +377,7 @@ class OrderBookingController extends Controller
         $dataEdit = [
             'status' =>$request->status,
         ];
-        if($dataEdit['status'] > 3 || $dataEdit['status'] < 0)
-        {
-            $dataEdit['status'] = 1;
-        }
+
         try {
             $orderBooking->fill($dataEdit)->save();
             $response['message'][] = __('Updated Status booking successfully!');
