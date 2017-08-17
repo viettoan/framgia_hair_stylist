@@ -27,7 +27,7 @@ class OrderBooking extends Model
 
     public function setStatusAttribute($value)
     {
-        if (!$value) {
+        if (!isset($this->getOptionStatus()[$value])) {
             $this->attributes['status'] = self::STATUS_PENDING;
         } else {
             $this->attributes['status'] = $value;
@@ -37,7 +37,7 @@ class OrderBooking extends Model
     public static function getOptionStatus()
     {
         return [
-            self::STATUS_CANCELED => __('Canceled'),
+            self::STATUS_CANCEL => __('Canceled'),
             self::STATUS_PENDING => __('Waiting'),
             self::STATUS_FINISHED => __('Finished'),
             self::STATUS_INLATE => __('In Late'),

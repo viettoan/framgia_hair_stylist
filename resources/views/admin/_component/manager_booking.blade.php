@@ -102,8 +102,8 @@
                                             <td>@{{ list.stylist.name }}</td>
                                             <td>@{{ convertHourMinute( list.time_start) }}</td>
                                             <td v-if="list.status == 0">
-                                                <span class="label label-danger" >
-                                                    {{ __('Danger') }}
+                                                <span class="label label-danger">
+                                                    {{ __('Cancel') }}
                                                 </span>
                                             </td>
                                             <td v-if="list.status == 1">

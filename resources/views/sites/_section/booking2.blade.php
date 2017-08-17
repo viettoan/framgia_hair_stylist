@@ -9,7 +9,7 @@
             <div class="indicator hide frontend-booking-indicator">
                 <div class="spinner"></div>
             </div>
-            <div class="col-md-5 col-sm-12" id="infor_user">
+            <div class="col-md-5 col-sm-12 col-xs-12" id="infor_user">
                 <div class="price-box to-animate">
                     <div>
                         <form>
@@ -35,7 +35,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-7 col-sm-12 choice_address" id="choice_address">
+            <div class="col-md-7 col-sm-12 col-xs-12 choice_address" id="choice_address">
                 <div class="price-box to-animate">
                     <label class="text-success form-name">
                         <h4> 
@@ -60,7 +60,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-md-12 col-sm-12 choice_address" id="choice_list_time">
+            <div class="col-md-12 col-sm-12 col-xs-12 choice_address" id="choice_list_time">
                 <div class="price-box to-animate">
                     <div class="row">
                         <div class="wrap-stylist-choice col-md-5 col-sm-12">
@@ -109,7 +109,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="wrap-booking-time col-md-7 col-sm-12">
+                        <div class="wrap-booking-time col-md-7 col-sm-12 col-xs-12 ">
                             <label class="text-success form-name">
                                 <h4>
                                     <i class="fa fa-user" aria-hidden="true"></i>

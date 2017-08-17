@@ -220,7 +220,7 @@ label.search-name-input, label.search-phone-input {
     z-index: 100;
     top  : 0;
     width  : 1px;
-    height   : 260%;  /* or 100px */
+    height   : 100%;  /* or 100px */
     background: #eee;
 }
 .wrap-choose-date
@@ -330,5 +330,57 @@ label.search-name-input, label.search-phone-input {
 {
     color: #fff;
 }
-*/ @media screen and (max-width: 480px) {
+@media screen and (max-device-width: 480px) {
+    .li-booking-time
+    {
+        width: 30% !important;
     }
+    .choice_address .price-box 
+    {
+        padding:0px !important;
+    }
+    .choose-department .den
+    {
+        border:none !important;
+    }
+    .wrap-stylist-choice select {
+        width: 100% !important;
+    }
+    .choice_address .form-group
+    {
+        padding: 30px !important;
+    }
+    .li-date-booking {
+        width: 100%;
+    }
+    .wrap-booking-time .wrap-all-item
+    {
+        margin-left: -13px;
+    }
+    .wrap-booking-time .booking-time
+    {
+        margin-bottom: 20px;
+    }
+}
+@media screen and (min-device-width: 480px) and (max-device-width: 768px) {
+    .choice_address .form-group
+    {
+        padding: 30px !important;
+    }
+    .wrap-stylist-choice select {
+        width: 100% !important;
+    }
+    .wrap-booking-time .wrap-all-item
+    {
+        margin-left: -13px;
+    }
+    .wrap-booking-time .booking-time
+    {
+        margin-bottom: 20px;
+    }
+    .wrap-choose-date
+    {
+        margin-left: 45px;
+    }
+}
+
