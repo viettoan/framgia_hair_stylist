@@ -17,37 +17,46 @@ var manage_service = new Vue({
         },
         offset: 4,
         formErrors: {},
-        params: {},
+        dataPages: [1],
+        params: {'keyword': '', 'per_page': 10, 'page': 1},
+        filter: {},
         formErrorsUpdate: {},
         newItem: {'id': '',
-        'name': '',
-        'email': '',
-        'password': '',
-        'phone': '',
-        'birthday': '',
-        'department_id': '',
-        'gender': '',
-        'permission': '',
-        'password_confirmation': '',
-        'specialize': '',
-        'about_me': ''
-    },
+            'name': '',
+            'email': '',
+            'password': '',
+            'phone': '',
+            'birthday': '',
+            'department_id': '',
+            'gender': '',
+            'permission': '',
+            'password_confirmation': '',
+            'specialize': '',
+            'about_me': ''
+        },
         fillItem: {'id': '', 'name': '', 'phone': '', 'about': '', 'gender': '', 'permission': '', 'birthday': ''},
-        deleteItem: {'name':'','id':''}
+        deleteItem: {'name':'','id':''},
+        isLoadCustomer: false
     },
     mounted : function(){
         this.users = Vue.ls.get('user', {});
         this.token = Vue.ls.get('token', {});
         this.showDepartment();
         this.showInfor();
-        this.params.per_page = 10;
     },
 
     methods: {
+        renderPages: function(total) {
+            var pages = [];
+            for (var i = 1; i <= Math.ceil(total/this.params.per_page); i++) {
+                pages.push(i);
+            }
+            this.dataPages = pages;
+        },
         showInfor: function() {
             var authOptions = {
                 method: 'get',
-                url: '/api/v0/get-custommer',
+                url: '/api/v0/filter-customer',
                 params: this.params,
                 headers: {
                     'Authorization': "Bearer " + this.token.access_token
@@ -55,22 +64,20 @@ var manage_service = new Vue({
             }
             axios(authOptions).then(response => {
                 this.$set(this, 'items', response.data.data.data);
-                console.log(this.items);
-            }).catch(function (error) {
+                this.renderPages(response.data.data.total);
+            }).catch(error => {
+                this.dataPages = [1];
             });
         },
-        selectPerPage: function(event) {
-            this.params.per_page = event.target.value;
-            this.showInfor();
-        },
         viewUser: function(item) {
-                this.fillItem.name = item.name;
-                this.fillItem.email = item.email;
-                this.fillItem.phone = item.phone;
-                this.fillItem.gender = item.gender;
-                this.fillItem.about = item.about_me;
-                this.fillItem.email = item.email;
-                this.fillItem.birthday = item.birthday;
+            this.fillItem.name = item.name;
+            this.fillItem.email = item.email;
+            this.fillItem.phone = item.phone;
+            this.fillItem.gender = item.gender;
+            this.fillItem.about = item.about_me;
+            this.fillItem.email = item.email;
+            this.fillItem.birthday = item.birthday;
+            
             $('#showUser').modal('show');
         },
         showDepartment: function(page) {
@@ -82,7 +89,27 @@ var manage_service = new Vue({
             this.formErrors = '';
             $("#create-item").modal('show');
         },
-            
+
+        filteCustomer: function()
+        {
+            if (!this.isLoadCustomer) {
+                this.isLoadCustomer = true;
+                var authOptions = {
+                    method: 'get',
+                    url: '/api/v0/filter-customer',
+                    params: this.params,
+                    headers: {
+                        'Authorization': "Bearer " + this.token.access_token
+                    }
+                }
+                axios(authOptions).then(response => {
+                    this.$set(this, 'items', response.data.data.data);
+                    this.isLoadCustomer = false;
+                }).catch(error => {
+                    this.isLoadCustomer = false;
+                });
+            }
+        },
         createItem: function(){
             var self = this;
             var authOptions = {
