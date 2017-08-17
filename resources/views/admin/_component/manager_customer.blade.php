@@ -31,19 +31,29 @@
         <div class="col-md-4 search_customer">
             <label class="col-md-4">{{ __('Search') }}</label>
             <div class="col-md-8">
-                <input id="myInput" onkeyup="myFunction()" placeholder="Search for phone number..">
+                <input v-on:keyup="filteCustomer" v-model="params.keyword" placeholder="Search for phone number..">
             </div>
         </div>
         <div class="col-md-4 col-md-offset-2">
             <label class="col-md-4">{{ __('Number User') }}</label>
             <div class="form-group col-md-8 select_booking_manage">
-                <select  class="form-control" id="sel1" v-on:change="selectPerPage">
+                <select  class="form-control" v-on:change="showInfor" v-model="params.per_page">
                     <option value="" selected>{{ __('Select') }}</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
                     <option value="5">5</option>
                     <option value="10">10</option>
                     <option value="20">20</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
+                </select>
+            </div>
+            <label class="col-md-4">{{ __('Page') }}</label>
+            <div class="form-group col-md-8">
+                <select  class="form-control" v-on:change="showInfor" v-model="params.page">
+                    <option v-bind:value="dataPage" v-for="dataPage in dataPages">
+                        @{{ dataPage }}
+                    </option>
                 </select>
             </div> 
         </div>
