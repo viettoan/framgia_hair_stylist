@@ -253,8 +253,8 @@
                                 <tbody>
                                     <tr id ="list_service" v-for="(billItem, keyObject) in billItems" v-bind:class="{'label-warning': isEditBillItem.status && isEditBillItem.index == keyObject}">
                                         <td>@{{ keyObject + 1 }}</td>
-                                        <td>@{{ billItem.service_name }}</td>
-                                        <td>@{{ billItem.stylist_name }}</td>
+                                        <td>@{{ billItem.service_product.name }}</td>
+                                        <td>@{{ billItem.stylist.name }}</td>
                                         <td>@{{ billItem.price }}</td>
                                         <td>@{{ billItem.qty }}</td>
                                         <td>@{{ billItem.row_total }} VND</td>
