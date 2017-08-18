@@ -119,9 +119,9 @@
                                             </td>
                                             <td>
                                                 <a href="javascript:void(0)" v-on:click="editBill(list)">
-                                                    <i aria-hidden="true" class="fa fa-pencil-square-o"></i>
+                                                    <i aria-hidden="true" class="fa fa-pencil-square-o fa-2x"></i>
                                                 </a>
-                                                <a href="javascript:void(0)" v-on:click="exportshowBill(list)"><i class="fa fa-external-link-square" aria-hidden="true"></i></a>
+                                                <a href="javascript:void(0)" v-on:click="exportshowBill(list)"><i class="fa fa-external-link-square fa-2x" aria-hidden="true"></i></a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -257,7 +257,7 @@
                                         <td>@{{ billItem.stylist_name }}</td>
                                         <td>@{{ billItem.price }}</td>
                                         <td>@{{ billItem.qty }}</td>
-                                        <td>@{{ billItem.row_total }}.000 VND</td>
+                                        <td>@{{ billItem.row_total }} VND</td>
                                         <td> <a href="javascript:void(0)" v-on:click="editBillItem(keyObject)">
                                         <i aria-hidden="true" class="fa fa-pencil-square-o"></i>
                                     </a>
@@ -271,7 +271,7 @@
                                         <td></td>
                                         <td></td>
                                         <td>{{ __('Grand Total : ') }}</td>
-                                        <td>@{{ bill.grand_total }}.000 VND</td>
+                                        <td>@{{ bill.grand_total }} VND</td>
                                         <td></td>
                                     </tr>
                                 </tbody>
@@ -315,22 +315,24 @@
                                 </span>
                                 </p>
                                 <div class="col-md-12 col-xs-12 border_botton" >
-                                    <div class="col-md-4 fix_padding col-xs-4" >{{ __('Service') }}</div>
-                                    <div class="col-md-2 fix_padding col-xs-2" >{{ __('Nb') }}</div>
+                                    <div class="col-md-3 fix_padding col-xs-3" >{{ __('Service') }}</div>
+                                    <div class="col-md-3 fix_padding col-xs-3" >{{ __('Stylist') }}</div>
+                                    <div class="col-md-1 fix_padding col-xs-1" >{{ __('Qty') }}</div>
                                     <div class="col-md-3 fix_padding col-xs-3" >{{ __('Price') }}</div>
-                                    <div class="col-md-3 fix_padding col-xs-3" >{{ __('T.Tien') }}</div>
+                                    <div class="col-md-2 fix_padding col-xs-2" >{{ __('') }}</div>
                                 </div>
                                 <div class="col-md-12 col-xs-12 border_botton" v-for="export_bill in exportBill.exportBill_item" >
-                                    <div class="col-md-4 fix_padding col-xs-4" >  @{{export_bill.service_name}}</div>
-                                    <div class="col-md-2 fix_padding col-xs-2" >@{{export_bill.qty}}</div>
-                                    <div class="col-md-3 fix_padding col-xs-3" > @{{export_bill.price}}.000</div>
-                                    <div class="col-md-3 fix_padding col-xs-3" >@{{export_bill.row_total}}.000</div>
+                                    <div class="col-md-3 fix_padding col-xs-3" >  @{{export_bill.service_name}}</div>
+                                    <div class="col-md-3 fix_padding col-xs-3" >  @{{export_bill.stylist.name}}</div>
+                                    <div class="col-md-1 fix_padding col-xs-1" >@{{export_bill.qty}}</div>
+                                    <div class="col-md-3 fix_padding col-xs-3" > @{{export_bill.price}}</div>
+                                    <div class="col-md-2 fix_padding col-xs-2" >@{{export_bill.row_total}}</div>
                                 </div>
                                 <div class="col-md-12 col-xs-12 border_botton_total" >
+                                    <div class="col-md-3 fix_padding col-xs-3" ></div>
                                     <div class="col-md-4 fix_padding col-xs-4" >TOTAL</div>
                                     <div class="col-md-2 fix_padding col-xs-2" >@{{exportBill.service_total}}</div>
-                                    <div class="col-md-3 fix_padding col-xs-3" ></div>
-                                    <div class="col-md-3 fix_padding col-xs-3" >@{{exportBill.grand_total}}.000 VND</div>
+                                    <div class="col-md-3 fix_padding col-xs-3" >@{{ exportBill.grand_total }} VND</div>
                                 </div>
                                 <br>
                             </div>
@@ -340,7 +342,8 @@
                     <form class="text-center">
                         <div class="form-group">
                             <button type="submit" class="btn btn-success">
-                                <i class="fa fa-plus" aria-hidden="true"></i> {{ __('Export') }}
+
+                                <a :href="'/admin/export_bill/' + exportBill.id"><i class="fa fa-plus" aria-hidden="true"></i> {{ __('Export') }}</a>
                             </button>
                             <button class="btn btn-default" data-dismiss="modal">
                                 <i class="fa fa-external-link-square" aria-hidden="true"></i>
