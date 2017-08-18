@@ -309,11 +309,6 @@
                                 <p>{{ __('Name :') }} @{{exportBill.name_customer}}  {{__('-  Phone :') }} @{{exportBill.phone_customer}} </p>
                                {{--  <p>{{ __('Check-in date : ') }}</p> --}}
                                 <p>{{ __('Check-out date : ') }}@{{exportBill.checkout}} </p>
-                                <p>{{ __('Stylist :') }} 
-                                <span v-for="stylist_bill in exportBill.exportBill_item">-
-                                    @{{stylist_bill.stylist.name}}
-                                </span>
-                                </p>
                                 <div class="col-md-12 col-xs-12 border_botton" >
                                     <div class="col-md-3 fix_padding col-xs-3" >{{ __('Service') }}</div>
                                     <div class="col-md-3 fix_padding col-xs-3" >{{ __('Stylist') }}</div>
