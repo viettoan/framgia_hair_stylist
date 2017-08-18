@@ -54,6 +54,7 @@
     {{--   {{ Html::script('bower/AdminLTE/dist/js/pages/dashboard.js') }} --}}
     {{ Html::script('bower/AdminLTE/dist/js/demo.js') }}
     {{ Html::script('js/admin/header.js') }}
+    {{ Html::script('js/admin/helper.js') }}
     {{ Html::script('js/admin/aside_admin.js') }}
     {{ Html::script('bower/AdminLTE/plugins/select2/select2.min.js') }}
     @yield('script')

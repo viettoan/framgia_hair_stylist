@@ -29,4 +29,25 @@ class Helper
             'data' => $paginate->items(),
         ];
     }
+
+    public static function formatPrice($price)
+    {
+        return number_format($price, 0, '.', ',');
+    }
+
+    public static function getSymbolCurrency()
+    {
+        $format = new \NumberFormatter('vi_VN', \NumberFormatter::CURRENCY);
+        return $format->getSymbol(\NumberFormatter::CURRENCY_SYMBOL);
+    }
+
+    public static function numberIntegerFormat($number)
+    {
+        return number_format($number);
+    }
+
+    public static function numberFloatFormat($number)
+    {
+        return number_format($number, 2);
+    }
 }

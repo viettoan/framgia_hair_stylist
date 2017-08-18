@@ -22,14 +22,15 @@ Route::group(['prefix' => 'site', 'as' => 'site.'], function () {
     Route::get('accept', 'Site\SiteController@accept');
     Route::get('profile', 'User\UserController@profile');
 });
-Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
-    Route::get('home','Admin\AdminController@home');
-    Route::get('manager_customer', 'Admin\AdminController@manager_customer');
-    Route::get('manager_booking', 'Admin\AdminController@manager_booking');
-    Route::get('manager_department', 'Admin\AdminController@manager_department');
-    Route::get('manager_service', 'Admin\AdminController@manager_service')->name('manager_service');
-    Route::get('profile', 'Admin\AdminController@profile');
-    Route::get('bill', 'Admin\AdminController@bill');
-    Route::get('list_bill', 'Admin\AdminController@list_bill');
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin'], function () {
+    Route::get('home','AdminController@home');
+    Route::get('manager_customer', 'AdminController@manager_customer');
+    Route::get('manager_booking', 'AdminController@manager_booking');
+    Route::get('manager_department', 'AdminController@manager_department');
+    Route::get('manager_service', 'AdminController@manager_service')->name('manager_service');
+    Route::get('profile', 'AdminController@profile');
+    Route::get('bill', 'AdminController@bill');
+    Route::get('list_bill', 'AdminController@list_bill');
+    Route::get('export_bill/{id}', 'BillController@exportBill')->name('export_bill');
 });
 

@@ -97,7 +97,7 @@
                                            <tr v-for="list in item.list_book">
                                             <td>@{{ list.id }}</td>
                                             <td>@{{ list.name }}</td>
-                                            <td>@{{ list.phone }}</td>
+                                            <td><a :href="'tel:' + list.phone">@{{ list.phone }}</a></td>
                                             <td>@{{ list.department.address }}</td>
                                             <td>@{{ list.stylist.name }}</td>
                                             <td>@{{ convertHourMinute( list.time_start) }}</td>
