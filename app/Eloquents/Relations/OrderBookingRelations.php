@@ -33,4 +33,9 @@ trait OrderBookingRelations
     {
         return $this->hasOne(Bill::class, 'order_booking_id');
     }
+    
+    public function getImages()
+    {
+        return $this->morphMany(Media::class, 'media_table');
+    }
 }

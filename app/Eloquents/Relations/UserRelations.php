@@ -40,4 +40,9 @@ trait UserRelations
     {
         return $this->hasMany(BillItem::class, 'stylist_id');
     }
+    
+    public function getImages()
+    {
+        return $this->morphMany(Media::class, 'media_table');
+    }
 }
