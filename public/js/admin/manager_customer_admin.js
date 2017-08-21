@@ -34,7 +34,7 @@ var manage_service = new Vue({
             'specialize': '',
             'about_me': ''
         },
-        fillItem: {'id': '', 'name': '', 'phone': '', 'about': '', 'gender': '', 'permission': '', 'birthday': ''},
+        fillItem: {'id': '', 'department_id': '', 'name': '', 'phone': '', 'about': '', 'gender': '', 'permission': '', 'birthday': ''},
         deleteItem: {'name':'','id':''},
         isLoadCustomer: false
     },
@@ -77,7 +77,6 @@ var manage_service = new Vue({
             this.fillItem.about = item.about_me;
             this.fillItem.email = item.email;
             this.fillItem.birthday = item.birthday;
-            
             $('#showUser').modal('show');
         },
         showDepartment: function(page) {
@@ -140,21 +139,25 @@ var manage_service = new Vue({
             });
         },
 
-        edit_Service: function(item) {
-            this.fillItem.name = item.name;
-            this.fillItem.short_description = item.short_description;
-            this.fillItem.description = item.description;
-            this.fillItem.price = item.price;
+        edit_cutomer: function(item) {
             this.fillItem.id = item.id;
-            $('#edit_Service').modal('show');
+            this.fillItem.name = item.name;
+            this.fillItem.email = item.email;
+            this.fillItem.phone = item.phone;
+            this.fillItem.gender = item.gender;
+            this.fillItem.about = item.about_me;
+            this.fillItem.email = item.email;
+            this.fillItem.birthday = item.birthday;
+            this.fillItem.department_id = item.department_id;
+            this.fillItem.permission = item.permission;
+            $('#edit').modal('show');
         },
-
-        updateService: function(id) {
+        update_customer: function(id) {
             var input = this.fillItem;
             var self = this;
             var authOptions = {
                     method: 'PUT',
-                    url: '/api/v0/service/' + id,
+                    url: '/api/v0/user/' + id,
                     params: input,
                     headers: {
                         'Authorization': "Bearer " + this.token.access_token,
@@ -166,10 +169,9 @@ var manage_service = new Vue({
             axios(authOptions).then((response) => {
                 this.newItem = {'id': '', 'name': '', 'short_description': '', 'description': '', 'price': ''},
                 this.formErrors = '';
-                $("#edit_Service").modal('hide');
-                toastr.success('Update Service Success', 'Success', {timeOut: 5000});
-                this.showInfor(this.pagination.current_page);
-                this.changePage(this.pagination.current_page);
+                $("#edit").modal('hide');
+                toastr.success('Update Customer Success', 'Success', {timeOut: 5000});
+                this.showInfor();
             }).catch((error) => {
                 if (error.response.status == 403) {
                     self.formErrors = error.response.data.message;
