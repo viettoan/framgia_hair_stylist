@@ -114,7 +114,7 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <a href="javascript:void(0)" v-on:click="edit_Service(item)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                        <a href="javascript:void(0)" v-on:click="edit_cutomer(item)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                         <a href="javascript:void(0)" v-on:click="comfirmDeleteItem(item)"><i class="fa fa-fw  fa-close get-color-icon-delete" ></i></a>
                                         <a href="javascript:void(0)" v-on:click="viewUser(item)"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                     </td>
@@ -126,6 +126,87 @@
             </div>
         </div>
     </section>
+     <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">{{ __('Detail Customer') }}</h4>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" enctype="multipart/form-data" v-on:submit.prevent="update_customer(fillItem.id)">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <div class="col-sm-4">
+                                <i><label for="name">{{ __('Name') }}</label></i>
+                                <span class="text-danger">(*)</span>
+                                <input type="text" name="name" class="form-control create_customer " v-model="fillItem.name"/>
+                            </div>
+                            <div class="col-sm-4">
+                                <i><label for="name">{{ __('Email') }}</label></i>
+                                <span class="text-danger">(*)</span>
+                                <input type="text" name="name" class="form-control create_customer " v-model="fillItem.email"/>
+                            </div>
+                            <div class="col-sm-4">
+                                <i><label for="name">{{ __('Phone') }}</label></i>
+                                <span class="text-danger">(*)</span>
+                                <input type="text" name="name" class="form-control create_customer " v-model="fillItem.phone"/>
+                            </div>
+                        </div>
+                         <div class="col-sm-12">
+                            <div class="col-sm-4">
+                                <i><label for="name">{{ __('Birthday') }}</label></i>
+                                <input type="date" id="sel1" class="form-control create_customer" name="birthday"  v-model="fillItem.birthday">
+                            </div>
+                            <div class="col-sm-4">
+                                <i><label for="name">{{ __('Gender') }}</label></i>
+                                <select  class="form-control create_customer" id="sel1" v-model="fillItem.gender">
+                                    <option value="" selected>{{ __('Select Gender') }}</option>
+                                    <option value="male">
+                                        <i class="fa fa-male" aria-hidden="true"></i>
+                                        {{ __('male') }}
+                                    </option>
+                                    <option value="female">{{ __('Famele') }}</option>
+                                    <option value="orther">{{ __('Orther') }}</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-4">
+                                <i><label for="name">{{ __('Department') }}</label></i>
+                                <select  class="form-control create_customer" id="sel1" v-model="fillItem.department_id">
+                                    <option v-bind:value="department.id"  v-for="department in showDepartments">
+                                        @{{ department.name }}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-sm-4">
+                                <i><label for="name">{{ __('Permission') }}</label></i>
+                                <select  class="form-control create_customer" id="sel1" v-model="fillItem.permission">
+                                    <option value="0">{{ __('NOMAL') }}</option>
+                                    <option value="1">{{ __('ASSISTANT') }}</option>
+                                    <option value="2">{{ __('MAIN_WORKER') }}</option>
+                                    <option value="3">{{ __('ADMIN') }}</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-14">
+                                <textarea class="form-control" name="about_me" rows="5" v-model="fillItem.about">
+                            </textarea>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success">
+                            <i class="fa fa-plus" aria-hidden="true"></i> {{ __('Create') }}
+                            </button>
+                            <button class="btn btn-default" data-dismiss="modal">
+                                <i class="fa fa-external-link-square" aria-hidden="true"></i>
+                                {{ __('Close') }}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="showUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -180,12 +261,12 @@
     <div class="modal fade" id="create-item" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content content_create_customer">
-                <div class="modal-header">
+                <div class="modal-header">    
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     <h4 class="modal-title" id="myModalLabel">{{ __('Create Customer') }}</h4>
                 </div>
-                <div class="modal-body">
-                    <div class="row"> 
+                    <div class="modal-body">
+                        <div class="row"> 
                         <form method="POST" enctype="multipart/form-data" v-on:submit.prevent="createItem">
                             <div class="form-group">
                                 <div class="col-sm-12">
@@ -237,10 +318,10 @@
                                             <option value="" selected>{{ __('Select Gender') }}</option>
                                             <option value="male">
                                                 <i class="fa fa-male" aria-hidden="true"></i>
-                                                {{ __('male') }}
+                                                {{ __('Male') }}
                                             </option>
-                                            <option value="female">female</option>
-                                            <option value="orther">orther</option>
+                                            <option value="female">{{ __('Famele') }}</option>
+                                            <option value="orther">{{ __('Orther') }}</option>
                                         </select>
                                     </div>
                                     <div class="col-sm-4">
@@ -301,43 +382,6 @@
                         <button type="button" class="btn btn-success" data-dismiss="modal">
                             <span class="glyphicon glyphicon-remove"></span> {{ trans('admin.no') }}
                         </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {{-- edit service --}}
-        <div class="modal fade" id="edit_Service" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                        <h4 class="modal-title" id="myModalLabel">{{ __('Update Service') }}</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form method="POST" enctype="multipart/form-data" v-on:submit.prevent="updateService(fillItem.id)">
-                            <div class="form-group">
-                                <label for="name">{{ __('Name') }}</label>
-                                <span class="text-danger">(*)</span>
-                                <input type="text" name="name" class="form-control" v-model="fillItem.name"/>
-                                <label for="name">{{ __('admin.Short_description') }}</label>
-                                <input type="text" name="short_description" class="form-control" v-model="fillItem.short_description"/>
-                                <label for="name">{{ __('admin.Description') }}</label>
-                                <textarea type="text" name="description" class="form-control" v-model="fillItem.description">
-                                </textarea>
-                                <label for="name">{{ __('Price') }}</label>
-                                <span class="text-danger">(*)</span>
-                                <input type="number" name="price" class="form-control" v-model="fillItem.price"/>
-                            </div>
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-success">
-                                    <i class="fa fa-plus" aria-hidden="true"></i> {{ __('Update') }}
-                                </button>
-                                <button class="btn btn-default" data-dismiss="modal">
-                                    <i class="fa fa-external-link-square" aria-hidden="true"></i>
-                                    {{ __('Close') }}
-                                </button>
-                            </div>
-                        </form>
                     </div>
                 </div>
             </div>
