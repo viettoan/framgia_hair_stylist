@@ -16,7 +16,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         'App\Model' => 'App\Policies\ModelPolicy',
-        \App\Eloquents\ServiceServiceProduct::class => \App\Policies\ServicePolicy::class,
     ];
 
     /**
@@ -29,7 +28,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Passport::routes();
-        Passport::tokensExpireIn(Carbon::now()->addDays(7));
+        Passport::tokensExpireIn(Carbon::now()->addDays(30));
         // Passport::refreshTokensExpireIn(Carbon::now()->addDays(30));
         Passport::pruneRevokedTokens();
     }

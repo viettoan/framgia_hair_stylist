@@ -3,6 +3,7 @@
 return [
     'booking' => [
         'default_filter_limit' => 10,
+        'path_image' => 'uploads/bookings',
     ],
 
     'custommer' => [

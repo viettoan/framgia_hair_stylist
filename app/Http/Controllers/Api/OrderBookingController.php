@@ -11,10 +11,11 @@ use App\Contracts\Repositories\DepartmentRepository;
 use App\Helpers\Helper;
 use App\Eloquents\OrderBooking;
 use App\Eloquents\User;
+use Carbon\Carbon;
+use DB;
 use Validator;
 use Auth;
 use Response;
-use Carbon\Carbon;
 
 class OrderBookingController extends Controller
 {
@@ -100,6 +101,11 @@ class OrderBookingController extends Controller
         $user_id = null;
         if ($user) {
             $user_id = $user->id;
+        }
+
+        if (null === $user_id) {
+            $user = $this->user->findByPhone($request->phone);
+            $user_id = $user ? $user->id : null;
         }
 
         $bookingChecked = $this->orderBooking->checkLastBookingByPhone($request->phone);
@@ -233,77 +239,6 @@ class OrderBookingController extends Controller
 
         return Response::json($response, $response['status']);
     }
-
-    public function filterBooking_backup(Request $request)
-    {
-        $response = Helper::apiFormat();
-
-        $startDate = Carbon::today()->format('Y-m-d H:i:s');
-        $endDate = Carbon::today()->endOfDay();
-        $filter_date = $request->date;
-        $filter_type = $request->type;//today - week - month //default today
-
-        $date_start = Carbon::createFromTimestamp($request->start_date);
-        $date_end = Carbon::createFromTimestamp($request->end_date);
-        switch ($filter_type) {
-            case 'day':
-                $startDate = $date_start->startOfDay()->format('Y-m-d H:i:s');
-                $endDate = $date_start->endOfDay();
-                break;
-            case 'space':
-                $startDate = $date_start->format('Y-m-d H:i:s');
-                $endDate = $date_end->endOfDay();
-                break;
-        }
-
-        $filter_status = $request->status; //cancel - finished - pending
-        $perPage = (int) $request->per_page ?: config('model.booking.default_filter_limit');
-        $page = (int) $request->page ?: 1;
-
-        $with = [];
-        $select = [
-            'id',
-            'render_booking_id',
-            'phone',
-            'name',
-            'stylist_id',
-            'created_at',
-            'updated_at',
-            'status',
-        ];
-
-        $currentDate = Carbon::now()->timestamp(strtotime($startDate))->addDay($perPage*($page-1));
-        $responseData = [];
-        for ($i = $perPage * ($page - 1); $i < $perPage * $page; $i++) {
-            if ($currentDate->gt($endDate)) {
-                break;
-            }
-            $start = $currentDate->format('Y-m-d') . ' 00:00:00';
-            $end = $currentDate->format('Y-m-d') . ' 23:59:59';
-            $orderBookings = $this->orderBooking
-                ->filterBookingbyDate($start, $end, $filter_status, $with, $select);
-            $data['date_book'] = $currentDate->format('Y-m-d');
-
-            $dataBooks = [];
-            foreach ($orderBookings as $orderBooking) {
-                $renderBooking = $this->renderBooking->find($orderBooking->render_booking_id);
-                $orderBooking->time_start = $renderBooking->time_start;
-                $orderBooking->department = $this->department
-                    ->find($renderBooking->department_id, [], ['name', 'address']);
-                $orderBooking->stylist = $this->user
-                    ->find($orderBooking->stylist_id, ['name', 'email', 'phone']);
-
-                $dataBooks[] = $orderBooking;
-            }
-
-            $data['list_book'] = $dataBooks;
-            $responseData[] = $data;
-            $currentDate->addDay(1);
-        }
-        $response['data'] = $responseData;
-
-        return Response::json($response, $response['status']);
-    }
     
     public function getBookingbyUserId($user_id)
     {
@@ -422,6 +357,64 @@ class OrderBookingController extends Controller
         
         $response['data'] = $booking;
         
+        return Response::json($response, $response['status']);
+    }
+
+    public function stylistUploadImage(Request $request)
+    {
+        $response = Helper::apiFormat();
+
+        $rule = [
+            'images.*' => 'required|image',
+            'order_booking_id' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rule);
+        if ($validator->fails()) {
+            $response['error'] = true;
+            $response['status'] = 403;
+            foreach ($rule as $key => $value) {
+                if ($validator->messages()->first($key)) {
+                    $response['message'][] = $validator->messages()->first($key);
+                }
+            }
+
+            return Response::json($response, $response['status']);
+        }
+
+        $orderBooking = $this->orderBooking->find($request->order_booking_id);
+        if (!$orderBooking) {
+            $response['error'] = true;
+            $response['status'] = 404;
+            $response['message'][] = __('Not found this booking ordered!');
+
+            return Response::json($response, $response['status']);
+        }
+
+        DB::beginTransaction();
+        try {
+
+            $images = is_array($request->file('images')) ? $request->file('images') : [];
+            foreach ($images as $image) {
+                if (!$image) {
+                    continue;
+                }
+                $image->hashName();
+                $path = $image->store(config('model.booking.path_image'), 'uploads');
+                $data['path_origin'] = $path;
+                $orderBooking->Images()->create($data);
+            }
+
+            $response['message'][] = __('Upload images for this booking successfully!');
+            $response['data'] = $this->orderBooking->find($request->order_booking_id, 'Images');
+            DB::commit();
+        } catch (Exception $e) {
+            $response['status'] = 403;
+            $response['error'] = true;
+            $response['message'][] = $e->getMessages();
+            DB::rollback();
+        }
+
         return Response::json($response, $response['status']);
     }
 }
