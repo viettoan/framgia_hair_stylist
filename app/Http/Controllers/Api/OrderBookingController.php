@@ -87,7 +87,7 @@ class OrderBookingController extends Controller
             }
         }
 
-        if (!$stylist_id || $renderBooking->OrderBooking()->where('stylist_id', $stylist_id)->first()) {
+        if (!$stylist_id || $renderBooking->OrderBooking->where('stylist_id', $stylist_id)->first()) {
             $response['error'] = true;
             $response['status'] = 403;
             $response['message'][] = __('You can not book because no stylist in your time book!');
@@ -161,6 +161,12 @@ class OrderBookingController extends Controller
     {
         $response = Helper::apiFormat();
 
+        $stylist_id = null;
+        $user = Auth::guard('api')->user();
+        if ($user && $user->permission == User::PERMISSION_MAIN_WORKER) {
+           $stylist_id = $user->id;
+        }
+
         $startDate = Carbon::today()->format('Y-m-d H:i:s');
         $endDate = Carbon::today()->endOfDay();
         $filter_date = $request->date;
@@ -205,6 +211,11 @@ class OrderBookingController extends Controller
                     if (null !== $filter_status && !in_array($orderBooking->status, $filter_status)) {
                         continue;
                     }
+
+                    if (null !== $stylist_id && $orderBooking->stylist_id != $stylist_id) {
+                        continue;
+                    }
+
                     $orderBooking->time_start = $renderBooking->day . ' ' . $renderBooking->time_start;
                     $orderBooking->department = $department;
                     $orderBooking->stylist = $this->user

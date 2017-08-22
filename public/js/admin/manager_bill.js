@@ -132,19 +132,40 @@ var Manager_bill = new Vue({
                 error = true;
             }
             if (!this.billItem.service_product_id) {
-                toastr.error('Please select service', '', {timeOut: 5000});
+                toastr.error('Please select service!', '', {timeOut: 5000});
+                error = true;
+            }
+            if (this.billItem.qty <= 0) {
+                toastr.error('Please add qty service smallest is 1!', '', {timeOut: 5000});
                 error = true;
             }
             if (error) return;
 
-            this.billItem.row_total = this.billItem.price * this.billItem.qty;
-            this.billItems.push(this.billItem);
+            var issetBillItem = false;
+            for (var i = this.billItems.length - 1; i >= 0; i--) {
+                var tmpBill = this.billItems[i];
+                if (tmpBill.service_product_id == this.billItem.service_product_id
+                    && tmpBill.stylist_id == this.billItem.stylist_id
+                ) {
+                    tmpBill.qty = parseInt(tmpBill.qty) + parseInt(this.billItem.qty);
+                    issetBillItem  = true;
+                    this.billItems[i] = tmpBill;
+                    break;
+                }
+            }
+            if (!issetBillItem) {
+                this.billItem.qty = parseInt(this.billItem.qty);
+                this.billItem.row_total = this.billItem.price * parseInt(this.billItem.qty);
+                this.billItems.push(this.billItem);
+            }
+            
             this.billItem = {'qty': 1, 'price': '', 'stylist_id': '', 'service_product_id': ''};
             this.grand_total();
         },
         grand_total: function(){
             var grand_total = 0;
             for (var i = 0; i < this.billItems.length; i++) {
+                this.billItems[i].row_total = parseInt(this.billItems[i].qty) * this.billItems[i].price;
                 grand_total += this.billItems[i].row_total;
             }
             this.bill.grand_total = grand_total;
@@ -228,13 +249,37 @@ var Manager_bill = new Vue({
             this.billItem.stylist_name = this.getNameStylist(stylist_id);
         },
         editBillItem: function(key) {
+            if (this.isEditBillItem.status) {
+                toastr.error('Please update service is editing!', '', {timeOut: 5000});
+                return;
+            }
+
             this.isEditBillItem = {'status': true, 'index': key};
             this.billItem = this.billItems[key];
         },
         submitEditBillItem: function(key) {
             this.isEditBillItem = {'status': false, 'index': ''};
-            this.billItems[key] = this.billItem;
-            this.billItem.row_total = this.billItem.price * this.billItem.qty;
+
+            var issetBillItem = false;
+            for (var i = this.billItems.length - 1; i >= 0; i--) {
+                if (i == key) continue;
+                var tmpBill = this.billItems[i];
+                if (tmpBill.service_product_id == this.billItem.service_product_id
+                    && tmpBill.stylist_id == this.billItem.stylist_id
+                ) {
+                    tmpBill.qty = parseInt(tmpBill.qty) + parseInt(this.billItem.qty);
+                    issetBillItem  = true;
+                    this.billItems[i] = tmpBill;
+                    this.billItems.splice(key, 1);
+                    break;
+                }
+            }
+
+            if (!issetBillItem) {
+                this.billItems[key] = this.billItem;
+                this.billItem.row_total = this.billItem.price * parseInt(this.billItem.qty);
+            }
+            
             this.billItem = {'qty': 1, 'price': '', 'stylist_id': '', 'service_product_id': ''};
             this.grand_total();
         },
@@ -261,13 +306,11 @@ var Manager_bill = new Vue({
                 this.bill.department_id = response.data.data.department.id;
                 this.booking = response.data.data;
                 this.bill.order_booking_id = this.booking.id;
+                this.formErrors.phone = '';
                 this.showStylist();
             }).catch((error) => {
                 this.booking = {};
                 this.formErrors.phone = error.response.data.message[0];
-
-                this.bill.customer_name = '';
-                this.bill.department_id = '';
                 this.bill.order_booking_id = '';
                 this.showStylist();
             });
@@ -277,6 +320,12 @@ var Manager_bill = new Vue({
                 toastr.error('Please add at least one service!', '', {timeOut: 5000});
                 return;
             }
+
+            if (this.isEditBillItem.status) {
+                toastr.error('Please update service is editing!', '', {timeOut: 5000});
+                return;
+            }
+
             this.bill.bill_items = JSON.stringify(this.billItems);
             var authOptions = {
                 method: 'POST',
@@ -312,9 +361,10 @@ var Manager_bill = new Vue({
             this.bill = bill;
             this.billItems = bill.bill_items;
             for (var i = this.billItems.length - 1; i >= 0; i--) {
-                this.billItems[i].stylist_name = this.getNameStylist(this.billItems[i].stylist_id);
+                this.billItems[i].qty = parseInt(this.billItems[i].qty);
+                this.billItems[i].stylist_name = this.billItems[i].stylist.name;
                 if (!this.billItems[i].service_name) {
-                    this.billItems[i].service_name = this.getNameService(this.billItems[i].service_product_id);
+                    this.billItems[i].service_name = this.billItems[i].service_product.name;
                 }
             }
             this.showStylist();
