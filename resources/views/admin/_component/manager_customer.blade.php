@@ -126,7 +126,7 @@
             </div>
         </div>
     </section>
-     <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+     {{-- <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -206,6 +206,91 @@
                 </div>
             </div>
         </div>
+    </div> --}}
+    <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <div class="row">
+                    <div class="col-md-8"><h4 class="modal-title" id="myModalLabel">{{ __('Edit Customer') }}</h4>
+                    </div>
+                    <div class="col-md-4 button-edit-customer">
+                        <div class="btn btn-default">{{__('Hủy') }}</div>
+                        <div class="btn btn-primary">{{__('Cập nhật') }}</div>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    </div>
+                </div>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 form-horizontal">
+                            <div class="col-md-4">
+                                <h4>{{ __('Thông tin chung') }}</h4>
+                                <p>{{ __('Một số thông tin cơ bản của khách hàng.') }}</p>
+                            </div>
+                            <div class="col-md-8 flexbox-annotated-section-content">
+                                <div class="col-md-12 flexbox-grid-form">
+                                            <label class="text-title-field" for="inputlastname">{{ __('Họ va Tên ') }}</label>
+                                            <input type="text" class=" flexbox-grid-form-input form-control" id="inputlastname" data-bind="value: LastName">
+                                </div>
+                                <div class="col-md-12 flexbox-grid-form">
+                                    <label class="text-title-field" for="inputemail">{{ __('Địa chỉ Email') }}</label>
+                                    <input type="text" class="form-control flexbox-grid-form-input" id="inputemail" data-bind="value: Email">
+                                </div>
+                                <div class="col-md-12 flexbox-grid-form">
+                                    <label class="text-title-field" for="inputdate">{{ __('Ngày sinh') }}</label>
+                                    <input type="date" class="form-control flexbox-grid-form-input" id="inputemail" data-bind="value: ngaysinh">
+                                </div>
+                               <div class="col-md-12 flexbox-grid-form">
+                                    <label for="name">{{ __('Gender') }}</label>
+                                    <select  class="form-control create_customer" v-model="fillItem.gender">
+                                        <option value="" selected>{{ __('Select Gender') }}</option>
+                                        <option value="male">
+                                            <i class="fa fa-male" aria-hidden="true"></i>
+                                            {{ __('male') }}
+                                        </option>
+                                        <option value="female">{{ __('Famele') }}</option>
+                                        <option value="orther">{{ __('Orther') }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <div class="col-md-4">
+                                <h4>{{ __('Địa chỉ') }}</h4>
+                                <p>{{ __('Địa chỉ chính của khách hàng này.') }}</p>
+                            </div>
+                            <div class="col-md-8 flexbox-annotated-section-content">
+                                <div class="col-md-12 flexbox-grid-form">
+                                    <div class="col-md-6 flexbox-grid-form-item">
+                                        <label class="text-title-field" for="inputlastname">{{ __('Địa chỉ') }}</label>
+                                        <input type="text" class=" flexbox-grid-form-input form-control" id="inputlastname" data-bind="value: address">
+                                    </div>
+                                    <div class="col-md-6 flexbox-grid-form-item1">   
+                                        <div class="flexbox-grid-form-item">
+                                            <label class="text-title-field" for="inputfirstname">{{ __('Số điện thoại') }}</label>
+                                            <input type="text" class="form-control flexbox-grid-form-input" id="inputfirstname" data-bind="value: phone">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <div class="col-md-4">
+                                <h4>{{ __('Địa chỉ') }}</h4>
+                                <p>{{ __('Địa chỉ chính của khách hàng này.') }}</p>
+                            </div>
+                            <div class="col-md-8 flexbox-annotated-section-content">
+                                <div class="col-md-12 flexbox-grid-form">
+                                    <label class="text-title-field" for="inputlastname">{{ __('Ghi chú') }}</label>
+                                    <textarea class=" flexbox-grid-form-input form-control " placeholder="Nhập ghi chú về khách hàng..." rows="3" data-bind="value: Notes"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="modal fade" id="showUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-lg" role="document">
@@ -214,7 +299,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     <h4 class="modal-title" id="myModalLabel">{{ __('Detail Customer') }}</h4>
                 </div>
-                <div class="modal-body">
+                {{-- <div class="modal-body">
                     <form method="POST" enctype="multipart/form-data" v-on:submit.prevent="createItem">
                         <div class="panel panel-success">
                             <div class="panel-heading">{{__('Information')}}</div>
@@ -254,6 +339,74 @@
                             </button>
                         </div>
                     </form>
+                </div> --}}
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 form-horizontal">
+                            <div class="col-md-4">
+                                <h4>{{ __('Thông tin chung') }}</h4>
+                                <p>{{ __('Một số thông tin cơ bản của khách hàng.') }}</p>
+                            </div>
+                            <div class="col-md-8 flexbox-annotated-section-content">
+                                <div class="col-md-12 flexbox-grid-form">
+                                    <label class="text-title-field" for="inputlastname">{{ __('Họ va Tên :   ') }} </label>
+                                        @{{ fillItem.name }}
+                                </div>
+                                <div class="col-md-12 flexbox-grid-form">
+                                    <label class="text-title-field" for="inputemail">{{ __('Địa chỉ Email') }}</label>
+                                    <input type="text" class="form-control flexbox-grid-form-input" id="inputemail" data-bind="value: Email">
+                                </div>
+                                <div class="col-md-12 flexbox-grid-form">
+                                    <label class="text-title-field" for="inputdate">{{ __('Ngày sinh') }}</label>
+                                    <input type="date" class="form-control flexbox-grid-form-input" id="inputemail" data-bind="value: ngaysinh">
+                                </div>
+                               <div class="col-md-12 flexbox-grid-form">
+                                    <label for="name">{{ __('Gender') }}</label>
+                                    <select  class="form-control create_customer" v-model="fillItem.gender">
+                                        <option value="" selected>{{ __('Select Gender') }}</option>
+                                        <option value="male">
+                                            <i class="fa fa-male" aria-hidden="true"></i>
+                                            {{ __('male') }}
+                                        </option>
+                                        <option value="female">{{ __('Famele') }}</option>
+                                        <option value="orther">{{ __('Orther') }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <div class="col-md-4">
+                                <h4>{{ __('Địa chỉ') }}</h4>
+                                <p>{{ __('Địa chỉ chính của khách hàng này.') }}</p>
+                            </div>
+                            <div class="col-md-8 flexbox-annotated-section-content">
+                                <div class="col-md-12 flexbox-grid-form">
+                                    <div class="col-md-6 flexbox-grid-form-item">
+                                        <label class="text-title-field" for="inputlastname">{{ __('Địa chỉ') }}</label>
+                                        <input type="text" class=" flexbox-grid-form-input form-control" id="inputlastname" data-bind="value: address">
+                                    </div>
+                                    <div class="col-md-6 flexbox-grid-form-item1">   
+                                        <div class="flexbox-grid-form-item">
+                                            <label class="text-title-field" for="inputfirstname">{{ __('Số điện thoại') }}</label>
+                                            <input type="text" class="form-control flexbox-grid-form-input" id="inputfirstname" data-bind="value: phone">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-horizontal">
+                            <div class="col-md-4">
+                                <h4>{{ __('Địa chỉ') }}</h4>
+                                <p>{{ __('Địa chỉ chính của khách hàng này.') }}</p>
+                            </div>
+                            <div class="col-md-8 flexbox-annotated-section-content">
+                                <div class="col-md-12 flexbox-grid-form">
+                                    <label class="text-title-field" for="inputlastname">{{ __('Ghi chú') }}</label>
+                                    <textarea class=" flexbox-grid-form-input form-control " placeholder="Nhập ghi chú về khách hàng..." rows="3" data-bind="value: Notes"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
