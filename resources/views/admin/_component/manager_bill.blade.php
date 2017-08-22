@@ -292,7 +292,7 @@
     </div>
     {{-- Export Bill --}}
     <div class="modal fade" id="exportshowBill" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
@@ -302,33 +302,53 @@
                     <div class="row">
                         <div class="col-md-10 col-md-offset-1 border_bill col-xs-10 col-xs-offset-1"> 
                             <div class="bookingleft-agile font_bill" >
-                                <p v-if="exportBill.id < 10">{{__('ID : ') }}000@{{exportBill.id}}</p>
-                                <p v-else-if="exportBill.id < 100 && exportBill.id > 10">{{__('ID : ') }}00@{{exportBill.id}}</p>
-                                <p v-else-if="exportBill.id <1000 && exportBill.id>100">{{__('ID : ') }}0@{{exportBill.id}}</p>
-                                <p v-else>{{__('ID : ') }}@{{exportBill.id}}</p>
-                                <p>{{ __('Name :') }} @{{exportBill.name_customer}}  {{__('-  Phone :') }} @{{exportBill.phone_customer}} </p>
-                               {{--  <p>{{ __('Check-in date : ') }}</p> --}}
-                                <p>{{ __('Check-out date : ') }}@{{exportBill.checkout}} </p>
-                                <div class="col-md-12 col-xs-12 border_botton" >
-                                    <div class="col-md-3 fix_padding col-xs-3" >{{ __('Service') }}</div>
-                                    <div class="col-md-3 fix_padding col-xs-3" >{{ __('Stylist') }}</div>
-                                    <div class="col-md-1 fix_padding col-xs-1" >{{ __('Qty') }}</div>
-                                    <div class="col-md-3 fix_padding col-xs-3" >{{ __('Price') }}</div>
-                                    <div class="col-md-2 fix_padding col-xs-2" >{{ __('') }}</div>
-                                </div>
-                                <div class="col-md-12 col-xs-12 border_botton" v-for="export_bill in exportBill.exportBill_item" >
-                                    <div class="col-md-3 fix_padding col-xs-3" >  @{{export_bill.service_name}}</div>
-                                    <div class="col-md-3 fix_padding col-xs-3" >  @{{export_bill.stylist.name}}</div>
-                                    <div class="col-md-1 fix_padding col-xs-1" >@{{export_bill.qty}}</div>
-                                    <div class="col-md-3 fix_padding col-xs-3" > @{{export_bill.price}}</div>
-                                    <div class="col-md-2 fix_padding col-xs-2" >@{{export_bill.row_total}}</div>
-                                </div>
-                                <div class="col-md-12 col-xs-12 border_botton_total" >
-                                    <div class="col-md-3 fix_padding col-xs-3" ></div>
-                                    <div class="col-md-4 fix_padding col-xs-4" >TOTAL</div>
-                                    <div class="col-md-2 fix_padding col-xs-2" >@{{exportBill.service_total}}</div>
-                                    <div class="col-md-3 fix_padding col-xs-3" >@{{ exportBill.grand_total }} VND</div>
-                                </div>
+                                <table class="table table-hover">
+                                      <thead>
+                                          <tr>
+                                              <th >{{__('ID : ') }}</th>
+                                              <th>@{{exportBill.id}}</th>
+                                          </tr>
+                                      </thead>
+                                      <thead>
+                                           <tr>
+                                           <th ><i class="fa fa-id-card-o"> : </th>
+                                           <th>@{{exportBill.name_customer}} - @{{exportBill.phone_customer}}</td>
+                                           </tr>
+                                      </thead>
+                                      <thead>
+                                          <tr>
+                                              <th><i class="fa fa-calendar"> : </i></th>
+                                              <th>@{{exportBill.checkout}} </th>
+                                          </tr>
+                                      </thead>
+                                  </table>  
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr >
+                                            <th>{{ __('Service') }}</th>
+                                            <th>{{ __('Stylist') }}</th>
+                                            <th>{{ __('Qty') }}</th>
+                                            <th>{{ __('Price') }}</th>
+                                            <th>{{ __('Row Total') }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="export_bill in exportBill.exportBill_item" >
+                                            <td>@{{export_bill.service_name}}</td>
+                                            <td>@{{export_bill.stylist.name}}</td>
+                                            <td>@{{export_bill.qty}}</td>
+                                            <td>@{{export_bill.price}}</td>
+                                            <td>@{{export_bill.row_total}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <th><h3><i>{{ __('Grand Total :') }}</i></h3></th>
+                                            <td><h3>@{{ exportBill.grand_total }}</h3></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                                 <br>
                             </div>
                         </div>

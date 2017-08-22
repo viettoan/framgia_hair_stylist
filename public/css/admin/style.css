@@ -120,3 +120,39 @@
     width: 57px;
 }
 
+.flexbox-grid-form,
+.flexbox-grid-form-item {
+    padding:0px;
+    padding-right: 0px;
+    margin-top: 4px;
+}
+
+.flexbox-grid-form-item1 {
+    padding-right: 0px;
+}
+ 
+.flexbox-grid-form-input {
+    border-radius: 4px;
+}
+
+.form-horizontal {
+    background-color: #ebeef0;
+    padding :25px 20px;
+    border-bottom: 1px solid #d2cccc;
+}
+
+.flexbox-annotated-section-content {
+    background-color: #fff;
+    padding-bottom: 15px;
+    border-radius: 10px;
+    box-shadow:5px 5px 5px -5px #333;
+    border-bottom: 1px solid #fff;
+}
+
+.textarea-auto-height {
+    resize: none; height: 54px;
+}
+
+.button-edit-customer {
+    padding-left: 110px;
+}
