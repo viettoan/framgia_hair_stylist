@@ -6,6 +6,7 @@ use App\Eloquents\BillItem;
 use App\Eloquents\User;
 use App\Eloquents\OrderBooking;
 use App\Eloquents\Department;
+use App\Eloquents\Media;
 
 trait BillRelations
 {
@@ -34,7 +35,7 @@ trait BillRelations
         return $this->belongsTo(OrderBooking::class, 'order_booking_id');
     }
     
-    public function getImages()
+    public function Images()
     {
         return $this->morphMany(Media::class, 'media_table');
     }
