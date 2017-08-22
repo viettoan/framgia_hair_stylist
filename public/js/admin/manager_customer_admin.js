@@ -38,11 +38,13 @@ var manage_service = new Vue({
         deleteItem: {'name':'','id':''},
         isLoadCustomer: false
     },
+    
     mounted : function(){
         this.users = Vue.ls.get('user', {});
         this.token = Vue.ls.get('token', {});
         this.showDepartment();
         this.showInfor();
+        $("#showBill_Detail").modal("show");
     },
 
     methods: {
@@ -53,6 +55,7 @@ var manage_service = new Vue({
             }
             this.dataPages = pages;
         },
+
         showInfor: function() {
             var authOptions = {
                 method: 'get',
@@ -69,6 +72,7 @@ var manage_service = new Vue({
                 this.dataPages = [1];
             });
         },
+
         viewUser: function(item) {
             this.fillItem.name = item.name;
             this.fillItem.email = item.email;
@@ -79,11 +83,13 @@ var manage_service = new Vue({
             this.fillItem.birthday = item.birthday;
             $('#showUser').modal('show');
         },
+
         showDepartment: function(page) {
             axios.get('/api/v0/department').then(response => {
                 this.$set(this, 'showDepartments', response.data.data);
             })
         },
+
         addItem: function(){
             this.formErrors = '';
             $("#create-item").modal('show');
@@ -109,6 +115,7 @@ var manage_service = new Vue({
                 });
             }
         },
+
         createItem: function(){
             var self = this;
             var authOptions = {
@@ -152,6 +159,7 @@ var manage_service = new Vue({
             this.fillItem.permission = item.permission;
             $('#edit').modal('show');
         },
+
         update_customer: function(id) {
             var input = this.fillItem;
             var self = this;
@@ -182,27 +190,19 @@ var manage_service = new Vue({
             });
         },
 
+        viewBill: function() {
+            $("#showBill_Detail").modal("show");
+            $("#showUser").modal("hide");
+        },
+
+        hideBill: function(){
+            $("#showBill_Detail").modal("hide");
+            $("#showUser").modal("show");
+        },
+
         changePage: function (page) {
             this.params.page = page;
             this.showInfor(page);
         }
     }
 });
-
-function myFunction() {
-    var input, filter, table, tr, td, i;
-    input = document.getElementById("myInput");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("example1");
-    tr = table.getElementsByTagName("tr");
-    for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[3];
-        if (td) {
-            if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = "";
-            } else {
-                tr[i].style.display = "none";
-            }
-        } 
-    }
-};

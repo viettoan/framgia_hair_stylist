@@ -16,7 +16,10 @@
 }
 
 .border_bill {
-    border:1px solid black;
+    border:1px solid #d0d0d0;
+    box-shadow: 4px 5px 5px -5px #333;
+    background-color: white;
+    border-radius: 4px;
 }
 
 .fix_padding {
