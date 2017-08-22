@@ -6,10 +6,12 @@ use App\Contracts\Repositories\BillRepository;
 use App\Contracts\Repositories\BillItemRepository;
 use App\Contracts\Repositories\UserRepository;
 use App\Contracts\Repositories\OrderBookingRepository;
+use App\Contracts\Repositories\MediaRepository;
 use App\Http\Controllers\Controller;
 use App\Eloquents\Bill;
 use App\Eloquents\User;
 use App\Eloquents\OrderBooking;
+use App\Eloquents\Media;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Helpers\Helper;
@@ -57,6 +59,29 @@ class BillController extends Controller
         return Response::json($response);
     }
 
+    public function getBillByCusIdWithImages(Request $request)
+    {
+        $response = Helper::apiFormat();
+
+        $billByCustomerId = $this->bill->getBillByCustomerIdWithImage($request->customer_id, ['*'], []);
+
+        if ($billByCustomerId->count() == 0)
+        {
+            $response['error'] = true;
+            $response['message'][] = __("There's no bill belong to this customer");
+
+            return Response::json($response);
+        }
+
+        foreach ($billByCustomerId as $value)
+        {
+            $value->bookings = $this->orderBooking->find($value->order_booking_id, 'Images', ['*'] );
+        }
+
+        $response['data'] = $billByCustomerId;
+
+        return Response::json($response);
+    }
     /**
      * Display a listing of the resource.
      *

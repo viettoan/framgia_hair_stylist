@@ -23,6 +23,11 @@ trait UserRelations
 
     public function getOrderBooking()
     {
+        return $this->hasMany(OrderBooking::class, 'user_id');
+    }
+
+    public function OrderBookings()
+    {
         return $this->hasMany(OrderBooking::class);
     }
 
@@ -39,10 +44,5 @@ trait UserRelations
     public function getBillItem()
     {
         return $this->hasMany(BillItem::class, 'stylist_id');
-    }
-    
-    public function getImages()
-    {
-        return $this->morphMany(Media::class, 'media_table');
     }
 }
