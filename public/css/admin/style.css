@@ -156,3 +156,16 @@
 .button-edit-customer {
     padding-left: 110px;
 }
+
+#about_customer{
+    margin-top: 10px;
+}
+
+#infor_customer{
+    height: 270px;
+}
+
+#bill_image{ 
+    height: 200px;
+ }
+ 
