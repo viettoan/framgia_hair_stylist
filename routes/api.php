@@ -32,6 +32,7 @@ Route::group(['prefix' => 'v0', 'namespace' => 'Api'], function() {
     Route::get('filter-customer', 'UserController@filterCustomer');
     
     Route::get('filter-order-booking', 'OrderBookingController@filterBooking');
+    Route::post('order-booking/stylist-upload-image', 'OrderBookingController@stylistUploadImage');
     Route::put('change-status-booking/{id}', 'OrderBookingController@changeStatus');
     Route::get('filter-bill', 'BillController@filterBill');
 
