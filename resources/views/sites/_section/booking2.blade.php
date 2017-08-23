@@ -156,34 +156,42 @@
                     <div class = "col-md-12 content">
                         <div class="box-info">
                             <div class="text-center top_success">
-                                <p class="success_booking">
-                                    <i class="fa fa-check" aria-hidden="true"></i>
-                                    {{ __('Success!') }}
-                                </p>  
+                                <div>
+                                    <i class="fa fa-check-square-o fa-3x" aria-hidden="true"></i>
+                                </div>
+                                <div class="success_booking">
+                                    <h2>{{ __('Success_bill') }}</h2>
+                                </div>  
                             </div>
-                            <div class="text-center">
-                                <i class="fa fa-user fa-2x" aria-hidden="true"></i>
-                                <p class="name">@{{ newItem.name }}</p>
-                                <p><a :href="'tel:' + newItem.phone">@{{ newItem.phone }}</a></p>
+                            <div class="col-md-6 box-sub-info">
+                                <div class="col-md-12 text-center right-border">
+                                    <i class="fa fa-user fa-2x" aria-hidden="true"></i>
+                                    <p class="name">@{{ newItem.name }}</p>
+                                    <p><a :href="'tel:' + newItem.phone">@{{ newItem.phone }}</a></p>
+                                    
+                                </div>
+                                <div class="col-md-12 text-center right-border" style="">
+                                    <hr>
+                                    <i class="fa fa-scissors fa-2x" aria-hidden="true"></i>
+                                    <p>@{{ success_stylist.name }}</p>
+                                    <p><a :href="'mailto:' + success_stylist.email">@{{ success_stylist.email }}</a></p>
+                                    <p><a :href="'tel:' + success_stylist.phone">@{{ success_stylist.phone }}</a></p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 box-sub-info">
+                                <div class="col-md-12 text-center" style="">
+                                    <i class="fa fa-home fa-2x" aria-hidden="true"></i>
+                                    <p>@{{ success_deparment.name }}</p>
+                                    <p>@{{ success_deparment.address }}</p>
+                                </div>
+                                <div class="col-md-12 text-center" style="">
+                                    <hr>
+                                    <i class="fa fa-clock-o fa-2x" aria-hidden="true"></i>
+                                    <p>@{{ success_time.day }}</p>
+                                    <p>@{{ success_time.time_start }}</p>
+                                </div>
                             </div>
                             
-                            <hr>
-                            <div class="col-md-4 text-center right-border" style="">
-                                <i class="fa fa-scissors fa-2x" aria-hidden="true"></i>
-                                <p>@{{ success_stylist.name }}</p>
-                                <p><a :href="'mailto:' + success_stylist.email">@{{ success_stylist.email }}</a></p>
-                                <p><a :href="'tel:' + success_stylist.phone">@{{ success_stylist.phone }}</a></p>
-                            </div>
-                            <div class="col-md-4 text-center right-border" style="">
-                                <i class="fa fa-home fa-2x" aria-hidden="true"></i>
-                                <p>@{{ success_deparment.name }}</p>
-                                <p>@{{ success_deparment.address }}</p>
-                            </div>
-                            <div class="col-md-4 text-center" style="">
-                                <i class="fa fa-clock-o fa-2x" aria-hidden="true"></i>
-                                <p>@{{ success_time.day }}</p>
-                                <p>@{{ success_time.time_start }}</p>
-                            </div>
                             <br>
                             <div class="clearfix"></div>
                             <div class="exit-btn">

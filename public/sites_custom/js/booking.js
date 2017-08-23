@@ -31,6 +31,7 @@ var manage_service = new Vue({
         this.params.date = timestamp;
         this.selected.date = 1;
         $('#order_booking').hide();
+
     },
 
     methods: {
@@ -85,10 +86,6 @@ var manage_service = new Vue({
             }
 
             axios(authOptions).then(response => {
-                for (key in response.data.message) {
-                    toastr.success(response.data.message[key], '', {timeOut: 10000});
-                }
-                
                 $('#infor_user').hide(500);
                 $('#choice_address').hide(800);
                 $('#choice_list_time').hide(900);
