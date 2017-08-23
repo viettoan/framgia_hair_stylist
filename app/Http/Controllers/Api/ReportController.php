@@ -32,17 +32,17 @@ class ReportController extends Controller
         $response = Helper::apiFormat();
 
         $filter_type = $request->type;//day - month - year - space //default day
-        $filter_number = (int) $request->number_column ?: config('model.bill.number_column'); 
-            // So ngay du lieu tra ve
         $filter_status = $request->status; //cancel - complete - pending
-
+        
         $statistical = [];
         $total_sales = 0;
         switch ($filter_type) {
             case 'year':
-                $currentYear = (int) Carbon::now()->format('Y');
-                for ($i= $filter_number - 1; $i >= 0 ; $i--) { 
-                    $billCollection = $this->bill->getBillByYear($currentYear - $i, $filter_status);
+                $date_start = Carbon::createFromTimestamp((int) $request->start_date)->startOfYear();
+                $date_end = Carbon::createFromTimestamp((int) $request->end_date)->endOfYear();
+
+                while ($date_start->lte($date_end)) {
+                    $billCollection = $this->bill->getBillByYear($date_start->format('Y'), $filter_status);
                     if (null != $filter_status) {
                         $sales = $billCollection->sum('grand_total');
                     } else {
@@ -50,16 +50,18 @@ class ReportController extends Controller
                     }
                     $total_sales += $sales;
                     $statistical[] = [
-                        'label' => $currentYear - $i,
+                        'label' => $date_start->format('Y'),
                         'value' => $sales,
                     ];
+                    $date_start->addYear(1);
                 }
                 break;
             case 'month':
-                for ($i= $filter_number - 1; $i >= 0 ; $i--) {
-                    $now = Carbon::now()->addMonth(-$i);
+                $date_start = Carbon::createFromTimestamp((int) $request->start_date)->startOfMonth();
+                $date_end = Carbon::createFromTimestamp((int) $request->end_date)->endOfMonth();
+                while ($date_start->lte($date_end)) {
                     $billCollection = $this->bill
-                        ->getBillByMonth($now->format('m'), $now->format('Y'), $filter_status);
+                        ->getBillByMonth($date_start->format('m'), $date_start->format('Y'), $filter_status);
                     if (null != $filter_status) {
                         $sales = $billCollection->sum('grand_total');
                     } else {
@@ -67,12 +69,14 @@ class ReportController extends Controller
                     }
                     $total_sales += $sales;
                     $statistical[] = [
-                        'label' => $now->format('m-Y'),
+                        'label' => $date_start->format('m-Y'),
                         'value' => $sales,
                     ];
+                    $date_start->addMonth(1);
                 }
                 break;
-            case 'space':
+            default:
+            // case 'space':
                 $date_start = Carbon::createFromTimestamp((int) $request->start_date);
                 $date_end = Carbon::createFromTimestamp((int) $request->end_date);
                 while ($date_start->lte($date_end)) {
@@ -90,23 +94,6 @@ class ReportController extends Controller
                         'value' => $sales,
                     ];
                     $date_start->addDay(1);
-                }
-                break;
-            default:
-                for ($i= $filter_number - 1; $i >= 0 ; $i--) {
-                    $now = Carbon::now()->addDay(-$i);
-                    $billCollection = $this->bill->getBillByDate($now->format('Y-m-d'), $filter_status);
-
-                    if (null != $filter_status) {
-                        $sales = $billCollection->sum('grand_total');
-                    } else {
-                        $sales = $billCollection->where('status', Bill::STATUS_COMPLETE)->sum('grand_total');
-                    }
-                    $total_sales += $sales;
-                    $statistical[] = [
-                        'label' => $now->format(config('default.format_date')),
-                        'value' => $sales,
-                    ];
                 }
                 break;
         }
@@ -132,32 +119,38 @@ class ReportController extends Controller
         $total_sales = 0;
         switch ($filter_type) {
             case 'year':
-                $currentYear = (int) Carbon::now()->format('Y');
-                for ($i= $filter_number - 1; $i >= 0 ; $i--) { 
-                    $billCollection = $this->bill->getBillByYear($currentYear - $i, $filter_status);
+                $date_start = Carbon::createFromTimestamp((int) $request->start_date)->startOfYear();
+                $date_end = Carbon::createFromTimestamp((int) $request->end_date)->endOfYear();
+
+                while ($date_start->lte($date_end)) {
+                    $billCollection = $this->bill->getBillByYear($date_start->format('Y'), $filter_status);
 
                     $sales = $billCollection->count();
                     $total_sales += $sales;
                     $statistical[] = [
-                        'label' => $currentYear - $i,
+                        'label' => $date_start->format('Y'),
                         'value' => $sales,
                     ];
+                    $date_start->addYear(1);
                 }
                 break;
             case 'month':
-                for ($i= $filter_number - 1; $i >= 0 ; $i--) {
-                    $now = Carbon::now()->addMonth(-$i);
+                $date_start = Carbon::createFromTimestamp((int) $request->start_date)->startOfMonth();
+                $date_end = Carbon::createFromTimestamp((int) $request->end_date)->endOfMonth();
+                while ($date_start->lte($date_end)) {
                     $billCollection = $this->bill
-                        ->getBillByMonth($now->format('m'), $now->format('Y'), $filter_status);
+                        ->getBillByMonth($date_start->format('m'), $date_start->format('Y'), $filter_status);
                     $sales = $billCollection->count();
                     $total_sales += $sales;
                     $statistical[] = [
-                        'label' => $now->format('m-Y'),
+                        'label' => $date_start->format('m-Y'),
                         'value' => $sales,
                     ];
+                    $date_start->addMonth(1);
                 }
                 break;
-            case 'space':
+            default:
+            // case 'space':
                 $date_start = Carbon::createFromTimestamp((int) $request->start_date);
                 $date_end = Carbon::createFromTimestamp((int) $request->end_date);
                 while ($date_start->lte($date_end)) {
@@ -171,19 +164,6 @@ class ReportController extends Controller
                         'value' => $sales,
                     ];
                     $date_start->addDay(1);
-                }
-                break;
-            default:
-                for ($i= $filter_number - 1; $i >= 0 ; $i--) {
-                    $now = Carbon::now()->addDay(-$i);
-                    $billCollection = $this->bill->getBillByDate($now->format('Y-m-d'), $filter_status);
-
-                    $sales = $billCollection->count();
-                    $total_sales += $sales;
-                    $statistical[] = [
-                        'label' => $now->format(config('default.format_date')),
-                        'value' => $sales,
-                    ];
                 }
                 break;
         }
@@ -201,8 +181,6 @@ class ReportController extends Controller
         $response = Helper::apiFormat();
 
         $filter_type = $request->type;//day - month - year - space //default day
-        $filter_number = (int) $request->number_column ?: config('model.bill.number_column'); 
-            // So ngay du lieu tra ve
         $filter_status = $request->status; //cancel - complete - pending
         $select = ['phone', DB::raw('COUNT(id) as count')];
 
@@ -210,34 +188,40 @@ class ReportController extends Controller
         $customerPhones = [];
         switch ($filter_type) {
             case 'year':
-                $currentYear = (int) Carbon::now()->format('Y');
-                for ($i= $filter_number - 1; $i >= 0 ; $i--) { 
-                    $billCollection = $this->bill->getGroupBillByYear($currentYear - $i, $select);
+                $date_start = Carbon::createFromTimestamp((int) $request->start_date)->startOfYear();
+                $date_end = Carbon::createFromTimestamp((int) $request->end_date)->endOfYear();
+
+                while ($date_start->lte($date_end)) {
+                    $billCollection = $this->bill->getGroupBillByYear($date_start->format('Y'), $select);
 
                     $statistical[] = [
-                        'label' => $currentYear - $i,
+                        'label' => $date_start->format('Y'),
                         'value' => $billCollection->count(),
                     ];
                     foreach ($billCollection as $value) {
                         $customerPhones[$value->phone] = $value->phone;
                     }
+                    $date_start->addYear(1);
                 }
                 break;
             case 'month':
-                for ($i= $filter_number - 1; $i >= 0 ; $i--) {
-                    $now = Carbon::now()->addMonth(-$i);
+                $date_start = Carbon::createFromTimestamp((int) $request->start_date)->startOfMonth();
+                $date_end = Carbon::createFromTimestamp((int) $request->end_date)->endOfMonth();
+                while ($date_start->lte($date_end)) {
                     $billCollection = $this->bill
-                        ->getGroupBillByMonth($now->format('m'), $now->format('Y'), $select);
+                        ->getGroupBillByMonth($date_start->format('m'), $date_start->format('Y'), $select);
                     $statistical[] = [
-                        'label' => $now->format('m-Y'),
+                        'label' => $date_start->format('m-Y'),
                         'value' => $billCollection->count(),
                     ];
                     foreach ($billCollection as $value) {
                         $customerPhones[$value->phone] = $value->phone;
                     }
+                    $date_start->addMonth(1);
                 }
                 break;
-            case 'space':
+            default:
+            // case 'space':
                 $date_start = Carbon::createFromTimestamp((int) $request->start_date);
                 $date_end = Carbon::createFromTimestamp((int) $request->end_date);
                 while ($date_start->lte($date_end)) {
@@ -250,19 +234,6 @@ class ReportController extends Controller
                         $customerPhones[$value->phone] = $value->phone;
                     }
                     $date_start->addDay(1);
-                }
-                break;
-            default:
-                for ($i= $filter_number - 1; $i >= 0 ; $i--) {
-                    $now = Carbon::now()->addDay(-$i);
-                    $billCollection = $this->bill->getGroupBillByDate($now->format('Y-m-d'), $select);
-                    $statistical[] = [
-                        'label' => $now->format(config('default.format_date')),
-                        'value' => $billCollection->count(),
-                    ];
-                    foreach ($billCollection as $value) {
-                        $customerPhones[$value->phone] = $value->phone;
-                    }
                 }
                 break;
         }
