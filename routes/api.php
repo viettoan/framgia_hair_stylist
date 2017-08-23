@@ -32,6 +32,7 @@ Route::group(['prefix' => 'v0', 'namespace' => 'Api'], function() {
     Route::get('get-bill-by-customer-id-with-images', 'BillController@getBillByCusIdWithImages');
     Route::get('filter-customer', 'UserController@filterCustomer');
 
+    Route::post('media-upload/{folder}', 'MediaController@uploadImage');
     
     Route::get('filter-order-booking', 'OrderBookingController@filterBooking');
     Route::post('order-booking/stylist-upload-image', 'OrderBookingController@stylistUploadImage');
