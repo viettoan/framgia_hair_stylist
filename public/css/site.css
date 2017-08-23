@@ -21,14 +21,39 @@ body {
     text-align: center;
     margin:20px;
     border-radius: 10px;
+    background: #fff !important;
+}
+#order_booking .content {
+    background-color: #fff !important;
+    border: 1px solid #ddd;
+    box-shadow: 3px 3px 3px 3px #f1f1f1;
 }
 .box-info p
 {
     font-size:21px;
     margin: 0 !important;
 }
+.box-info .box-sub-info {
+    padding: 0px;
+}
+.box-info .box-sub-info > div {
+    height: 170px;
+    border-bottom: 1px solid #f1f1f1;
+}
+.box-info .box-sub-info > div hr {
+    margin-top: -10px;
+}
 .box-info .success_booking { 
-    font-size:37px !important;
+    font-size:47px !important;
+    margin-bottom: 40px;
+ }
+.box-info .success_booking h2{
+    color: #5cb85c;
+    font-weight: bold;
+    font-family: Tahoma;
+}
+.box-info .success_booking i{
+    margin-right: 10px;
  }
 .box-info .success_thank {
     font-size:27px !important;
@@ -54,7 +79,6 @@ body {
     font-size: 22px !important;
 }
 .success_booking {
-    text-shadow: 1px 2px 2px #888888;
     margin-bottom: 10px;
 }
 p.label-success {
@@ -64,7 +88,6 @@ p.label-success {
     content : "";
     position: absolute;
     right    : 0;
-    z-index: 100;
     top  : 0;
     width  : 1px;
     height   : 144px;  /* or 100px */
@@ -80,8 +103,7 @@ p.label-success {
 }
 .exit-btn
 {
-    margin-bottom: 20px;
-    margin-left: 20px;
+    margin: 20px;
 }
 .logo-img {
     margin-left: 31%;
@@ -383,6 +405,9 @@ label.search-name-input, label.search-phone-input {
     .wrap-choose-date
     {
         margin-left: 45px;
+    }
+    .right-border:after {
+        background: #fff !important;
     }
 }
 
