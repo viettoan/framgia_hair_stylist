@@ -59,6 +59,26 @@ class BillController extends Controller
         return Response::json($response);
     }
 
+    public function getListBillByCustomerId(Request $request)
+    {
+        // not paginate
+         $response = Helper::apiFormat();
+
+         $billByCustomerId = $this->bill->getListBillByCustomerId($request->customer_id);
+
+        if($billByCustomerId->count() == 0)
+        {
+            $response['error'] = true;
+            $response['status'] = '404';
+            $response['message'][] = __("There's no bill belong to this customer");
+
+            return Response::json($response);
+        }
+
+        $response['data'] = $billByCustomerId;
+
+        return Response::json($response);
+    }
     public function getBillByCusIdWithImages(Request $request)
     {
         $response = Helper::apiFormat();

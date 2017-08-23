@@ -27,4 +27,6 @@ interface BillRepository extends AbstractRepository
     public function getFilterBillByDate($date, $filter, $select = ['*'], $with = []);
 
     public function getBillByCustomerIdWithImage($customerId, $billId, $with = [], $select = ['*']);
+
+     public function getListBillByCustomerId($customerId, $with = [], $select = ['*']);
 }

@@ -113,4 +113,9 @@ class BillRepositoryEloquent extends AbstractRepositoryEloquent implements BillR
     {
         return $this->model()->select($select)->where('customer_id', $customerId)->with($with)->get();
     }
+
+    public function getListBillByCustomerId($customerId, $with = [], $select = ['*'])
+    {
+        return $this->model()->select($select)->where('customer_id', $customerId)->with($with)->get();
+    }
 }
