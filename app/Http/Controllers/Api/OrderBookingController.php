@@ -393,14 +393,12 @@ class OrderBookingController extends Controller
 
         DB::beginTransaction();
         try {
-
-            $images = is_array($request->file('images')) ? $request->file('images') : [];
-            foreach ($images as $image) {
-                if (!$image) {
+            $images = json_decode($request->images);
+            $images = is_array($images) ? $images : [];
+            foreach ($images as $path) {
+                if (!$path) {
                     continue;
                 }
-                $image->hashName();
-                $path = $image->store(config('model.booking.path_image'), 'uploads');
                 $data['path_origin'] = $path;
                 $orderBooking->Images()->create($data);
             }
