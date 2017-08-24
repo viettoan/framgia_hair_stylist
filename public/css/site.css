@@ -354,6 +354,7 @@ label.search-name-input, label.search-phone-input {
 {
     color: #fff;
 }
+
 @media screen and (max-device-width: 480px) {
     .li-booking-time
     {
@@ -386,6 +387,7 @@ label.search-name-input, label.search-phone-input {
         margin-bottom: 20px;
     }
 }
+
 @media screen and (min-device-width: 480px) and (max-device-width: 768px) {
     .choice_address .form-group
     {

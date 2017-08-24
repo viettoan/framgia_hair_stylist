@@ -157,15 +157,27 @@
     padding-left: 110px;
 }
 
-#about_customer{
+#about_customer {
     margin-top: 10px;
 }
 
-#infor_customer{
+#infor_customer {
     height: 270px;
 }
 
-#bill_image{ 
+#bill_image { 
     height: 200px;
  }
- 
+
+.start-end-date {
+    padding:30px 10%;
+}
+
+.start-end-date .date-form label {
+    font-size: 18px !important;
+}
+
+.start-end-date .date-form input {
+    border-radius: 5px;
+    height: 40px;
+}
