@@ -21,24 +21,24 @@
                 <div class="small-box bg-aqua">
                     <div class="inner">
                         <h3>{{ __('150') }}</h3>
-                        <p>{{ __('Total hair') }}</p>
+                        <p>{{ __('Bill') }}</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-bag"></i>
                     </div>
-                    <a href="#" class="small-box-footer">{{ __('More info') }} <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{{ route('admin.list_bill') }}" class="small-box-footer">{{ __('More info') }} <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <div class="col-lg-4 col-xs-6">
                 <div class="small-box bg-green">
                     <div class="inner">
                         <h3>53<sup style="font-size: 20px">%</sup></h3>
-                        <p>{{ __('Bounce Rate') }}</p>
+                        <p>{{ __('Booking') }}</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>
                     </div>
-                    <a href="#" class="small-box-footer">{{ __('More info') }} <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{{ route('admin.booking') }}" class="small-box-footer">{{ __('More info') }} <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <div class="col-lg-4 col-xs-6">
@@ -46,12 +46,12 @@
                 <div class="small-box bg-yellow">
                     <div class="inner">
                         <h3>{{ __('44') }}</h3>
-                        <p>{{ __('User Registrations') }}</p>
+                        <p>{{ __('Customer') }}</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-person-add"></i>
                     </div>
-                    <a href="#" class="small-box-footer">{{ __('More info') }} <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{{ route('admin.customer') }}" class="small-box-footer">{{ __('More info') }} <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         </div>
@@ -59,19 +59,21 @@
             <div class="col-xs-12 ">
                 <div class="box">
                     <div class="box-header with-border">
-                        <ul class="nav nav-tabs" role="tablist">
-                            <li class="active" id ="day"><a href="#day" role="tab" data-toggle="tab">{{ __('Day') }}</a></li>
-                            <li id ="week"><a href="#week" role="tab" data-toggle="tab">{{ __('Week') }}</a></li>
-                            <li id ="monthly"><a href="#monthly" role="tab" data-toggle="tab">{{ __('Monthly') }}</a></li>
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#day">{{ __('Day') }}</a></li>
+                            <li><a data-toggle="tab" href="#month">{{ __('Month') }}</a></li>
+                            <li><a data-toggle="tab" href="#year">{{ __('Year') }}</a></li>
                         </ul>
-                        <h3 class="text-center">{{ __('Monthly Report') }}</h3>
-                        <div class="box-body  ">
+
+                        <div class="tab-content">
+                            <div id="day" class="tab-pane fade in active">
+                                <h3 class="text-center">{{ __('Day Report') }}</h3>
                                 <div class="col-md-6">
                                     <main>
                                       <p class="text-center">
                                         <strong>{{ __('Bar Chart Monthly Report') }} </strong>
                                     </p>
-                                      <div id="bar-chart"></div>
+                                    <bar-chart-day></bar-chart-day>
                                     </main>
                                 </div>
                                 <div class="col-md-6">
@@ -87,40 +89,81 @@
                                                 <div class="progress-bar progress-bar-aqua" style="width: 10%"></div>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="col-md-6">
                                         <div class="progress-group">
-                                            <span class="progress-text">Stylist 2</span>
-                                            <span class="progress-number"><b>310</b>/400</span>
+                                            <span class="progress-text">Stylist 6</span>
+                                            <span class="progress-number"><b>160</b>/200</span>
 
                                             <div class="progress sm">
-                                                <div class="progress-bar progress-bar-aqua" style="width: 5%"></div>
-                                            </div>
-                                        </div>
-                                        <div class="progress-group">
-                                            <span class="progress-text">Stylist 3</span>
-                                            <span class="progress-number"><b>480</b>/800</span>
-
-                                            <div class="progress sm">
-                                                <div class="progress-bar progress-bar-aqua" style="width: 8%"></div>
-                                            </div>
-                                        </div>
-                                        <div class="progress-group">
-                                            <span class="progress-text">Stylist 4</span>
-                                            <span class="progress-number"><b>480</b>/800</span>
-
-                                            <div class="progress sm">
-                                                <div class="progress-bar progress-bar-red" style="width: 2%"></div>
-                                            </div>
-                                        </div>
-                                        <div class="progress-group">
-                                            <span class="progress-text">Stylist 5</span>
-                                            <span class="progress-number"><b>480</b>/800</span>
-
-                                            <div class="progress sm">
-                                                <div class="progress-bar progress-bar-aqua" style="width: 15%"></div>
+                                                <div class="progress-bar progress-bar-aqua" style="width: 20%"></div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">          
+                                </div>
+                            </div>
+                            <div id="month" class="tab-pane">
+                                <h3 class="text-center">{{ __('Month Report') }}</h3>
+                                <div class="col-md-6">
+                                    <main>
+                                      <p class="text-center">
+                                        <strong>{{ __('Bar Chart Monthly Report') }} </strong>
+                                    </p>
+                                    <bar-chart-month></bar-chart-month>    
+                                    </main>
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="text-center">
+                                        <strong>{{ __('Stylist - Total Hair') }}</strong>
+                                    </p>
+                                    <div class="col-md-6">
+                                        <div class="progress-group">
+                                            <span class="progress-text">Stylist 1</span>
+                                            <span class="progress-number"><b>160</b>/200</span>
+
+                                            <div class="progress sm">
+                                                <div class="progress-bar progress-bar-aqua" style="width: 10%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="progress-group">
+                                            <span class="progress-text">Stylist 6</span>
+                                            <span class="progress-number"><b>160</b>/200</span>
+
+                                            <div class="progress sm">
+                                                <div class="progress-bar progress-bar-aqua" style="width: 20%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="year" class="tab-pane">
+                                <h3 class="text-center">{{ __('Year Report') }}</h3>
+                                <div class="col-md-6">
+                                    <main>
+                                      <p class="text-center">
+                                        <strong>{{ __('Bar Chart Monthly Report') }} </strong>
+                                    </p>
+                                    <bar-chart-year></bar-chart-year>    
+                                    </main>
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="text-center">
+                                        <strong>{{ __('Stylist - Total Hair') }}</strong>
+                                    </p>
+                                    <div class="col-md-6">
+                                        <div class="progress-group">
+                                            <span class="progress-text">Stylist 1</span>
+                                            <span class="progress-number"><b>160</b>/200</span>
+
+                                            <div class="progress sm">
+                                                <div class="progress-bar progress-bar-aqua" style="width: 10%"></div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="col-md-6">
                                         <div class="progress-group">
                                             <span class="progress-text">Stylist 6</span>
                                             <span class="progress-number"><b>160</b>/200</span>
@@ -137,61 +180,39 @@
                                                 <div class="progress-bar progress-bar-aqua" style="width: 17%"></div>
                                             </div>
                                         </div>
-                                        <div class="progress-group">
-                                            <span class="progress-text">Stylist 8</span>
-                                            <span class="progress-number"><b>480</b>/800</span>
-
-                                            <div class="progress sm">
-                                                <div class="progress-bar progress-bar-aqua" style="width: 13%"></div>
-                                            </div>
-                                        </div>
-                                        <div class="progress-group">
-                                            <span class="progress-text">Stylist 9</span>
-                                            <span class="progress-number"><b>480</b>/800</span>
-
-                                            <div class="progress sm">
-                                                <div class="progress-bar progress-bar-aqua" style="width: 20%"></div>
-                                            </div>
-                                        </div>
-                                        <div class="progress-group">
-                                            <span class="progress-text">Stylist 10</span>
-                                            <span class="progress-number"><b>480</b>/800</span>
-                                            <div class="progress sm">
-                                                <div class="progress-bar progress-bar-green" style="width: 30%"></div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
+                            </div>
                         </div>
-                        <div class="box-footer">
-                            <div class="row">
-                                <div class="col-sm-3 col-xs-6">
-                                    <div class="description-block border-right">
-                                        <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</span>
-                                        <h5 class="description-header">$35,210.43</h5>
-                                        <span class="description-text">TOTAL REVENUE</span>
-                                    </div>
+                    </div>
+                    <div class="box-footer">
+                        <div class="row">
+                            <div class="col-sm-3 col-xs-6">
+                                <div class="description-block border-right">
+                                    <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</span>
+                                    <h5 class="description-header">$35,210.43</h5>
+                                    <span class="description-text">TOTAL REVENUE</span>
                                 </div>
-                                <div class="col-sm-3 col-xs-6">
-                                    <div class="description-block border-right">
-                                        <span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>
-                                        <h5 class="description-header">$10,390.90</h5>
-                                        <span class="description-text">TOTAL COST</span>
-                                    </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-6">
+                                <div class="description-block border-right">
+                                    <span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>
+                                    <h5 class="description-header">$10,390.90</h5>
+                                    <span class="description-text">TOTAL COST</span>
                                 </div>
-                                <div class="col-sm-3 col-xs-6">
-                                    <div class="description-block border-right">
-                                        <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 20%</span>
-                                        <h5 class="description-header">$24,813.53</h5>
-                                        <span class="description-text">TOTAL PROFIT</span>
-                                    </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-6">
+                                <div class="description-block border-right">
+                                    <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 20%</span>
+                                    <h5 class="description-header">$24,813.53</h5>
+                                    <span class="description-text">TOTAL PROFIT</span>
                                 </div>
-                                <div class="col-sm-3 col-xs-6">
-                                    <div class="description-block">
-                                        <span class="description-percentage text-red"><i class="fa fa-caret-down"></i> 18%</span>
-                                        <h5 class="description-header">1200</h5>
-                                        <span class="description-text">GOAL COMPLETIONS</span>
-                                    </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-6">
+                                <div class="description-block">
+                                    <span class="description-percentage text-red"><i class="fa fa-caret-down"></i> 18%</span>
+                                    <h5 class="description-header">1200</h5>
+                                    <span class="description-text">GOAL COMPLETIONS</span>
                                 </div>
                             </div>
                         </div>
@@ -203,5 +224,6 @@
 @endsection
 @section('script')
     {{ Html::script('bower/jsapi/index') }}
+    {{ Html::script('https://unpkg.com/vue-chartjs/dist/vue-chartjs.full.min.js') }}
     {{ Html::script('js/admin/report.js') }}
 @endsection

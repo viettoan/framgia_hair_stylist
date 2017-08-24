@@ -24,13 +24,13 @@ Route::group(['prefix' => 'site', 'as' => 'site.'], function () {
 });
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin'], function () {
     Route::get('home','AdminController@home');
-    Route::get('manager_customer', 'AdminController@manager_customer');
-    Route::get('manager_booking', 'AdminController@manager_booking');
+    Route::get('manager_customer', 'AdminController@manager_customer')->name('customer');
+    Route::get('manager_booking', 'AdminController@manager_booking')->name('booking');
     Route::get('manager_department', 'AdminController@manager_department');
     Route::get('manager_service', 'AdminController@manager_service')->name('manager_service');
     Route::get('profile', 'AdminController@profile');
     Route::get('bill', 'AdminController@bill');
-    Route::get('list_bill', 'AdminController@list_bill');
+    Route::get('list_bill', 'AdminController@list_bill')->name('list_bill');
     Route::get('export_bill/{id}', 'BillController@exportBill')->name('export_bill');
 });
 
