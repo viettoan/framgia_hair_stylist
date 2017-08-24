@@ -71,24 +71,28 @@
                         <div class="col-md-10 col-md-offset-1 border_bill col-xs-10 col-xs-offset-1"> 
                             <div class="bookingleft-agile font_bill" >
                                 <table class="table table-hover">
-                                      <thead>
-                                          <tr>
-                                              <th >{{__('ID : ') }}</th>
-                                              <th>{{ __('1') }}</th>
-                                          </tr>
-                                      </thead>
-                                      <thead>
-                                           <tr>
-                                           <th ><i class="fa fa-id-card-o"> : </th>
-                                           <th>{{ __('tranvanmy - 0232323223') }}</td>
-                                           </tr>
-                                      </thead>
-                                      <thead>
-                                          <tr>
-                                              <th><i class="fa fa-calendar"> : </i></th>
-                                              <th>{{ __('29/20/2000') }}</th>
-                                          </tr>
-                                      </thead>
+                                    <thead>
+                                       <tr>
+                                            <th >{{__('ID : ') }}</th>
+                                            <th>@{{ showBillDetails.order_booking_id }}</th>
+                                        </tr>
+                                        <tr>
+                                            <th ><i class="fa fa-id-card-o"> : </th>
+                                            <th>@{{ showBillDetails.customer_name}} - @{{ showBillDetails.phone }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th><i class="fa fa-calendar"> : </i></th>
+                                            <th>@{{ showBillDetails.created_at  }}</th>
+                                        </tr>
+                                        <tr>
+                                            <th>{{ __('Service_total') }}</th>
+                                            <th>@{{ showBillDetails.service_total  }}</th>
+                                        </tr>
+                                        <tr>
+                                            <th>{{ __('Department') }}</th>
+                                            <th v-if="showBillDetails.department">@{{ showBillDetails.department.name }}</th>
+                                        </tr>
+                                    </thead>
                                   </table>  
                                 <table class="table table-striped">
                                     <thead>
@@ -101,12 +105,12 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>{{ __('cattoc') }}</td>
-                                            <td>{{ __('trung') }}</td>
-                                            <td>{{ __('200') }}</td>
-                                            <td>{{ __('200') }}</td>
-                                            <td>{{ __('200') }}</td>
+                                        <tr v-for="bill_item in showBillDetails.bill_items">
+                                            <td>@{{ bill_item.service_name }}</td>
+                                            <td>@{{ bill_item.stylist.name }}</td>
+                                            <td>@{{ bill_item.qty }}</td>
+                                            <td>@{{ bill_item.price }}</td>
+                                            <td>@{{ bill_item.row_total }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -116,7 +120,12 @@
                     </div>
                     <hr>
                     <div class="col-md-10 col-md-offset-1 border_bill col-xs-10 col-xs-offset-1">
-                        <div class="col-md-4">
+                    <div v-if="showBillDetails.booking">
+                        <div v-for="image in showBillDetails.booking.images">
+                            <img v-bind:src="image.path_origin" id="bill_image">
+                        </div>
+                    </div>
+            {{--             <div class="col-md-4">
                             <img width="200px" id="zoom_01" src="{{ asset('images/hair1.jpg') }}" data-zoom-image="{{ asset('images/hair1.jpg') }}"/>
                         </div>
                         <div class="col-md-4 test-xxx">
@@ -124,8 +133,7 @@
                         </div>
                         <div class="col-md-4">
                             <img width="200px" id="zoom_03" src="{{ asset('images/hair3.jpg') }}" data-zoom-image="{{ asset('images/hair3.jpg') }}"/>
-                        </div>
-                        
+                        </div> --}}
                     </div> 
                     <br>
                     <button class="btn btn-default"  v-on:click="hideBill">
@@ -204,97 +212,19 @@
             </div>
         </div>
     </section>
-{{--      <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title" id="myModalLabel">{{ __('Detail Customer') }}</h4>
-                </div>
-                <div class="modal-body">
-                    <form method="POST" enctype="multipart/form-data" v-on:submit.prevent="update_customer(fillItem.id)">
-                    <div class="form-group">
-                        <div class="col-sm-12">
-                            <div class="col-sm-4">
-                                <i><label for="name">{{ __('Name') }}</label></i>
-                                <span class="text-danger">(*)</span>
-                                <input type="text" name="name" class="form-control create_customer " v-model="fillItem.name"/>
-                            </div>
-                            <div class="col-sm-4">
-                                <i><label for="name">{{ __('Email') }}</label></i>
-                                <span class="text-danger">(*)</span>
-                                <input type="text" name="name" class="form-control create_customer " v-model="fillItem.email"/>
-                            </div>
-                            <div class="col-sm-4">
-                                <i><label for="name">{{ __('Phone') }}</label></i>
-                                <span class="text-danger">(*)</span>
-                                <input type="text" name="name" class="form-control create_customer " v-model="fillItem.phone"/>
-                            </div>
-                        </div>
-                         <div class="col-sm-12">
-                            <div class="col-sm-4">
-                                <i><label for="name">{{ __('Birthday') }}</label></i>
-                                <input type="date" id="sel1" class="form-control create_customer" name="birthday"  v-model="fillItem.birthday">
-                            </div>
-                            <div class="col-sm-4">
-                                <i><label for="name">{{ __('Gender') }}</label></i>
-                                <select  class="form-control create_customer" id="sel1" v-model="fillItem.gender">
-                                    <option value="" selected>{{ __('Select Gender') }}</option>
-                                    <option value="male">
-                                        <i class="fa fa-male" aria-hidden="true"></i>
-                                        {{ __('male') }}
-                                    </option>
-                                    <option value="female">{{ __('Famele') }}</option>
-                                    <option value="orther">{{ __('Orther') }}</option>
-                                </select>
-                            </div>
-                            <div class="col-sm-4">
-                                <i><label for="name">{{ __('Department') }}</label></i>
-                                <select  class="form-control create_customer" id="sel1" v-model="fillItem.department_id">
-                                    <option v-bind:value="department.id"  v-for="department in showDepartments">
-                                        @{{ department.name }}
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="col-sm-4">
-                                <i><label for="name">{{ __('Permission') }}</label></i>
-                                <select  class="form-control create_customer" id="sel1" v-model="fillItem.permission">
-                                    <option value="0">{{ __('NOMAL') }}</option>
-                                    <option value="1">{{ __('ASSISTANT') }}</option>
-                                    <option value="2">{{ __('MAIN_WORKER') }}</option>
-                                    <option value="3">{{ __('ADMIN') }}</option>
-                                </select>
-                            </div>
-                            <div class="col-sm-14">
-                                <textarea class="form-control" name="about_me" rows="5" v-model="fillItem.about">
-                            </textarea>
-                            </div>
-                        </div>
-                    </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-success">
-                            <i class="fa fa-plus" aria-hidden="true"></i> {{ __('Create') }}
-                            </button>
-                            <button class="btn btn-default" data-dismiss="modal">
-                                <i class="fa fa-external-link-square" aria-hidden="true"></i>
-                                {{ __('Close') }}
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div> --}}
     <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
+                <form method="POST" enctype="multipart/form-data" v-on:submit.prevent="update_customer(fillItem.id)">
                 <div class="row">
                     <div class="col-md-8"><h4 class="modal-title" id="myModalLabel">{{ __('Edit Customer') }}</h4>
                     </div>
                     <div class="col-md-4 button-edit-customer">
                         <div class="btn btn-default">{{__('Hủy') }}</div>
-                        <div class="btn btn-primary">{{__('Cập nhật') }}</div>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fa fa-plus" aria-hidden="true"></i> {{ __('Update') }}
+                        </button>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     </div>
                 </div>
@@ -308,16 +238,16 @@
                             </div>
                             <div class="col-md-8 flexbox-annotated-section-content">
                                 <div class="col-md-12 flexbox-grid-form">
-                                            <label class="text-title-field" for="inputlastname">{{ __('Họ va Tên ') }}</label>
-                                            <input type="text" class=" flexbox-grid-form-input form-control" id="inputlastname" data-bind="value: LastName">
+                                    <label class="text-title-field" for="inputlastname">{{ __('Họ va Tên ') }}</label>
+                                    <input type="text" class=" flexbox-grid-form-input form-control" id="inputlastname" v-model="fillItem.name">
                                 </div>
                                 <div class="col-md-12 flexbox-grid-form">
                                     <label class="text-title-field" for="inputemail">{{ __('Địa chỉ Email') }}</label>
-                                    <input type="text" class="form-control flexbox-grid-form-input" id="inputemail" data-bind="value: Email">
+                                    <input type="text" class="form-control flexbox-grid-form-input" id="inputemail" v-model="fillItem.email">
                                 </div>
                                 <div class="col-md-12 flexbox-grid-form">
                                     <label class="text-title-field" for="inputdate">{{ __('Ngày sinh') }}</label>
-                                    <input type="date" class="form-control flexbox-grid-form-input" id="inputemail" data-bind="value: ngaysinh">
+                                    <input type="date" class="form-control flexbox-grid-form-input" id="inputemail"  v-model="fillItem.birthday">
                                 </div>
                                <div class="col-md-12 flexbox-grid-form">
                                     <label for="name">{{ __('Gender') }}</label>
@@ -340,14 +270,10 @@
                             </div>
                             <div class="col-md-8 flexbox-annotated-section-content">
                                 <div class="col-md-12 flexbox-grid-form">
-                                    <div class="col-md-6 flexbox-grid-form-item">
-                                        <label class="text-title-field" for="inputlastname">{{ __('Địa chỉ') }}</label>
-                                        <input type="text" class=" flexbox-grid-form-input form-control" id="inputlastname" data-bind="value: address">
-                                    </div>
-                                    <div class="col-md-6 flexbox-grid-form-item1">   
+                                    <div class="col-md-12 flexbox-grid-form-item1">   
                                         <div class="flexbox-grid-form-item">
                                             <label class="text-title-field" for="inputfirstname">{{ __('Số điện thoại') }}</label>
-                                            <input type="text" class="form-control flexbox-grid-form-input" id="inputfirstname" data-bind="value: phone">
+                                            <input type="text" class="form-control flexbox-grid-form-input" id="inputfirstname" v-model="fillItem.phone">
                                         </div>
                                     </div>
                                 </div>
@@ -355,18 +281,18 @@
                         </div>
                         <div class="col-md-12 form-horizontal">
                             <div class="col-md-4">
-                                <h4>{{ __('Địa chỉ') }}</h4>
-                                <p>{{ __('Địa chỉ chính của khách hàng này.') }}</p>
+                                <h4>{{ __('About') }}</h4>
                             </div>
                             <div class="col-md-8 flexbox-annotated-section-content">
                                 <div class="col-md-12 flexbox-grid-form">
-                                    <label class="text-title-field" for="inputlastname">{{ __('Ghi chú') }}</label>
-                                    <textarea class=" flexbox-grid-form-input form-control " placeholder="Nhập ghi chú về khách hàng..." rows="3" data-bind="value: Notes"></textarea>
+                                    <label class="text-title-field" for="inputlastname">{{ __('About') }}</label>
+                                    <textarea class=" flexbox-grid-form-input form-control " placeholder="Nhập ghi chú về khách hàng..." rows="3" v-model="fillItem.about" ></textarea>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                </form>
             </div>
         </div>
     </div>
@@ -438,20 +364,20 @@
                                     <thead>
                                         <tr>
                                             <th>{{ __('STT') }}</th>
-                                            <th>{{ __('Ma') }}</th>
-                                            <th>{{ __('Thanh Toan') }}</th>
-                                            <th>{{ __('Ngay Tao') }}</th>
+                                            <th>{{ __('Code') }}</th>
+                                            <th>{{ __('Grand Total') }}</th>
+                                            <th>{{ __('Created At') }}</th>
                                             <th>{{ __('View') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>{{ __('1') }}</td>
-                                            <td>{{ __('MD1') }}</td>
-                                            <th>{{ __('500$') }}</th>
-                                            <td>{{ __('10/10') }}</td>
+                                        <tr v-for="showBill in showBills ">
+                                            <td>1</td>
+                                            <td>{{ __('HD-') }}@{{ showBill.id }}</td>
+                                            <td>@{{ showBill.grand_total }}</td>
+                                            <td>@{{ showBill.created_at }}</td>
                                             <td>
-                                                <a href="javascript:void(0)" class="btn btn-success" v-on:click="viewBill">
+                                                <a href="javascript:void(0)" class="btn btn-success" v-on:click="viewBill(showBill.id)">
                                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                                 </a>
                                             </td>
