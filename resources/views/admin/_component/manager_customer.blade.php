@@ -117,8 +117,15 @@
                     <hr>
                     <div class="col-md-10 col-md-offset-1 border_bill col-xs-10 col-xs-offset-1">
                         <div class="col-md-4">
-                            <img src="{{ asset('images/hd1') }}" id="bill_image">
+                            <img width="200px" id="zoom_01" src="{{ asset('images/hair1.jpg') }}" data-zoom-image="{{ asset('images/hair1.jpg') }}"/>
                         </div>
+                        <div class="col-md-4 test-xxx">
+                            <img width="200px" id="zoom_02" src="{{ asset('images/hair2.jpg') }}" data-zoom-image="{{ asset('images/hair2.jpg') }}"/>
+                        </div>
+                        <div class="col-md-4">
+                            <img width="200px" id="zoom_03" src="{{ asset('images/hair3.jpg') }}" data-zoom-image="{{ asset('images/hair3.jpg') }}"/>
+                        </div>
+                        
                     </div> 
                     <br>
                     <button class="btn btn-default"  v-on:click="hideBill">
@@ -464,7 +471,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="create-item" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="create-item" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content content_create_customer">
                 <div class="modal-header">    
@@ -597,4 +604,5 @@
 
     @section('script')
     {{ Html::script('js/admin/manager_customer_admin.js') }}
+    {{ Html::script('js/admin/image_zoom.js') }}
 @endsection

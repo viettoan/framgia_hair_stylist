@@ -35,28 +35,24 @@
     {{ Html::script('bower/jquery/dist/jquery.min.js') }}
     {{ Html::script('bower/toastr/toastr.min.js') }}
     {{ Html::script('bower/axios/dist/axios.min.js') }}
-    {{ Html::script('bower/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js') }}
     {{ Html::script('bower/AdminLTE/bootstrap/js/bootstrap.min.js') }}
-    {{-- {{ Html::script('bower/AdminLTE/plugins/morris/morris.min.js') }} --}}
     {{ Html::script('bower/AdminLTE/plugins/sparkline/jquery.sparkline.min.js') }}
     {{ Html::script('bower/AdminLTE/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js') }}
     {{ Html::script('bower/AdminLTE/plugins/jvectormap/jquery-jvectormap-world-mill-en.js') }}
     {{ Html::script('bower/AdminLTE/plugins/knob/jquery.knob.js') }}
-{{--     {{ Html::script('bower/AdminLTE/plugins/daterangepicker/daterangepicker.js') }} --}}
     {{ Html::script('bower/AdminLTE/plugins/datepicker/bootstrap-datepicker.js') }}
     {{ Html::script('bower/AdminLTE/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}
-   {{--  {{ Html::script('js/admin/manager_customer.js') }} --}}
     {{ Html::script('bower/AdminLTE/plugins/datatables/jquery.dataTables.min.js') }}
     {{ Html::script('bower/AdminLTE/plugins/datatables/dataTables.bootstrap.min.js') }}
     {{ Html::script('bower/AdminLTE/plugins/slimScroll/jquery.slimscroll.min.js') }}
     {{ Html::script('bower/AdminLTE/plugins/fastclick/fastclick.js') }}
     {{ Html::script('bower/AdminLTE/dist/js/app.min.js') }}
-    {{--   {{ Html::script('bower/AdminLTE/dist/js/pages/dashboard.js') }} --}}
     {{ Html::script('bower/AdminLTE/dist/js/demo.js') }}
     {{ Html::script('js/admin/header.js') }}
     {{ Html::script('js/admin/helper.js') }}
     {{ Html::script('js/admin/aside_admin.js') }}
     {{ Html::script('bower/AdminLTE/plugins/select2/select2.min.js') }}
+    {{ Html::script('bower/elevatezoom/jquery.elevatezoom.js') }}
     @yield('script')
 </body>
 </html>
