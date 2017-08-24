@@ -8,6 +8,8 @@ var manage_service = new Vue({
         token: {},
         items: [],
         showDepartments:{},
+        showBills:{},
+        showBillDetails: {},
         pagination: {
             total: 0,
             per_page: 2,
@@ -19,6 +21,7 @@ var manage_service = new Vue({
         formErrors: {},
         dataPages: [1],
         params: {'keyword': '', 'per_page': 10, 'page': 1},
+        customer_id: {'customer_id': ''},
         filter: {},
         formErrorsUpdate: {},
         newItem: {'id': '',
@@ -44,7 +47,6 @@ var manage_service = new Vue({
         this.token = Vue.ls.get('token', {});
         this.showDepartment();
         this.showInfor();
-        $("#showBill_Detail").modal("show");
     },
 
     methods: {
@@ -74,6 +76,7 @@ var manage_service = new Vue({
         },
 
         viewUser: function(item) {
+            this.fillItem.id = item.id;
             this.fillItem.name = item.name;
             this.fillItem.email = item.email;
             this.fillItem.phone = item.phone;
@@ -81,9 +84,34 @@ var manage_service = new Vue({
             this.fillItem.about = item.about_me;
             this.fillItem.email = item.email;
             this.fillItem.birthday = item.birthday;
+            this.showBill(item.id);
             $('#showUser').modal('show');
         },
+        showBill: function(id) {
+            this.customer_id.customer_id = id;
+            var self = this;
+            var authOptions = {
+                    method: 'GET',
+                    url: '/api/v0/get-list-bill-by-customer-id',
+                    params: this.customer_id,
+                    headers: {
+                        'Authorization': "Bearer " + this.token.access_token,
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    json: true
+                }
 
+            axios(authOptions).then((response) => {
+                this.$set(this, 'showBills', response.data.data);
+            }).catch((error) => {
+                    if (error.response.status == 403) {
+                        self.formErrors = error.response.data.message;
+                        for (key in self.formErrors) {
+                            toastr.error(self.formErrors[key], '', {timeOut: 10000});
+                        }    
+                    }
+            });
+        },
         showDepartment: function(page) {
             axios.get('/api/v0/department').then(response => {
                 this.$set(this, 'showDepartments', response.data.data);
@@ -190,9 +218,30 @@ var manage_service = new Vue({
             });
         },
 
-        viewBill: function() {
-            $("#showBill_Detail").modal("show");
-            $("#showUser").modal("hide");
+        viewBill: function(id) {
+            var self = this;
+            var authOptions = {
+                    method: 'GET',
+                    url: '/api/v0/bill/' + id,
+                    headers: {
+                        'Authorization': "Bearer " + this.token.access_token,
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    json: true
+                }
+
+            axios(authOptions).then((response) => {
+                this.$set(this, 'showBillDetails', response.data.data);
+                $("#showBill_Detail").modal("show");
+                $("#showUser").modal("hide");
+            }).catch((error) => {
+                    if (error.response.status == 403) {
+                        self.formErrors = error.response.data.message;
+                        for (key in self.formErrors) {
+                            toastr.error(self.formErrors[key], '', {timeOut: 10000});
+                        }    
+                    }
+            });
         },
 
         hideBill: function(){

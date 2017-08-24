@@ -34,7 +34,12 @@ trait BillRelations
     {
         return $this->belongsTo(OrderBooking::class, 'order_booking_id');
     }
-    
+
+    public function OrderBooking()
+    {
+        return $this->belongsTo(OrderBooking::class, 'order_booking_id');
+    }
+
     public function Images()
     {
         return $this->morphMany(Media::class, 'media_table');

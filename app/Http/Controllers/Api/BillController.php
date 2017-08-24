@@ -64,7 +64,7 @@ class BillController extends Controller
         // not paginate
          $response = Helper::apiFormat();
 
-         $billByCustomerId = $this->bill->getListBillByCustomerId($request->customer_id);
+         $billByCustomerId = $this->bill->getListBillByCustomerId($request->customer_id, ['Department', 'getOrderBooking']);
 
         if($billByCustomerId->count() == 0)
         {
@@ -260,9 +260,13 @@ class BillController extends Controller
             $response['error'] = true;
             $response['status'] = 404;
             $response['message'][] = __("There's no bill belong to this bill id");
-        } else {
-            $response['data'] = $bill_by_bill_id;
+
+            return Response::json($response, $response['status']);
         }
+
+        $bill_by_bill_id->booking = $this->orderBooking->find($bill_by_bill_id->order_booking_id, 'Images', ['*'] );
+
+        $response['data'] = $bill_by_bill_id;
 
         return Response::json($response);
     }
