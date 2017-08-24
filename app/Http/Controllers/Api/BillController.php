@@ -64,7 +64,7 @@ class BillController extends Controller
         // not paginate
          $response = Helper::apiFormat();
 
-         $billByCustomerId = $this->bill->getListBillByCustomerId($request->customer_id, ['Department', 'getOrderBooking']);
+         $billByCustomerId = $this->bill->getListBillByCustomerId($request->customer_id, ['Department', 'OrderBooking']);
 
         if($billByCustomerId->count() == 0)
         {
