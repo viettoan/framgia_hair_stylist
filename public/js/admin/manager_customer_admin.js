@@ -252,6 +252,10 @@ var manage_service = new Vue({
         changePage: function (page) {
             this.params.page = page;
             this.showInfor(page);
+        },
+
+        viewAllImages: function (id) {
+            $("#all-images").modal("show");
         }
     }
 });

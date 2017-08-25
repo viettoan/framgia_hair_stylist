@@ -125,14 +125,14 @@
                             <img v-bind:src="image.path_origin" id="bill_image">
                         </div>
                     </div>
-            {{--             <div class="col-md-4">
-                            <img width="200px" id="zoom_01" src="{{ asset('images/hair1.jpg') }}" data-zoom-image="{{ asset('images/hair1.jpg') }}"/>
+                     <div class="col-md-4">
+                            <a class="image-item" href="{{ asset('images/1.jpg')}}" target="blank" ><img src="{{ asset('images/1.jpg')}}" class="img-thumbnail img-responsive"></a>
                         </div>
                         <div class="col-md-4 test-xxx">
-                            <img width="200px" id="zoom_02" src="{{ asset('images/hair2.jpg') }}" data-zoom-image="{{ asset('images/hair2.jpg') }}"/>
+                            <a class="image-item" href="{{ asset('images/1.jpg')}}" target="blank" ><img src="{{ asset('images/1.jpg')}}" class="img-thumbnail img-responsive"></a>
                         </div>
                         <div class="col-md-4">
-                            <img width="200px" id="zoom_03" src="{{ asset('images/hair3.jpg') }}" data-zoom-image="{{ asset('images/hair3.jpg') }}"/>
+                            <a class="image-item" href="{{ asset('images/1.jpg')}}" target="blank" ><img src="{{ asset('images/1.jpg')}}" class="img-thumbnail img-responsive"></a>
                         </div> --}}
                     </div> 
                     <br>
@@ -203,6 +203,7 @@
                                         <a href="javascript:void(0)" v-on:click="edit_cutomer(item)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                         <a href="javascript:void(0)" v-on:click="comfirmDeleteItem(item)"><i class="fa fa-fw  fa-close get-color-icon-delete" ></i></a>
                                         <a href="javascript:void(0)" v-on:click="viewUser(item)"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                        <a href="javascript:void(0)" v-on:click="viewAllImages(item.id)"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -212,6 +213,25 @@
             </div>
         </div>
     </section>
+    <!-- Show all image-->
+    <div class="modal fade" id="all-images" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Images</h4>
+                </div>
+                <div class="modal-body row">
+                    <div class="col-md-12 grid-image parent-container">
+                        <a class="image-item" href="{{ asset('images/1.jpg')}}" target="blank" ><img src="{{ asset('images/1.jpg')}}" class="img-thumbnail img-responsive"></a>
+                        <a class="image-item" href="{{ asset('images/2.jpg')}}" target="blank" ><img src="{{ asset('images/2.jpg')}}" class="img-thumbnail img-responsive"></a>
+                        <a class="image-item" href="{{ asset('images/4.jpg')}}" target="blank" ><img src="{{ asset('images/4.jpg')}}" class="img-thumbnail img-responsive"></a>
+                        <a class="image-item" href="{{ asset('images/4.jpg')}}" target="blank" ><img src="{{ asset('images/4.jpg')}}" class="img-thumbnail img-responsive"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- end show all image -->
     <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -526,9 +546,9 @@
             </div>
         </div>
     </div>
-    @endsection
+@endsection
 
-    @section('script')
+@section('script')
     {{ Html::script('js/admin/manager_customer_admin.js') }}
     {{ Html::script('js/admin/image_zoom.js') }}
 @endsection
