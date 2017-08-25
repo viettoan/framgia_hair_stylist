@@ -194,13 +194,27 @@ class ReportController extends Controller
                 while ($date_start->lte($date_end)) {
                     $billCollection = $this->bill->getGroupBillByYear($date_start->format('Y'), $select);
 
-                    $statistical[] = [
-                        'label' => $date_start->format('Y'),
-                        'value' => $billCollection->count(),
-                    ];
+                    $currentCustomer = [];
                     foreach ($billCollection as $value) {
+                        $currentCustomer[$value->phone] = $value->phone;
                         $customerPhones[$value->phone] = $value->phone;
                     }
+
+                    $customer_old = 0;
+                    $customer_new = 0;
+                    foreach ($currentCustomer as $customerPhone) {
+                        if ($this->bill->countBillByPhone($customerPhone) > 1) {
+                            $customer_old += 1;
+                        } else {
+                            $customer_new += 1;
+                        }
+                    }
+
+                    $statistical[] = [
+                        'label' => $date_start->format('Y'),
+                        'customer_new' => $customer_new,
+                        'customer_old' => $customer_old,
+                    ];
                     $date_start->addYear(1);
                 }
                 break;
@@ -210,13 +224,28 @@ class ReportController extends Controller
                 while ($date_start->lte($date_end)) {
                     $billCollection = $this->bill
                         ->getGroupBillByMonth($date_start->format('m'), $date_start->format('Y'), $select);
-                    $statistical[] = [
-                        'label' => $date_start->format('m-Y'),
-                        'value' => $billCollection->count(),
-                    ];
+
+                    $currentCustomer = [];
                     foreach ($billCollection as $value) {
+                        $currentCustomer[$value->phone] = $value->phone;
                         $customerPhones[$value->phone] = $value->phone;
                     }
+
+                    $customer_old = 0;
+                    $customer_new = 0;
+                    foreach ($currentCustomer as $customerPhone) {
+                        if ($this->bill->countBillByPhone($customerPhone) > 1) {
+                            $customer_old += 1;
+                        } else {
+                            $customer_new += 1;
+                        }
+                    }
+
+                    $statistical[] = [
+                        'label' => $date_start->format('m-Y'),
+                        'customer_new' => $customer_new,
+                        'customer_old' => $customer_old,
+                    ];
                     $date_start->addMonth(1);
                 }
                 break;
@@ -226,13 +255,28 @@ class ReportController extends Controller
                 $date_end = Carbon::createFromTimestamp((int) $request->end_date);
                 while ($date_start->lte($date_end)) {
                     $billCollection = $this->bill->getGroupBillByDate($date_start->format('Y-m-d'), $select);
-                    $statistical[] = [
-                        'label' => $date_start->format(config('default.format_date')),
-                        'value' => $billCollection->count(),
-                    ];
+
+                    $currentCustomer = [];
                     foreach ($billCollection as $value) {
+                        $currentCustomer[$value->phone] = $value->phone;
                         $customerPhones[$value->phone] = $value->phone;
                     }
+
+                    $customer_old = 0;
+                    $customer_new = 0;
+                    foreach ($currentCustomer as $customerPhone) {
+                        if ($this->bill->countBillByPhone($customerPhone) > 1) {
+                            $customer_old += 1;
+                        } else {
+                            $customer_new += 1;
+                        }
+                    }
+
+                    $statistical[] = [
+                        'label' => $date_start->format(config('default.format_date')),
+                        'customer_new' => $customer_new,
+                        'customer_old' => $customer_old,
+                    ];
                     $date_start->addDay(1);
                 }
                 break;

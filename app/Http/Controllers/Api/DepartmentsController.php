@@ -118,7 +118,20 @@ class DepartmentsController extends Controller
      */
     public function show($id)
     {
-        //
+        $response = Helper::apiFormat();
+
+        $department = $this->department->find($id, [], $this->selectDepartment);
+        if (!$department) {
+            $response['error'] = true;
+            $response['status'] = 403;
+            $response['message'][] = __('Not found department!');
+
+            return Response::json($response, $response['status']);
+        }
+        
+        $response['data'] = $department;
+
+        return Response::json($response, $response['status']) ;
     }
 
     /**
