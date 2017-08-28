@@ -417,7 +417,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="create-item" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="create-user" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content content_create_customer">
                 <div class="modal-header">    

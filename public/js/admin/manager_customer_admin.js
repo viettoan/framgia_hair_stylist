@@ -120,7 +120,7 @@ var manage_service = new Vue({
 
         addItem: function(){
             this.formErrors = '';
-            $("#create-item").modal('show');
+            $("#create-user").modal('show');
         },
 
         filteCustomer: function()

@@ -46,11 +46,36 @@ var manage_service = new Vue({
         showBooking: function() {
             $('#showBooking').modal('show');
         },
+
+        curent_time: function(data) {
+            let today = new Date().getTime();
+            var min = today - (new Date(data[0].time_start).getTime());
+            min_current_time = [];
+            for(key in data){
+                var timestamp = new Date(data[key].time_start).getTime();
+                var time = today - timestamp;
+                if (time < 0) {
+                    data[key]['status_time'] = 0;
+                } else {
+                    data[key]['status_time'] = 1;
+                }
+                data[key]['current_time'] = time;
+            }
+
+            return data.sort(function(a, b){
+                return b.current_time - a.current_time;
+                
+            }).sort(function(a, b){
+                return a.status_time - b.status_time;
+            });
+        },
+
         convertHourMinute: function(data) {
             data = String(data);
             var split = data.split(' ');
             return split[1];
         },
+        
         getBooking: function() {
             $('.list-booking-indicator').removeClass('hide');
             var authOptions = {
@@ -62,17 +87,23 @@ var manage_service = new Vue({
                 }
             }
             axios(authOptions).then(response => {
+                response.data.data[0].list_book = this.curent_time(response.data.data[0].list_book);
                 this.$set(this, 'items', response.data.data);
+                
                 $('.list-booking-indicator').addClass('hide');
+                for(key in this.items){
+                var position = $('#open-booking-day-' + this.items[key].date_book).position();
+                console.log(position);
+                 }
             }).catch(function (error) {
                 $('.list-booking-indicator').addClass('hide');
             });
         },
+
         changer_status(item){
             this.changer_status_booking.status = item.status;
             this.changer_status_booking.id = item.id;
             $('#update_status').modal('show');
-            console.log(this.changer_status_booking.status);
         },
         update_status: function(id){
             var self = this;
