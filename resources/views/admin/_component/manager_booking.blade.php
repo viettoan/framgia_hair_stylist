@@ -78,9 +78,9 @@
                                     </a>
                                 </h4>
                             </div>
-                            <div  v-bind:id="'open-booking-day-' + item.date_book" class="panel-collapse collapse in">
+                            <div  v-bind:id="'open-booking-day-' + item.date_book" class="panel-collapse collapse in scoll-time">
                                 <div class="panel-body">
-                                    <table id="example1" class="table table-bordered table-striped">
+                                    <table id="example1" class="table table-bordered table-striped ok">
                                         <thead>
                                             <tr>
                                                 <th>{{__('ID') }}</th>
@@ -95,7 +95,7 @@
                                         </thead>
                                         <tbody>
                                            <tr v-for="list in item.list_book">
-                                            <td>@{{ list.id }}</td>
+                                            <td v-bind:id="list.id">@{{ list.id }}</td>
                                             <td>@{{ list.name }}</td>
                                             <td><a :href="'tel:' + list.phone">@{{ list.phone }}</a></td>
                                             <td>@{{ list.department.address }}</td>
