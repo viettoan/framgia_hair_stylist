@@ -63,8 +63,7 @@ var manage_service = new Vue({
             }
 
             return data.sort(function(a, b){
-                return b.current_time - a.current_time;
-                
+                return b.current_time - a.current_time;   
             }).sort(function(a, b){
                 return a.status_time - b.status_time;
             });
@@ -87,14 +86,11 @@ var manage_service = new Vue({
                 }
             }
             axios(authOptions).then(response => {
-                response.data.data[0].list_book = this.curent_time(response.data.data[0].list_book);
+                if(response.data.data[0].list_book.length > 0) {
+                    response.data.data[0].list_book = this.curent_time(response.data.data[0].list_book);
+                }
                 this.$set(this, 'items', response.data.data);
-                
                 $('.list-booking-indicator').addClass('hide');
-                for(key in this.items){
-                var position = $('#open-booking-day-' + this.items[key].date_book).position();
-                console.log(position);
-                 }
             }).catch(function (error) {
                 $('.list-booking-indicator').addClass('hide');
             });
