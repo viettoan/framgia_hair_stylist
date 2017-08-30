@@ -180,7 +180,7 @@ return [
         App\Providers\RepositoryServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
-
+        Nexmo\Laravel\NexmoServiceProvider::class,
     ],
 
     /*
@@ -235,5 +235,6 @@ return [
 
         'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
+        'Nexmo' => \Nexmo\Laravel\Facade\Nexmo::class,
     ],
 ];

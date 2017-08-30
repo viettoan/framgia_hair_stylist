@@ -16,6 +16,7 @@ use DB;
 use Validator;
 use Auth;
 use Response;
+use Nexmo;
 
 class OrderBookingController extends Controller
 {
@@ -160,6 +161,24 @@ class OrderBookingController extends Controller
 
         $response['data'] = $dataResponse;
 
+        if ($dataResponse) {
+            $sms = "FSalon Thank your for your order !\n";
+            $sms .= "Order Infomation\n";
+            $sms .= "--------------------------------\n";
+            $sms .= "Name: " . $dataResponse->name . "\n";
+            $sms .= "Date: " . $dataResponse->render_booking->day . " " . $dataResponse->render_booking->time_start . "\n";
+            $sms .= "Department: " . $dataResponse->department->name . ". Address: " . $dataResponse->department->address . "\n";
+            $sms .= "Stylist: " . $dataResponse->stylist->name . "\n";
+            $sms .= "Contact us: 841626373587 \n";
+
+            //Send SMS to client
+            Nexmo::message()->send([
+                'to' => $dataResponse->phone,
+                'from' => 'FSalon',
+                'text' => $sms
+            ]);
+        }
+       
         return Response::json($response, $response['status']);
     }
 
