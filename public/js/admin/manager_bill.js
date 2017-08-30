@@ -168,7 +168,7 @@ var Manager_bill = new Vue({
                 this.billItems[i].row_total = parseInt(this.billItems[i].qty) * this.billItems[i].price;
                 grand_total += this.billItems[i].row_total;
             }
-            this.bill.grand_total = grand_total;
+            this.bill.grand_total = grand_total.toLocaleString('de-DE');
         },
         showDepartment: function(page) {
             axios.get('/api/v0/department').then(response => {
