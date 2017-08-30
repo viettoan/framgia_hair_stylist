@@ -172,11 +172,16 @@ class OrderBookingController extends Controller
             $sms .= "Contact us: 841626373587 \n";
 
             //Send SMS to client
-            Nexmo::message()->send([
-                'to' => $dataResponse->phone,
-                'from' => 'FSalon',
-                'text' => $sms
-            ]);
+            try {
+                Nexmo::message()->send([
+                    'to' => $dataResponse->phone,
+                    'from' => 'FSalon',
+                    'text' => $sms
+                ]);
+            } catch (\Exception $e) {
+                return Response::json($response, $response['status']);
+            }
+            
         }
        
         return Response::json($response, $response['status']);
