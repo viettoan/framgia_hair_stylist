@@ -15,7 +15,9 @@
         "laravel/passport": "^3.0",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.4",
-        "nesbot/carbon": "^1.22"
+        "nesbot/carbon": "^1.22",
+        "nexmo/client": "@beta",
+        "nexmo/laravel": "0.4.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
