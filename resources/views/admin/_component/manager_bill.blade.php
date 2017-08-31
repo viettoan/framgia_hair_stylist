@@ -171,6 +171,7 @@
                                     <option value="0">{{ __('Waitting') }}</option>
                                     <option value="1">{{ __('Complete') }}</option>
                                     <option value="2">{{ __('Cancel') }}</option>
+                                    <option value="3">{{ __('Progress ') }}</option>
                                 </select>
                             </div>
                         </div>
@@ -255,7 +256,7 @@
                                         <td>@{{ keyObject + 1 }}</td>
                                         <td>@{{ billItem.service_name }}</td>
                                         <td>@{{ billItem.stylist_name }}</td>
-                                        <td>@{{ billItem.price }}</td>
+                                        <td>@{{ billItem.price }} VND</td>
                                         <td>@{{ billItem.qty }}</td>
                                         <td>@{{ billItem.row_total }} VND</td>
                                         <td> <a href="javascript:void(0)" v-on:click="editBillItem(keyObject)">

@@ -117,7 +117,7 @@
                                                 </span>
                                             </td>
                                             <td v-if="list.status == 3">
-                                                <span class="label label-warning">
+                                                <span class="label label-primary">
                                                     {{ __('Inlate') }}
                                                 </span>
                                             </td>
