@@ -6,7 +6,7 @@ var Manager_bill = new Vue({
     data: {
         users: {},
         token: {},
-        filterParams: {'type': '', 'department_id': ''},
+        filterParams: {'type': '', 'department_id': '', 'start_date': '', 'end_date': ''},
         inputDate: {'start_date': '', 'end_date': ''},
         listBill: [],
         show_input: {},

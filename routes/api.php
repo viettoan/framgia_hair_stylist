@@ -27,9 +27,9 @@ Route::group(['prefix' => 'v0', 'namespace' => 'Api'], function() {
     Route::get('get_last_booking_by_phone', 'OrderBookingController@getBookingbyPhoneLastest');
     Route::post('user_booking', 'OrderBookingController@userBooking');
     Route::get('booking_filter_by_day', 'OrderBookingController@getBookingFilterByDay');
-    Route::get('get-bill-by-customer-id', 'BillController@getBillByCustomerId');
-    Route::get('get-list-bill-by-customer-id', 'BillController@getListBillByCustomerId');
-    Route::get('get-bill-by-customer-id-with-images', 'BillController@getBillByCusIdWithImages');
+    Route::get('bill-by-customer-id', 'BillController@getBillByCustomerId');
+    Route::get('list-bill-by-customer-id', 'BillController@getListBillByCustomerId');
+    Route::get('bill-by-customer-id-with-images', 'BillController@getBillByCusIdWithImages');
     Route::get('filter-customer', 'UserController@filterCustomer');
 
     Route::post('media-upload/{folder}', 'MediaController@uploadImage');
