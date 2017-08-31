@@ -13,7 +13,7 @@ class MediaController extends Controller
         $response = Helper::apiFormat();
 
         $rule = [
-            'image' => 'required|image',
+            'images.*' => 'required|image',
         ];
 
         $validator = \Validator::make($request->all(), $rule);
@@ -32,10 +32,18 @@ class MediaController extends Controller
         $folder = str_slug($folder);
         $prefix_path = 'uploads/' . join('/', explode('-', $folder));
 
-        $image = $request->file('image');
-        $image->hashName();
-        $path = $image->store($prefix_path, 'uploads');
-        $response['data']['path'] = url($path);
+        $images = is_array($request->file('images')) ? $request->file('images') : [];
+        $dataRespone = [];
+        foreach ($images as $image) {
+            if (!$image) {
+                continue;
+            }
+            $image->hashName();
+            $path = $image->store($prefix_path, 'uploads');
+            $data['path_origin'] = $path;
+            $dataRespone[] = url($path);
+        }
+        $response['data'] = $dataRespone;
         $response['message'][] = __('Upload image successfully!');
 
         return \Response::json($response, $response['status']);
