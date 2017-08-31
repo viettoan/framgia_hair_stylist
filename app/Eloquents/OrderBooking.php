@@ -13,7 +13,7 @@ class OrderBooking extends Model
     const STATUS_PENDING = 1;
     const STATUS_FINISHED = 2;
     const STATUS_INLATE = 3;
-
+    const STATUS_INPROGRESS = 4;
 
     protected $fillable = [
         'render_booking_id',
@@ -41,6 +41,7 @@ class OrderBooking extends Model
             self::STATUS_PENDING => __('Waiting'),
             self::STATUS_FINISHED => __('Finished'),
             self::STATUS_INLATE => __('In Late'),
+            self::STATUS_INPROGRESS => __('In Progress'),
         ];
     }
 }

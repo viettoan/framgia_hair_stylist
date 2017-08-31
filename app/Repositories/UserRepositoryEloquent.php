@@ -53,6 +53,11 @@ class UserRepositoryEloquent extends AbstractRepositoryEloquent implements UserR
             ->orderBy('id', 'desc')->paginate($per_page);
     }
 
+    public function getAllCustomerExceptAdmin($per_page, $with = [], $select = ['*'])
+    {
+        return $this->model()->select($select)->with($with)->where('permission', 0)
+            ->orderBy('id', 'desc')->paginate($per_page);
+    }
     public function findByPhone($phone)
     {
         return $this->model()->where('phone', $phone)->first();

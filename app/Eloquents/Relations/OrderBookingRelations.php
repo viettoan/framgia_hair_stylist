@@ -25,6 +25,11 @@ trait OrderBookingRelations
         return $this->belongsTo(RenderBooking::class, 'render_booking_id');
     }
 
+    public function BookingRender()
+    {
+        return $this->belongsTo(RenderBooking::class, 'render_booking_id');
+    }
+
     public function getOrderItem()
     {
         return $this->hasOne(OrderItem::class, 'order_id');

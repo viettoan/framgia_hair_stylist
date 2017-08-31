@@ -350,7 +350,7 @@ class OrderBookingController extends Controller
 
         try {
             $orderBooking->fill($dataEdit)->save();
-            $response['message'][] = __('Updated Status booking successfully!');
+            $response['data'][] = __('Updated Status booking successfully!');
         } catch (Exception $e) {
             $response['error'] = true;
             $response['status'] = 403;
