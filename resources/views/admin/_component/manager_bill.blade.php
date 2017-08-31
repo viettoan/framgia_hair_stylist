@@ -65,10 +65,11 @@
                     </select>
                 </div>
             </div>
+            <br>
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">{{ __('Manager List Bill') }}</h3>
+                        <input type="text" id="Myinput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name"> 
                         <button class="col-md-offset-1 btn btn-success" v-on:click="addBill">
                             <i class="fa fa-plus" aria-hidden="true"></i>
                             {{ __('Create bill') }}
@@ -87,7 +88,7 @@
                         </div>
                         <div  v-bind:id="'open-booking-day-' + item.date" class="panel-collapse collapse in">
                             <div class="panel-body">
-                                <table class="table table-bordered table-striped">
+                                <table class="table table-bordered table-striped" id="MyTable">
                                     <thead>
                                         <tr>
                                             <th>{{__('ID') }}</th>
@@ -277,6 +278,15 @@
                                     </tr>
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-2 col-md-offset-6"><b><ins>{{ __("CASH IN : ") }}</ins></b></div>
+                            <div class="col-md-2 col-md-offset-1"><input type="" name=""></div>
+                        </div>
+                        <div class="col-md-12"></div>
+                        <div class="col-md-12">
+                            <div class="col-md-2 col-md-offset-6"><b><ins>{{ __("CASH BACK : ") }}</ins></b></div>
+                            <div class="col-md-2 col-md-offset-1"><input disabled="disabled" readonly="readonly" type="" name=""></div>
                         </div>
                         <div class="form-group text-center">
                             <button class="btn btn-success" v-on:click="createBill" v-if="!bill.id">

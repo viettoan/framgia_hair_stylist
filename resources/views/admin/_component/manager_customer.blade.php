@@ -66,7 +66,7 @@
                     </button>
                     <h4 class="modal-title" id="myModalLabel">{{ __('Bill Detail') }}</h4>
                 </div>
-                <div class="modal-body" >
+                <div class="modal-body scroll_bill" >
                     <div class="row">
                         <div class="col-md-10 col-md-offset-1 border_bill col-xs-10 col-xs-offset-1"> 
                             <div class="bookingleft-agile font_bill" >
@@ -133,7 +133,7 @@
                         </div>
                         <div class="col-md-4">
                             <a class="image-item" href="{{ asset('images/1.jpg')}}" target="blank" ><img src="{{ asset('images/1.jpg')}}" class="img-thumbnail img-responsive"></a>
-                        </div> --}}
+                        </div> 
                     </div> 
                     <br>
                     <button class="btn btn-default"  v-on:click="hideBill">

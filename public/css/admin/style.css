@@ -71,6 +71,10 @@
 
 }
 
+#Myinput {
+    width: 30%;
+}
+
 #search_department {
     padding:4px 8px;
 }
@@ -202,5 +206,11 @@
 
 .scoll-time {
     height: 300px;
+    overflow: scroll;
+}
+
+.scroll_bill {
+    width: 100%;
+    height: 560px;
     overflow: scroll;
 }
