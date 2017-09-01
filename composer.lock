@@ -1332,11 +1332,7 @@
                 "framework",
                 "laravel"
             ],
-<<<<<<< HEAD
-            "time": "2017-08-30 09:26:16"
-=======
-            "time": "2017-08-24T12:30:18+00:00"
->>>>>>> 005012c366f532c5d53e346a40b33311d2d2e2d4
+            "time": "2017-08-30T09:26:16+00:00"
         },
         {
             "name": "laravel/passport",
@@ -4018,8 +4014,12 @@
                 }
             ],
             "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
+<<<<<<< HEAD
+            "time": "2017-08-29T19:37:41+00:00"
+=======
 
             "time": "2017-08-29 19:37:41"
+>>>>>>> 798d07116da027b53ed6ea45f673daf04a822ed8
         },
         {
             "name": "phpdocumentor/type-resolver",
@@ -4066,9 +4066,13 @@
                     "email": "me@mikevanriel.com"
                 }
             ],
+<<<<<<< HEAD
+            "time": "2017-07-14T14:27:02+00:00"
+=======
 
             "time": "2017-07-14 14:27:02"
 
+>>>>>>> 798d07116da027b53ed6ea45f673daf04a822ed8
         },
         {
             "name": "phpspec/prophecy",

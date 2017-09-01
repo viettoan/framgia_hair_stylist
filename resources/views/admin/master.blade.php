@@ -53,6 +53,7 @@
     {{ Html::script('js/admin/aside_admin.js') }}
     {{ Html::script('bower/AdminLTE/plugins/select2/select2.min.js') }}
     {{ Html::script('bower/elevatezoom/jquery.elevatezoom.js') }}
+    {{ Html::script('bower/moment/min/moment.min.js') }}
     @yield('script')
 </body>
 </html>
