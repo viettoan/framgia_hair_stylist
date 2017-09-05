@@ -303,7 +303,7 @@
     </div>
     {{-- Export Bill --}}
     <div class="modal fade" id="exportshowBill" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog " role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
@@ -311,56 +311,53 @@
                 </div>
                 <div class="modal-body" >
                     <div class="row">
-                        <div class="col-md-10 col-md-offset-1 border_bill col-xs-10 col-xs-offset-1"> 
-                            <div class="bookingleft-agile font_bill" >
-                                <table class="table table-hover">
-                                      <thead>
-                                          <tr>
-                                              <th >{{__('ID : ') }}</th>
-                                              <th>@{{exportBill.id}}</th>
-                                          </tr>
-                                      </thead>
-                                      <thead>
-                                           <tr>
-                                           <th ><i class="fa fa-id-card-o"> : </th>
-                                           <th>@{{exportBill.name_customer}} - @{{exportBill.phone_customer}}</td>
-                                           </tr>
-                                      </thead>
-                                      <thead>
-                                          <tr>
-                                              <th><i class="fa fa-calendar"> : </i></th>
-                                              <th>@{{exportBill.checkout}} </th>
-                                          </tr>
-                                      </thead>
-                                  </table>  
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr >
-                                            <th>{{ __('Service') }}</th>
-                                            <th>{{ __('Stylist') }}</th>
-                                            <th>{{ __('Qty') }}</th>
-                                            <th>{{ __('Price') }}</th>
-                                            <th>{{ __('Row Total') }}</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="export_bill in exportBill.exportBill_item" >
-                                            <td>@{{export_bill.service_name}}</td>
-                                            <td>@{{export_bill.stylist.name}}</td>
-                                            <td>@{{export_bill.qty}}</td>
-                                            <td>@{{export_bill.price}}</td>
-                                            <td>@{{export_bill.row_total}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <th><h3><i>{{ __('Grand Total :') }}</i></h3></th>
-                                            <td><h3>@{{ exportBill.grand_total }}</h3></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <br>
+                        <div class="col-md-10 col-md-offset-1 border_bill col-xs-10 col-xs-offset-1">
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <img src="{{ asset('images/3.png') }}" class="img-responsive">
+                                </div>
+                                <div class="col-md-8">
+                                    <h1>Hair Salon</h1>
+                                    <p>Dia chi: 424 Tran Khat Tran - Hai Ba Trung - Ha Noi</p>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <h3>Bill Detail</h3><hr>
+                                <div>
+                                    <p><b>Bill No: </b>@{{exportBill.id}}</p>
+                                    <p><b>Name: </b>@{{exportBill.name_customer}}</p>
+                                    <p><b>Phone: </b>@{{exportBill.phone_customer}}</p>
+                                    <p><b>Date: </b>@{{exportBill.checkout}}</p>
+                                </div><hr>
+                                <div>
+                                    <table class="table">
+                                        <thead>
+                                            <tr >
+                                                <th>{{ __('Service') }}</th>
+                                                <th>{{ __('Qty') }}</th>
+                                                <th>{{ __('Price') }}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="export_bill in exportBill.exportBill_item" >
+                                                <td class="col-md-4">@{{export_bill.service_name}}</td>
+                                                <td class="col-md-4">@{{export_bill.qty}}</td>
+                                                <td class="col-md-4">@{{export_bill.row_total}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div><hr>
+                                <div>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <td class="col-md-4"></td>
+                                                <td class="col-md-4"><h3 class="text-right">ToTal :</h3></td>
+                                                <td class="col-md-4"><h3 class="pull-left">@{{ exportBill.grand_total }}00000</h3></td>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
