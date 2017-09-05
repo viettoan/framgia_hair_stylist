@@ -185,7 +185,7 @@
     height: 40px;
 }    
 .grid-image {
-    height: 500px;
+    height: 400px;
     overflow: scroll;
 }
 #all-images .modal-body {
@@ -195,7 +195,7 @@
     width: 200px;
     height: 200px;
     float: left;
-    margin: 6px;
+    margin: 3px;
     border-radius: 0px;
 }
 .image-item img:hover {
