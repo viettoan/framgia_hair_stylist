@@ -49,6 +49,7 @@
                                 <option value="1">{{ __('Wating') }}</option>
                                 <option value="3">{{ __('Inlate') }}</option>
                                 <option value="2">{{ __('Complete') }}</option>
+                                <option value="4">{{ __('Inprogress') }}</option>
                             </select>
                         </div>
                         <label class="col-md-4">{{ __('Department') }}</label>
@@ -121,6 +122,11 @@
                                                     {{ __('Inlate') }}
                                                 </span>
                                             </td>
+                                            <td v-if="list.status == 4">
+                                                <span class="label label-primary">
+                                                    {{ __('Inprogress') }}
+                                                </span>
+                                            </td>
                                             <td>
                                                 <a href="javascript:void(0)" v-on:click="changer_status(list)"> <i aria-hidden="true" class="fa fa-pencil-square-o"></i></a>
                                             </td>
@@ -148,6 +154,7 @@
                                                     <option v-bind:value="1">{{ __('Wating') }}</option>
                                                     <option v-bind:value="3">{{ __('Inlate') }}</option>
                                                     <option v-bind:value="2">{{ __('Complete') }}</option>
+                                                    <option v-bind:value="4">{{ __('Inprogress') }}</option>
                                             </select>
                                         <br/>    
                                         </div> 

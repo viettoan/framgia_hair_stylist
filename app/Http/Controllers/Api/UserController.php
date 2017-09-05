@@ -92,17 +92,17 @@ class UserController extends Controller
         $response = Helper::apiFormat();
 
         // Check permission User
-        $user = Auth::guard('api')->user();
-        if (!$user || $user->permission != User::PERMISSION_ADMIN) {
-            $response['error'] = true;
-            $response['message'][] = __('You do not have permission to perform this action!');
-            $response['status'] = 403;
+        // $user = Auth::guard('api')->user();
+        // if (!$user || $user->permission != User::PERMISSION_ADMIN) {
+        //     $response['error'] = true;
+        //     $response['message'][] = __('You do not have permission to perform this action!');
+        //     $response['status'] = 403;
 
-            return Response::json($response, $response['status']);
-        }
+        //     return Response::json($response, $response['status']);
+        // }
 
         $rule = [
-            'email' => 'required|email|max:255',
+            'email' => 'email|max:255',
             'phone' => 'required|numeric|min:6',
             'name' => 'required|string|max:255',
             'password' => 'required|string|min:6|confirmed',
@@ -121,12 +121,12 @@ class UserController extends Controller
             return Response::json($response, $response['status']);
         }
 
-        $existUser = $this->user->existEmailOrPhone($request->email, $request->phone);
-        if ($existUser) {
-            $response['message'][] = __('This email or phone number exits!');
+        // $existUser = $this->user->existEmailOrPhone($request->email, $request->phone);
+        // if ($existUser) {
+        //     $response['message'][] = __('This email or phone number exits!');
 
-            return Response::json($response, $response['status']);
-        }
+        //     return Response::json($response, $response['status']);
+        // }
 
         $user = $this->user->create($request->all());
         $response['error'] = false;
