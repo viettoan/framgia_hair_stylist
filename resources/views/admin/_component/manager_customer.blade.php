@@ -122,10 +122,10 @@
                     <div class="col-md-10 col-md-offset-1 border_bill col-xs-10 col-xs-offset-1">
                     <div v-if="showBillDetails.booking">
                         <div v-for="image in showBillDetails.booking.images">
-                            <img v-bind:src="image.path_origin" id="bill_image">
+                            <img v-bind:src="asset('image.path_origin')" id="bill_image">
                         </div>
                     </div>
-                     <div class="col-md-4">
+                        {{-- <div class="col-md-4">
                             <a class="image-item" href="{{ asset('images/1.jpg')}}" target="blank" ><img src="{{ asset('images/1.jpg')}}" class="img-thumbnail img-responsive"></a>
                         </div>
                         <div class="col-md-4 test-xxx">
@@ -133,8 +133,8 @@
                         </div>
                         <div class="col-md-4">
                             <a class="image-item" href="{{ asset('images/1.jpg')}}" target="blank" ><img src="{{ asset('images/1.jpg')}}" class="img-thumbnail img-responsive"></a>
-                        </div> 
-                    </div> 
+                        </div>  --}}
+                    </div>
                     <br>
                     <button class="btn btn-default"  v-on:click="hideBill">
                         <i class="fa fa-external-link-square" aria-hidden="true"></i>
@@ -175,7 +175,11 @@
                             <tbody>
                                 <tr v-for="item in items">
                                     <td>@{{ item.id }}</td>
-                                    <td>@{{ item.name }}</td>
+                                    <td>
+                                        <a href="javascript:void(0)" v-on:click="viewUser(item)">
+                                            @{{ item.name }}
+                                        </a>
+                                    </td>
                                     <td>@{{ item.email }}</td>
                                     <td>@{{ item.phone }}</td>
                                     <td>@{{ item.gender }}</td>
@@ -185,7 +189,7 @@
                                         </span>
                                     </td>
                                     <td v-if="item.permission == 1">
-                                        <span class="lable label-success">
+                                        <span class="label label-success">
                                             {{ __('Assistant') }}
                                         </span>
                                     </td>
@@ -202,7 +206,6 @@
                                     <td>
                                         <a href="javascript:void(0)" v-on:click="edit_cutomer(item)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                         <a href="javascript:void(0)" v-on:click="comfirmDeleteItem(item)"><i class="fa fa-fw  fa-close get-color-icon-delete" ></i></a>
-                                        <a href="javascript:void(0)" v-on:click="viewUser(item)"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                         <a href="javascript:void(0)" v-on:click="viewAllImages(item.id)"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
                                     </td>
                                 </tr>
@@ -321,96 +324,108 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title" id="myModalLabel">{{ __('Detail Customer') }}</h4>
+                    <h4 class="modal-title" id="myModalLabel">
+                        <i class="fa fa-info" aria-hidden="true"></i>
+                        {{ __('Detail Customer') }}</h4>
                 </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12 form-horizontal">
-                            <div class="col-md-4 flexbox-annotated-section-content" id="infor_customer">
-                                <div class="col-md-12 flexbox-grid-form">
-                                    <label class="text-title-field" for="inputlastname">{{ __('Họ va Tên :   ') }} </label>
-                                        @{{ fillItem.name }}
+                    <div class="modal-body">
+                        <div>
+                          <!-- Nav tabs -->
+                          <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active">
+                                <a href="#home" aria-controls="home" role="tab" data-toggle="tab">
+                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                    {{ __('Infor') }}
+                                </a>
+                            </li>
+                            <li role="presentation">
+                                <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">
+                                    <i class="fa fa-list" aria-hidden="true"></i>
+                                    {{ __('List Bill') }}
+                                </a>
+                            </li>
+                            <li role="presentation">
+                                <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" v-on:click="viewAllImages(fillItem.id)">
+                                    <i class="fa fa-file-image-o" aria-hidden="true"></i>
+                                    {{ __('Image') }}
+                                </a>
+                            </li>
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="home">
+                                <div class="form-group col-md-4">
+                                  <label for="usr">{{ __('Name:')}}</label>
+                                  <input type="text" class="form-control" id="usr" v-model="fillItem.name" disabled="disabled">
                                 </div>
-                                <div class="col-md-12 flexbox-grid-form">
-                                    <label class="text-title-field" for="inputemail">{{ __('Địa chỉ Email') }}</label>
-                                    <input type="text" class="form-control flexbox-grid-form-input" id="inputemail" v-model="fillItem.email" disabled="disabled">
+                                <div class="form-group col-md-4">
+                                  <label for="usr">{{ __('Email') }}</label>
+                                  <input type="text" class="form-control" id="usr" v-model="fillItem.email" disabled="disabled">
                                 </div>
-                                <div class="col-md-12 flexbox-grid-form">
-                                    <label class="text-title-field" for="inputdate">{{ __('Ngày sinh') }}</label>
-                                    <input type="date" class="form-control flexbox-grid-form-input" id="inputemail" v-model="fillItem.birthday" disabled="disabled">
+                                <div class="form-group col-md-4">
+                                  <label for="usr">{{ __('Birthday') }}</label>
+                                   <input type="date" class="form-control flexbox-grid-form-input" id="inputemail" v-model="fillItem.birthday" disabled="disabled">
                                 </div>
-                               <div class="col-md-12 flexbox-grid-form">
+                                <div class="form-group col-md-4">
+                                  <label for="usr">{{ __('Phone') }}</label>
+                                  <input type="text" class="form-control" id="usr" v-model="fillItem.phone" disabled="disabled">
+                                </div>
+                                <div class="form-group col-md-4">
                                     <label for="name">{{ __('Gender') }}</label>
-                                    <select  class="form-control create_customer" v-model="fillItem.gender" v-model="fillItem.gender" disabled="disabled">
-                                        <option value="" selected>{{ __('Select Gender') }}</option>
-                                        <option value="male">
-                                            <i class="fa fa-male" aria-hidden="true"></i>
-                                            {{ __('male') }}
-                                        </option>
-                                        <option value="female">{{ __('Famele') }}</option>
-                                        <option value="orther">{{ __('Orther') }}</option>
-                                    </select>
+                                    <select  class="form-control" v-model="fillItem.gender" v-model="fillItem.gender" disabled="disabled">
+                                    <option value="male">
+                                        <i class="fa fa-male" aria-hidden="true"></i>
+                                        {{ __('male') }}
+                                    </option>
+                                    <option value="female">{{ __('Famele') }}</option>
+                                    <option value="orther">{{ __('Orther') }}</option>
+                                </select>
+                                </div>
+                                <div class="form-group">
+                                    <textarea class=" flexbox-grid-form-input form-control " placeholder="About" rows="3" v-model="fillItem.about" disabled="disabled"></textarea>
                                 </div>
                             </div>
-                            <div class="col-md-7 col-md-offset-1">
-                                <div class="col-md-12 flexbox-annotated-section-content" >
-                                    <div class="col-md-12 flexbox-grid-form-item1">   
-                                        <div class="flexbox-grid-form-item">
-                                            <label class="text-title-field" for="inputfirstname">{{ __('Số điện thoại') }}</label>
-                                            <input type="text" class="form-control flexbox-grid-form-input" id="inputfirstname" v-model="fillItem.phone" disabled="disabled">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12 flexbox-grid-form-item1">   
-                                        <div class="flexbox-grid-form-item">
-                                            <label class="text-title-field" for="inputfirstname">{{ __('Số điện thoại') }}</label>
-                                            <input type="text" class="form-control flexbox-grid-form-input" id="inputfirstname" v-model="fillItem.phone" disabled="disabled">
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="col-md-12 flexbox-annotated-section-content" id="about_customer">
-                                    <div class="col-md-12 flexbox-grid-form">
-                                        <label class="text-title-field" for="inputlastname">{{ __('About') }}</label>
-                                        <textarea class=" flexbox-grid-form-input form-control " placeholder="About" rows="3" v-model="fillItem.about" disabled="disabled"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="col-md-12 flexbox-annotated-section-content" id=" about_customer">
-                            <div class="col-md-12 flexbox-grid-form">
-                                <label class="text-title-field" for="inputlastname">{{ __('List Bill') }}</label>
+                            <div role="tabpanel" class="tab-pane" id="profile">
                                 <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>{{ __('STT') }}</th>
-                                            <th>{{ __('Code') }}</th>
-                                            <th>{{ __('Grand Total') }}</th>
-                                            <th>{{ __('Created At') }}</th>
-                                            <th>{{ __('View') }}</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="showBill in showBills ">
-                                            <td>1</td>
-                                            <td>{{ __('HD-') }}@{{ showBill.id }}</td>
-                                            <td>@{{ showBill.grand_total }}</td>
-                                            <td>@{{ showBill.created_at }}</td>
-                                            <td>
-                                                <a href="javascript:void(0)" class="btn btn-success" v-on:click="viewBill(showBill.id)">
-                                                    <i class="fa fa-eye" aria-hidden="true"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                        <thead>
+                                            <tr>
+                                                <th>{{ __('STT') }}</th>
+                                                <th>{{ __('Code') }}</th>
+                                                <th>{{ __('Grand Total') }}</th>
+                                                <th>{{ __('Created At') }}</th>
+                                                <th>{{ __('View') }}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        @php
+                                            $stt = 1;
+                                        @endphp
+                                            <tr v-for="showBill in showBills ">
+                                                <td>
+                                                    {{ $stt++ }}
+                                                </td>
+                                                <td>{{ __('HD-') }}@{{ showBill.id }}</td>
+                                                <td>@{{ showBill.grand_total }}</td>
+                                                <td>@{{ showBill.created_at }}</td>
+                                                <td>
+                                                    <a href="javascript:void(0)" class="btn btn-success" v-on:click="viewBill(showBill.id)">
+                                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                             </div>
-                        </div>
-                        <div class="form-group">
-                               <button class="btn btn-default" data-dismiss="modal">
-                                <i class="fa fa-external-link-square" aria-hidden="true"></i>
-                                {{ __('Close') }}
-                            </button>
+                            <div role="tabpanel" class="tab-pane" id="messages">
+                                <div class="modal-body row">
+                                    <div class="col-md-12 grid-image parent-container">
+                                        <a class="image-item" href="{{ asset('images/1.jpg')}}" target="blank" ><img src="{{ asset('images/1.jpg')}}" class="img-thumbnail img-responsive"></a>
+                                        <a class="image-item" href="{{ asset('images/2.jpg')}}" target="blank" ><img src="{{ asset('images/2.jpg')}}" class="img-thumbnail img-responsive"></a>
+                                        <a class="image-item" href="{{ asset('images/4.jpg')}}" target="blank" ><img src="{{ asset('images/4.jpg')}}" class="img-thumbnail img-responsive"></a>
+                                        <a class="image-item" href="{{ asset('images/4.jpg')}}" target="blank" ><img src="{{ asset('images/4.jpg')}}" class="img-thumbnail img-responsive"></a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -84,6 +84,7 @@ var manage_service = new Vue({
             this.fillItem.about = item.about_me;
             this.fillItem.email = item.email;
             this.fillItem.birthday = item.birthday;
+            this.fillItem.permission = item.permission;
             this.showBill(item.id);
             $('#showUser').modal('show');
         },
@@ -255,7 +256,6 @@ var manage_service = new Vue({
         },
 
         viewAllImages: function (id) {
-            $("#all-images").modal("show");
         }
     }
 });
