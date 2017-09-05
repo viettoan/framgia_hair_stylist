@@ -170,6 +170,9 @@ class OrderBookingController extends Controller
             $sms .= "Department: " . $dataResponse->department->name . ". Address: " . $dataResponse->department->address . "\n";
             $sms .= "Stylist: " . $dataResponse->stylist->name . "\n";
             $sms .= "Contact us: 841626373587 \n";
+            $sms .= "-------------------------------\n";
+            $sms .= "Your account: ";
+            $sms .= $dataResponse->phone . "/" . $dataResponse->phone;
 
             //Send SMS to client
             try {

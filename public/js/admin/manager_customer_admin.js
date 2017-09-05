@@ -92,7 +92,7 @@ var manage_service = new Vue({
             var self = this;
             var authOptions = {
                     method: 'GET',
-                    url: '/api/v0/get-list-bill-by-customer-id',
+                    url: '/api/v0/list-bill-by-customer-id',
                     params: this.customer_id,
                     headers: {
                         'Authorization': "Bearer " + this.token.access_token,

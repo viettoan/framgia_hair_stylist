@@ -54,7 +54,7 @@ Vue.component('bar-chart-month', {
                 {
                     label: ['Bills'],
                     backgroundColor: "red",
-                    data: [1,2,3,2,4,5,2]
+                    data: dataInDataSets
                 },
                 ]
             },
@@ -97,7 +97,7 @@ Vue.component("bar-chart-day", {
                 {
                     label: ['Bills'],
                     backgroundColor: "red",
-                    data: [1,2,3,2,4,5,2]
+                    data: dataInDataSets
                 },
                 ]
             },

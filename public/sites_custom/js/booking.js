@@ -19,6 +19,7 @@ var manage_service = new Vue({
         select_render_booking: '',
         select_stylist_id: '',
         classChoseTime: {'class' : 'choice_time'},
+        paramsUser: {'phone': '', 'name': '', 'password': '', 'password_confirmation': ''},
         renderStatus: {},
         chooseStylis: {},
     },
@@ -79,13 +80,15 @@ var manage_service = new Vue({
                 url: '/api/v0/user_booking',
                 params: paramsData,
                 headers: {
-                    'Authorization': "Bearer " + this.token.access_token,
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
                 json: true
             }
 
             axios(authOptions).then(response => {
+                if (!this.token.access_token) {
+                    this.createUser();
+                }
                 $('#infor_user').hide(500);
                 $('#choice_address').hide(800);
                 $('#choice_list_time').hide(900);
@@ -104,7 +107,35 @@ var manage_service = new Vue({
             });
 
         },
+        createUser: function() {
+            var self = this;
+            this.paramsUser.name = this.newItem.name;
+            this.paramsUser.phone = this.newItem.phone;
+            this.paramsUser.password = this.newItem.phone;
+            this.paramsUser.password_confirmation = this.newItem.phone;
+            var authOptions = {
+                    method: 'POST',
+                    url: '/api/v0/user',
+                    params: this.paramsUser,
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    json: true
+                }
 
+            axios(authOptions).then((response) => {
+                    // toastr.success('Create User Success', 'Success', {timeOut: 5000});
+            }).catch((error) => {
+                    if (error.response.status == 403) {
+                        self.formErrors = error.response.data.message;
+                        console.log(self.formErrors);
+                        for (key in self.formErrors) {
+                            toastr.error(self.formErrors[key], '', {timeOut: 10000});
+                        }    
+                    }
+            });
+
+        },
         getRenderBooking: function()
         {
             $('.frontend-booking-indicator').removeClass('hide');
