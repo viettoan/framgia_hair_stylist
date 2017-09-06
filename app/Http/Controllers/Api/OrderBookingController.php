@@ -8,6 +8,7 @@ use App\Contracts\Repositories\OrderBookingRepository;
 use App\Contracts\Repositories\RenderBookingRepository;
 use App\Contracts\Repositories\UserRepository;
 use App\Contracts\Repositories\DepartmentRepository;
+use App\Contracts\Repositories\OrderItemRepository;
 use App\Helpers\Helper;
 use App\Eloquents\OrderBooking;
 use App\Eloquents\User;
@@ -20,19 +21,21 @@ use Nexmo;
 
 class OrderBookingController extends Controller
 {
-    protected $orderBooking, $renderBooking, $user, $department;
+    protected $orderBooking, $renderBooking, $user, $department, $orderItem;
 
     public function __construct( 
         OrderBookingRepository $orderBooking, 
         RenderBookingRepository $renderBooking,
         UserRepository $user,
-        DepartmentRepository $department
+        DepartmentRepository $department,
+        OrderItemRepository $orderItem
     ) 
     {
         $this->orderBooking = $orderBooking;
         $this->renderBooking = $renderBooking;
         $this->user = $user;
         $this->department = $department;
+        $this->orderItem = $orderItem;
     }
 
     public function userBooking(Request $request)
@@ -440,6 +443,24 @@ class OrderBookingController extends Controller
             DB::rollback();
         }
 
+        return Response::json($response, $response['status']);
+    }
+
+    public function addBookingService(Request $request, $id)
+    {
+        $response = Helper::apiFormat();
+        $data = $request->all();
+        $data['order_id'] = $id;
+        try {
+            $serviceBooking = $this->orderItem->create($data);
+            $response['status'] = 201;
+            $response['data'] = $this->orderItem->find($serviceBooking->id, ['getOrderBooking', 'getServiceProduct']);
+            $response['message'] = __('Create Service successfully!');
+        } catch (Exception $e) {
+            $response['status'] = 403;
+            $response['error'] = true;
+            $response['message'] = $e->getMessages();
+        }
         return Response::json($response, $response['status']);
     }
 }

@@ -56,4 +56,5 @@ Route::group(['prefix' => 'v0', 'namespace' => 'Api'], function() {
     Route::resource('department', 'DepartmentsController');
     
     Route::get('user-by-phone', 'UserController@getByPhone');
+    Route::post('add-booking-service/{id}', 'OrderBookingController@addBookingService');
 });

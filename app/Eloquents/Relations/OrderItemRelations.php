@@ -5,7 +5,7 @@ namespace App\Eloquents\Relations;
 use App\Eloquents\OrderBooking;
 use App\Eloquents\ServiceProduct;
 
-trait DepartmentDayoffRelations
+trait OrderItemRelations
 {
     public function getOrderBooking()
     {

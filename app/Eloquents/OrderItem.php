@@ -14,5 +14,9 @@ class OrderItem extends Model
         'service_product_id',
         'price',
         'service_name',
+        'stylist_id',
+        'discount',
+        'row_total',
+        'qty'
     ];
 }
