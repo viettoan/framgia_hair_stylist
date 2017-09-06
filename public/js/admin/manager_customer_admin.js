@@ -47,6 +47,7 @@ var manage_service = new Vue({
         this.token = Vue.ls.get('token', {});
         this.showDepartment();
         this.showInfor();
+        this.viewUser(1);
     },
 
     methods: {

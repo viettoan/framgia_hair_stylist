@@ -206,7 +206,6 @@
                                     <td>
                                         <a href="javascript:void(0)" v-on:click="edit_cutomer(item)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                         <a href="javascript:void(0)" v-on:click="comfirmDeleteItem(item)"><i class="fa fa-fw  fa-close get-color-icon-delete" ></i></a>
-                                        <a href="javascript:void(0)" v-on:click="viewAllImages(item.id)"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -324,111 +323,148 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title" id="myModalLabel">
-                        <i class="fa fa-info" aria-hidden="true"></i>
-                        {{ __('Detail Customer') }}</h4>
                 </div>
                     <div class="modal-body">
                         <div>
-                          <!-- Nav tabs -->
-                          <ul class="nav nav-tabs" role="tablist">
-                            <li role="presentation" class="active">
-                                <a href="#home" aria-controls="home" role="tab" data-toggle="tab">
-                                    <i class="fa fa-user" aria-hidden="true"></i>
-                                    {{ __('Infor') }}
-                                </a>
-                            </li>
-                            <li role="presentation">
-                                <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">
-                                    <i class="fa fa-list" aria-hidden="true"></i>
-                                    {{ __('List Bill') }}
-                                </a>
-                            </li>
-                            <li role="presentation">
-                                <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" v-on:click="viewAllImages(fillItem.id)">
-                                    <i class="fa fa-file-image-o" aria-hidden="true"></i>
-                                    {{ __('Image') }}
-                                </a>
-                            </li>
-                        </ul>
-                        <!-- Tab panes -->
-                        <div class="tab-content">
-                            <div role="tabpanel" class="tab-pane active" id="home">
-                                <div class="form-group col-md-4">
-                                  <label for="usr">{{ __('Name:')}}</label>
-                                  <input type="text" class="form-control" id="usr" v-model="fillItem.name" disabled="disabled">
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="home">
+                                    <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                        {{ __('Information Customer') }}
+                                    </div>
+                                        <div class="panel-body">
+                                            <div class="form-group col-md-4">
+                                                <div class="box-body box-profile">
+                                                    <div class="col-md-10">
+                                                    <img class="img-responsive img-circle" src="{{ asset('images/4.jpg')}}" alt="User profile picture">    
+                                                    <h3 class="profile-username text-center">
+                                                    <i class="fa fa-leaf" aria-hidden="true"></i>
+                                                    @{{ fillItem.name}}
+                                                    </h3>
+                                                    <a :href="'tel:' + fillItem.phone" class="btn btn-primary btn-block"><b>{{ __('Contact') }}</b></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-8" style="border-left: 1px solid #ddd">
+                                                <div class="col-md-12">
+                                                    <div class="nav-tabs-custom">
+                                                    <ul class="nav nav-tabs">
+                                                        <li class="active"><a href="#activity" data-toggle="tab" aria-expanded="true"><i class="fa fa-info" aria-hidden="true"></i>{{ __('Infor') }}</a></li>
+                                                        <li class=""><a href="#timeline" data-toggle="tab" aria-expanded="false"> <i class="fa fa-list" aria-hidden="true"></i> {{ __('List Bill') }}</a></li>
+                                                        <li class=""><a href="#settings" data-toggle="tab" aria-expanded="false"><i class="fa fa-file-image-o" aria-hidden="true"></i> {{ __('Image') }}</a></li>
+                                                    </ul>
+                                                    <div class="tab-content">
+                                                    <div class="tab-pane active" id="activity">
+                                                        <div class="post">
+                                                            <ul class="list-group list-group-unbordered">
+                                                                <li class="list-group-item">
+                                                                    <b><i class="fa fa-phone" aria-hidden="true"></i>{{ __('Phone') }} :</b>
+                                                                    <a>@{{ fillItem.phone}}</a>
+                                                                </li>
+                                                                <li class="list-group-item">
+                                                                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                                                                    <b>{{ __('Gmail') }}:</b>
+                                                                    <a>
+                                                                        @{{ fillItem.email }}
+                                                                    </a>
+                                                                </li>
+                                                                <li class="list-group-item">
+                                                                    <b><i class="fa fa-transgender" aria-hidden="true"></i>{{ __('Gender') }} :</b><a>@{{ fillItem.gender }}</a>
+                                                                </li>
+                                                                <li class="list-group-item">
+                                                                    <b><i class="fa fa-id-card" aria-hidden="true"></i> {{ __('Permistion') }} :</b>
+                                                                    <a>
+                                                                        <span  v-if="fillItem.permission == 0" class="label label-success">
+                                                                            {{ __('Nomal') }}
+                                                                        </span>
+                                                                        <span  v-if="fillItem.permission == 1" class="label label-success">
+                                                                            {{ __('Assistant') }}
+                                                                        </span>
+                                                                        <span  v-if="fillItem.permission == 2" class="label label-success">
+                                                                            {{ __('Main_Worker') }}
+                                                                        </span>
+                                                                        <span  v-if="fillItem.permission == 3" class="label label-success">
+                                                                            {{ __('Admin') }}
+                                                                        </span>
+                                                                    </a>
+                                                                </li>
+                                                                <li class="list-group-item">
+                                                                    <b><i class="fa fa-birthday-cake" aria-hidden="true"></i> {{ __('Gender') }} :</b><a> @{{ fillItem.birthday }}</a>
+                                                                </li>
+                                                                <li class="list-group-item">
+                                                                    <b><i class="fa fa-bandcamp" aria-hidden="true"></i> {{ __('About') }} :</b><a> @{{ fillItem.about }}</a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    {{-- List bill --}}
+                                                    <div class="tab-pane" id="timeline">
+                                                        <ul class="timeline timeline-inverse">
+                                                            <li class="time-label" v-for="showBill in showBills" >
+                                                                <span class="bg-red">
+                                                                  @{{ showBill.created_at }}
+                                                                </span>
+                                                                <br/>
+                                                                <div class="col-md-offset-1">
+                                                                    <table class="table">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                            <td>
+                                                                            <a href="javascript:void(0)" v-on:click="viewBill(showBill.id)">{{ __('HD-') }}:@{{ showBill.id }}
+                                                                            </a></td>
+                                                                            <td v-if="showBill.department">
+                                                                            <a href="javascript:void(0)" v-on:click="viewBill(showBill.id)">
+                                                                               @{{ showBill.department.name}}
+                                                                               </a>
+                                                                            </td>
+                                                                            <td>@{{ showBill.grand_total }} VND</td>
+                                                                            <td>
+                                                                                <a href="javascript:void(0)" class="btn btn-success" v-on:click="viewBill(showBill.id)">
+                                                                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                                                                </a>
+                                                                            </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="tab-pane" id="settings">
+                                                        <div class="timeline-item">
+                                                            <div role="tabpanel" class="tab-pane" id="messages">
+                                                                <div class="modal-body row">
+                                                                    <div class="col-md-12 grid-image parent-container">
+                                                                        <a class="image-item" href="{{ asset('images/1.jpg')}}" target="blank" ><img src="{{ asset('images/1.jpg')}}" class="img-thumbnail img-responsive"></a>
+                                                                        <a class="image-item" href="{{ asset('images/2.jpg')}}" target="blank" ><img src="{{ asset('images/2.jpg')}}" class="img-thumbnail img-responsive"></a>
+                                                                        <a class="image-item" href="{{ asset('images/4.jpg')}}" target="blank" ><img src="{{ asset('images/4.jpg')}}" class="img-thumbnail img-responsive"></a>
+                                                                        <a class="image-item" href="{{ asset('images/4.jpg')}}" target="blank" ><img src="{{ asset('images/4.jpg')}}" class="img-thumbnail img-responsive"></a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-group col-md-4">
-                                  <label for="usr">{{ __('Email') }}</label>
-                                  <input type="text" class="form-control" id="usr" v-model="fillItem.email" disabled="disabled">
-                                </div>
-                                <div class="form-group col-md-4">
-                                  <label for="usr">{{ __('Birthday') }}</label>
-                                   <input type="date" class="form-control flexbox-grid-form-input" id="inputemail" v-model="fillItem.birthday" disabled="disabled">
-                                </div>
-                                <div class="form-group col-md-4">
-                                  <label for="usr">{{ __('Phone') }}</label>
-                                  <input type="text" class="form-control" id="usr" v-model="fillItem.phone" disabled="disabled">
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="name">{{ __('Gender') }}</label>
-                                    <select  class="form-control" v-model="fillItem.gender" v-model="fillItem.gender" disabled="disabled">
-                                    <option value="male">
-                                        <i class="fa fa-male" aria-hidden="true"></i>
-                                        {{ __('male') }}
-                                    </option>
-                                    <option value="female">{{ __('Famele') }}</option>
-                                    <option value="orther">{{ __('Orther') }}</option>
-                                </select>
-                                </div>
-                                <div class="form-group">
-                                    <textarea class=" flexbox-grid-form-input form-control " placeholder="About" rows="3" v-model="fillItem.about" disabled="disabled"></textarea>
-                                </div>
-                            </div>
-                            <div role="tabpanel" class="tab-pane" id="profile">
-                                <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>{{ __('STT') }}</th>
-                                                <th>{{ __('Code') }}</th>
-                                                <th>{{ __('Grand Total') }}</th>
-                                                <th>{{ __('Created At') }}</th>
-                                                <th>{{ __('View') }}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        @php
-                                            $stt = 1;
-                                        @endphp
-                                            <tr v-for="showBill in showBills ">
-                                                <td>
-                                                    {{ $stt++ }}
-                                                </td>
-                                                <td>{{ __('HD-') }}@{{ showBill.id }}</td>
-                                                <td>@{{ showBill.grand_total }}</td>
-                                                <td>@{{ showBill.created_at }}</td>
-                                                <td>
-                                                    <a href="javascript:void(0)" class="btn btn-success" v-on:click="viewBill(showBill.id)">
-                                                        <i class="fa fa-eye" aria-hidden="true"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                            </div>
-                            <div role="tabpanel" class="tab-pane" id="messages">
-                                <div class="modal-body row">
-                                    <div class="col-md-12 grid-image parent-container">
-                                        <a class="image-item" href="{{ asset('images/1.jpg')}}" target="blank" ><img src="{{ asset('images/1.jpg')}}" class="img-thumbnail img-responsive"></a>
-                                        <a class="image-item" href="{{ asset('images/2.jpg')}}" target="blank" ><img src="{{ asset('images/2.jpg')}}" class="img-thumbnail img-responsive"></a>
-                                        <a class="image-item" href="{{ asset('images/4.jpg')}}" target="blank" ><img src="{{ asset('images/4.jpg')}}" class="img-thumbnail img-responsive"></a>
-                                        <a class="image-item" href="{{ asset('images/4.jpg')}}" target="blank" ><img src="{{ asset('images/4.jpg')}}" class="img-thumbnail img-responsive"></a>
+                                <div role="tabpanel" class="tab-pane" id="messages">
+                                    <div class="modal-body row">
+                                        <div class="col-md-12 grid-image parent-container">
+                                            <a class="image-item" href="{{ asset('images/1.jpg')}}" target="blank" ><img src="{{ asset('images/1.jpg')}}" class="img-thumbnail img-responsive"></a>
+                                            <a class="image-item" href="{{ asset('images/2.jpg')}}" target="blank" ><img src="{{ asset('images/2.jpg')}}" class="img-thumbnail img-responsive"></a>
+                                            <a class="image-item" href="{{ asset('images/4.jpg')}}" target="blank" ><img src="{{ asset('images/4.jpg')}}" class="img-thumbnail img-responsive"></a>
+                                            <a class="image-item" href="{{ asset('images/4.jpg')}}" target="blank" ><img src="{{ asset('images/4.jpg')}}" class="img-thumbnail img-responsive"></a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
         </div>
     </div>
