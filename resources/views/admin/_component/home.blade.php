@@ -60,9 +60,9 @@
                 <div class="box">
                     <div class="box-header with-border">
                         <ul class="nav nav-tabs">
-                            <li class="active"><a data-toggle="tab" href="#day">{{ __('Day') }}</a></li>
+                            <li class="active"><a data-toggle="tab" v-on:click="selectTypeDay" href="#day">{{ __('Day') }}</a></li>
                             <li><a data-toggle="tab" v-on:click="selectTypeMonth" href="#month">{{ __('Month') }}</a></li>
-                            <li><a data-toggle="tab" href="#year">{{ __('Year') }}</a></li>
+                            <li><a data-toggle="tab" v-on:click="selectTypeYear" href="#year">{{ __('Year') }}</a></li>
                         </ul>
 
                         <div class="tab-content">
@@ -159,13 +159,23 @@
                                 </div>
                             </div>
                             <div id="year" class="tab-pane">
-                                <h3 class="text-center">{{ __('Year Report') }}</h3>
+                            <h3 class="text-center">{{ __('Year Report') }}</h3>
+                                <div class=" wrap-select-date">
+                                    <div class="form-group col-md-6">
+                                        <label for="start">Start Year:</label>
+                                        <input type="date" class="form-control" id="start-date" v-model="inputYear.start_date" v-on:change="selectStartDay">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="end">End Year:</label>
+                                        <input type="date" class="form-control" id="end-date" v-model="inputYear.end_date" v-on:change="selectEndDay">
+                                    </div>
+                                    <p class="text-center">
+                                        <strong>{{ __('Bar Chart Year Report') }} </strong>
+                                    </p>
+                                </div>
                                 <div class="col-md-6">
                                     <main>
-                                      <p class="text-center">
-                                        <strong>{{ __('Bar Chart Monthly Report') }} </strong>
-                                    </p>
-                                    {{-- <bar-chart-year></bar-chart-year>     --}}
+                                        <bar-chart-year :data3="dataChartYear" :options="{responsive: true, maintainAspectRatio: false}"></bar-chart-year>    
                                     </main>
                                 </div>
                                 <div class="col-md-6">
@@ -183,6 +193,7 @@
                                         </div>
                                         
                                     </div>
+
                                     <div class="col-md-6">
                                         <div class="progress-group">
                                             <span class="progress-text">Stylist 6</span>
