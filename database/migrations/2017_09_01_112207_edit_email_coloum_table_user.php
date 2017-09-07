@@ -14,7 +14,7 @@ class EditEmailColoumTableUser extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('email', 191)->unique()->nullable()->change();
+            // $table->string('email', 191)->unique()->nullable()->change();
         });
     }
 

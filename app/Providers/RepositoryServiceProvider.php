@@ -52,6 +52,10 @@ class RepositoryServiceProvider extends ServiceProvider
             \App\Contracts\Repositories\UserRepository::class,
             \App\Repositories\UserRepositoryEloquent::class,
         ],
+        'order_item' => [
+            \App\Contracts\Repositories\OrderItemRepository::class,
+            \App\Repositories\OrderItemRepositoryEloquent::class,
+        ],
     ];
 
     /**
