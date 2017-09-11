@@ -446,11 +446,17 @@ class OrderBookingController extends Controller
         return Response::json($response, $response['status']);
     }
 
-    public function addBookingService(Request $request, $id)
+    /**
+     * Store service add by admin, stylist
+     *
+     * @param  App\Http\Requests\UserRequest;  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function addBookingService(Request $request)
     {
         $response = Helper::apiFormat();
         $data = $request->all();
-        $data['order_id'] = $id;
+
         try {
             $serviceBooking = $this->orderItem->create($data);
             $response['status'] = 201;
@@ -459,8 +465,83 @@ class OrderBookingController extends Controller
         } catch (Exception $e) {
             $response['status'] = 403;
             $response['error'] = true;
-            $response['message'] = $e->getMessages();
+            $response['message'] = "Add Service Failed !";
         }
+
+        return Response::json($response, $response['status']);
+    }
+
+    /**
+     * Edit service add by admin, stylist
+     *
+     * @param  App\Http\Requests\UserRequest;  $request
+     * @param  int $order_item_id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateBookingService(Request $request, $order_item_id)
+    {
+        $response = Helper::apiFormat();
+        $data = $request->all();
+
+        try {
+            $serviceBooking = $this->orderItem->find($order_item_id, []);
+            $serviceBooking = $serviceBooking->update($data);
+            $response['status'] = 200;
+            $response['data'] = $this->orderItem->find($order_item_id, ['getOrderBooking', 'getServiceProduct']);
+            $response['message'] = __('Update Service successfully!');
+        } catch (Exception $e) {
+            $response['status'] = 403;
+            $response['error'] = true;
+            $response['message'] = "Update Service Failed !";
+        }
+
+        return Response::json($response, $response['status']);
+    }
+
+    /**
+     * Destroy service add by admin, stylist
+     *
+     * @param  int $order_item_id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyBookingService($order_item_id)
+    {
+        $response = Helper::apiFormat();
+
+        try {
+            $serviceBooking = $this->orderItem->find($order_item_id, []);
+            $serviceBooking->delete();
+            $response['status'] = 200;
+            $response['message'] = __('Destroy Service successfully!');
+        } catch (Exception $e) {
+            $response['status'] = 403;
+            $response['error'] = true;
+            $response['message'] = "Destroy Service Failed !";
+        }
+
+        return Response::json($response, $response['status']);
+    }
+
+    /**
+     * list service add by admin, stylist
+     *
+     * @param  int $order_id
+     * @return \Illuminate\Http\Response
+     */
+    public function showBookingService($order_id)
+    {
+        $response = Helper::apiFormat();
+
+        try {
+            $listServiceBooking = $this->orderItem->getItemsByBookingId($order_id, ['getOrderBooking', 'getServiceProduct']);
+            $response['status'] = 200;
+            $response['data'] = $listServiceBooking;
+        } catch (Exception $e) {
+            $response['status'] = 403;
+            $response['error'] = true;
+            $response['message'] = "The request was valid !";
+        }
+
         return Response::json($response, $response['status']);
     }
 }
