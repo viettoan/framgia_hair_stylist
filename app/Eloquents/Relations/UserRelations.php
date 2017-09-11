@@ -8,6 +8,7 @@ use App\Eloquents\OrderBooking;
 use App\Eloquents\Department;
 use App\Eloquents\Bill;
 use App\Eloquents\BillItem;
+use App\Eloquents\LogStatus;
 
 trait UserRelations
 {
@@ -44,5 +45,10 @@ trait UserRelations
     public function getBillItem()
     {
         return $this->hasMany(BillItem::class, 'stylist_id');
+    }
+
+    public function getLogStatus()
+    {
+        return hasMany(LogStatus::class);
     }
 }
