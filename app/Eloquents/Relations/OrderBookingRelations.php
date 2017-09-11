@@ -7,6 +7,7 @@ use App\Eloquents\RenderBooking;
 use App\Eloquents\OrderItem;
 use App\Eloquents\Bill;
 use App\Eloquents\Media;
+use App\Eloquents\LogStatus;
 
 trait OrderBookingRelations
 {
@@ -43,5 +44,10 @@ trait OrderBookingRelations
     public function Images()
     {
         return $this->morphMany(Media::class, 'media_table');
+    }
+
+    public function getLogStatus()
+    {
+        return $this->hasMany(LogStatus::class, 'order_booking_id');
     }
 }
