@@ -9,6 +9,7 @@ use App\Contracts\Repositories\RenderBookingRepository;
 use App\Contracts\Repositories\UserRepository;
 use App\Contracts\Repositories\DepartmentRepository;
 use App\Contracts\Repositories\OrderItemRepository;
+use App\Contracts\Repositories\LogStatusRepository;
 use App\Helpers\Helper;
 use App\Eloquents\OrderBooking;
 use App\Eloquents\User;
@@ -21,14 +22,15 @@ use Nexmo;
 
 class OrderBookingController extends Controller
 {
-    protected $orderBooking, $renderBooking, $user, $department, $orderItem;
+    protected $orderBooking, $renderBooking, $user, $department, $orderItem, $logStatus;
 
     public function __construct( 
         OrderBookingRepository $orderBooking, 
         RenderBookingRepository $renderBooking,
         UserRepository $user,
         DepartmentRepository $department,
-        OrderItemRepository $orderItem
+        OrderItemRepository $orderItem,
+        LogStatusRepository $logStatus
     ) 
     {
         $this->orderBooking = $orderBooking;
@@ -36,6 +38,7 @@ class OrderBookingController extends Controller
         $this->user = $user;
         $this->department = $department;
         $this->orderItem = $orderItem;
+        $this->logStatus = $logStatus;
     }
 
     public function userBooking(Request $request)
@@ -314,7 +317,7 @@ class OrderBookingController extends Controller
     public function changeStatus(Request $request, $id)
     {
         $response = Helper::apiFormat();
-
+        
         $user = Auth::guard('api')->user();
         if (!$user || $user->permission != User::PERMISSION_ADMIN) {
             $response['error'] = true;
@@ -325,6 +328,7 @@ class OrderBookingController extends Controller
         }
 
         $orderBooking = $this->orderBooking->find($id);
+        $old_status = $orderBooking->status;
 
         if (!$orderBooking) {
             $response['error'] = true;
@@ -351,12 +355,22 @@ class OrderBookingController extends Controller
         }
 
         $dataEdit = [
-            'status' =>$request->status,
+            'status' => $request->status,
         ];
 
         try {
             $orderBooking->fill($dataEdit)->save();
+            $dataLogStatus = [
+                'order_booking_id' => $id,
+                'user_id' => $user->id,
+                'old_status' => $old_status,
+                'new_status' => intval($request->status),
+                'message' => $request->message,
+            ];
+            $newLogStatus = $this->logStatus->create($dataLogStatus);
+
             $response['data'][] = __('Updated Status booking successfully!');
+            $response['data']['log_status'] = $newLogStatus;
         } catch (Exception $e) {
             $response['error'] = true;
             $response['status'] = 403;

@@ -56,6 +56,11 @@ class RepositoryServiceProvider extends ServiceProvider
             \App\Contracts\Repositories\OrderItemRepository::class,
             \App\Repositories\OrderItemRepositoryEloquent::class,
         ],
+        'log_status' => [
+            \App\Contracts\Repositories\LogStatusRepository::class,
+            \App\Repositories\LogStatusRepositoryEloquent::class,
+        ],
+
     ];
 
     /**
