@@ -120,9 +120,9 @@
                                             </td>
                                             <td>
                                                 <a href="javascript:void(0)" v-on:click="editBill(list)">
-                                                    <i aria-hidden="true" class="fa fa-pencil-square-o fa-2x"></i>
+                                                    <i aria-hidden="true" class="fa fa-pencil-square-o"></i>
                                                 </a>
-                                                <a href="javascript:void(0)" v-on:click="exportshowBill(list)"><i class="fa fa-external-link-square fa-2x" aria-hidden="true"></i></a>
+                                                <a href="javascript:void(0)" v-on:click="exportshowBill(list)"><i class="fa fa-external-link-square" aria-hidden="true"></i></a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -353,7 +353,7 @@
                                             <tr>
                                                 <td class="col-md-4"></td>
                                                 <td class="col-md-4"><h3 class="text-right">ToTal :</h3></td>
-                                                <td class="col-md-4"><h3 class="pull-left">@{{ exportBill.grand_total }}00000</h3></td>
+                                                <td class="col-md-4"><h3 class="pull-left">@{{ exportBill.grand_total }}</h3></td>
                                             </tr>
                                         </thead>
                                     </table>

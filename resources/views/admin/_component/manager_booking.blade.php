@@ -129,6 +129,7 @@
                                             </td>
                                             <td>
                                                 <a href="javascript:void(0)" v-on:click="changer_status(list)"> <i aria-hidden="true" class="fa fa-pencil-square-o"></i></a>
+                                                <a href="javascript:void(0)" v-on:click="bookingDetail(list.phone)"> <i class="fa fa-eye" aria-hidden="true"></i></a>
                                             </td>
                                         </tr>  
                                     </tbody>
@@ -167,6 +168,294 @@
                                                 <i class="fa fa-external-link-square" aria-hidden="true"></i>
                                                 {{ __('Close') }}
                                             </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="bookingDetailUI" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">{{ __('Detail Booking') }}</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="POST" enctype="multipart/form-data" v-on:submit.prevent="createItem" class="form-horizontal">
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            <label for="name" class="text-center label_bill">
+                                                <i class="fa fa-user" aria-hidden="true"></i>
+                                                <strong>
+                                                    {{ __('Infor Customer') }}
+                                                </strong>
+                                            </label>
+                                        </div>
+                                            <div class="col-md-10 flexbox-annotated-section-content">
+                                                <br>
+                                                    <div class="col-md-4">
+                                                    <div class="col-md-2">
+                                                        <strong>{{ __('Name') }}</strong>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                    <div class="col-md-10">
+                                                        <div class="input-group">
+                                                          <div class="input-group-addon">
+                                                            <i class="fa fa-user"></i>
+                                                            </div>
+                                                            <input class="form-control input-md field-compulsory-before" placeholder="Name" disabled="disabled" type="text" v-model="bill.customer_name">
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                   
+                                                    <div class="col-md-4">
+                                                        <div class="col-md-2">
+                                                            <strong>{{ __('Phone') }}</strong>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="col-md-12   ">
+                                                        <div class="input-group">
+                                                          <div class="input-group-addon">
+                                                            <i class="fa fa-phone" aria-hidden="true"></i>
+                                                            </div>
+                                                            <input class="form-control input-md field-compulsory-before" placeholder="Name" disabled="disabled" type="text" v-model="bill.phone">
+                                                        </div>
+                                                        </div>
+                                                    </div>
+                                                 
+                                                    <div class="col-md-4">
+                                                        <div class="col-md-2">
+                                                            <strong>{{ __('Status') }}</strong>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="col-md-10">
+                                                            <div class="input-group" v-if="booking.status == 0">
+                                                                <div class="input-group-addon">
+                                                                <i class="fa fa-bandcamp" aria-hidden="true"></i>
+                                                                </div>
+                                                                <input class="form-control input-md field-compulsory-before" disabled="disabled" type="text" value="Cancel">
+                                                            </div>
+                                                            <div class="input-group" v-if="booking.status == 1">
+                                                                <div class="input-group-addon">
+                                                                <i class="fa fa-bandcamp" aria-hidden="true"></i>
+                                                                </div>
+                                                                <input class="form-control input-md field-compulsory-before" disabled="disabled" type="text" value="Waiting">
+                                                            </div>
+                                                            <div class="input-group" v-if="booking.status == 2">
+                                                                <div class="input-group-addon">
+                                                                <i class="fa fa-bandcamp" aria-hidden="true"></i>
+                                                                </div>
+                                                                <input class="form-control input-md field-compulsory-before" disabled="disabled" type="text" value="Complete">
+                                                            </div>
+                                                            <div class="input-group" v-if="booking.status == 3">
+                                                                <div class="input-group-addon">
+                                                                <i class="fa fa-bandcamp" aria-hidden="true"></i>
+                                                                </div>
+                                                                <input class="form-control input-md field-compulsory-before" disabled="disabled" type="text" value="Inlate">
+                                                            </div>
+                                                            <div class="input-group" v-if="booking.status == 4">
+                                                                <div class="input-group-addon">
+                                                                <i class="fa fa-bandcamp" aria-hidden="true"></i>
+                                                                </div>
+                                                                <input class="form-control input-md field-compulsory-before" disabled="disabled" type="text" value="Inprogress">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <label for="name" class="text-center label_bill">
+                                                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                                    <strong>
+                                                        {{ __('Infor Booking') }}
+                                                    </strong>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-10 flexbox-annotated-section-content"  v-if="booking.id">
+                                                <br>
+                                                    <div class="col-md-6">
+                                                    <div class="col-md-2">
+                                                        <strong>{{ __('Dep Name')}}</strong>:
+                                                    </div>
+                                                    <div class="col-md-10">
+                                                        <div class="input-group">
+                                                          <div class="input-group-addon">
+                                                            <i class="fa fa-home" aria-hidden="true"></i>
+                                                            </div>
+                                                            <input class="form-control input-md field-compulsory-before" placeholder="Name" disabled="disabled" type="text" v-model="booking.department.name">
+                                                        </div>
+                                                    </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                    <div class="col-md-2">
+                                                         <strong>{{__('Dep Address')}}</strong>:
+                                                    </div>
+                                                    <div class="col-md-10">
+                                                        <div class="input-group">
+                                                          <div class="input-group-addon">
+                                                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                                            </div>
+                                                            <input class="form-control input-md field-compulsory-before" placeholder="Name" disabled="disabled" type="text" v-model="booking.department.address">
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                    <br>
+                                                    <div class="col-md-6">
+                                                    <div class="col-md-2">
+                                                        <strong> {{ __('Day Booking') }}</strong>
+                                                    </div>
+                                                    <div class="col-md-10">
+                                                        <div class="input-group">
+                                                          <div class="input-group-addon">
+                                                            <i class="fa fa-calendar-o" aria-hidden="true"></i>
+                                                            </div>
+                                                            <input class="form-control input-md field-compulsory-before" placeholder="Name" disabled="disabled" type="text" v-model="booking.render_booking.time_start">
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                    <div class="col-md-2">
+                                                        <strong>{{ __('Time start') }}</strong>
+                                                    </div>
+                                                    <div class="col-md-10">
+                                                        <div class="input-group">
+                                                          <div class="input-group-addon">
+                                                            <i class="fa fa-user-circle" aria-hidden="true"></i>
+                                                            </div>
+                                                            <input class="form-control input-md field-compulsory-before" placeholder="Name" disabled="disabled" type="text" v-model="booking.stylist.name">
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                     <div class="clearfix"></div>
+                                                    <br>
+                                                    <div class="col-md-6">
+                                                    <div class="col-md-2">
+                                                        <strong>{{ __('Stylist') }}</strong>
+                                                    </div>
+                                                    <div class="col-md-10">
+                                                        <div class="input-group">
+                                                          <div class="input-group-addon">
+                                                            <i class="fa fa-user-circle" aria-hidden="true"></i> 
+                                                            </div>
+                                                            <input class="form-control input-md field-compulsory-before" placeholder="Name" disabled="disabled" type="text" v-model="booking.stylist.name">
+                                                        </div>
+                                                    </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                    <div class="col-md-2">
+                                                        <strong>{{ __('Phone Stylist') }}</strong>
+                                                    </div>
+                                                    <div class="col-md-10">
+                                                        <div class="input-group">
+                                                          <div class="input-group-addon">
+                                                            <i class="fa fa-phone" aria-hidden="true"></i>
+                                                            </div>
+                                                            <input class="form-control input-md field-compulsory-before" placeholder="Name" disabled="disabled" type="text" v-model="booking.stylist.phone">
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                    </div>
+                                            </div>
+                                            <div class="form-group">
+                                            <div class="col-md-2">
+                                                <label for="name" class="text-center label_bill">
+                                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                                    <strong>
+                                                        {{ __('Add Service') }}
+                                                    </strong>
+                                                </label>
+                                            </div>
+
+                                            <div class="col-md-10 flexbox-annotated-section-content"  v-if="booking.id">
+                                                <div class="col-sm-3">
+                                                    <label>{{ __('Service') }}</label>
+                                                    <select  class="form-control" v-model="billItem.service_product_id" v-on:change="select_service">
+                                                        <option value=""></option>
+                                                        <option v-bind:value="service.id" v-for="service in services">
+                                                            @{{ service.name }}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <label>{{ __('Stylist') }}</label>
+                                                    <select  class="form-control" v-model="billItem.stylist_id" v-on:change="select_stylist">
+                                                        <option value=""></option>
+                                                        <option v-bind:value="stylist.id" v-for="stylist in stylists">
+                                                            @{{ stylist.name }}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-2 ">
+                                                    <label >{{ __('Price') }}</label>
+                                                    <input type="text" disabled readonly v-bind:value="billItem.price" class="form-control"/>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label >{{ __('Qty') }}</label>
+                                                    <input type="number" v-model="billItem.qty" value="1" class="form-control"/>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label >{{ __('Action') }}</label>
+                                                    <a class="btn btn-success" v-on:click="addService" v-if="!isEditBillItem.status">
+                                                        {{__('Add Service') }}
+                                                    </a>
+                                                    <a class="btn btn-warning" v-on:click="submitEditBillItem(isEditBillItem.index)" v-else>
+                                                        {{__('Update Service') }}
+                                                    </a>
+                                                </div>
+                                            <div class="col-sm-12">
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>{{ __('STT') }}</th>
+                                                            <th>{{ __('Service Name') }}</th>
+                                                            <th>{{ __('Stylist Name') }}</th>
+                                                            <th>{{ __('Price') }}</th>
+                                                            <th>{{ __('Qty') }}</th>
+                                                            <th>{{ __('Row Total') }}</th>
+                                                            <th>{{ __('Action') }}</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr id ="list_service" v-for="(billItem, keyObject) in billItems" v-bind:class="{'label-warning': isEditBillItem.status && isEditBillItem.index == keyObject}">
+                                                            <td>@{{ keyObject + 1 }}</td>
+                                                            <td>@{{ billItem.service_name }}</td>
+                                                            <td>@{{ billItem.stylist_name }}</td>
+                                                            <td>@{{ billItem.price }} VND</td>
+                                                            <td>@{{ billItem.qty }}</td>
+                                                            <td>@{{ billItem.row_total }} VND</td>
+                                                            <td> <a href="javascript:void(0)" v-on:click="editBillItem(keyObject)">
+                                                                <i aria-hidden="true" class="fa fa-pencil-square-o"></i>
+                                                            </a>
+                                                            <a href="javascript:void(0)" v-on:click="deleteBillItem(keyObject)">
+                                                                <i class="fa fa-fw  fa-close get-color-icon-delete"></i>
+                                                            </a></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td>{{ __('Grand Total : ') }}</td>
+                                                            <td>@{{ bill.grand_total }} VND</td>
+                                                            <td></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="form-group text-center">
+                                                <button class="btn btn-success" v-on:click="createBill" v-if="!bill.id">
+                                                <i class="fa fa-plus" aria-hidden="true"></i> {{ __('Create') }}
+                                                </button>
+                                                <button class="btn btn-warning" v-on:click="createBill" v-else>
+                                                    <i class="fa fa-plus" aria-hidden="true"></i> {{ __('Update Service') }}
+                                                </button>
+                                            </div>     
+                                            </div>
                                         </div>
                                     </form>
                                 </div>
