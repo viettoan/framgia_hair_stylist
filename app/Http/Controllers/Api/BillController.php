@@ -63,7 +63,7 @@ class BillController extends Controller
     {
         // not paginate
          $response = Helper::apiFormat();
-
+ 
          $billByCustomerId = $this->bill->getListBillByCustomerId($request->customer_id, ['Department', 'OrderBooking']);
 
         if($billByCustomerId->count() == 0)
@@ -102,6 +102,7 @@ class BillController extends Controller
 
         return Response::json($response);
     }
+
     /**
      * Display a listing of the resource.
      *

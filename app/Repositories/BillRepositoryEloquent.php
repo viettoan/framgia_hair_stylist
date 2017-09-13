@@ -14,7 +14,7 @@ class BillRepositoryEloquent extends AbstractRepositoryEloquent implements BillR
     
     public function getBillByCustomerId($customerId, $perPage, $with = [], $select = ['*'])
     {
-    	return $this->model()->select($select)->where('customer_id', $customerId)->with($with)->paginate($perPage);
+        return $this->model()->select($select)->where('customer_id', $customerId)->with($with)->paginate($perPage);
     }
 
     public function create($data)
@@ -112,6 +112,11 @@ class BillRepositoryEloquent extends AbstractRepositoryEloquent implements BillR
     public function getBillByCustomerIdWithImage($customerId, $billId, $with = [], $select = ['*'])
     {
         return $this->model()->select($select)->where('customer_id', $customerId)->with($with)->get();
+    }
+
+    public function getBillByOrderBookingIdWithImage($orderBookingId, $with = [], $select = ['*'])
+    {
+        return $this->model()->select($select)->where('order_booking_id', $orderBookingId)->with($with)->get();
     }
 
     public function getListBillByCustomerId($customerId, $with = [], $select = ['*'])

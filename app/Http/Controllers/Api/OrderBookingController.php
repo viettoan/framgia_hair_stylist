@@ -384,7 +384,7 @@ class OrderBookingController extends Controller
     {
         $response = Helper::apiFormat();
 
-        $booking = $this->orderBooking->getBookingByBookingId($bookingId);
+        $booking = $this->orderBooking->getBookingByBookingId($bookingId, 'Images', ['*'] );
 
         if (!$booking)
         {
