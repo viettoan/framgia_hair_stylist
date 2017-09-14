@@ -9,11 +9,11 @@ trait LogStatusRelations
 {
     public function getOrderBooking()
     {
-        return $this->belongsTo(OrderBooking::class);
+        return $this->belongsTo(OrderBooking::class, 'order_booking_id');
     }
 
     public function getUser()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

@@ -558,5 +558,28 @@ class OrderBookingController extends Controller
 
         return Response::json($response, $response['status']);
     }
+
+    /**
+     * Get log status by order booking id
+     *
+     * @param int $order_booking_id
+     * @return \Illuminate\Http\Response
+     */
+    public function getLogStatus($order_booking_id)
+    {
+        $response = Helper::apiFormat();
+
+        try {
+            $getLogStatus = $this->logStatus->getLogStatus($order_booking_id, ['getOrderBooking', 'getUser']);
+            $response['status'] = 200;
+            $response['data'] = $getLogStatus;
+        } catch (Exception $e) {
+            $response['status'] = 403;
+            $response['error'] = true;
+            $response['message'] = "The request was valid !";
+        }
+
+        return Response::json($response, $response['status']);
+    }
 }
 
