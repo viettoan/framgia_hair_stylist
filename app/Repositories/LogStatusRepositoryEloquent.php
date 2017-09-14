@@ -16,4 +16,14 @@ class LogStatusRepositoryEloquent extends AbstractRepositoryEloquent implements 
     {
         return $this->model()->create($data);
     }
+
+    /**
+     * Get Log Status by Order Booking Id
+     */
+    public function getLogStatus($order_booking_id , $with = [], $select = ['*'])
+    {
+    	return $this->model()->select($select)->with($with)
+    		->where('order_booking_id', $order_booking_id)
+    		->get();
+    }
 }
