@@ -470,17 +470,21 @@ class OrderBookingController extends Controller
     {
         $response = Helper::apiFormat();
         $data = $request->all();
-
+        $billItems = json_decode($request->bill_items, true);
         try {
-            $serviceBooking = $this->orderItem->create($data);
+            foreach ($billItems as $billItem) {
+                $billItem['order_id'] = $request->order_id;
+                $serviceBooking = $this->orderItem->create($data);
+            }
             $response['status'] = 201;
-            $response['data'] = $this->orderItem->find($serviceBooking->id, ['getOrderBooking', 'getServiceProduct']);
-            $response['message'] = __('Create Service successfully!');
+            $response['data'] = $this->orderBooking->find($request->order_id, ['getOrderItems']);
+            $response['message'][] = __('Create Service successfully!');
         } catch (Exception $e) {
             $response['status'] = 403;
             $response['error'] = true;
             $response['message'] = "Add Service Failed !";
         }
+
 
         return Response::json($response, $response['status']);
     }
@@ -492,16 +496,19 @@ class OrderBookingController extends Controller
      * @param  int $order_item_id
      * @return \Illuminate\Http\Response
      */
-    public function updateBookingService(Request $request, $order_item_id)
+    public function updateBookingService(Request $request)
     {
         $response = Helper::apiFormat();
         $data = $request->all();
+        $billItems = json_decode($request->bill_items, true);
 
         try {
-            $serviceBooking = $this->orderItem->find($order_item_id, []);
-            $serviceBooking = $serviceBooking->update($data);
+            foreach ($billItems as $billItem) {
+                $billItem['order_id'] = $request->order_id;
+                $serviceBooking = $this->orderItem->find($billItem['id'], []);
+                $serviceBooking = $serviceBooking->update($billItem);
+            }
             $response['status'] = 200;
-            $response['data'] = $this->orderItem->find($order_item_id, ['getOrderBooking', 'getServiceProduct']);
             $response['message'] = __('Update Service successfully!');
         } catch (Exception $e) {
             $response['status'] = 403;
