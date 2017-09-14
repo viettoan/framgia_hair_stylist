@@ -150,19 +150,48 @@
                                         <div class="form-group">
                                          <label class="col-md-1">{{ __('Status') }}</label>
                                         <div class="form-group col-md-5 select_booking_manage">
-                                            <select  class="form-control select-multi-status" id="sel1" v-model="changer_status_booking.status">
-                                                    <option v-bind:value="0">{{ __('Cancel') }}</option>
-                                                    <option v-bind:value="1">{{ __('Wating') }}</option>
-                                                    <option v-bind:value="3">{{ __('Inlate') }}</option>
+                                            <!-- if status is cancel -->
+                                            <select  class="form-control select-multi-status" id="sel1" v-if="status == 0" v-model="changer_status_booking.status" disabled="disabled">
+                                                <option v-bind:value="0">{{ __('Cancel') }}</option>
+                                                <option v-bind:value="1">{{ __('Waiting') }}</option>
+                                                <option v-bind:value="3">{{ __('Inlate') }}</option>
+                                                <option v-bind:value="4">{{ __('Inprogress') }}</option>
+                                                <option v-bind:value="2">{{ __('Complete') }}</option>
+                                            </select>
+
+                                            <!-- if status is Complete -->
+                                             <select  class="form-control select-multi-status" id="sel1" v-if="status == 2" v-model="changer_status_booking.status" disabled="disabled">
+                                                <option v-bind:value="0">{{ __('Cancel') }}</option>
+                                                <option v-bind:value="1">{{ __('Waiting') }}</option>
+                                                <option v-bind:value="3">{{ __('Inlate') }}</option>
+                                                <option v-bind:value="4">{{ __('Inprogress') }}</option>
+                                                <option v-bind:value="2">{{ __('Complete') }}</option>
+                                            </select>
+
+                                            <!-- if status is wating -->
+                                            <select  class="form-control select-multi-status" id="sel1" v-if="status == 1" v-model="changer_status_booking.status">
+                                                <option v-bind:value="3">{{ __('Inlate') }}</option>
+                                                <option v-bind:value="4">{{ __('Inprogress') }}</option>
+                                            </select>
+
+                                            <!-- if status is Inlate -->
+                                            <select  class="form-control select-multi-status" id="sel1" v-if="status == 3" v-model="changer_status_booking.status">
+                                                <option v-bind:value="4">{{ __('Inprogress') }}</option>
+                                                <template v-if="status == 4">
                                                     <option v-bind:value="2">{{ __('Complete') }}</option>
-                                                    <option v-bind:value="4">{{ __('Inprogress') }}</option>
+                                                </template>
+                                            </select>
+
+                                            <!-- if status is Inprogress-->
+                                            <select  class="form-control select-multi-status" id="sel1" v-if="status == 4" v-model="changer_status_booking.status">
+                                                <option v-bind:value="2">{{ __('Complete') }}</option>
                                             </select>
                                         <br/>    
                                         </div> 
                                         </div>
                                         <div class="form-group">
                                             <button type="submit" class="btn btn-success">
-                                                <i class="fa fa-plus" aria-hidden="true"></i> {{ __('Create') }}
+                                                <i class="fa fa-plus" aria-hidden="true"></i> {{ __('Edit') }}
                                             </button>
                                             <button class="btn btn-default" data-dismiss="modal">
                                                 <i class="fa fa-external-link-square" aria-hidden="true"></i>
