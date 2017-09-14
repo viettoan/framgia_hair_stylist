@@ -9,7 +9,7 @@ trait OrderItemRelations
 {
     public function getOrderBooking()
     {
-        return $this->belongsTo(OrderBooking::class, 'order_id');
+        return $this->belongsTo(OrderBooking::class, 'order_booking_id');
     }
     
     public function getServiceProduct()

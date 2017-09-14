@@ -22,8 +22,8 @@ class OrderItemRepositoryEloquent extends AbstractRepositoryEloquent implements 
         return $this->model()->select($select)->with($with)->find($id);
     }
 
-    public function getItemsByBookingId($order_id, $with = [], $select = ['*'])
+    public function getItemsByBookingId($order_booking_id, $with = [], $select = ['*'])
     {
-        return $this->model()->select($select)->with($with)->where('order_id', $order_id)->get();
+        return $this->model()->select($select)->with($with)->where('order_booking_id', $order_booking_id)->get();
     }
 }

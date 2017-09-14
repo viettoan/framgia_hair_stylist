@@ -473,11 +473,11 @@ class OrderBookingController extends Controller
         $billItems = json_decode($request->bill_items, true);
         try {
             foreach ($billItems as $billItem) {
-                $billItem['order_id'] = $request->order_id;
+                $billItem['order_booking_id'] = $request->order_booking_id;
                 $serviceBooking = $this->orderItem->create($data);
             }
             $response['status'] = 201;
-            $response['data'] = $this->orderBooking->find($request->order_id, ['getOrderItems']);
+            $response['data'] = $this->orderBooking->find($request->order_booking_id, ['getOrderItems']);
             $response['message'][] = __('Create Service successfully!');
         } catch (Exception $e) {
             $response['status'] = 403;
@@ -504,7 +504,7 @@ class OrderBookingController extends Controller
 
         try {
             foreach ($billItems as $billItem) {
-                $billItem['order_id'] = $request->order_id;
+                $billItem['order_booking_id'] = $request->order_booking_id;
                 $serviceBooking = $this->orderItem->find($billItem['id'], []);
                 $serviceBooking = $serviceBooking->update($billItem);
             }
@@ -549,12 +549,12 @@ class OrderBookingController extends Controller
      * @param  int $order_id
      * @return \Illuminate\Http\Response
      */
-    public function showBookingService($order_id)
+    public function showBookingService($order_booking_id)
     {
         $response = Helper::apiFormat();
 
         try {
-            $listServiceBooking = $this->orderItem->getItemsByBookingId($order_id, ['getOrderBooking', 'getServiceProduct']);
+            $listServiceBooking = $this->orderItem->getItemsByBookingId($order_booking_id, ['getOrderBooking', 'getServiceProduct']);
             $response['status'] = 200;
             $response['data'] = $listServiceBooking;
         } catch (Exception $e) {

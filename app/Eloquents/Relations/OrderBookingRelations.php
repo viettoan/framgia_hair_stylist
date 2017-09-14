@@ -33,7 +33,7 @@ trait OrderBookingRelations
 
     public function getOrderItems()
     {
-        return $this->hasMany(OrderItem::class, 'order_id');
+        return $this->hasMany(OrderItem::class, 'order_booking_id');
     }
 
     public function getBill()
