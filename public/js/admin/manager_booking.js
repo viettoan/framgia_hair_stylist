@@ -33,7 +33,8 @@ var manage_service = new Vue({
         newItem: {},
         params: {},
         start_date: '',
-        end_date: ''
+        end_date: '',
+        status: '',
     },
     mounted : function(){
         this.show_input.start = false;
@@ -107,6 +108,7 @@ var manage_service = new Vue({
         },
 
         changer_status(item){
+            console.log(this.$set(this, 'status', item.status));
             this.changer_status_booking.status = item.status;
             this.changer_status_booking.id = item.id;
             $('#update_status').modal('show');
