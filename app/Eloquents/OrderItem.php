@@ -10,13 +10,12 @@ class OrderItem extends Model
     use OrderItemRelations;
 
     protected $fillable = [
-        'order_id',
+        'order_booking_id',
         'service_product_id',
         'price',
         'service_name',
         'stylist_id',
         'discount',
-        'row_total',
         'qty'
     ];
 }
