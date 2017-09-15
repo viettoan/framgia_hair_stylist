@@ -59,6 +59,6 @@ Route::group(['prefix' => 'v0', 'namespace' => 'Api'], function() {
     Route::post('add-booking-service', 'OrderBookingController@addBookingService');
     Route::put('add-booking-service', 'OrderBookingController@updateBookingService');
     Route::delete('add-booking-service/{order_item_id}', 'OrderBookingController@destroyBookingService');
-    Route::get('add-booking-service/{order_id}', 'OrderBookingController@showBookingService');
+    Route::get('show-booking-service/{order_id}', 'OrderBookingController@showBookingService');
     Route::get('log-status/{order_booking_id}', 'OrderBookingController@getLogStatus');
 });
