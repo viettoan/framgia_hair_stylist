@@ -70,9 +70,9 @@
                 <div class="box">
                     <div class="box-header">
                         <input type="text" id="Myinput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name"> 
-                        <button class="col-md-offset-1 btn btn-success" v-on:click="addBill">
+                        <button class="col-md-offset-1 btn btn-success" v-on:click="listBooking">
                             <i class="fa fa-plus" aria-hidden="true"></i>
-                            {{ __('Create bill') }}
+                            {{ __('List Booking') }}
                         </button>
                     </div>
                     <div class="panel panel-default" v-for="item in listBill">
@@ -134,6 +134,33 @@
             </div>
         </div>
     </section>
+    <!-- show list booking -->
+    <div class="modal fade" id="showListBooking" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">{{ __('List Booking') }}</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered table-striped" id="MyTable">
+                        <thead>
+                            <tr >
+                                <th class="text-center">{{ __('Name') }}</th>
+                                <th class="text-center">{{ __('Phone') }}</th>
+                                <th class="text-center">{{ __('Time Start') }}</th>
+                                <th class="text-center">{{ __('Action') }}</th>
+                            </tr>   
+                        </thead>
+                        <tbody>
+                           
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="showBill" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">

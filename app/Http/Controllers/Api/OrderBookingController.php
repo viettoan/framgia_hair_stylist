@@ -554,7 +554,11 @@ class OrderBookingController extends Controller
         $response = Helper::apiFormat();
 
         try {
-            $listServiceBooking = $this->orderBooking->find($order_booking_id, ['getOrderItems', 'getStylist']);
+            $listServiceBooking = $this->orderBooking->find($order_booking_id, ['getOrderItems']);
+            foreach ($listServiceBooking->getOrderItems as $orderItem) {
+                $orderItem->stylist = $this->orderItem->find($orderItem->id, ['getStylist'])->getStylist;
+                $orderItem->service = $this->orderItem->find($orderItem->id, ['getServiceProduct'])->getServiceProduct;
+            }
             $response['status'] = 200;
             $response['data'] = $listServiceBooking;
         } catch (Exception $e) {

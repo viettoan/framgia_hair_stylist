@@ -47,6 +47,11 @@ trait UserRelations
         return $this->hasMany(BillItem::class, 'stylist_id');
     }
 
+    public function getOrderItem()
+    {
+        return $this->hasMany(BillItem::class, 'stylist_id');
+    }
+
     public function getLogStatus()
     {
         return hasMany(LogStatus::class);
