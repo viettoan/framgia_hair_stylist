@@ -86,8 +86,8 @@ var Manager_bill = new Vue({
             this.exportBill.grand_total = item.grand_total;
             this.exportBill.service_total = item.service_total;
             },
-        addBill: function() {
-            $('#showBill').modal('show');
+        listBooking: function() {
+            $('#showListBooking').modal('show');
         },
         selectStartDay: function(event) {
             var timestamp = new Date(event.target.value).getTime() / 1000 | 0;
