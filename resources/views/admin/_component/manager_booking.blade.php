@@ -147,7 +147,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <form method="POST" enctype="multipart/form-data" v-on:submit.prevent="update_status(changer_status_booking.id)">
-                                        <div class="form-group">
+                                        <div class="form-group row">
                                          <label class="col-md-1">{{ __('Status') }}</label>
                                         <div class="form-group col-md-5 select_booking_manage">
                                             <!-- if status is cancel -->
@@ -185,10 +185,14 @@
                                             <!-- if status is Inprogress-->
                                             <select  class="form-control select-multi-status" id="sel1" v-if="status == 4" v-model="changer_status_booking.status">
                                                 <option v-bind:value="2">{{ __('Complete') }}</option>
-                                            </select>
-                                        <br/>    
+                                            </select>  
                                         </div> 
                                         </div>
+                                        <div class="form-group">
+                                            <label class="col-md-1 row">{{ __('Message') }}</label>
+                                            <textarea class="col-md-8 form-control" name="message" id="message" v-model="changer_status_booking.message"></textarea>
+                                        </div>
+                                        <br>
                                         <div class="form-group">
                                             <button type="submit" class="btn btn-success">
                                                 <i class="fa fa-plus" aria-hidden="true"></i> {{ __('Edit') }}

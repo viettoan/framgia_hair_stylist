@@ -26,4 +26,9 @@ class OrderItemRepositoryEloquent extends AbstractRepositoryEloquent implements 
     {
         return $this->model()->select($select)->with($with)->where('order_booking_id', $order_booking_id)->get();
     }
+
+    public function getGrandTotal($order_booking_id)
+    {
+        return $this->model()->where('order_booking_id', $order_booking_id)->sum('price');
+    }
 }

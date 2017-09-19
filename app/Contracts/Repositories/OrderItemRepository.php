@@ -9,4 +9,6 @@ interface OrderItemRepository extends AbstractRepository
     public function find($id, $with = [], $select = ['*']);
 
     public function getItemsByBookingId($order_booking_id, $with = [], $select = ['*']);
+
+    public function getGrandTotal($order_booking_id);
 }

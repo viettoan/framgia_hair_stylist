@@ -23,4 +23,7 @@ interface OrderBookingRepository extends AbstractRepository
     public function getFilterChoice();
 
     public function getBookingByCustomerId($customer_id, $with = [], $select = ['*']);
+
+    public function getBookingByStatus($customer_id, $with = [], $select = ['*']);
+
 }

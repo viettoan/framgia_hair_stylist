@@ -24,7 +24,7 @@ var manage_service = new Vue({
         services:[],
         bill: {'customer_id': '', 'phone': '', 'status': 0, 'customer_name': '', 
             'order_booking_id': '', 'grand_total': 0, 'department_id': '', 'bill_items': []},
-        changer_status_booking:{'id': '', 'status': ''},
+        changer_status_booking:{'id': '', 'status': '', 'message': ''},
         billItem: {'qty': 1, 'price': '', 'stylist_id': '', 'service_product_id': ''},
         isEditBillItem: {'status': false, 'index' : ''},
         billItems: [],
@@ -111,6 +111,8 @@ var manage_service = new Vue({
             console.log(this.$set(this, 'status', item.status));
             this.changer_status_booking.status = item.status;
             this.changer_status_booking.id = item.id;
+            this.changer_status_booking.message = item.message;
+
             $('#update_status').modal('show');
         },
         update_status: function(id){
@@ -118,7 +120,7 @@ var manage_service = new Vue({
             var authOptions = {
                     method: 'PUT',
                     url: '/api/v0/change-status-booking/' + id,
-                    params: {status: this.changer_status_booking.status},
+                    params: {status: this.changer_status_booking.status, message: this.changer_status_booking.message},
                     headers: {
                         'Authorization': "Bearer " + this.token.access_token,
                         'Content-Type': 'application/x-www-form-urlencoded'
