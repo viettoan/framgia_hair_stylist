@@ -451,7 +451,6 @@ class OrderBookingController extends Controller
                 $data['path_origin'] = $path;
                 $orderBooking->Images()->create($data);
             }
-
             $response['message'][] = __('Upload images for this booking successfully!');
             $response['data'] = $this->orderBooking->find($request->order_booking_id, 'Images');
             DB::commit();
@@ -476,19 +475,37 @@ class OrderBookingController extends Controller
         $response = Helper::apiFormat();
         $data = $request->all();
         $billItems = json_decode($request->bill_items, true);
-        try {
-            foreach ($billItems as $billItem) {
-                $billItem['order_booking_id'] = $request->order_booking_id;
-                $serviceBooking = $this->orderItem->create($data);
+
+        foreach ($billItems['get_order_items'] as $item) {
+            $issetServiceBooking = $this->orderItem->findItemWithStylistIdServiceId($item['stylist_id'], $item['service_product_id']);
+
+            if (count($issetServiceBooking) == 0) {
+                try {
+                    $item['order_booking_id'] = $request->order_booking_id;
+                    $serviceBooking = $this->orderItem->create($item);
+                    $response['status'] = 201;
+                    $response['data'] = $this->orderBooking->find($request->order_booking_id, ['getOrderItems']);
+                    $response['message'] = __('Create Service successfully!');
+                } catch (Exception $e) {
+                    $response['status'] = 403;
+                    $response['error'] = true;
+                    $response['message'] = "Add Service Failed !";
+                }
+
+            } else {
+                try {
+                    $issetServiceBooking['qty'] = $item['qty'];
+                    $issetServiceBooking = $issetServiceBooking->save();
+                    $response['status'] = 200;
+                    $response['message'] = __('Update Service successfully!');
+                } catch (Exception $e) {
+                    $response['status'] = 403;
+                    $response['error'] = true;
+                    $response['message'] = "Update Service Failed !";
+                }
             }
-            $response['status'] = 201;
-            $response['data'] = $this->orderBooking->find($request->order_booking_id, ['getOrderItems']);
-            $response['message'][] = __('Create Service successfully!');
-        } catch (Exception $e) {
-            $response['status'] = 403;
-            $response['error'] = true;
-            $response['message'] = "Add Service Failed !";
         }
+                
 
 
         return Response::json($response, $response['status']);
@@ -508,7 +525,7 @@ class OrderBookingController extends Controller
         $billItems = json_decode($request->bill_items, true);
 
         try {
-            foreach ($billItems as $billItem) {
+            foreach ($$billItems['get_order_items'] as $billItem) {
                 $billItem['order_booking_id'] = $request->order_booking_id;
                 $serviceBooking = $this->orderItem->find($billItem['id'], []);
                 $serviceBooking = $serviceBooking->update($billItem);
@@ -561,7 +578,7 @@ class OrderBookingController extends Controller
         try {
             $listServiceBooking = $this->orderBooking->find($order_booking_id, ['getOrderItems']);
             foreach ($listServiceBooking->getOrderItems as $orderItem) {
-                $orderItem->stylist = $this->orderItem->find($orderItem->id, ['getStylist'])->getStylist;
+                $orderItem->stylist_name = $this->orderItem->find($orderItem->id, ['getStylist'])->getStylist->name;
                 $orderItem->service = $this->orderItem->find($orderItem->id, ['getServiceProduct'])->getServiceProduct;
             }
             $response['status'] = 200;

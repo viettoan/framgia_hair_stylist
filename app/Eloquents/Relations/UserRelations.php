@@ -9,6 +9,7 @@ use App\Eloquents\Department;
 use App\Eloquents\Bill;
 use App\Eloquents\BillItem;
 use App\Eloquents\LogStatus;
+use App\Eloquents\OrderItem;
 
 trait UserRelations
 {
@@ -55,5 +56,10 @@ trait UserRelations
     public function getLogStatus()
     {
         return hasMany(LogStatus::class);
+    }
+
+    public function getOrderItems()
+    {
+        return hasMany(OrderItem::class, 'stylist_id');
     }
 }
