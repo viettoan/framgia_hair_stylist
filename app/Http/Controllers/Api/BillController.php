@@ -208,8 +208,7 @@ class BillController extends Controller
         DB::beginTransaction();
         try {
             $dataBill = $request->all();
-            $billItems = json_decode($request->bill_items, true);
-            $dataBill['service_total'] = count($billItems);
+            $dataBill['status'] = Bill::STATUS_COMPLETE;
             if (!$request->customer_id) {
                 $dataBill['customer_id'] = $customer_id;
             }
@@ -223,12 +222,6 @@ class BillController extends Controller
                 $orderBooking->save();
             }
             // End
-
-            // Create Bill Item
-            foreach ($billItems as $billItem) {
-                $billItem['bill_id'] = $bill->id;
-                $this->billItem->create($billItem);
-            }
             $response['error'] = false;
             $response['status'] = 200;
             $response['data'] = $this->bill->find($bill->id, ['BillItems', 'BillItems.ServiceProduct', 'BillItems.Stylist', 'Department']);
@@ -435,7 +428,7 @@ class BillController extends Controller
             $date_filter = $currentDate->format('Y-m-d');
 
             $data['list_bill'] = $this->bill
-                ->getFilterBillByDate($date_filter, $filter, ['*'], ['BillItems', 'BillItems.ServiceProduct', 'BillItems.Stylist', 'Department']);
+                ->getFilterBillByDate($date_filter, $filter, ['*'], ['Department', 'getOrderBooking.getOrderItems']);
             $responseData[] = $data;
             $currentDate->addDay(1);
             // dd($responseData);

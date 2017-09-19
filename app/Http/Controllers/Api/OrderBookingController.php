@@ -308,7 +308,12 @@ class OrderBookingController extends Controller
         $booking->render_booking = $this->renderBooking->find($booking->render_booking_id);
         $booking->department = $this->department->find($booking->render_booking->department_id);
         $booking->stylist = $this->user->find($booking->stylist_id);
-
+        $booking->order_items = $this->orderBooking->find($booking->id, ['getOrderItems'])->getOrderItems;
+        $booking->grand_total = $this->orderItem->getGrandTotal($booking->id);
+        foreach ($booking->order_items as $orderItem) {
+                $orderItem->stylist = $this->orderItem->find($orderItem->id, ['getStylist'])->getStylist;
+                $orderItem->service = $this->orderItem->find($orderItem->id, ['getServiceProduct'])->getServiceProduct;
+            }  
         $response['data'] = $booking;
 
         return Response::json($response);

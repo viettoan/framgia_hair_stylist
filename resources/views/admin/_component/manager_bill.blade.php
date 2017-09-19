@@ -70,9 +70,9 @@
                 <div class="box">
                     <div class="box-header">
                         <input type="text" id="Myinput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name"> 
-                        <button class="col-md-offset-1 btn btn-success" v-on:click="listBooking">
+                        <button class="col-md-offset-1 btn btn-success" v-on:click="addBill">
                             <i class="fa fa-plus" aria-hidden="true"></i>
-                            {{ __('List Booking') }}
+                            {{ __('Create Bill') }}
                         </button>
                     </div>
                     <div class="panel panel-default" v-for="item in listBill">
@@ -119,9 +119,6 @@
                                                 </span>
                                             </td>
                                             <td>
-                                                <a href="javascript:void(0)" v-on:click="editBill(list)">
-                                                    <i aria-hidden="true" class="fa fa-pencil-square-o"></i>
-                                                </a>
                                                 <a href="javascript:void(0)" v-on:click="exportshowBill(list)"><i class="fa fa-external-link-square" aria-hidden="true"></i></a>
                                             </td>
                                         </tr>
@@ -134,33 +131,6 @@
             </div>
         </div>
     </section>
-    <!-- show list booking -->
-    <div class="modal fade" id="showListBooking" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title" id="myModalLabel">{{ __('List Booking') }}</h4>
-                </div>
-                <div class="modal-body">
-                    <table class="table table-bordered table-striped" id="MyTable">
-                        <thead>
-                            <tr >
-                                <th class="text-center">{{ __('Name') }}</th>
-                                <th class="text-center">{{ __('Phone') }}</th>
-                                <th class="text-center">{{ __('Time Start') }}</th>
-                                <th class="text-center">{{ __('Action') }}</th>
-                            </tr>   
-                        </thead>
-                        <tbody>
-                           
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="modal fade" id="showBill" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -169,7 +139,7 @@
                     <h4 class="modal-title" id="myModalLabel">{{ __('Create Bill') }}</h4>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" enctype="multipart/form-data" v-on:submit.prevent="createItem" class="form-horizontal">
+                    <form method="POST" enctype="multipart/form-data" v-on:submit.prevent="" class="form-horizontal">
                         <div class="form-group">
                             <div class="col-sm-6">
                                 <label for="name" class="label_bill ">{{ __('Phone Customer') }}</label>
@@ -184,31 +154,17 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-sm-6">
-                                <label for="name" class="label_bill">{{ __('Department') }}</label>
-                                <select  class="form-control" v-model="bill.department_id" v-on:change="changeDeparment">
-                                    <option value=""></option>
-                                    <option v-bind:value="department.id" v-for="department in departments">
-                                        @{{ department.name }}
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="col-sm-6">
-                                <label for="name" class="label_bill">{{ __('Status') }}</label>
-                                <select  class="form-control" v-model="bill.status">
-                                    <option value="0">{{ __('Waitting') }}</option>
-                                    <option value="1">{{ __('Complete') }}</option>
-                                    <option value="2">{{ __('Cancel') }}</option>
-                                    <option value="3">{{ __('Progress ') }}</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
                             <div class="col-sm-12">
                                 <label for="name" class="text-center label_bill">
                                     {{ __('Infor Booking') }}
                                 </label>
+                                <span v-if="booking.status == 0" class="label label-danger">Cancel</span>
+                                <span v-if="booking.status == 1" class="label label-default">Pending</span>
+                                <span v-if="booking.status == 2" class="label label-success">Complete</span>
+                                <span v-if="booking.status == 4" class="label label-primary">InProgress</span>
+                                <span v-if="booking.status == 3" class="label label-warning">Inlate</span>
                                 <div v-if="booking.id">
+                                    
                                     <div class="col-sm-4">
                                         <p>Department: @{{ booking.department.name }}</p>
                                         <p>Address: @{{ booking.department.address }}</p>
@@ -219,7 +175,7 @@
                                     </div>
                                     <div class="col-sm-4">
                                         <p>Stylist: @{{ booking.stylist.name }}</p>
-                                        <p>Phone: @{{ booking.stylist.phone }}</p>
+                                        <p>Stylist Phone: @{{ booking.stylist.phone }}</p>
                                     </div>
                                 </div>
                                 <div v-if="!booking.id">
@@ -228,43 +184,6 @@
                                     </div>
                                 </div>
                             </div>  
-                        </div>
-                        <div class="form-group col-md-12 ">
-                            <div class="col-sm-3">
-                                <label>{{ __('Service') }}</label>
-                                <select  class="form-control" v-model="billItem.service_product_id" v-on:change="select_service">
-                                    <option value=""></option>
-                                    <option v-bind:value="service.id" v-for="service in services">
-                                        @{{ service.name }}
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="col-sm-3">
-                                <label>{{ __('Stylist') }}</label>
-                                 <select  class="form-control" v-model="billItem.stylist_id" v-on:change="select_stylist">
-                                    <option value=""></option>
-                                    <option v-bind:value="stylist.id" v-for="stylist in stylists">
-                                        @{{ stylist.name }}
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="col-sm-2 ">
-                                <label >{{ __('Price') }}</label>
-                                <input type="text" disabled readonly v-bind:value="billItem.price" class="form-control"/>
-                            </div>
-                            <div class="col-sm-2">
-                                <label >{{ __('Qty') }}</label>
-                                <input type="number" v-model="billItem.qty" value="1" class="form-control"/>
-                            </div>
-                            <div class="col-sm-2">
-                                <label >{{ __('Qty') }}</label>
-                                <a class="btn btn-success" v-on:click="addService" v-if="!isEditBillItem.status">
-                                    {{__('Add Service') }}
-                                </a>
-                                <a class="btn btn-warning" v-on:click="submitEditBillItem(isEditBillItem.index)" v-else>
-                                    {{__('Update Service') }}
-                                </a>
-                            </div>
                         </div>
                         <div class="col-sm-12">
                             <table class="table table-striped">
@@ -275,28 +194,18 @@
                                         <th>{{ __('Stylist Name') }}</th>
                                         <th>{{ __('Price') }}</th>
                                         <th>{{ __('Qty') }}</th>
-                                        <th>{{ __('Row Total') }}</th>
-                                        <th>{{ __('Action') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr id ="list_service" v-for="(billItem, keyObject) in billItems" v-bind:class="{'label-warning': isEditBillItem.status && isEditBillItem.index == keyObject}">
+                                    <tr id ="list_service" v-for="(order_item, keyObject) in booking.order_items" v-bind:class="{'label-warning': isEditBillItem.status && isEditBillItem.index == keyObject}">
                                         <td>@{{ keyObject + 1 }}</td>
-                                        <td>@{{ billItem.service_name }}</td>
-                                        <td>@{{ billItem.stylist_name }}</td>
-                                        <td>@{{ billItem.price }} VND</td>
-                                        <td>@{{ billItem.qty }}</td>
-                                        <td>@{{ billItem.row_total }} VND</td>
-                                        <td> <a href="javascript:void(0)" v-on:click="editBillItem(keyObject)">
-                                        <i aria-hidden="true" class="fa fa-pencil-square-o"></i>
-                                    </a>
-                                    <a href="javascript:void(0)" v-on:click="deleteBillItem(keyObject)">
-                                        <i class="fa fa-fw  fa-close get-color-icon-delete"></i>
-                                    </a></td>
+                                        <td>@{{ order_item.service_name }}</td>
+                                        <td>@{{ order_item.stylist.name }}</td>
+                                        <td>@{{ order_item.price }} VND</td>
+                                        <td>@{{ order_item.qty }}</td>    
                                     </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
+                                    <tr v-for="order_item in booking.order_items">
+                                        <td ></td>
                                         <td></td>
                                         <td></td>
                                         <td>{{ __('Grand Total : ') }}</td>
@@ -306,21 +215,9 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="col-md-12">
-                            <div class="col-md-2 col-md-offset-6"><b><ins>{{ __("CASH IN : ") }}</ins></b></div>
-                            <div class="col-md-2 col-md-offset-1"><input type="" name=""></div>
-                        </div>
-                        <div class="col-md-12"></div>
-                        <div class="col-md-12">
-                            <div class="col-md-2 col-md-offset-6"><b><ins>{{ __("CASH BACK : ") }}</ins></b></div>
-                            <div class="col-md-2 col-md-offset-1"><input disabled="disabled" readonly="readonly" type="" name=""></div>
-                        </div>
                         <div class="form-group text-center">
-                            <button class="btn btn-success" v-on:click="createBill" v-if="!bill.id">
+                            <button class="btn btn-success" :disabled="booking.status != 4" v-on:click="createBill" v-if="!bill.id">
                                 <i class="fa fa-plus" aria-hidden="true"></i> {{ __('Create Bill') }}
-                            </button>
-                            <button class="btn btn-warning" v-on:click="createBill" v-else>
-                                <i class="fa fa-plus" aria-hidden="true"></i> {{ __('Update Bill') }}
                             </button>
                         </div>
                     </form>
@@ -369,7 +266,7 @@
                                             <tr v-for="export_bill in exportBill.exportBill_item" >
                                                 <td class="col-md-4">@{{export_bill.service_name}}</td>
                                                 <td class="col-md-4">@{{export_bill.qty}}</td>
-                                                <td class="col-md-4">@{{export_bill.row_total}}</td>
+                                                <td class="col-md-4">@{{export_bill.price}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
