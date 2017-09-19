@@ -22,12 +22,27 @@ var manage_service = new Vue({
         departments: [],
         stylists:[],
         services:[],
-        bill: {'customer_id': '', 'phone': '', 'status': 0, 'customer_name': '', 
-            'order_booking_id': '', 'grand_total': 0, 'department_id': '', 'bill_items': []},
-        changer_status_booking:{'id': '', 'status': '', 'message': ''},
+        listSevice: [],
+        listBill: [],
+        bill: {'customer_id': '',
+                'phone': '', 
+                'status': 0,
+                'customer_name': '',
+                'order_booking_id': '',
+                'order_id': '',
+                'grand_total': 0,
+                'service_name': '',
+                'department_id': '',
+                'stylist_id': '',
+                'price': '',
+                'service_product_id': '',
+                'bill_items': []
+            },
+        changer_status_booking:{'id': '', 'status': ''},
         billItem: {'qty': 1, 'price': '', 'stylist_id': '', 'service_product_id': ''},
         isEditBillItem: {'status': false, 'index' : ''},
         billItems: [],
+        orderItems: [],
         billSuccess: {},
         formErrorsUpdate: {},
         newItem: {},
@@ -50,10 +65,32 @@ var manage_service = new Vue({
         this.start_date = curentDay;
         this.end_date = curentDay;
         this.showDepartment();
+        this.selectDepartment();
         this.getBooking();
     },
 
     methods: {
+        resetData: function() {
+            this.bill = {'customer_id': '',
+                'phone': '', 
+                'status': 0,
+                'customer_name': '',
+                'order_booking_id': '',
+                'order_id': '',
+                'grand_total': 0,
+                'service_name': '',
+                'department_id': '',
+                'stylist_id': '',
+                'price': '',
+                'service_product_id': '',
+                'bill_items': []
+            },
+            this.billItems = [];
+
+            this.billItem = {'qty': 1, 'price': '', 'stylist_id': '', 'service_product_id': ''};
+            this.booking = {};
+            this.isEditBillItem = {'status': false, 'index' : ''};
+        },
         showBooking: function() {
             $('#showBooking').modal('show');
         },
@@ -106,9 +143,8 @@ var manage_service = new Vue({
                 $('.list-booking-indicator').addClass('hide');
             });
         },
-
+ 
         changer_status(item){
-            console.log(this.$set(this, 'status', item.status));
             this.changer_status_booking.status = item.status;
             this.changer_status_booking.id = item.id;
             this.changer_status_booking.message = item.message;
@@ -186,11 +222,12 @@ var manage_service = new Vue({
             })
         },
 
-        selectDepartment: function(event) {
-            this.params.department_id = event.target.value;
+        selectDepartment: function() {
+            this.params.department_id = this.bill.department_id;
             this.getBooking();
         },
         addService: function(){
+
             var error = false;
             if (!this.billItem.stylist_id) {
                 toastr.error('Please select stylist!', '', {timeOut: 5000});
@@ -207,8 +244,8 @@ var manage_service = new Vue({
             if (error) return;
 
             var issetBillItem = false;
-            for (var i = this.billItems.length - 1; i >= 0; i--) {
-                var tmpBill = this.billItems[i];
+            for (var i = this.orderItems.get_order_items.length - 1; i >= 0; i--) {
+                var tmpBill = this.orderItems.get_order_items[i];
                 if (tmpBill.service_product_id == this.billItem.service_product_id
                     && tmpBill.stylist_id == this.billItem.stylist_id
                 ) {
@@ -221,9 +258,12 @@ var manage_service = new Vue({
             if (!issetBillItem) {
                 this.billItem.qty = parseInt(this.billItem.qty);
                 this.billItem.row_total = this.billItem.price * parseInt(this.billItem.qty);
-                this.billItems.push(this.billItem);
+                this.orderItems.get_order_items.push(this.billItem);
             }
             
+            this.billItem = {'qty': 1, 'price': '', 'stylist_id': '', 'service_product_id': ''};
+            this.grand_total();
+
             this.billItem = {'qty': 1, 'price': '', 'stylist_id': '', 'service_product_id': ''};
             this.grand_total();
         },
@@ -239,9 +279,6 @@ var manage_service = new Vue({
             axios.get('/api/v0/department').then(response => {
                 this.$set(this, 'departments', response.data.data);
             });
-        },
-        changeDeparment: function(){
-            this.showStylist();
         },
         showStylist: function(page) {
             var authOptions = {
@@ -305,13 +342,17 @@ var manage_service = new Vue({
                     break;
                 }
             }
+            this.bill.service_product_id = service_id;
+            this.bill.service_name = service.name;
+            this.bill.price = service.price;
             this.billItem.price = service.price;
             this.billItem.service_name = service.name;
         },
         select_stylist: function(event){
             var stylist_id = event.target.value;
-            
+            this.bill.stylist_id = stylist_id;
             this.billItem.stylist_name = this.getNameStylist(stylist_id);
+            this.billItem.service_id = stylist_id;
         },
         editBillItem: function(key) {
             if (this.isEditBillItem.status) {
@@ -320,15 +361,15 @@ var manage_service = new Vue({
             }
 
             this.isEditBillItem = {'status': true, 'index': key};
-            this.billItem = this.billItems[key];
+            this.orderItems.get_order_items = this.billItems[key];
         },
         submitEditBillItem: function(key) {
             this.isEditBillItem = {'status': false, 'index': ''};
 
             var issetBillItem = false;
-            for (var i = this.billItems.length - 1; i >= 0; i--) {
+            for (var i = this.orderItems.length - 1; i >= 0; i--) {
                 if (i == key) continue;
-                var tmpBill = this.billItems[i];
+                var tmpBill = this.orderItems.get_order_items[i];
                 if (tmpBill.service_product_id == this.billItem.service_product_id
                     && tmpBill.stylist_id == this.billItem.stylist_id
                 ) {
@@ -348,10 +389,25 @@ var manage_service = new Vue({
             this.billItem = {'qty': 1, 'price': '', 'stylist_id': '', 'service_product_id': ''};
             this.grand_total();
         },
-        deleteBillItem: function(key) {
+        deleteBillItem: function(key, id) {
             if (!confirm('Do you want to delete this service!')) return;
-            this.billItems.splice(key, 1);
-            this.grand_total();
+            var order_item_id = id;
+            var authOptions = {
+                method: 'DELETE',
+                url: '/api/v0/add-booking-service/' + order_item_id,
+                headers: {
+                    'Authorization': "Bearer " + this.token.access_token,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                json: true
+            }
+            axios(authOptions).then(response => {
+                this.getListBill(this.booking.id);
+                toastr.error(response.data.message, '', {timeOut: 5000});
+            }).catch((error) => {
+                this.orderItems.get_order_items.splice(key, 1);
+                toastr.error(response.data.message, '', {timeOut: 5000});
+            });
         },
 
         bookingDetail: function(phone) {
@@ -374,11 +430,75 @@ var manage_service = new Vue({
                 this.bill.department_id = response.data.data.department.id;
                 this.booking = response.data.data;
                 this.bill.order_booking_id = this.booking.id;
+                this.bill.order_id = this.booking.id;
                 this.formErrors.phone = '';
-                $('#bookingDetailUI').modal('show');
-            }).catch((error) => {
-               
+                this.getListBill(this.booking.id);
+                $('#showBill').modal('show');
+                this.showStylist();
+            }).catch((error) => {   
             });
+        },
+        createBill: function(event){
+            if (this.orderItems.get_order_items.length == 0) {
+                toastr.error('Please add at least one service!', '', {timeOut: 5000});
+                return;
+            }
+
+            if (this.isEditBillItem.status) {
+                toastr.error('Please update service is editing!', '', {timeOut: 5000});
+                return;
+            }
+
+            this.bill.bill_items = JSON.stringify(this.orderItems);
+            var authOptions = {
+                method: 'POST',
+                url: '/api/v0/add-booking-service',
+                params: this.bill,
+                headers: {
+                    'Authorization': "Bearer " + this.token.access_token,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                json: true
+            }
+
+            axios(authOptions).then(response => {
+                this.billSuccess = response.data.data;
+                toastr.success(response.data.message, '', {timeOut: 5000});
+                this.resetData();
+                $('#showBill').modal('hide');
+            }).catch((error) => {
+                for (key in error.response.data.message) {
+                    toastr.error(error.response.data.message[key], '', {timeOut: 5000});
+                }
+            });
+        },
+        getListBill: function(order_booking_id) {
+            var authOptions = {
+                method: 'get',
+                url: '/api/v0/show-booking-service/' + order_booking_id,
+                headers: {
+                    'Authorization': "Bearer " + this.token.access_token,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                json: true
+            }
+            axios(authOptions).then(response => {
+               console.log(this.$set(this, 'orderItems', response.data.data));
+               this.grand_total();
+            })
+        },
+        editBill: function(bill) {
+            this.bill = bill;
+            this.billItems = bill.bill_items;
+            for (var i = this.billItems.length - 1; i >= 0; i--) {
+                this.billItems[i].qty = parseInt(this.billItems[i].qty);
+                this.billItems[i].stylist_name = this.billItems[i].stylist.name;
+                if (!this.billItems[i].service_name) {
+                    this.billItems[i].service_name = this.billItems[i].service_product.name;
+                }
+            }
+            this.showStylist();
+            $('#showBill').modal('show');
         }
     }
 });

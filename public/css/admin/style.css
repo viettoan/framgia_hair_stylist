@@ -13,6 +13,10 @@
     color:black;
 }
 
+#list_service {
+    margin-top: 10px;
+}
+
 #bar-chart {
   width: 450px;
   height: 300px;

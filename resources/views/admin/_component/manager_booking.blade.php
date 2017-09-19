@@ -3,7 +3,7 @@
     {{ Html::style('bower/AdminLTE/plugins/datatables/dataTables.bootstrap.css') }}
     {{ Html::style('css/admin/style.css') }}
 @endsection
-
+    
 @section('content')
     <div class="content-wrapper ">
     <section class="content-header">
@@ -207,15 +207,19 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal fade" id="bookingDetailUI" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal fade" id="showBill" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                         <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                                    <h4 class="modal-title" id="myModalLabel">{{ __('Detail Booking') }}</h4>
-                                </div>
                                 <div class="modal-body">
-                                    <form method="POST" enctype="multipart/form-data" v-on:submit.prevent="createItem" class="form-horizontal">
+                                   <ul class="nav nav-tabs">
+                                   <li class="active"><a data-toggle="tab" href="#home">{{ __('Detail Booking') }}</a>
+                                   </li>
+                                      <li><a data-toggle="tab" href="#menu1">{{ __('List Service') }}</a></li>
+                                  </ul>
+
+                                  <div class="tab-content">
+                                    <div id="home" class="tab-pane fade in active">
+                                        <form method="POST" enctype="multipart/form-data" v-on:submit.prevent="createItem" class="form-horizontal">
                                     <div class="form-group">
                                         <div class="col-md-2">
                                             <label for="name" class="text-center label_bill">
@@ -403,8 +407,8 @@
                                                     </strong>
                                                 </label>
                                             </div>
-
                                             <div class="col-md-10 flexbox-annotated-section-content"  v-if="booking.id">
+                                            <div v-if="booking.status == 1 || booking.status == 3 || booking.status == 4">
                                                 <div class="col-sm-3">
                                                     <label>{{ __('Service') }}</label>
                                                     <select  class="form-control" v-model="billItem.service_product_id" v-on:change="select_service">
@@ -440,6 +444,8 @@
                                                         {{__('Update Service') }}
                                                     </a>
                                                 </div>
+                                            </div>
+                                                
                                             <div class="col-sm-12">
                                                 <table class="table table-striped">
                                                     <thead>
@@ -449,22 +455,21 @@
                                                             <th>{{ __('Stylist Name') }}</th>
                                                             <th>{{ __('Price') }}</th>
                                                             <th>{{ __('Qty') }}</th>
-                                                            <th>{{ __('Row Total') }}</th>
+                                                            {{-- <th>{{ __('Row Total') }}</th> --}}
                                                             <th>{{ __('Action') }}</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr id ="list_service" v-for="(billItem, keyObject) in billItems" v-bind:class="{'label-warning': isEditBillItem.status && isEditBillItem.index == keyObject}">
+                                                        <tr id ="list_service" v-for="(billItem, keyObject) in orderItems.get_order_items" v-bind:class="{'label-warning': isEditBillItem.status && isEditBillItem.index == keyObject}">
                                                             <td>@{{ keyObject + 1 }}</td>
                                                             <td>@{{ billItem.service_name }}</td>
                                                             <td>@{{ billItem.stylist_name }}</td>
                                                             <td>@{{ billItem.price }} VND</td>
                                                             <td>@{{ billItem.qty }}</td>
-                                                            <td>@{{ billItem.row_total }} VND</td>
                                                             <td> <a href="javascript:void(0)" v-on:click="editBillItem(keyObject)">
                                                                 <i aria-hidden="true" class="fa fa-pencil-square-o"></i>
                                                             </a>
-                                                            <a href="javascript:void(0)" v-on:click="deleteBillItem(keyObject)">
+                                                            <a href="javascript:void(0)" v-on:click="deleteBillItem(keyObject, billItem.id)">
                                                                 <i class="fa fa-fw  fa-close get-color-icon-delete"></i>
                                                             </a></td>
                                                         </tr>
@@ -473,8 +478,8 @@
                                                             <td></td>
                                                             <td></td>
                                                             <td></td>
-                                                            <td>{{ __('Grand Total : ') }}</td>
-                                                            <td>@{{ bill.grand_total }} VND</td>
+                                                           {{--  <td>{{ __('Grand Total : ') }}</td>
+                                                            <td>@{{ bill.grand_total }} VND</td> --}}
                                                             <td></td>
                                                         </tr>
                                                     </tbody>
@@ -491,6 +496,41 @@
                                             </div>
                                         </div>
                                     </form>
+                                    </div>
+                                        <div id="menu1" class="tab-pane fade">
+                                            <div id="list_service">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                        <tr class="info">
+                                                            <th>{{ __('Service Name') }}</th>
+                                                            <th>{{ __('Stylist Name') }}</th>
+                                                            <th>{{ __('Price') }}</th>
+                                                            <th>{{ __('Qty') }}</th>
+                                                            <th>{{ __('Row Total') }}</th>
+                                                            <th>{{ __('Action') }}</th>
+                                                        </tr>
+                                                    </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>John</td>
+                                                        <td>Doe</td>
+                                                        <td>john@example.com</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Mary</td>
+                                                        <td>Moe</td>
+                                                        <td>mary@example.com</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>July</td>
+                                                        <td>Dooley</td>
+                                                        <td>july@example.com</td>
+                                                    </tr>
+                                                </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
