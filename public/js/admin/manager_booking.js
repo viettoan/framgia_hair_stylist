@@ -7,15 +7,7 @@ var manage_service = new Vue({
         users: {},
         token: {},
         items: [],
-        pagination: {
-            total: 0,
-            per_page: 2,
-            from: 1,
-            to: 0,
-            current_page: 1
-        },
         show_input: {},
-        offset: 4,
         formErrors: {},
         showDepartments:{},
         booking: {},
@@ -53,6 +45,7 @@ var manage_service = new Vue({
         status: '',
     },
     mounted : function(){
+        this.showDepartment();
         this.show_input.start = false;
         this.show_input.end = false;
         this.users = Vue.ls.get('user', {});
@@ -65,7 +58,6 @@ var manage_service = new Vue({
         var curentDay = new Date().toISOString().slice(0, 10);
         this.start_date = curentDay;
         this.end_date = curentDay;
-        this.showDepartment();
         this.selectDepartment();
         this.getBooking();
     },
@@ -219,10 +211,10 @@ var manage_service = new Vue({
         },
         showDepartment: function(page) {
             axios.get('/api/v0/department').then(response => {
+                console.log(response.data.data);
                 this.$set(this, 'showDepartments', response.data.data);
             })
         },
-
         selectDepartment: function() {
             this.params.department_id = this.bill.department_id;
             this.getBooking();
@@ -411,9 +403,10 @@ var manage_service = new Vue({
             });
         },
 
-        bookingDetail: function(phone) {
+        bookingDetail: function(list) {
             this.showService();
-            var ok = phone;
+            this.status = list.status
+            var ok = list.phone;
             var self = this;
             var authOptions = {
                 method: 'GET',

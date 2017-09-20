@@ -47,8 +47,8 @@
                             <select  class="form-control select-multi-status" id="sel1" v-on:change="selectStatus" multiple>
                                 <option value="0">{{ __('Cancel') }}</option>
                                 <option value="1">{{ __('Wating') }}</option>
-                                <option value="3">{{ __('Inlate') }}</option>
                                 <option value="2">{{ __('Complete') }}</option>
+                                <option value="3">{{ __('Inlate') }}</option>
                                 <option value="4">{{ __('Inprogress') }}</option>
                             </select>
                         </div>
@@ -129,8 +129,7 @@
                                             </td>
                                             <td>
                                                 <a href="javascript:void(0)" v-on:click="changer_status(list)"> <i aria-hidden="true" class="fa fa-pencil-square-o"></i></a>
-                                                <a href="javascript:void(0)" v-on:click="bookingDetail(list.phone)"> <i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                <a href="javascript:void(0)" v-on:click="showLogStatus(list.id)"> <i class="fa fa-bars" aria-hidden="true"></i></a>
+                                                <a href="javascript:void(0)" v-on:click="bookingDetail(list)"> <i class="fa fa-eye" aria-hidden="true"></i></a>
                                             </td>
                                         </tr>  
                                     </tbody>
@@ -191,18 +190,18 @@
                                             <select  class="form-control select-multi-status" id="sel1" v-if="status == 0" v-model="changer_status_booking.status" disabled="disabled">
                                                 <option v-bind:value="0">{{ __('Cancel') }}</option>
                                                 <option v-bind:value="1">{{ __('Waiting') }}</option>
+                                                <option v-bind:value="2">{{ __('Complete') }}</option>
                                                 <option v-bind:value="3">{{ __('Inlate') }}</option>
                                                 <option v-bind:value="4">{{ __('Inprogress') }}</option>
-                                                <option v-bind:value="2">{{ __('Complete') }}</option>
                                             </select>
 
                                             <!-- if status is Complete -->
                                              <select  class="form-control select-multi-status" id="sel1" v-if="status == 2" v-model="changer_status_booking.status" disabled="disabled">
                                                 <option v-bind:value="0">{{ __('Cancel') }}</option>
                                                 <option v-bind:value="1">{{ __('Waiting') }}</option>
+                                                <option v-bind:value="2">{{ __('Complete') }}</option>
                                                 <option v-bind:value="3">{{ __('Inlate') }}</option>
                                                 <option v-bind:value="4">{{ __('Inprogress') }}</option>
-                                                <option v-bind:value="2">{{ __('Complete') }}</option>
                                             </select>
 
                                             <!-- if status is wating -->
@@ -249,13 +248,11 @@
                     <div class="modal fade" id="showBill" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                         <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">{{ __('Booking Detail') }}</h4>
+                                </div>
                                 <div class="modal-body">
-                                   <ul class="nav nav-tabs">
-                                   <li class="active"><a data-toggle="tab" href="#home">{{ __('Detail Booking') }}</a>
-                                   </li>
-                                      <li><a data-toggle="tab" href="#menu1">{{ __('List Service') }}</a></li>
-                                  </ul>
-
                                   <div class="tab-content">
                                     <div id="home" class="tab-pane fade in active">
                                         <form method="POST" enctype="multipart/form-data" v-on:submit.prevent="createItem" class="form-horizontal">
@@ -306,31 +303,31 @@
                                                         </div>
                                                         <div class="clearfix"></div>
                                                         <div class="col-md-10">
-                                                            <div class="input-group" v-if="booking.status == 0">
+                                                            <div class="input-group" v-if="status == 0">
                                                                 <div class="input-group-addon">
                                                                 <i class="fa fa-bandcamp" aria-hidden="true"></i>
                                                                 </div>
                                                                 <input class="form-control input-md field-compulsory-before" disabled="disabled" type="text" value="Cancel">
                                                             </div>
-                                                            <div class="input-group" v-if="booking.status == 1">
+                                                            <div class="input-group" v-if="status == 1">
                                                                 <div class="input-group-addon">
                                                                 <i class="fa fa-bandcamp" aria-hidden="true"></i>
                                                                 </div>
                                                                 <input class="form-control input-md field-compulsory-before" disabled="disabled" type="text" value="Waiting">
                                                             </div>
-                                                            <div class="input-group" v-if="booking.status == 2">
+                                                            <div class="input-group" v-if="status == 2">
                                                                 <div class="input-group-addon">
                                                                 <i class="fa fa-bandcamp" aria-hidden="true"></i>
                                                                 </div>
                                                                 <input class="form-control input-md field-compulsory-before" disabled="disabled" type="text" value="Complete">
                                                             </div>
-                                                            <div class="input-group" v-if="booking.status == 3">
+                                                            <div class="input-group" v-if="status == 3">
                                                                 <div class="input-group-addon">
                                                                 <i class="fa fa-bandcamp" aria-hidden="true"></i>
                                                                 </div>
                                                                 <input class="form-control input-md field-compulsory-before" disabled="disabled" type="text" value="Inlate">
                                                             </div>
-                                                            <div class="input-group" v-if="booking.status == 4">
+                                                            <div class="input-group" v-if="status == 4">
                                                                 <div class="input-group-addon">
                                                                 <i class="fa fa-bandcamp" aria-hidden="true"></i>
                                                                 </div>
@@ -447,7 +444,7 @@
                                                 </label>
                                             </div>
                                             <div class="col-md-10 flexbox-annotated-section-content"  v-if="booking.id">
-                                            <div v-if="booking.status == 1 || booking.status == 3 || booking.status == 4">
+                                            <div v-if="status == 4">
                                                 <div class="col-sm-3">
                                                     <label>{{ __('Service') }}</label>
                                                     <select  class="form-control" v-model="billItem.service_product_id" v-on:change="select_service">
@@ -494,7 +491,6 @@
                                                             <th>{{ __('Stylist Name') }}</th>
                                                             <th>{{ __('Price') }}</th>
                                                             <th>{{ __('Qty') }}</th>
-                                                            {{-- <th>{{ __('Row Total') }}</th> --}}
                                                             <th>{{ __('Action') }}</th>
                                                         </tr>
                                                     </thead>
@@ -525,50 +521,19 @@
                                                 </table>
                                             </div>
                                             <div class="form-group text-center">
+                                            <div v-if="status == 4">
                                                 <button class="btn btn-success" v-on:click="createBill" v-if="!bill.id">
                                                 <i class="fa fa-plus" aria-hidden="true"></i> {{ __('Create') }}
                                                 </button>
                                                 <button class="btn btn-warning" v-on:click="createBill" v-else>
                                                     <i class="fa fa-plus" aria-hidden="true"></i> {{ __('Update Service') }}
                                                 </button>
+                                            </div>
                                             </div>     
                                             </div>
                                         </div>
                                     </form>
                                     </div>
-                                        <div id="menu1" class="tab-pane fade">
-                                            <div id="list_service">
-                                                <table class="table table-hover">
-                                                    <thead>
-                                                        <tr class="info">
-                                                            <th>{{ __('Service Name') }}</th>
-                                                            <th>{{ __('Stylist Name') }}</th>
-                                                            <th>{{ __('Price') }}</th>
-                                                            <th>{{ __('Qty') }}</th>
-                                                            <th>{{ __('Row Total') }}</th>
-                                                            <th>{{ __('Action') }}</th>
-                                                        </tr>
-                                                    </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>John</td>
-                                                        <td>Doe</td>
-                                                        <td>john@example.com</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Mary</td>
-                                                        <td>Moe</td>
-                                                        <td>mary@example.com</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>July</td>
-                                                        <td>Dooley</td>
-                                                        <td>july@example.com</td>
-                                                    </tr>
-                                                </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
