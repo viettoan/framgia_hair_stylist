@@ -603,7 +603,7 @@ class OrderBookingController extends Controller
         $response = Helper::apiFormat();
 
         try {
-            $getLogStatus = $this->logStatus->getLogStatus($order_booking_id, ['getOrderBooking', 'getUser']);
+            $getLogStatus = $this->logStatus->getLogStatus($order_booking_id,['getUser']);
             $response['status'] = 200;
             $response['data'] = $getLogStatus;
         } catch (Exception $e) {

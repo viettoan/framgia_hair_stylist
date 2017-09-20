@@ -38,12 +38,13 @@ var manage_service = new Vue({
                 'service_product_id': '',
                 'bill_items': []
             },
-        changer_status_booking:{'id': '', 'status': ''},
+        changer_status_booking:{'id': '', 'status': '', 'message': ''},
         billItem: {'qty': 1, 'price': '', 'stylist_id': '', 'service_product_id': ''},
         isEditBillItem: {'status': false, 'index' : ''},
         billItems: [],
         orderItems: [],
         billSuccess: {},
+        logStatus: [],
         formErrorsUpdate: {},
         newItem: {},
         params: {},
@@ -148,7 +149,7 @@ var manage_service = new Vue({
             this.changer_status_booking.status = item.status;
             this.changer_status_booking.id = item.id;
             this.changer_status_booking.message = item.message;
-
+            this.$set(this, 'status', this.changer_status_booking.status);
             $('#update_status').modal('show');
         },
         update_status: function(id){
@@ -483,7 +484,7 @@ var manage_service = new Vue({
                 json: true
             }
             axios(authOptions).then(response => {
-               console.log(this.$set(this, 'orderItems', response.data.data));
+               this.$set(this, 'orderItems', response.data.data);
                this.grand_total();
             })
         },
@@ -499,6 +500,24 @@ var manage_service = new Vue({
             }
             this.showStylist();
             $('#showBill').modal('show');
+        },
+
+        showLogStatus: function(order_booking_id) {
+            var authOptions = {
+                method: 'get',
+                url: '/api/v0/log-status/' + order_booking_id,
+                headers: {
+                    'Authorization': "Bearer " + this.token.access_token,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                json: true
+            }
+
+            axios(authOptions).then(response => {
+                this.$set(this, 'logStatus', response.data.data);
+                $('#show_log_status').modal('show');
+            })
+            
         }
     }
 });

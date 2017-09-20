@@ -130,6 +130,7 @@
                                             <td>
                                                 <a href="javascript:void(0)" v-on:click="changer_status(list)"> <i aria-hidden="true" class="fa fa-pencil-square-o"></i></a>
                                                 <a href="javascript:void(0)" v-on:click="bookingDetail(list.phone)"> <i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                <a href="javascript:void(0)" v-on:click="showLogStatus(list.id)"> <i class="fa fa-bars" aria-hidden="true"></i></a>
                                             </td>
                                         </tr>  
                                     </tbody>
@@ -138,6 +139,42 @@
                         </div>
                         </div>
                     </div>
+                    <!-- show log status by order_booking_id -->
+                    <div class="modal fade" id="show_log_status" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">{{ __('History') }}</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>{{__('ID') }}</th>
+                                                <th>{{ __('User') }}</th>
+                                                <th>{{ __('Old Status') }}</th>
+                                                <th>{{ __('New Status') }}</th>
+                                                <th>{{ __('Message') }}</th>
+                                                <th>{{ __('Time') }}</th>
+                                            </tr>   
+                                        </thead>
+                                        <tbody>
+                                           <tr v-for="status in logStatus">
+                                                <th>@{{ status.id }}</th>
+                                                <th>@{{ status.get_user.name }}</th>
+                                                <th>@{{ status.old_status }}</th>
+                                                <th>@{{ status.new_status }}</th>
+                                                <th>@{{ status.message }}</th>
+                                                <th>@{{ status.created_at }}</th>
+                                           </tr>
+                                        </tbody>
+                                </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end show log status by order_booking_id -->
                     <div class="modal fade" id="update_status" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -148,7 +185,7 @@
                                 <div class="modal-body">
                                     <form method="POST" enctype="multipart/form-data" v-on:submit.prevent="update_status(changer_status_booking.id)">
                                         <div class="form-group row">
-                                         <label class="col-md-1">{{ __('Status') }}</label>
+                                        <label class="col-md-2">{{ __('Status') }}</label>
                                         <div class="form-group col-md-5 select_booking_manage">
                                             <!-- if status is cancel -->
                                             <select  class="form-control select-multi-status" id="sel1" v-if="status == 0" v-model="changer_status_booking.status" disabled="disabled">
@@ -188,11 +225,13 @@
                                             </select>  
                                         </div> 
                                         </div>
-                                        <div class="form-group">
-                                            <label class="col-md-1 row">{{ __('Message') }}</label>
-                                            <textarea class="col-md-8 form-control" name="message" id="message" v-model="changer_status_booking.message"></textarea>
+                                        <div class="form-group row">
+                                            <label class="col-md-2">{{ __('Message') }}</label>
+                                            <div class="col-md-9">
+                                                <textarea class=" form-control" name="message" id="message" v-model="changer_status_booking.message"></textarea>
+                                            </div>  
                                         </div>
-                                        <br>
+
                                         <div class="form-group">
                                             <button type="submit" class="btn btn-success">
                                                 <i class="fa fa-plus" aria-hidden="true"></i> {{ __('Edit') }}
