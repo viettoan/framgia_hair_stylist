@@ -507,6 +507,7 @@ var manage_service = new Vue({
             }
 
             axios(authOptions).then(response => {
+                console.log(response.data.data.length);
                 this.$set(this, 'logStatus', response.data.data);
                 $('#show_log_status').modal('show');
             })
