@@ -204,7 +204,7 @@
                                         <td>@{{ order_item.price }} VND</td>
                                         <td>@{{ order_item.qty }}</td>    
                                     </tr>
-                                    <tr v-for="order_item in booking.order_items">
+                                    <tr>
                                         <td ></td>
                                         <td></td>
                                         <td></td>
