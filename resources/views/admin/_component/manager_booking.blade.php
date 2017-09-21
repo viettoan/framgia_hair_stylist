@@ -39,6 +39,9 @@
                                 <input type="date" class="form-control" v-model="end_date" v-on:change="selectEndDay" v-if="show_input.end">
                             </div>
                         </div>
+                        <div class="form-group col-md-12">
+                            <input type="text" id="Myinput" class="form-control" onkeyup="myFunction()" placeholder="Search for names.." >
+                        </div>
                     </div>
                     <div class="col-md-4">
                         <label class="col-md-4">{{ __('Status') }}</label>
@@ -96,8 +99,9 @@
                                         <tbody>
                                            <tr v-for="list in item.list_book">
                                             <td v-bind:id="list.id">@{{ list.id }}</td>
-                                            <td>@{{ list.name }}</td>
-                                            <td><a :href="'tel:' + list.phone">@{{ list.phone }}</a></td>
+                                            <td>
+                                            <a href="javascript:void(0)" v-on:click="bookingDetail(list)">@{{ list.name }}</a></td>
+                                            <td>@{{ list.phone }}</td>
                                             <td>@{{ list.department.address }}</td>
                                             <td>@{{ list.stylist.name }}</td>
                                             <td>@{{ convertHourMinute( list.time_start) }}</td>
@@ -128,7 +132,6 @@
                                             </td>
                                             <td>
                                                 <a href="javascript:void(0)" v-on:click="changer_status(list)"> <i aria-hidden="true" class="fa fa-pencil-square-o"></i></a>
-                                                <a href="javascript:void(0)" v-on:click="bookingDetail(list)"> <i class="fa fa-eye" aria-hidden="true"></i></a>
                                                 <a href="javascript:void(0)" v-on:click="showLogStatus(list.id)"> <i class="fa fa-bars" aria-hidden="true"></i></a>
                                               </td>
                                             </td>
@@ -388,12 +391,12 @@
 
                                                     <div class="col-md-6">
                                                     <div class="col-md-2">
-                                                         <strong>{{__('Dep Address')}}</strong>:
+                                                         <strong>{{__('Address')}}</strong>:
                                                     </div>
                                                     <div class="col-md-10">
                                                         <div class="input-group">
                                                           <div class="input-group-addon">
-                                                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                                            <i class="fa fa-calendar-o" aria-hidden="true"></i>
                                                             </div>
                                                             <input class="form-control input-md field-compulsory-before" placeholder="Name" disabled="disabled" type="text" v-model="booking.department.address">
                                                         </div>
@@ -463,7 +466,7 @@
                                                 <label for="name" class="text-center label_bill">
                                                     <i class="fa fa-plus" aria-hidden="true"></i>
                                                     <strong>
-                                                        {{ __('Add Service') }}
+                                                        {{ __('Service') }}
                                                     </strong>
                                                 </label>
                                             </div>
@@ -515,7 +518,7 @@
                                                             <th>{{ __('Stylist Name') }}</th>
                                                             <th>{{ __('Price') }}</th>
                                                             <th>{{ __('Qty') }}</th>
-                                                            <th>{{ __('Action') }}</th>
+                                                            <th v-if="status == 4">{{ __('Action') }}</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -525,7 +528,7 @@
                                                             <td>@{{ billItem.stylist_name }}</td>
                                                             <td>@{{ billItem.price }} VND</td>
                                                             <td>@{{ billItem.qty }}</td>
-                                                            <td> <a href="javascript:void(0)" v-on:click="editBillItem(keyObject)">
+                                                            <td v-if="status == 4"> <a href="javascript:void(0)" v-on:click="editBillItem(keyObject)">
                                                                 <i aria-hidden="true" class="fa fa-pencil-square-o"></i>
                                                             </a>
                                                             <a href="javascript:void(0)" v-on:click="deleteBillItem(keyObject, billItem.id)">
@@ -537,8 +540,6 @@
                                                             <td></td>
                                                             <td></td>
                                                             <td></td>
-                                                           {{--  <td>{{ __('Grand Total : ') }}</td>
-                                                            <td>@{{ bill.grand_total }} VND</td> --}}
                                                             <td></td>
                                                         </tr>
                                                     </tbody>

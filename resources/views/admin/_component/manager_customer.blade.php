@@ -122,18 +122,9 @@
                     <div class="col-md-10 col-md-offset-1 border_bill col-xs-10 col-xs-offset-1">
                     <div v-if="showBillDetails.booking">
                         <div v-for="image in showBillDetails.booking.images">
-                            <img v-bind:src="asset('image.path_origin')" id="bill_image">
+                        <img v-bind:src="'/'+image.path_origin" alt="" id="bill_image"/>
                         </div>
                     </div>
-                        {{-- <div class="col-md-4">
-                            <a class="image-item" href="{{ asset('images/1.jpg')}}" target="blank" ><img src="{{ asset('images/1.jpg')}}" class="img-thumbnail img-responsive"></a>
-                        </div>
-                        <div class="col-md-4 test-xxx">
-                            <a class="image-item" href="{{ asset('images/1.jpg')}}" target="blank" ><img src="{{ asset('images/1.jpg')}}" class="img-thumbnail img-responsive"></a>
-                        </div>
-                        <div class="col-md-4">
-                            <a class="image-item" href="{{ asset('images/1.jpg')}}" target="blank" ><img src="{{ asset('images/1.jpg')}}" class="img-thumbnail img-responsive"></a>
-                        </div>  --}}
                     </div>
                     <br>
                     <button class="btn btn-default"  v-on:click="hideBill">
@@ -321,9 +312,6 @@
     <div class="modal fade" id="showUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                </div>
                     <div class="modal-body">
                         <div>
                             <div class="tab-content">
@@ -332,6 +320,7 @@
                                     <div class="panel-heading">
                                         <i class="fa fa-user" aria-hidden="true"></i>
                                         {{ __('Information Customer') }}
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                                     </div>
                                         <div class="panel-body">
                                             <div class="form-group col-md-4">
@@ -350,7 +339,7 @@
                                                 <div class="col-md-12">
                                                     <div class="nav-tabs-custom">
                                                     <ul class="nav nav-tabs">
-                                                        <li class="active"><a href="#activity" data-toggle="tab" aria-expanded="true"><i class="fa fa-info" aria-hidden="true"></i>{{ __('Infor') }}</a></li>
+                                                        <li class="active"><a href="#activity" data-toggle="tab" aria-expanded="true"><i class="fa fa-info" aria-hidden="true"></i> {{ __('Infor') }}</a></li>
                                                         <li class=""><a href="#timeline" data-toggle="tab" aria-expanded="false"> <i class="fa fa-list" aria-hidden="true"></i> {{ __('List Bill') }}</a></li>
                                                         <li class=""><a href="#settings" data-toggle="tab" aria-expanded="false"><i class="fa fa-file-image-o" aria-hidden="true"></i> {{ __('Image') }}</a></li>
                                                     </ul>
