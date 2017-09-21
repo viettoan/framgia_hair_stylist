@@ -21,7 +21,6 @@
           <div class="col-xs-12">
                 <div class="box-header" style="position: relative;">
                     <div class="indicator hide list-booking-indicator"></div>
-
                     <h3 class="box-title">{{ __('Manager Booking') }}</h3>
                     <div class="clearfix"></div>
                     <div class="col-md-6 well">
@@ -130,6 +129,8 @@
                                             <td>
                                                 <a href="javascript:void(0)" v-on:click="changer_status(list)"> <i aria-hidden="true" class="fa fa-pencil-square-o"></i></a>
                                                 <a href="javascript:void(0)" v-on:click="bookingDetail(list)"> <i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                <a href="javascript:void(0)" v-on:click="showLogStatus(list.id)"> <i class="fa fa-bars" aria-hidden="true"></i></a>
+                                              </td>
                                             </td>
                                         </tr>  
                                     </tbody>
@@ -147,7 +148,7 @@
                                     <h4 class="modal-title" id="myModalLabel">{{ __('History') }}</h4>
                                 </div>
                                 <div class="modal-body">
-                                    <table class="table table-bordered table-hover">
+                                    <table class="table table-bordered table-hover" v-if="logStatus.length != 0">
                                         <thead>
                                             <tr>
                                                 <th>{{__('ID') }}</th>
@@ -162,13 +163,36 @@
                                            <tr v-for="status in logStatus">
                                                 <th>@{{ status.id }}</th>
                                                 <th>@{{ status.get_user.name }}</th>
-                                                <th>@{{ status.old_status }}</th>
-                                                <th>@{{ status.new_status }}</th>
+                                                <th v-if="status.old_status == 0">
+                                                    <span class="label label-danger">{{ __('Cancer') }}</span></th>
+                                                <th v-if="status.old_status == 1">
+                                                    <span class="label label-warning">{{ __('Waiting') }}</span></th>
+                                                <th v-if="status.old_status == 2">
+                                                    <span class="label label-success">{{ __('Complete') }}</span></th>
+                                                <th v-if="status.old_status == 3">
+                                                    <span class="label label-primary">{{ __('Inlate') }}</span></th>
+                                                <th v-if="status.old_status == 4">
+                                                    <span class="label label-info">{{ __('Inprogress') }}</span></th>
+                                                <th v-if="status.new_status == 0">
+                                                    <span class="label label-danger">{{ __('Cancer') }}</span></th>
+                                                <th v-if="status.new_status == 1">
+                                                    <span class="label label-warning">{{ __('Waiting') }}
+                                                </th>
+                                                <th v-if="status.new_status == 2">
+                                                    <span class="label label-success">{{ __('Complete') }}</span>
+                                                </th>
+                                                <th v-if="status.new_status == 3">
+                                                    <span class="label label-primary">{{ __('Inlate') }}</th>
+                                                <th v-if="status.new_status == 4">
+                                                    <span class="label label-info">{{ __('Inprogress') }}</span></th>
                                                 <th>@{{ status.message }}</th>
                                                 <th>@{{ status.created_at }}</th>
                                            </tr>
                                         </tbody>
                                 </table>
+                                    <div class="alert alert-warning text-center"  v-if="logStatus.length == 0">
+                                      <strong> {{ __('No history is recorded') }}</strong>.
+                                  </div>
                                 </div>
                             </div>
                         </div>
