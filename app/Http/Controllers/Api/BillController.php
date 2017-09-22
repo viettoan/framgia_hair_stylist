@@ -262,7 +262,7 @@ class BillController extends Controller
         $bill_by_bill_id->booking = $this->orderBooking->find($bill_by_bill_id->order_booking_id, ['getOrderItems', 'Images'], ['*'] );
 
         foreach ($bill_by_bill_id->booking->getOrderItems as $item) {
-            $item['stylist_name'] = $this->user->find($item['stylist_id'], [], ['name']);
+            $item['stylist_name'] = $this->user->find($item['stylist_id'], ['name'], []);
         }
 
         $response['data'] = $bill_by_bill_id;
