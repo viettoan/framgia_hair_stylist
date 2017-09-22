@@ -424,11 +424,11 @@
                                                         <div class="timeline-item">
                                                             <div role="tabpanel" class="tab-pane" id="messages">
                                                                 <div class="modal-body row">
-                                                                    <div class="col-md-12 grid-image parent-container">
-                                                                        <a class="image-item" href="{{ asset('images/1.jpg')}}" target="blank" ><img src="{{ asset('images/1.jpg')}}" class="img-thumbnail img-responsive"></a>
-                                                                        <a class="image-item" href="{{ asset('images/2.jpg')}}" target="blank" ><img src="{{ asset('images/2.jpg')}}" class="img-thumbnail img-responsive"></a>
-                                                                        <a class="image-item" href="{{ asset('images/4.jpg')}}" target="blank" ><img src="{{ asset('images/4.jpg')}}" class="img-thumbnail img-responsive"></a>
-                                                                        <a class="image-item" href="{{ asset('images/4.jpg')}}" target="blank" ><img src="{{ asset('images/4.jpg')}}" class="img-thumbnail img-responsive"></a>
+                                                                    <div v-for="image in showImages">
+                                                                        <div v-for="ok in image.bookings.images">
+                                                                            <a class="image-item" v-bind:href="'/'+ok.path_origin" target="blank" >
+                                                                            <img v-bind:src="'/'+ok.path_origin" class="img-thumbnail img-responsive"></a>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>

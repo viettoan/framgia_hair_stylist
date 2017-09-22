@@ -474,10 +474,8 @@ class OrderBookingController extends Controller
         $response = Helper::apiFormat();
         $data = $request->all();
         $billItems = json_decode($request->bill_items, true);
-
         foreach ($billItems['get_order_items'] as $item) {
-            $issetServiceBooking = $this->orderItem->findItemWithStylistIdServiceId($item['stylist_id'], $item['service_product_id']);
-
+            $issetServiceBooking = $this->orderItem->findItemWithStylistIdServiceId($item['stylist_id'], $item['service_product_id'], $item['order_booking_id'] );
             if (count($issetServiceBooking) == 0) {
                 try {
                     $item['order_booking_id'] = $request->order_booking_id;

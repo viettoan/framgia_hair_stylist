@@ -9,6 +9,7 @@ var manage_service = new Vue({
         items: [],
         showDepartments:{},
         showBills:{},
+        showImages:{},
         showBillDetails: {},
         pagination: {
             total: 0,
@@ -85,9 +86,37 @@ var manage_service = new Vue({
             this.fillItem.email = item.email;
             this.fillItem.birthday = item.birthday;
             this.fillItem.permission = item.permission;
+            this.showImage(this.fillItem.id);
             this.showBill(item.id);
             $('#showUser').modal('show');
         },
+
+        showImage: function(customer_id) {
+            this.customer_id.customer_id = customer_id;
+            var self = this;
+            var authOptions = {
+                    method: 'GET',
+                    url: ' /api/v0/bill-by-customer-id-with-images',
+                    params: this.customer_id,
+                    headers: {
+                        'Authorization': "Bearer " + this.token.access_token,
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    json: true
+                }
+            axios(authOptions).then((response) => {
+                this.$set(this, 'showImages', response.data.data);
+                console.log(this.showImages);
+            }).catch((error) => {
+                if (error.response.status == 403) {
+                    self.formErrors = error.response.data.message;
+                    for (key in self.formErrors) {
+                        toastr.error(self.formErrors[key], '', {timeOut: 10000});
+                    }    
+                }
+            });
+        },
+
         showBill: function(id) {
             this.customer_id.customer_id = id;
             var self = this;
@@ -104,13 +133,14 @@ var manage_service = new Vue({
 
             axios(authOptions).then((response) => {
                 this.$set(this, 'showBills', response.data.data);
+                console.log(response);
             }).catch((error) => {
-                    if (error.response.status == 403) {
-                        self.formErrors = error.response.data.message;
-                        for (key in self.formErrors) {
-                            toastr.error(self.formErrors[key], '', {timeOut: 10000});
-                        }    
-                    }
+                if (error.response.status == 403) {
+                    self.formErrors = error.response.data.message;
+                    for (key in self.formErrors) {
+                        toastr.error(self.formErrors[key], '', {timeOut: 10000});
+                    }    
+                }
             });
         },
         showDepartment: function(page) {
@@ -165,13 +195,13 @@ var manage_service = new Vue({
                     toastr.success('Create Service Success', 'Success', {timeOut: 5000});
                     this.changePage(this.pagination.current_page);
             }).catch((error) => {
-                    if (error.response.status == 403) {
-                        self.formErrors = error.response.data.message;
-                        console.log(self.formErrors);
-                        for (key in self.formErrors) {
-                            toastr.error(self.formErrors[key], '', {timeOut: 10000});
-                        }    
-                    }
+                if (error.response.status == 403) {
+                    self.formErrors = error.response.data.message;
+                    console.log(self.formErrors);
+                    for (key in self.formErrors) {
+                        toastr.error(self.formErrors[key], '', {timeOut: 10000});
+                    }    
+                }
             });
         },
 
@@ -236,12 +266,12 @@ var manage_service = new Vue({
                 $("#showBill_Detail").modal("show");
                 $("#showUser").modal("hide");
             }).catch((error) => {
-                    if (error.response.status == 403) {
-                        self.formErrors = error.response.data.message;
-                        for (key in self.formErrors) {
-                            toastr.error(self.formErrors[key], '', {timeOut: 10000});
-                        }    
-                    }
+                if (error.response.status == 403) {
+                    self.formErrors = error.response.data.message;
+                    for (key in self.formErrors) {
+                        toastr.error(self.formErrors[key], '', {timeOut: 10000});
+                    }    
+                }
             });
         },
 
@@ -254,8 +284,5 @@ var manage_service = new Vue({
             this.params.page = page;
             this.showInfor(page);
         },
-
-        viewAllImages: function (id) {
-        }
     }
 });

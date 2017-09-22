@@ -31,7 +31,7 @@ var manage_service = new Vue({
                 'bill_items': []
             },
         changer_status_booking:{'id': '', 'status': '', 'message': ''},
-        billItem: {'qty': 1, 'price': '', 'stylist_id': '', 'service_product_id': ''},
+        billItem: {'qty': 1, 'price': '', 'stylist_id': '', 'service_product_id': '', 'order_booking_id': ''},
         isEditBillItem: {'status': false, 'index' : ''},
         billItems: [],
         orderItems: [],
@@ -480,6 +480,7 @@ var manage_service = new Vue({
                 this.booking = response.data.data;
                 this.bill.order_booking_id = this.booking.id;
                 this.bill.order_id = this.booking.id;
+                this.billItem.order_booking_id = this.booking.id;
                 this.formErrors.phone = '';
                 this.getListBill(this.booking.id);
                 $('#showBill').modal('show');
