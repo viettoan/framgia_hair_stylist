@@ -42,6 +42,7 @@ Route::group(['prefix' => 'v0', 'namespace' => 'Api'], function() {
     Route::get('report-sales', 'ReportController@reportSales');
     Route::get('report-bill', 'ReportController@reportBills');
     Route::get('report-customer', 'ReportController@reportCustomer');
+    Route::get('report-booking', 'ReportController@reportBooking');
 
     Route::get('get-render-by-depart-stylist', 'RenderBookingController@getRenderBooking');
     Route::post('register', 'AuthController@register');

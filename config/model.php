@@ -11,6 +11,10 @@ return [
     ],
 
     'bill' => [
-    	'number_column' => 3,
+       	'number_column' => 3,
     ],
+
+    'booking' => [
+        'number_column' => 3,
+    ]
 ];
