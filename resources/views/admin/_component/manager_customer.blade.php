@@ -74,14 +74,14 @@
                                     <thead>
                                        <tr>
                                             <th >{{__('ID : ') }}</th>
-                                            <th>@{{ showBillDetails.order_booking_id }}</th>
+                                            <th>FSL:@{{ showBillDetails.order_booking_id }}</th>
                                         </tr>
                                         <tr>
-                                            <th ><i class="fa fa-id-card-o"> : </th>
+                                           <th>{{ __('Name Customer') }}</th>
                                             <th>@{{ showBillDetails.customer_name}} - @{{ showBillDetails.phone }}</td>
                                         </tr>
                                         <tr>
-                                            <th><i class="fa fa-calendar"> : </i></th>
+                                            <th>{{ __('Date Create') }}</th>
                                             <th>@{{ showBillDetails.created_at  }}</th>
                                         </tr>
                                         <tr>
@@ -93,38 +93,37 @@
                                             <th v-if="showBillDetails.department">@{{ showBillDetails.department.name }}</th>
                                         </tr>
                                     </thead>
-                                  </table>  
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr >
-                                            <th>{{ __('Service') }}</th>
-                                            <th>{{ __('Stylist') }}</th>
-                                            <th>{{ __('Qty') }}</th>
-                                            <th>{{ __('Price') }}</th>
-                                            <th>{{ __('Row Total') }}</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="bill_item in showBillDetails.bill_items">
-                                            <td>@{{ bill_item.service_name }}</td>
-                                            <td>@{{ bill_item.stylist.name }}</td>
-                                            <td>@{{ bill_item.qty }}</td>
-                                            <td>@{{ bill_item.price }}</td>
-                                            <td>@{{ bill_item.row_total }}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                  </table>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>{{ __('Service') }}</th>
+                                                <th>{{ __('Stylist') }}</th>
+                                                <th>{{ __('Qty') }}</th>
+                                                <th>{{ __('Price') }}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody v-if="showBillDetails.booking">
+                                            <tr v-for=" ok in showBillDetails.booking.get_order_items">
+                                                <td>@{{ ok.service_name }}</td>
+                                                 <td>@{{ ok.stylist_name.name }}</td>
+                                                <td>@{{ ok.qty }}</td>
+                                                <td>@{{ ok.price }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 <br>
                             </div>
                         </div>
                     </div>
                     <hr>
                     <div class="col-md-10 col-md-offset-1 border_bill col-xs-10 col-xs-offset-1">
-                    <div v-if="showBillDetails.booking">
-                        <div v-for="image in showBillDetails.booking.images">
-                        <img v-bind:src="'/'+image.path_origin" alt="" id="bill_image"/>
+                        <div v-if="showBillDetails.booking">
+                            <div v-for="image in showBillDetails.booking.images"> 
+                                <a class="image-item" v-bind:href="'/'+image.path_origin" target="blank" >
+                                    <img v-bind:src="'/'+image.path_origin" class="img-thumbnail img-responsive"></a>
+                            </div>
                         </div>
-                    </div>
                     </div>
                     <br>
                     <button class="btn btn-default"  v-on:click="hideBill">

@@ -319,7 +319,7 @@ var Manager_bill = new Vue({
             });
         },
         createBill: function(event){
-            console.log(this.bill);
+            if (!confirm('Do you want to create this bill!')) return;
             var authOptions = {
                 method: 'POST',
                 url: '/api/v0/bill',
