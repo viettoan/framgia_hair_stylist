@@ -132,7 +132,7 @@
                                             </td>
                                             <td>
                                                 <a href="javascript:void(0)" v-on:click="changer_status(list)"> <i aria-hidden="true" class="fa fa-pencil-square-o"></i></a>
-                                                <a href="javascript:void(0)" v-on:click="bookingDetail(list.phone)"> <i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                <a href="javascript:void(0)" v-on:click="showLogStatus(list.id)"> <i class="fa fa-eye" aria-hidden="true"></i></a>
                                                 <a href="javascript:void(0)" data-toggle="modal" data-target="#chooseImg" v-on:click="showImage(list.id)"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
                                             </td>
                                         </tr>  
