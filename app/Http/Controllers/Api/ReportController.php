@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Contracts\Repositories\BillRepository;
 use App\Contracts\Repositories\BillItemRepository;
+use App\Contracts\Repositories\OrderBookingRepository;
 use App\Http\Controllers\Controller;
 use App\Eloquents\Bill;
+use App\Eloquents\OrderBooking;
 use App\Eloquents\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -17,14 +19,16 @@ use DB;
 
 class ReportController extends Controller
 {
-    protected $bill, $billItem;
+    protected $bill, $billItem, $booking;
 
     public function __construct(
         BillRepository $bill,
-        BillItemRepository $billItem
+        BillItemRepository $billItem,
+        OrderBookingRepository $booking
     ) {
         $this->bill = $bill;
         $this->billItem = $billItem;
+        $this->booking = $booking;
     }
 
     public function reportSales(Request $request)
@@ -171,6 +175,76 @@ class ReportController extends Controller
         $response['data'] = [
             'statistical' => $statistical,
             'total_bill' => $total_sales,
+        ];
+
+        return Response::json($response, $response['status']);
+    }
+
+    public function reportBooking(Request $request)
+    {
+        $response = Helper::apiFormat();
+
+        $filter_type = $request->type;//day - month - year - space //default day
+        $filter_number = (int) $request->number_column ?: config('model.booking.number_column');
+            // So ngay du lieu tra ve
+        $filter_status = $request->status; 
+
+        $statistical = [];
+        $total_booking = 0;
+        switch ($filter_type) {
+            case 'year':
+                $date_start = Carbon::createFromTimestamp((int) $request->start_date)->startOfYear();
+                $date_end = Carbon::createFromTimestamp((int) $request->end_date)->endOfYear();
+
+                while ($date_start->lte($date_end)) {
+                    $bookingCollection = $this->booking->getBookingByYear($date_start->format('Y'), $filter_status);
+
+                    $bookings = $bookingCollection->count();
+                    $total_booking += $bookings;
+                    $statistical[] = [
+                        'label' => $date_start->format('Y'),
+                        'value' => $bookings,
+                    ];
+                    $date_start->addYear(1);
+                }
+                break;
+            case 'month':
+                $date_start = Carbon::createFromTimestamp((int) $request->start_date)->startOfMonth();
+                $date_end = Carbon::createFromTimestamp((int) $request->end_date)->endOfMonth();
+                while ($date_start->lte($date_end)) {
+                    $bookingCollection = $this->booking
+                        ->getBookingByMonth($date_start->format('m'), $date_start->format('Y'), $filter_status);
+                    $bookings = $bookingCollection->count();
+                    $total_booking += $bookings;
+                    $statistical[] = [
+                        'label' => $date_start->format('m-Y'),
+                        'value' => $bookings,
+                    ];
+                    $date_start->addMonth(1);
+                }
+                break;
+            default:
+            // case 'space':
+                $date_start = Carbon::createFromTimestamp((int) $request->start_date);
+                $date_end = Carbon::createFromTimestamp((int) $request->end_date);
+                while ($date_start->lte($date_end)) {
+                    $bookingCollection = $this->booking->getBookingByDate($date_start->format('Y-m-d'), $filter_status);
+
+                    $bookings = $bookingCollection->count();
+                    $total_booking += $bookings;
+
+                    $statistical[] = [
+                        'label' => $date_start->format(config('default.format_date')),
+                        'value' => $bookings,
+                    ];
+                    $date_start->addDay(1);
+                }
+                break;
+        }
+
+        $response['data'] = [
+            'statistical' => $statistical,
+            'total_booking' => $total_booking,
         ];
 
         return Response::json($response, $response['status']);

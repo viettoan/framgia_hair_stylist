@@ -2,8 +2,8 @@
 @section('style')
     {{ Html::style('bower/AdminLTE/plugins/datatables/dataTables.bootstrap.css') }}
     {{ Html::style('css/admin/style.css') }}
+    {{ Html::style('bower/bootstrap-fileinput/css/fileinput.min.css') }}
 @endsection
-    
 @section('content')
     <div class="content-wrapper ">
     <section class="content-header">
@@ -132,8 +132,8 @@
                                             </td>
                                             <td>
                                                 <a href="javascript:void(0)" v-on:click="changer_status(list)"> <i aria-hidden="true" class="fa fa-pencil-square-o"></i></a>
-                                                <a href="javascript:void(0)" v-on:click="showLogStatus(list.id)"> <i class="fa fa-bars" aria-hidden="true"></i></a>
-                                              </td>
+                                                <a href="javascript:void(0)" v-on:click="bookingDetail(list.phone)"> <i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                <a href="javascript:void(0)" data-toggle="modal" data-target="#chooseImg" v-on:click="showImage(list.id)"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
                                             </td>
                                         </tr>  
                                     </tbody>
@@ -268,6 +268,30 @@
                                             </button>
                                         </div>
                                     </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container">
+
+                          <!-- Modal -->
+                        <div class="modal fade" id="chooseImg" role="dialog">
+                            <div class="modal-dialog">
+
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">Modal Header</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <label for="input-41">Select File</label>
+                                        <input id="input-44" name="images" type="file" multiple data-show-upload="false" data-allowed-file-extensions='["jpg", "png"]' v-on:change="executeImages">
+                                        <button type="submit" v-on:click="submitImages" class="btn btn-success">Upload</button>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -576,4 +600,9 @@
     {{ Html::script('js/admin/manager_booking.js') }}
     {{ Html::script('bower/AdminLTE/plugins/datatables/jquery.dataTables.min.js') }}
     {{ Html::script('bower/AdminLTE/plugins/datatables/dataTables.bootstrap.min.js') }}
+    {{ Html::script('bower/bootstrap-fileinput/js/fileinput.min.js') }}
+    {{ Html::script('bower/bootstrap-fileinput/js/plugins/sortable.min.js') }}
+    {{ Html::script('bower/bootstrap-fileinput/js/plugins/purify.min.js') }}
+    {{ Html::script('https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js') }}
+    {{ Html::script('js/upload.js') }}
 @endsection

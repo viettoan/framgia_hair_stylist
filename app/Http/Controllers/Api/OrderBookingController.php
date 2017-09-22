@@ -414,10 +414,9 @@ class OrderBookingController extends Controller
         $response = Helper::apiFormat();
 
         $rule = [
-            'images.*' => 'required|image',
             'order_booking_id' => 'required',
         ];
-
+        
         $validator = Validator::make($request->all(), $rule);
         if ($validator->fails()) {
             $response['error'] = true;

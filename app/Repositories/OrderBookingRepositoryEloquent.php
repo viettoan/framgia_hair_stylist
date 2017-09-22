@@ -81,7 +81,7 @@ class OrderBookingRepositoryEloquent extends AbstractRepositoryEloquent implemen
             ->orderBy('created_at', 'desc')
             ->get();
     }
-
+    
     public function getBookingByStatus($status, $with = [], $select = ['*'])
     {
         return $this->model()

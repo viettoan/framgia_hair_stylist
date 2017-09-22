@@ -18,10 +18,10 @@
     <section class="content">
         <div class="row">
             <div class="col-lg-4 col-xs-6">
-                <div class="small-box bg-aqua">
+                <div class="small-box bg-aqua pointer" v-on:click="salesChosen">
                     <div class="inner">
                         <h3>{{ __('150') }}</h3>
-                        <p>{{ __('Bill') }}</p>
+                        <p>{{ __('Sales') }}</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-bag"></i>
@@ -30,7 +30,7 @@
                 </div>
             </div>
             <div class="col-lg-4 col-xs-6">
-                <div class="small-box bg-green">
+                <div class="small-box bg-green pointer" v-on:click="bookingChosen">
                     <div class="inner">
                         <h3>53<sup style="font-size: 20px">%</sup></h3>
                         <p>{{ __('Booking') }}</p>
@@ -43,7 +43,7 @@
             </div>
             <div class="col-lg-4 col-xs-6">
                 <!-- small box -->
-                <div class="small-box bg-yellow">
+                <div class="small-box bg-yellow pointer" v-on:click="customerChosen">
                     <div class="inner">
                         <h3>{{ __('44') }}</h3>
                         <p>{{ __('Customer') }}</p>
@@ -69,13 +69,22 @@
                             <div id="day" class="tab-pane fade in active">
                                 <h3 class="text-center">{{ __('Bar chart Dayly Report') }}</h3>
                                 <div class=" wrap-select-date">
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-5">
                                         <label for="start">Start date:</label>
                                         <input type="date" class="form-control" id="start-date" v-model="inputDate.start_date" v-on:change="selectStartDay">
                                     </div>
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-5">
                                         <label for="end">End date:</label>
                                         <input type="date" class="form-control" id="end-date" v-model="inputDate.end_date" v-on:change="selectEndDay">
+                                    </div>
+                                    <div class="form-group col-md-2"  v-bind:style="{visibility: statusVisible}">
+                                        <label for="status">Status:</label>
+                                        <select  class="form-control" v-model="inputStatus" v-on:change="selectStatus">
+                                            <option value="">{{ __('All') }}</option>
+                                            <option value="0">{{ __('Pending') }}</option>
+                                            <option value="1">{{ __('Complete') }}</option>
+                                            <option value="2">{{__('Cancel')}}</option>
+                                        </select>
                                     </div>
                                     <p class="text-center">
                                         <strong>{{ __('Bar Chart Daily Report') }} </strong>
@@ -83,7 +92,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <main>
-                                        <bar-chart-day :data1="dataChartDay" :options="{responsive: true, maintainAspectRatio: false}"></bar-chart-day>
+                                        <bar-chart-day :type="checkTypeReport" :data1="dataChartDay" :options="{responsive: true, maintainAspectRatio: false}"></bar-chart-day>
                                     </main>
                                 </div>
                                 <div class="col-md-6">
@@ -115,13 +124,22 @@
                             <div id="month" class="tab-pane">
                                 <h3 class="text-center">{{ __('Month Report') }}</h3>
                                 <div class=" wrap-select-date">
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-5">
                                         <label for="start">Start Month:</label>
                                         <input type="date" class="form-control" id="start-date" v-model="inputMonth.start_date" v-on:change="selectStartDay">
                                     </div>
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-5">
                                         <label for="end">End Month:</label>
                                         <input type="date" class="form-control" id="end-date" v-model="inputMonth.end_date" v-on:change="selectEndDay">
+                                    </div>
+                                    <div class="form-group col-md-2" v-bind:style="{visibility: statusVisible}">
+                                        <label for="status">Status:</label>
+                                        <select  class="form-control" v-model="inputStatus" v-on:change="selectStatus">
+                                            <option value="">{{ __('All') }}</option>
+                                            <option value="0">{{ __('Pending') }}</option>
+                                            <option value="1">{{ __('Complete') }}</option>
+                                            <option value="2">{{__('Cancel')}}</option>
+                                        </select>
                                     </div>
                                     <p class="text-center">
                                         <strong>{{ __('Bar Chart Monthly Report') }} </strong>
@@ -129,7 +147,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <main>
-                                        <bar-chart-month :data2="dataChartMonth"></bar-chart-month>    
+                                        <bar-chart-month :type="checkTypeReport" :data2="dataChartMonth"></bar-chart-month>    
                                     </main>
                                 </div>
                                 <div class="col-md-6">
@@ -161,13 +179,22 @@
                             <div id="year" class="tab-pane">
                             <h3 class="text-center">{{ __('Year Report') }}</h3>
                                 <div class=" wrap-select-date">
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-5">
                                         <label for="start">Start Year:</label>
                                         <input type="date" class="form-control" id="start-date" v-model="inputYear.start_date" v-on:change="selectStartDay">
                                     </div>
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-5">
                                         <label for="end">End Year:</label>
                                         <input type="date" class="form-control" id="end-date" v-model="inputYear.end_date" v-on:change="selectEndDay">
+                                    </div>
+                                    <div class="form-group col-md-2"  v-bind:style="{visibility: statusVisible}">
+                                        <label for="status">Status:</label>
+                                        <select  class="form-control" v-model="inputStatus" v-on:change="selectStatus">
+                                            <option value="">{{ __('All') }}</option>
+                                            <option value="0">{{ __('Pending') }}</option>
+                                            <option value="1">{{ __('Complete') }}</option>
+                                            <option value="2">{{__('Cancel')}}</option>
+                                        </select>
                                     </div>
                                     <p class="text-center">
                                         <strong>{{ __('Bar Chart Year Report') }} </strong>
@@ -175,7 +202,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <main>
-                                        <bar-chart-year :data3="dataChartYear" :options="{responsive: true, maintainAspectRatio: false}"></bar-chart-year>    
+                                        {{-- <bar-chart-year ref="foo" :data3="dataChartYear" :options="{responsive: true, maintainAspectRatio: false}"></bar-chart-year>     --}}
+                                        <bar-chart-year :type="checkTypeReport" :data3="dataChartYear" :options="{responsive: true, maintainAspectRatio: false}"></bar-chart-year>
                                     </main>
                                 </div>
                               {{--   <div class="col-md-6">

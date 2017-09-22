@@ -43,6 +43,8 @@ var manage_service = new Vue({
         start_date: '',
         end_date: '',
         status: '',
+        images: [],
+        imageData: {'order_booking_id': '', 'images': []},
     },
     mounted : function(){
         this.showDepartment();
@@ -60,6 +62,7 @@ var manage_service = new Vue({
         this.end_date = curentDay;
         this.selectDepartment();
         this.getBooking();
+
     },
 
     methods: {
@@ -87,7 +90,60 @@ var manage_service = new Vue({
         showBooking: function() {
             $('#showBooking').modal('show');
         },
+        showImage: function(id) {
+            this.imageData.order_booking_id = id;
+        },
+        executeImages: function(e) {
+            var files = e.target.files || e.dataTransfer.files;
+            var folder = "user-"+ this.imageData.order_booking_id;
+            if (!files.length) {
+                return
+            }
+            const formData = new FormData()
+            for(var i=0; i< files.length;i++){
+                // formData.append('more_image['+key+']', files[key]);
+                // console.log(files[key]);
+                formData.append('images['+i+']', files[i]);
+                formData.append('name['+i+']', files[i].name);
+            }
+            formData.append('order_booking_id', this.imageData.order_booking_id)
+            axios.post('/api/v0/media-upload/'+folder, formData)
+                .then( response => {
+                    var path = [];
 
+                    for(var i=0; i< response.data.data.length;i++){
+
+                        var str = response.data.data[i];
+                        var index = str.indexOf("uploads");
+                        path.push(str.substring(index));
+
+                    }
+                    this.$set(this, 'images', path);
+
+            })
+          . catch(function (error) {
+                console.log(error)
+            }); 
+        },
+        submitImages: function(e) {
+                this.imageData.images = JSON.stringify(this.images);
+                var authOptions = {
+                    method: 'post',
+                    url: '/api/v0/order-booking/stylist-upload-image',
+                    params: this.imageData,
+                    headers: {
+                        'Authorization': "Bearer " + this.token.access_token
+                    },
+                    json: true
+            }
+            axios(authOptions).then(response => {
+                alert("upload successfully");
+                location.reload();
+                
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
         curent_time: function(data) {
             let today = new Date().getTime();
             var min = today - (new Date(data[0].time_start).getTime());
@@ -211,7 +267,6 @@ var manage_service = new Vue({
         },
         showDepartment: function(page) {
             axios.get('/api/v0/department').then(response => {
-                console.log(response.data.data);
                 this.$set(this, 'showDepartments', response.data.data);
             })
         },
@@ -507,7 +562,6 @@ var manage_service = new Vue({
             }
 
             axios(authOptions).then(response => {
-                console.log(response.data.data.length);
                 this.$set(this, 'logStatus', response.data.data);
                 $('#show_log_status').modal('show');
             })
