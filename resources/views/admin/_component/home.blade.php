@@ -91,8 +91,9 @@
                                     </p>
                                 </div>
                                 <div class="col-md-6">
+                                {{-- <canvas id="myChart" width="400" height="400"></canvas> --}}
                                     <main>
-                                        <bar-chart-day :type="checkTypeReport" :data1="dataChartDay" :options="{responsive: true, maintainAspectRatio: false}"></bar-chart-day>
+                                        <bar-chart-day :type="checkTypeReport" :data1="dataChartDay"></bar-chart-day>
                                     </main>
                                 </div>
                                 <div class="col-md-6">
@@ -147,7 +148,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <main>
-                                        <bar-chart-month :type="checkTypeReport" :data2="dataChartMonth"></bar-chart-month>    
+                                        <bar-chart-month :type="checkTypeReport" :data2="dataChartMonth"></bar-chart-month>  
                                     </main>
                                 </div>
                                 <div class="col-md-6">
@@ -202,8 +203,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <main>
-                                        {{-- <bar-chart-year ref="foo" :data3="dataChartYear" :options="{responsive: true, maintainAspectRatio: false}"></bar-chart-year>     --}}
-                                        <bar-chart-year :type="checkTypeReport" :data3="dataChartYear" :options="{responsive: true, maintainAspectRatio: false}"></bar-chart-year>
+                                        <bar-chart-year :type="checkTypeReport" :data3="dataChartYear" style="position: relative; height:40vh; width:80vw" ></bar-chart-year>
                                     </main>
                                 </div>
                               {{--   <div class="col-md-6">
@@ -250,6 +250,7 @@
 @endsection
 @section('script')
     {{ Html::script('bower/jsapi/index') }}
-    {{ Html::script('https://unpkg.com/vue-chartjs/dist/vue-chartjs.full.min.js') }}
+    {{-- {{ Html::script('https://unpkg.com/vue-chartjs/dist/vue-chartjs.full.min.js') }} --}}
+    {{ Html::script('bower/chart.js/dist/Chart.js') }}
     {{ Html::script('js/admin/report.js') }}
 @endsection

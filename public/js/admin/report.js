@@ -5,11 +5,13 @@ var labels = {
     labelMonth:[],
     labelYear:[]
 };
+var DayChart, MonthChart, YearChart;
+var label = "", background = [], border = [];
 
 Vue.component("bar-chart-day", {
-// var barDay = Vue.extend({
-    extends: VueChartJs.Bar,
-    props: ["data1", "type", "options"],
+    template: '<canvas id="DayChart" width="400" height="400"></canvas>',
+    props: ["data1", "type"],
+
     computed: {
         chartData: function() {
             return this.data1;
@@ -29,6 +31,7 @@ Vue.component("bar-chart-day", {
             var dataInDataSets = [];
             var customerOld = [];
             var customerNew = [];
+            var ctx = document.getElementById("DayChart");
 
             if (typeof this.chartData.customer_new !== 'undefined')   
             {
@@ -37,24 +40,56 @@ Vue.component("bar-chart-day", {
                     customerOld.push(this.chartData.statistical[i].customer_old);
                     customerNew.push(this.chartData.statistical[i].customer_new);
                 } 
-                this.renderChart(
+                if (DayChart) {
+                    DayChart.destroy();
+                }
+                if(MonthChart)
                 {
-                    labels:labels.labelDate,
-                    datasets: [
-                        {
-                            label: ['New customer'],
-                            backgroundColor: "blue",
-                            data: customerNew
-                        },
-                        {
-                            label: ['Old customer'],
-                            backgroundColor: "green",
-                            data: customerOld
-                        },
-                    ]
-                },
-                { responsive: false, maintainAspectRatio: false }
-                );
+                    MonthChart.destroy();
+                }
+                if(YearChart)
+                {
+                    YearChart.destroy();
+                }
+                DayChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels.labelDate,
+                        datasets: [
+                            {
+                                label: 'New customer',
+                                data: customerNew,
+                                backgroundColor: [
+                                    'yellow'
+                                ],
+                                borderColor: [
+                                    'yellow'
+                                ],
+                                borderWidth: 1
+                            },
+                            {
+                                label: 'Old customer',
+                                data: customerOld,
+                                backgroundColor: [
+                                    'blue'
+                                ],
+                                borderColor: [
+                                    'blue'
+                                ],
+                                borderWidth: 1
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero:true
+                                }
+                            }]
+                        }
+                    }
+                });
             }
             else
             {
@@ -62,33 +97,54 @@ Vue.component("bar-chart-day", {
                     labels.labelDate.push(this.chartData.statistical[i].label);
                     dataInDataSets.push(this.chartData.statistical[i].value);
                 } 
-                this.renderChart(
+                if (DayChart) {
+                    DayChart.destroy();
+                }
+                if(MonthChart)
                 {
-                    labels:labels.labelDate,
-                    datasets: [
-                    {
-                        label: ['Sales'],
-                        backgroundColor: "red",
-                        data: dataInDataSets
+                    MonthChart.destroy();
+                }
+                if(YearChart)
+                {
+                    YearChart.destroy();
+                }
+                DayChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels.labelDate,
+                        datasets: [{
+                            label: label,
+                            data: dataInDataSets,
+                            backgroundColor: background,
+                            borderColor: [
+                                'red'
+                            ],
+                            borderWidth: 2
+                        }]
                     },
-                    ]
-                },
-                { responsive: false, maintainAspectRatio: false }
-                );   
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero:true
+                                }
+                            }]
+                        }
+                    }
+                }); 
             }
         }
     },
     watch: {
         data1: function() {
-        this.renderLineChart();
+            this.renderLineChart();
+        }
     }
-}
 })
 
 Vue.component('bar-chart-month', {
-// var barMonth = Vue.extend({
-    extends: VueChartJs.Bar,
-    props: ["data2", "type", "options"],
+    template: '<canvas id="MonthChart" width="400" height="400"></canvas>',
+    props: ["data2", "type"],
 
     computed: {
         chartData: function() {
@@ -109,6 +165,7 @@ Vue.component('bar-chart-month', {
             var dataInDataSets = [];
             var customerOld = [];
             var customerNew = [];
+            var ctx = document.getElementById("MonthChart");
 
             if (typeof this.chartData.customer_new !== 'undefined')   
             {
@@ -117,24 +174,56 @@ Vue.component('bar-chart-month', {
                     customerOld.push(this.chartData.statistical[i].customer_old);
                     customerNew.push(this.chartData.statistical[i].customer_new);
                 } 
-                this.renderChart(
+                if (DayChart) {
+                    DayChart.destroy();
+                }
+                if(MonthChart)
                 {
-                    labels:labels.labelMonth,
-                    datasets: [
-                        {
-                            label: ['New customer'],
-                            backgroundColor: "blue",
-                            data: customerNew
-                        },
-                        {
-                            label: ['Old customer'],
-                            backgroundColor: "green",
-                            data: customerOld
-                        },
-                    ]
-                },
-                { responsive: false, maintainAspectRatio: false }
-                );
+                    MonthChart.destroy();
+                }
+                if(YearChart)
+                {
+                    YearChart.destroy();
+                }
+                MonthChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels.labelMonth,
+                        datasets: [
+                            {
+                                label: 'New customer',
+                                data: customerNew,
+                                backgroundColor: [
+                                    'yellow'
+                                ],
+                                borderColor: [
+                                    'yellow'
+                                ],
+                                borderWidth: 1
+                            },
+                            {
+                                label: 'Old customer',
+                                data: customerOld,
+                                backgroundColor: [
+                                    'blue'
+                                ],
+                                borderColor: [
+                                    'blue'
+                                ],
+                                borderWidth: 1
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero:true
+                                }
+                            }]
+                        }
+                    }
+                });
             }
             else
             {
@@ -142,19 +231,41 @@ Vue.component('bar-chart-month', {
                     labels.labelMonth.push(this.chartData.statistical[i].label);
                     dataInDataSets.push(this.chartData.statistical[i].value);
                 } 
-                this.renderChart(
+                if (DayChart) {
+                    DayChart.destroy();
+                }
+                if(MonthChart)
                 {
-                    labels:labels.labelMonth,
-                    datasets: [
-                    {
-                        label: ['Sales'],
-                        backgroundColor: "red",
-                        data: dataInDataSets
+                    MonthChart.destroy();
+                }
+                if(YearChart)
+                {
+                    YearChart.destroy();
+                }
+                MonthChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels.labelMonth,
+                        datasets: [{
+                            label: label,
+                            data: dataInDataSets,
+                            backgroundColor: background,
+                            borderColor: [
+                            'red'
+                            ],
+                            borderWidth: 1
+                        }]
                     },
-                    ]
-                },
-                { responsive: false, maintainAspectRatio: false }
-                );   
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero:true
+                                }
+                            }]
+                        }
+                    }
+                }); 
             }
         }
     },
@@ -165,10 +276,8 @@ Vue.component('bar-chart-month', {
     }
 })
 Vue.component('bar-chart-year', {
-// var barYear = Vue.extend({
-    extends: VueChartJs.Bar,
-    props: ["data3", "type", "options"],
-    // mixins: [VueChartJs.mixins.reactiveProp],
+    template: '<canvas id="YearChart" width="400" height="400"></canvas>',
+    props: ["data3", "type"],
 
     computed: {
         chartData: function() {
@@ -180,15 +289,17 @@ Vue.component('bar-chart-year', {
         }
     },
 
-    // data: function () {
-    //     return labels;
-    // }, 
+    data: function () {
+        return labels;
+    }, 
 
-    methods: {
+    methods: 
+    {
         renderLineChart: function() {
             var dataInDataSets = [];
             var customerOld = [];
             var customerNew = [];
+            var ctx = document.getElementById("YearChart");
 
             if (typeof this.chartData.customer_new !== 'undefined')   
             {
@@ -197,24 +308,56 @@ Vue.component('bar-chart-year', {
                     customerOld.push(this.chartData.statistical[i].customer_old);
                     customerNew.push(this.chartData.statistical[i].customer_new);
                 } 
-                this.renderChart(
+                if (DayChart) {
+                    DayChart.destroy();
+                }
+                if(MonthChart)
                 {
-                    labels:labels.labelYear,
-                    datasets: [
-                        {
-                            label: ['New customer'],
-                            backgroundColor: "blue",
-                            data: customerNew
-                        },
-                        {
-                            label: ['Old customer'],
-                            backgroundColor: "green",
-                            data: customerOld
-                        },
-                    ]
-                },
-                { responsive: false, maintainAspectRatio: false }
-                );
+                    MonthChart.destroy();
+                }
+                if(YearChart)
+                {
+                    YearChart.destroy();
+                }
+                YearChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels.labelYear,
+                        datasets: [
+                            {
+                                label: 'New customer',
+                                data: customerNew,
+                                backgroundColor: [
+                                    'yellow'
+                                ],
+                                borderColor: [
+                                    'yellow'
+                                ],
+                                borderWidth: 1
+                            },
+                            {
+                                label: 'Old customer',
+                                data: customerOld,
+                                backgroundColor: [
+                                    'blue'
+                                ],
+                                borderColor: [
+                                    'blue'
+                                ],
+                                borderWidth: 1
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero:true
+                                }
+                            }]
+                        }
+                    }
+                });
             }
             else
             {
@@ -222,19 +365,41 @@ Vue.component('bar-chart-year', {
                     labels.labelYear.push(this.chartData.statistical[i].label);
                     dataInDataSets.push(this.chartData.statistical[i].value);
                 } 
-                this.renderChart(
+                if (DayChart) {
+                    DayChart.destroy();
+                }
+                if(MonthChart)
                 {
-                    labels:labels.labelYear,
-                    datasets: [
-                    {
-                        label: ['Sales'],
-                        backgroundColor: "red",
-                        data: dataInDataSets
+                    MonthChart.destroy();
+                }
+                if(YearChart)
+                {
+                    YearChart.destroy();
+                }
+                YearChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels.labelYear,
+                        datasets: [{
+                            label: label,
+                            data: dataInDataSets,
+                            backgroundColor: background,
+                            borderColor: [
+                            'red'
+                            ],
+                            borderWidth: 1
+                        }]
                     },
-                    ]
-                },
-                { responsive: false, maintainAspectRatio: false }
-                );   
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero:true,
+                                }
+                            }]
+                        }
+                    }
+                }); 
             }
         },
     },
@@ -247,11 +412,6 @@ Vue.component('bar-chart-year', {
 
 var vm = new Vue({
     el: ".content-wrapper",
-    // components: {
-    //     'bar-chart-day': barDay,
-    //     'bar-chart-month': barMonth,
-    //     'bar-chart-year': barYear
-    // },
 
     data:{
         users: {},
@@ -302,11 +462,14 @@ var vm = new Vue({
             var urls = '';
             if(this.checkTypeReport == 'sales')
             {
+                label = "Sales";
+                background = ["#00c0ef"]
                 urls ='/api/v0/report-sales';
             }
             else if(this.checkTypeReport == 'booking')
             {
-
+                label = "Booking";
+                background = ["#00a65a"];
                 urls ='/api/v0/report-booking';
             }
             else
@@ -341,13 +504,18 @@ var vm = new Vue({
         },
 
         salesChosen: function(event) {
-
+            labels.labelDate = [];
+            labels.labelMonth = [];
+            labels.labelYear = [];
             this.checkTypeReport = 'sales';
             this.statusVisible = 'visible';
             this.ChartSales();
         },
 
         bookingChosen: function(event) {
+            labels.labelDate = [];
+            labels.labelMonth = [];
+            labels.labelYear = [];
 
             this.checkTypeReport = 'booking';
             this.statusVisible = 'visible';
@@ -355,21 +523,26 @@ var vm = new Vue({
         },
 
         customerChosen: function(event) {
-
+            labels.labelDate = [];
+            labels.labelMonth = [];
+            labels.labelYear = [];
             this.checkTypeReport = 'customer';
             this.statusVisible = 'hidden';
             this.ChartSales();
         },
 
         selectTypeMonth: function(event) {
-            if(this.count.month > 0)
-            {
-                this.filterParams.type = "month";
-            }
-            else
-            {
+            labels.labelMonth = [];
+            // if(this.count.month > 0)
+            // {
+            //     this.filterParams.type = "month";
+            // }
+            // else
+            // {
                 this.filterParams.type = "month";
                 this.count.month = this.count.month + 1;
+                this.count.year = 0;
+
                 var currentYear = new Date().getFullYear();
                 var currentMonth = new Date().getMonth();
                 if(currentMonth <=9)
@@ -384,26 +557,39 @@ var vm = new Vue({
                 this.inputMonth.end_date = currentYear + "-" + currentMonth + "-" + "15";
 
                 this.ChartSales();
-            }
+            // }
 
         },
 
         selectTypeDay: function(event) {
+            labels.labelDate = [];
+
+            var curentDateTimeStamp = new Date().getTime() / 1000 | 0;
+            var curentDateString = new Date().toISOString().slice(0, 10);
 
             this.filterParams.type = "day";
+            this.filterParams.start_date = curentDateTimeStamp - 604800;
+            this.filterParams.end_date = curentDateTimeStamp;
+
+            this.inputDate.start_date = new Date(this.filterParams.start_date*1000).toISOString().slice(0, 10);;
+            this.inputDate.end_date = curentDateString;
+
+            this.ChartSales();
 
         },
 
         selectTypeYear: function(event) {
-            if(this.count.year > 0)
-            {
-                this.filterParams.type = "year";
-            }
-            else
-            {
+            labels.labelYear = [];
+            // if(this.count.year > 0)
+            // {
+            //     this.filterParams.type = "year";
+            // }
+            // else
+            // {
                 this.filterParams.type = "year";
                 this.count.year = this.count.year + 1;
-                
+                this.count.month = 0;
+
                 var currentYear = new Date().getFullYear();
                 var currentMonth = new Date().getMonth();
 
@@ -412,14 +598,14 @@ var vm = new Vue({
                     currentMonth = "0" + currentMonth;
                 }
 
-                this.filterParams.start_date = moment("01/15/" + currentYear).unix();
+                this.filterParams.start_date = moment("01/15/" + (currentYear- 4) ).unix();
                 this.filterParams.end_date = moment(currentMonth + "/15/" + currentYear).unix();
 
-                this.inputYear.start_date =currentYear + "-" + "01-15";
+                this.inputYear.start_date =(currentYear - 4) + "-" + "01-15";
                 this.inputYear.end_date = currentYear + "-" + currentMonth + "-" + "15";
 
                 this.ChartSales();
-            }
+            // }
         },
 
         selectStartDay: function(event) {

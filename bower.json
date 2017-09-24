@@ -43,7 +43,7 @@
     "vue-ls": "^2.3.0",
     "elevatezoom": "^2.2.3",
     "moment": "^2.18.1",
-    "blueimp-file-upload": "jQuery-File-Upload#^9.19.1",
-    "bootstrap-fileinput": "^4.4.3"
+    "bootstrap-fileinput": "^4.4.3",
+    "chart.js": "^2.7.0"
   }
 }
