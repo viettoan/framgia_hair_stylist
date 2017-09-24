@@ -91,4 +91,35 @@ class OrderBookingRepositoryEloquent extends AbstractRepositoryEloquent implemen
             ->orderBy('created_at', 'desc')
             ->get();
     }
+
+    public function getBookingByYear($year, $status, $select = ['*'], $with = [])
+    {
+        $query = $this->model()->select($select)->with($with)->whereYear('updated_at', $year);
+        if (null != $status) {
+            $query->where('status', $status);
+        }
+        
+        return $query->get();
+    }
+
+    public function getBookingByMonth($month, $year, $status, $select = ['*'], $with = [])
+    {
+        $query = $this->model()->select($select)->with($with)
+        ->whereYear('updated_at', $year)->whereMonth('updated_at', $month);
+        if (null != $status) {
+            $query->where('status', $status);
+        }
+        
+        return $query->get();
+    }
+
+    public function getBookingByDate($date, $status, $select = ['*'], $with = [])
+    {
+        $query = $this->model()->select($select)->with($with)->whereDate('updated_at', $date);
+        if (null != $status) {
+            $query->where('status', $status);
+        }
+        
+        return $query->get();
+    }
 }
