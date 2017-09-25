@@ -311,7 +311,7 @@ class OrderBookingController extends Controller
         $booking->order_items = $this->orderBooking->find($booking->id, ['getOrderItems'])->getOrderItems;
         $booking->grand_total = $this->orderItem->getGrandTotal($booking->id);
         foreach ($booking->order_items as $orderItem) {
-                $orderItem->stylist = $this->orderItem->find($orderItem->id, ['getStylist'])->getStylist;
+                $orderItem->stylist = $this->orderItem->find($orderItem->id, ['getStylist'])->getStylist['name'];
                 $orderItem->service = $this->orderItem->find($orderItem->id, ['getServiceProduct'])->getServiceProduct;
             }  
         $response['data'] = $booking;
@@ -389,7 +389,7 @@ class OrderBookingController extends Controller
     {
         $response = Helper::apiFormat();
 
-        $booking = $this->orderBooking->getBookingByBookingId($bookingId, 'Images', ['*'] );
+        $booking = $this->orderBooking->getBookingByBookingId($bookingId, ['Images'], ['*'] );
 
         if (!$booking)
         {
@@ -403,9 +403,14 @@ class OrderBookingController extends Controller
         $booking->render_booking = $renderBooking;
         $booking->department = $this->department->find($renderBooking->department_id);
         $booking->stylist =  $this->user->find($booking->stylist_id);
-        
+        $booking->order_items = $this->orderBooking->find($booking->id, ['getOrderItems'])->getOrderItems;
+        $booking->grand_total = $this->orderItem->getGrandTotal($booking->id);
+        foreach ($booking->order_items as $orderItem) {
+                $orderItem->stylist = $this->orderItem->find($orderItem->id, ['getStylist'])->getStylist['name'];
+                $orderItem->service = $this->orderItem->find($orderItem->id, ['getServiceProduct'])->getServiceProduct;
+            }  
         $response['data'] = $booking;
-        
+
         return Response::json($response, $response['status']);
     }
 
@@ -603,6 +608,32 @@ class OrderBookingController extends Controller
             $getLogStatus = $this->logStatus->getLogStatus($order_booking_id,['getUser']);
             $response['status'] = 200;
             $response['data'] = $getLogStatus;
+        } catch (Exception $e) {
+            $response['status'] = 403;
+            $response['error'] = true;
+            $response['message'] = "The request was valid !";
+        }
+
+        return Response::json($response, $response['status']);
+    }
+
+    /**
+     * Get order_booking by status = inprogress
+     *
+     * @param int $order_booking_id
+     * @return \Illuminate\Http\Response
+     */
+    public function showBookingInprogress()
+    {
+        $response = Helper::apiFormat();
+
+        try {
+            $bookings = $this->orderBooking->getBookingByStatus('4', ['getStylist']);
+            foreach ($bookings as $item) {
+                $item->department = $this->user->find($item->stylist_id, ['*'], ['getStylistInDepartment'])->getStylistInDepartment->name;
+            }
+            $response['status'] = 200;
+            $response['data'] = $bookings;
         } catch (Exception $e) {
             $response['status'] = 403;
             $response['error'] = true;

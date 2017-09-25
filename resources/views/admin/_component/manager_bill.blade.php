@@ -75,6 +75,46 @@
                             {{ __('Create Bill') }}
                         </button>
                     </div>
+                    <!-- booking inprogress -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4>
+                                {{__('Booking Inprogress')}}
+                                <span class="label label-warning">
+                                    @{{ booking_inprogress.length }}
+                                </span>
+                            </h4>
+                        </div>
+                        <div class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                <table class="table table-striped table-bordered" id="bookingTable">
+                                    <thead>
+                                        <tr>
+                                            <th>{{__('ID')}}</th>
+                                            <th>{{__('NameCustomer') }}</th>
+                                            <th>{{__('Phone') }}</th>
+                                            <th>{{__('Department') }}</th>
+                                            <th>{{__('NameStylist') }}</th>
+                                            <th>{{ __('Action') }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="booking in booking_inprogress" v-bind:id="'booking-inprogress-' + booking.id">
+                                            <th>@{{ booking.id }}</th>
+                                            <th>@{{ booking.name }}</th>
+                                            <th>@{{ booking.phone }}</th>
+                                            <th>@{{ booking.department }}</th>
+                                            <th>@{{ booking.get_stylist.name }}</th>
+                                            <th>
+                                                <a href="javascript:void(0)" v-on:click="addBillBookingInprogress(booking.id)"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                                            </th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- listBill -->
                     <div class="panel panel-default" v-for="item in listBill">
                         <div class="panel-heading">
                             <h4 class="panel-title">
@@ -146,7 +186,7 @@
                                 <span class="text-danger">
                                     @{{formErrors.phone}}
                                 </span>
-                                <input type="text" name="phone" class="form-control" v-on:keyup="keyPhone" v-model="bill.phone"/>
+                                <input type="text" name="phone" class="form-control" v-on:keyup="keyPhone" v-model="bill.phone" />
                             </div>
                             <div class="col-sm-6">
                                 <label for="name" class="label_bill">{{ __('Name Customer') }}</label>
@@ -200,7 +240,7 @@
                                     <tr id ="list_service" v-for="(order_item, keyObject) in booking.order_items" v-bind:class="{'label-warning': isEditBillItem.status && isEditBillItem.index == keyObject}">
                                         <td>@{{ keyObject + 1 }}</td>
                                         <td>@{{ order_item.service_name }}</td>
-                                        <td>@{{ order_item.stylist.name }}</td>
+                                        <td>@{{ order_item.stylist }}</td>
                                         <td>@{{ order_item.price }} VND</td>
                                         <td>@{{ order_item.qty }}</td>    
                                     </tr>

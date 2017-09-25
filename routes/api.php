@@ -62,4 +62,5 @@ Route::group(['prefix' => 'v0', 'namespace' => 'Api'], function() {
     Route::delete('add-booking-service/{order_item_id}', 'OrderBookingController@destroyBookingService');
     Route::get('show-booking-service/{order_id}', 'OrderBookingController@showBookingService');
     Route::get('log-status/{order_booking_id}', 'OrderBookingController@getLogStatus');
+    Route::get('show-booking-inprogress', 'OrderBookingController@showBookingInprogress');
 });
