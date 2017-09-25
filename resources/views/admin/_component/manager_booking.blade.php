@@ -131,9 +131,9 @@
                                                 </span>
                                             </td>
                                             <td>
-                                                <a href="javascript:void(0)" v-on:click="changer_status(list)"> <i aria-hidden="true" class="fa fa-pencil-square-o"></i></a>
+                                                <a href="javascript:void(0)" v-on:click="changer_status(list)" v-if="list.status !=2 "> <i aria-hidden="true" class="fa fa-pencil-square-o"></i></a>
                                                 <a href="javascript:void(0)" v-on:click="showLogStatus(list.id)"> <i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                <a href="javascript:void(0)" data-toggle="modal" data-target="#chooseImg" v-on:click="showImage(list.id)"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
+                                                <a href="javascript:void(0)"  v-if="list.status == 4" data-toggle="modal" data-target="#chooseImg" v-on:click="showImage(list.id)"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
                                             </td>
                                         </tr>  
                                     </tbody>
@@ -211,7 +211,7 @@
                                 <div class="modal-body">
                                     <form method="POST" enctype="multipart/form-data" v-on:submit.prevent="update_status(changer_status_booking.id)">
                                         <div class="form-group row">
-                                        <label class="col-md-2">{{ __('Status') }}</label>
+                                        <label class="col-md-2" v-if=" status != 4 ">{{ __('Status') }}</label>
                                         <div class="form-group col-md-5 select_booking_manage">
                                             <!-- if status is cancel -->
                                             <select  class="form-control select-multi-status" id="sel1" v-if="status == 0" v-model="changer_status_booking.status" disabled="disabled">
@@ -244,21 +244,19 @@
                                                     <option v-bind:value="2">{{ __('Complete') }}</option>
                                                 </template>
                                             </select>
-
-                                            <!-- if status is Inprogress-->
-                                            <select  class="form-control select-multi-status" id="sel1" v-if="status == 4" v-model="changer_status_booking.status">
-                                                <option v-bind:value="2">{{ __('Complete') }}</option>
-                                            </select>  
-                                        </div> 
+                                            </div> 
+                                            <div class="alert alert-warning text-center col-md-12" v-if="status == 4">
+                                                <strong>{{ __('NOTE!') }} {{ __('Status can not be changed') }}</strong>
+                                            </div>
                                         </div>
-                                        <div class="form-group row">
+                                        <div class="form-group row" v-if=" status != 4">
                                             <label class="col-md-2">{{ __('Message') }}</label>
                                             <div class="col-md-9">
                                                 <textarea class=" form-control" name="message" id="message" v-model="changer_status_booking.message"></textarea>
                                             </div>  
                                         </div>
 
-                                        <div class="form-group">
+                                        <div class="form-group" v-if=" status != 4">
                                             <button type="submit" class="btn btn-success">
                                                 <i class="fa fa-plus" aria-hidden="true"></i> {{ __('Edit') }}
                                             </button>

@@ -106,7 +106,7 @@
                                             <td>@{{ list.customer_name }}</td>
                                             <td>@{{ list.phone }}</td>
                                             <td>@{{ list.department.name }}</td>
-                                            <td>@{{ list.grand_total }}</td>
+                                            <td>@{{ (list.grand_total).toLocaleString('de-DE') }}</td>
                                             <td>
                                                 <span class="label label-danger" v-if="list.status == 0">
                                                     {{ __('Waiting') }}
@@ -266,7 +266,7 @@
                                             <tr v-for="export_bill in exportBill.exportBill_item" >
                                                 <td class="col-md-4">@{{export_bill.service_name}}</td>
                                                 <td class="col-md-4">@{{export_bill.qty}}</td>
-                                                <td class="col-md-4">@{{export_bill.price}}</td>
+                                                <td class="col-md-4">@{{ (export_bill.price).toLocaleString('de-DE') }} VND</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -277,7 +277,7 @@
                                             <tr>
                                                 <td class="col-md-4"></td>
                                                 <td class="col-md-4"><h3 class="text-right">ToTal :</h3></td>
-                                                <td class="col-md-4"><h3 class="pull-left">@{{ exportBill.grand_total }}</h3></td>
+                                                <td class="col-md-4"><h3 class="pull-left">@{{ exportBill.grand_total }} VND</h3></td>
                                             </tr>
                                         </thead>
                                     </table>
