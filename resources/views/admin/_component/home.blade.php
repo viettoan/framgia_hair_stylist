@@ -90,36 +90,10 @@
                                         <strong>{{ __('Bar Chart Daily Report') }} </strong>
                                     </p>
                                 </div>
-                                <div class="col-md-6">
-                                {{-- <canvas id="myChart" width="400" height="400"></canvas> --}}
+                                <div class="col-md-6 col-md-offset-3">
                                     <main>
                                         <bar-chart-day :type="checkTypeReport" :data1="dataChartDay"></bar-chart-day>
                                     </main>
-                                </div>
-                                <div class="col-md-6">
-                                    <p class="text-center">
-                                        <strong>{{ __('Stylist - Total Hair') }}</strong>
-                                    </p>
-                                    <div class="col-md-6">
-                                        <div class="progress-group">
-                                            <span class="progress-text">Stylist 1</span>
-                                            <span class="progress-number"><b>160</b>/200</span>
-
-                                            <div class="progress sm">
-                                                <div class="progress-bar progress-bar-aqua" style="width: 10%"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="progress-group">
-                                            <span class="progress-text">Stylist 6</span>
-                                            <span class="progress-number"><b>160</b>/200</span>
-
-                                            <div class="progress sm">
-                                                <div class="progress-bar progress-bar-aqua" style="width: 20%"></div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <div id="month" class="tab-pane">
@@ -146,35 +120,10 @@
                                         <strong>{{ __('Bar Chart Monthly Report') }} </strong>
                                     </p>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 col-md-offset-3">
                                     <main>
                                         <bar-chart-month :type="checkTypeReport" :data2="dataChartMonth"></bar-chart-month>  
                                     </main>
-                                </div>
-                                <div class="col-md-6">
-                                    <p class="text-center">
-                                        <strong>{{ __('Stylist - Total Hair') }}</strong>
-                                    </p>
-                                    <div class="col-md-6">
-                                        <div class="progress-group">
-                                            <span class="progress-text">Stylist 1</span>
-                                            <span class="progress-number"><b>160</b>/200</span>
-
-                                            <div class="progress sm">
-                                                <div class="progress-bar progress-bar-aqua" style="width: 10%"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="progress-group">
-                                            <span class="progress-text">Stylist 6</span>
-                                            <span class="progress-number"><b>160</b>/200</span>
-
-                                            <div class="progress sm">
-                                                <div class="progress-bar progress-bar-aqua" style="width: 20%"></div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <div id="year" class="tab-pane">
@@ -201,44 +150,11 @@
                                         <strong>{{ __('Bar Chart Year Report') }} </strong>
                                     </p>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 col-md-offset-3">
                                     <main>
                                         <bar-chart-year :type="checkTypeReport" :data3="dataChartYear" style="position: relative; height:40vh; width:80vw" ></bar-chart-year>
                                     </main>
                                 </div>
-                              {{--   <div class="col-md-6">
-                                    <p class="text-center">
-                                        <strong>{{ __('Stylist - Total Hair') }}</strong>
-                                    </p>
-                                    <div class="col-md-6">
-                                        <div class="progress-group">
-                                            <span class="progress-text">Stylist 1</span>
-                                            <span class="progress-number"><b>160</b>/200</span>
-
-                                            <div class="progress sm">
-                                                <div class="progress-bar progress-bar-aqua" style="width: 10%"></div>
-                                            </div>
-                                        </div>
-                                        
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="progress-group">
-                                            <span class="progress-text">Stylist 6</span>
-                                            <span class="progress-number"><b>160</b>/200</span>
-                                    <div class="progress sm">
-                                        <div class="progress-bar progress-bar-aqua" style="width: 8%"></div>
-                                    </div>
-                                </div>
-                                <div class="progress-group">
-                                    <span class="progress-text">Stylist 4</span>
-                                    <span class="progress-number"><b>480</b>/800</span>
-                                            <div class="progress sm">
-                                                <div class="progress-bar progress-bar-aqua" style="width: 17%"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -250,7 +166,6 @@
 @endsection
 @section('script')
     {{ Html::script('bower/jsapi/index') }}
-    {{-- {{ Html::script('https://unpkg.com/vue-chartjs/dist/vue-chartjs.full.min.js') }} --}}
     {{ Html::script('bower/chart.js/dist/Chart.js') }}
     {{ Html::script('js/admin/report.js') }}
 @endsection

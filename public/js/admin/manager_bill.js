@@ -84,8 +84,8 @@ var Manager_bill = new Vue({
             this.exportBill.checkout=item.created_at;
             this.exportBill.department_address = item.department.address;
             this.exportBill.exportBill_item = item.get_order_booking.get_order_items;
-            this.exportBill.grand_total = item.grand_total;
-            this.exportBill.service_total = item.service_total;
+            this.exportBill.grand_total = (item.grand_total).toLocaleString('de-DE');
+            this.exportBill.service_total = item.service_total
             },
         addBill: function() {
             $('#showBill').modal('show');

@@ -101,8 +101,6 @@ var manage_service = new Vue({
             }
             const formData = new FormData()
             for(var i=0; i< files.length;i++){
-                // formData.append('more_image['+key+']', files[key]);
-                // console.log(files[key]);
                 formData.append('images['+i+']', files[i]);
                 formData.append('name['+i+']', files[i].name);
             }
@@ -110,22 +108,17 @@ var manage_service = new Vue({
             axios.post('/api/v0/media-upload/'+folder, formData)
                 .then( response => {
                     var path = [];
-
                     for(var i=0; i< response.data.data.length;i++){
-
                         var str = response.data.data[i];
                         var index = str.indexOf("uploads");
                         path.push(str.substring(index));
-
                     }
                     this.$set(this, 'images', path);
-
-            })
-          . catch(function (error) {
-                console.log(error)
+            }).catch(function (error) {
             }); 
         },
         submitImages: function(e) {
+            if (!confirm('Do you want to Upload Images for Cusotmer?')) return;
                 this.imageData.images = JSON.stringify(this.images);
                 var authOptions = {
                     method: 'post',
@@ -137,11 +130,8 @@ var manage_service = new Vue({
                     json: true
             }
             axios(authOptions).then(response => {
-                alert("upload successfully");
                 location.reload();
-                
             }).catch(function (error) {
-                console.log(error);
             });
         },
         curent_time: function(data) {
