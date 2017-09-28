@@ -168,10 +168,10 @@
                   </tr>
                 </thead>
                 <tbody>
-                @foreach( $dataBill->bill_items as $item )
+                @foreach( $dataBill->get_order_items as $item )
                     <tr>
                         <td class="service">{{ $item->service_name }}</td>
-                        <td class="desc">{{ $item->stylist->name }}</td>
+                        <td class="desc">{{ $item->stylist_name }}</td>
                         <td class="unit">{{ \App\Helpers\Helper::formatPrice($item->price) }} {{ __(' VND') }}</td>
                         <td class="qty">{{ \App\Helpers\Helper::formatPrice($item->qty) }}</td>
                         <td class="total">{{ \App\Helpers\Helper::formatPrice($item->price * $item->qty) }} {{ __(' VND') }}</td>
