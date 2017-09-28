@@ -59,6 +59,7 @@ var manage_service = new Vue({
         },
 
         clickBooking: function() {
+            $(".wrap-step").hide();
             var error = false;
             if (!this.newItem.name || !this.newItem.phone) {
                 toastr.error('Please enter full name and phone number', '', {timeOut: 3000});
@@ -105,7 +106,6 @@ var manage_service = new Vue({
                     }    
                 }
             });
-
         },
         createUser: function() {
             var self = this;
@@ -216,6 +216,55 @@ var manage_service = new Vue({
             this.selected.render_id = '';
             this.getRenderBooking();
             this.getStylist(department_id);
+        },
+
+        phoneNameValidation: function()
+        {
+            var name = this.newItem.name.trim();
+            var phone = this.newItem.phone.trim();
+
+            if(name =="" || name ==null)
+            {
+                toastr.error('Name is required!', '', {timeOut: 5000});
+                error = true;
+                $('.booking-circle').click(false);
+                $('.department-circle').click(false);
+            }
+
+            if(phone == "" || phone == null)
+            {
+                toastr.error('Phone is required!', '', {timeOut: 5000});
+                error = true;
+                $('.department-circle').click(false);
+                $('.booking-circle').click(false);
+            }
+
+            if(name !=="" && phone !== "")
+            {
+                $(".content-step").css("display", "none");
+                $(".content-step2").css("display", "block");
+                $(".content-step3").css("display", "none");
+                $(".department-circle").css("transform", "scale(1.2)");
+                $(".overlap-department .overlap").css("display", "none");
+
+            }
+        },
+        prevStep: function()
+        {
+            $(".info-circle").css("transform", "scale(1.2)");
+            $(".department-circle").css("transform", "scale(1)");
+            $(".content-step").css("display", "block");
+            $(".content-step2").css("display", "none");
+        },
+        nextBookingStep: function()
+        {
+            $(".content-step").css("display", "none");
+            $(".content-step2").css("display", "none");
+            $(".content-step3").css("display", "block");
+            $(".department-circle").css("transform", "scale(1)");
+            $(".booking-circle").css("transform", "scale(1.2)");
+            $(".overlap-booking .overlap").css("display", "none");
+            $(".booking-circle").focus();
         },
     }
 });

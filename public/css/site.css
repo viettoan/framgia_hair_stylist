@@ -113,26 +113,25 @@ p.label-success {
 }
 
 #fh5co-pricing .price-box {
-    border: 2px solid #ddd;
     text-align: center;
     padding: 30px;
     border-radius: 5px;
     margin-bottom: 40px;
     position: relative;
     transition: 0.5s;
-
+    background-color:#fff;
 }
 
 .price-box label.search-name-input{
     position: absolute;
     left: 45px;
-    top: 86px;
+    top: 106px;
 }
 .price-box label.search-phone-input
 {
     position: absolute;
     left: 45px;
-    top: 148px;
+    top: 175px;
 }
 
 label.search-name-input, label.search-phone-input {
@@ -166,7 +165,9 @@ label.search-name-input, label.search-phone-input {
     text-transform: uppercase !important;
 }
 .price-box .form-name h4 {
-    color: #444444 !important;
+    color: #5e70ee !important;
+    text-shadow: 2px 2px 4px #ccc;
+    font-weight: bold;
 }
 .ul-booking {
     margin-top: 15px;
@@ -180,6 +181,8 @@ label.search-name-input, label.search-phone-input {
     margin-bottom: 5px;
     display: inline-block;
     background-color: #f7f7f7;
+    border-radius: 5px;
+    box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.28);
 }
 .li-booking:hover
 {
@@ -216,8 +219,6 @@ label.search-name-input, label.search-phone-input {
 }
 
 #fh5co-pricing .price-box:hover {
-    /*box-shadow: 2px 5px 5px #888888;*/
-    background-color: #f9f9f9;
     transition: 0.5s;
 
 }
@@ -299,7 +300,7 @@ label.search-name-input, label.search-phone-input {
 }
 .li-booking-time
 {
-    border: 1px solid #ccc;
+    border: 1px solid rgba(8, 8, 7, 0.18);
     list-style-type: none;
     width: 19%;
     box-shadow: 1px 2px 2px #888;
@@ -355,6 +356,166 @@ label.search-name-input, label.search-phone-input {
     color: #fff;
 }
 
+/*Booking3 css*/
+.themed-background {
+    background-color: #6072f3;
+}
+.circle {
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    text-align: center;
+    display: inline-block;
+    font-size: 42px;
+    color: #ffffff;
+    border-radius: 50px;
+    margin-bottom: 15px;
+    transition: all ease-out 0.25s;
+}
+.circle:hover, .circle:focus {
+    color: #ffffff;
+    text-decoration: none;
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+}
+.wrap-icon-step
+{
+    margin-left: 37%;
+}
+
+.wrap-icon-step img
+{
+    margin-left: 5%;
+}
+.section-heading
+{
+    padding-bottom: 0px !important;
+}
+.wrap-icon-step strong
+{
+    margin-left: -18%;
+    color: #6072f3;
+}
+.wrap-icon-step h4
+{
+    text-shadow: 1px 1px 4px #888888;
+    color: #5d5a5a !important;
+}
+.content-step
+{
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+.content-step2
+{
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+.content-step3
+{
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+.wrap-step
+{
+    margin-bottom: 20px;
+    margin-left: 6%;
+    margin-right: auto;
+    width: 85%;
+}
+.price-box
+{
+    width:60%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.info-group-form .form-group
+{
+    margin-bottom: 25px;
+    margin-top:20px;
+}
+.info-group-form button
+{
+    color: #fff;
+    width: 57%;
+    height: 50px;
+    font-weight: bold;
+    font-size: 17px;
+    text-shadow: 1px 1px 1px #ccc;
+}
+.step-button:hover
+{
+    background-color: #6173f4 !important;
+    opacity: 0.8;
+    text-shadow: 1px 1px 3px #ccc;
+}
+#fh5co-pricing
+{
+    background-image: url('/images/bg.jpg');
+}
+#fh5co-pricing .section-heading h2
+{
+    color: #fff !important;
+}
+.section-heading h2:after
+{
+    left:49.3% !important;
+}
+#choice_list_time .price-box
+{
+    width: 100% !important;
+}
+.active2
+{
+    background-color: #6072f3 !important;
+}
+.li-booking .den
+{
+    border-radius: 5px;
+}
+.overlap
+{
+    position: absolute;
+    background-color: hsla(0,0%,98%,.5);
+    width: 101px;
+    height: 100px;
+    border-radius: 50%;
+    top: 0%;
+    left: 38%;
+}
+.wrap-overlap
+{
+    position: relative;
+}
+.department-group-form button
+{
+    width: 42%;
+    height: 50px;
+    font-weight: bold;
+    font-size: 17px;
+    text-shadow: 1px 1px 1px #ccc;
+}
+.info-circle
+{
+    transition: all 0.5 ;
+}
+.booking_btn
+{
+    background-color:#6072f3 !important;;
+    border-color: #6072f3 !important;
+}
+.prev-step
+{
+    margin-right: 15px;
+}
+.search-name-input i, .search-phone-input i
+{
+    font-size: 23px;
+}
+/*End booking3 css*/
 @media screen and (max-device-width: 480px) {
     .li-booking-time
     {
