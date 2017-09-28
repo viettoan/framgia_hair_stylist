@@ -131,7 +131,6 @@ class BillController extends Controller
      */
     public function store(Request $request)
     {
-
         $response = Helper::apiFormat();
 
         // Check permission User

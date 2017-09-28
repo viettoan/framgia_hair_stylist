@@ -88,6 +88,7 @@ var Manager_bill = new Vue({
             this.exportBill.service_total = item.service_total
             },
         addBill: function() {
+            this.resetData();
             $('#showBill').modal('show');
         },
         selectStartDay: function(event) {
@@ -345,6 +346,7 @@ var Manager_bill = new Vue({
                 }
                 this.getListBill();
                 this.resetData();
+                this.showBookingInprogress();
                 $('#showBill').modal('hide');
             }).catch((error) => {
                 for (key in error.response.data.message) {
@@ -382,11 +384,11 @@ var Manager_bill = new Vue({
                 this.bill.department_id = response.data.data.department.id;
                 this.booking = response.data.data;
                 this.bill.service_total = this.booking.order_items.length;
+                console.log(this.bill.service_total);
                 this.bill.grand_total = response.data.data.grand_total;
                 this.bill.order_booking_id = this.booking.id;
                 this.bill.phone = response.data.data.phone;
                 this.formErrors.phone = '';
-                $('#booking-inprogress-' + this.booking.id).remove();
             });
 
             $('#showBill').modal('show');

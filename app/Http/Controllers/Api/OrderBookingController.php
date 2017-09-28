@@ -128,6 +128,7 @@ class OrderBookingController extends Controller
                 $bookingChecked->fill($request->all());
                 $bookingChecked->stylist_id = $stylist_id;
                 $bookingChecked->user_id = $user_id;
+                $bookingChecked->status = OrderBooking::STATUS_PENDING;
                 $bookingChecked->save();
 
                 $dataResponse = $this->orderBooking->find($bookingChecked->id);
@@ -141,6 +142,7 @@ class OrderBookingController extends Controller
                     'name' => $request->name,
                     'stylist_id' => $stylist_id,
                     'user_id' => $user_id,
+                    'status' => OrderBooking::STATUS_PENDING,
                 ];
                 $order = $this->orderBooking->create($data);
                 $dataResponse = $this->orderBooking->find($order->id);
@@ -156,6 +158,7 @@ class OrderBookingController extends Controller
                 'name' => $request->name,
                 'stylist_id' => $stylist_id,
                 'user_id' => $user_id,
+                'status' => OrderBooking::STATUS_PENDING,
             ]);
             $dataResponse = $this->orderBooking->find($order->id);
             $dataResponse->render_booking = $this->renderBooking->find($request->render_booking_id);

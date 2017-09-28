@@ -256,7 +256,8 @@
                             </table>
                         </div>
                         <div class="form-group text-center">
-                            <button class="btn btn-success" :disabled="booking.status != 4" v-on:click="createBill" v-if="!bill.id">
+
+                            <button class="btn btn-success" :disabled="booking.status != 4 ||  bill.service_total == 0 " v-on:click="createBill" v-if="!bill.id">
                                 <i class="fa fa-plus" aria-hidden="true"></i> {{ __('Create Bill') }}
                             </button>
                         </div>
