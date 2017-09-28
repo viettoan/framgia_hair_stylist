@@ -29,9 +29,10 @@
     </section>
     <div class="col-md-12">  
         <div class="col-md-4 search_customer">
-            <label class="col-md-4">{{ __('Search') }}</label>
-            <div class="col-md-8">
-                <input v-on:keyup="filteCustomer" v-model="params.keyword" placeholder="Search for phone number..">
+            <div class="input-group">
+                <label class="col-md-4">{{ __('Search') }}</label>
+                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                <input type="text"  v-on:keyup="filteCustomer" v-model="params.keyword"  class="form-control" placeholder="Search for names..">
             </div>
         </div>
         <div class="col-md-4 col-md-offset-2">
@@ -48,18 +49,18 @@
                     <option value="50">50</option>
                 </select>
             </div>
-            <label class="col-md-4">{{ __('Page') }}</label>
+            {{-- <label class="col-md-4">{{ __('Page') }}</label>
             <div class="form-group col-md-8">
                 <select  class="form-control" v-on:change="showInfor" v-model="params.page">
                     <option v-bind:value="dataPage" v-for="dataPage in dataPages">
                         @{{ dataPage }}
                     </option>
                 </select>
-            </div> 
+            </div>  --}}
         </div>
     </div>
       <div class="modal fade" id="showBill_Detail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close"  v-on:click="hideBill"  aria-label="Close"><span aria-hidden="true">×</span>
@@ -67,7 +68,14 @@
                     <h4 class="modal-title" id="myModalLabel">{{ __('Bill Detail') }}</h4>
                 </div>
                 <div class="modal-body scroll_bill" >
-                    <div class="row">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#home">{{ __('Infor') }}</a></li>
+                        <li><a data-toggle="tab" href="#menu1">{{ __('Images') }}</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div id="home" class="tab-pane fade in active">
+                        <div class="row">
                         <div class="col-md-10 col-md-offset-1 border_bill col-xs-10 col-xs-offset-1"> 
                             <div class="bookingleft-agile font_bill" >
                                 <table class="table table-hover">
@@ -94,6 +102,7 @@
                                         </tr>
                                     </thead>
                                   </table>
+                                    <div class="clearfix"></div>
                                     <table class="table">
                                         <thead>
                                             <tr>
@@ -104,33 +113,35 @@
                                             </tr>
                                         </thead>
                                         <tbody v-if="showBillDetails.booking">
-                                            <tr v-for=" ok in showBillDetails.booking.get_order_items">
-                                                <td>@{{ ok.service_name }}</td>
-                                                 <td>@{{ ok.stylist_name.name }}</td>
-                                                <td>@{{ ok.qty }}</td>
-                                                <td>@{{ ok.price }}</td>
+                                            <tr v-for=" service in showBillDetails.booking.get_order_items">
+                                                <td>@{{ service.service_name }}</td>
+                                                 <td>@{{ service.stylist_name.name }}</td>
+                                                <td>@{{ service.qty }}</td>
+                                                <td>@{{ (service.price).toLocaleString('de-DE') }}</td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 <br>
                             </div>
                         </div>
-                    </div>
-                    <hr>
-                    <div class="col-md-10 col-md-offset-1 border_bill col-xs-10 col-xs-offset-1">
-                        <div v-if="showBillDetails.booking">
-                            <div v-for="image in showBillDetails.booking.images"> 
-                                <a class="image-item" v-bind:href="'/'+image.path_origin" target="blank" >
-                                    <img v-bind:src="'/'+image.path_origin" class="img-thumbnail img-responsive"></a>
+                        </div>
+                        </div>
+                        <div id="menu1" class="tab-pane fade">
+                            <div class="col-md-10 col-md-offset-1 border_bill col-xs-10 col-xs-offset-1">
+                                <div v-if="showBillDetails.booking">
+                                    <div v-for="image in showBillDetails.booking.images"> 
+                                        <a class="image-item" v-bind:href="'/'+image.path_origin" target="blank" >
+                                            <img v-bind:src="'/'+image.path_origin" class="img-thumbnail img-responsive"></a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <br>
-                    <button class="btn btn-default"  v-on:click="hideBill">
-                        <i class="fa fa-external-link-square" aria-hidden="true"></i>
-                        {{ __('Close') }}
-                    </button>
                 </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
             </div>
         </div>
     </div>
@@ -205,7 +216,7 @@
             </div>
         </div>
     </section>
-    <!-- Show all image-->
+    {{-- <!-- Show all image-->
     <div class="modal fade" id="all-images" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content ">
@@ -223,7 +234,7 @@
                 </div>
             </div>
         </div>
-    </div><!-- end show all image -->
+    </div><!-- end show all image --> --}}
     <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -330,7 +341,6 @@
                                                     <i class="fa fa-leaf" aria-hidden="true"></i>
                                                     @{{ fillItem.name}}
                                                     </h3>
-                                                    <a :href="'tel:' + fillItem.phone" class="btn btn-primary btn-block"><b>{{ __('Contact') }}</b></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -353,7 +363,7 @@
                                                                 <li class="list-group-item">
                                                                     <i class="fa fa-envelope" aria-hidden="true"></i>
                                                                     <b>{{ __('Gmail') }}:</b>
-                                                                    <a>
+                                                                    <a :href="'mailto:' + fillItem.phone">
                                                                         @{{ fillItem.email }}
                                                                     </a>
                                                                 </li>
@@ -388,45 +398,33 @@
                                                     </div>
                                                     {{-- List bill --}}
                                                     <div class="tab-pane" id="timeline">
-                                                        <ul class="timeline timeline-inverse">
-                                                            <li class="time-label" v-for="showBill in showBills" >
-                                                                <span class="bg-red">
-                                                                  @{{ showBill.created_at }}
-                                                                </span>
-                                                                <br/>
-                                                                <div class="col-md-offset-1">
-                                                                    <table class="table">
-                                                                        <tbody>
-                                                                            <tr>
-                                                                            <td>
-                                                                            <a href="javascript:void(0)" v-on:click="viewBill(showBill.id)">{{ __('HD-') }}:@{{ showBill.id }}
-                                                                            </a></td>
-                                                                            <td v-if="showBill.department">
-                                                                            <a href="javascript:void(0)" v-on:click="viewBill(showBill.id)">
-                                                                               @{{ showBill.department.name}}
-                                                                               </a>
-                                                                            </td>
-                                                                            <td>@{{ showBill.grand_total }} VND</td>
-                                                                            <td>
-                                                                                <a href="javascript:void(0)" class="btn btn-success" v-on:click="viewBill(showBill.id)">
-                                                                                    <i class="fa fa-eye" aria-hidden="true"></i>
-                                                                                </a>
-                                                                            </td>
-                                                                            </tr>
-                                                                        </tbody>
-                                                                    </table>
-                                                                </div>
-                                                            </li>
-                                                        </ul>
+                                                     <table class="table table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>{{ __('Code') }}</th>
+                                                                    <th>{{  __('Deparment') }}</th>
+                                                                    <th>{{  __('Created') }}</th>
+                                                                    <th>{{ __('View') }}</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr v-for="showBill in showBills">
+                                                                    <td>{{ __('FSL:') }}@{{ showBill.id }}</td>
+                                                                    <td>@{{ showBill.department.name}}</td>
+                                                                    <td>@{{ showBill.created_at }}</td>
+                                                                    <td><a v-on:click="viewBill(showBill.id)"  class="btn btn-success"> <i class="fa fa-eye" aria-hidden="true"></i> </a></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
                                                     </div>
                                                     <div class="tab-pane" id="settings">
                                                         <div class="timeline-item">
                                                             <div role="tabpanel" class="tab-pane" id="messages">
                                                                 <div class="modal-body row">
                                                                     <div v-for="image in showImages">
-                                                                        <div v-for="ok in image.bookings.images">
-                                                                            <a class="image-item" v-bind:href="'/'+ok.path_origin" target="blank" >
-                                                                            <img v-bind:src="'/'+ok.path_origin" class="img-thumbnail img-responsive"></a>
+                                                                        <div v-for="imgage in image.bookings.images">
+                                                                            <a class="image-item" v-bind:href="'/'+imgage.path_origin" target="blank" >
+                                                                            <img v-bind:src="'/'+imgage.path_origin" class="img-thumbnail img-responsive"></a>
                                                                         </div>
                                                                     </div>
                                                                 </div>

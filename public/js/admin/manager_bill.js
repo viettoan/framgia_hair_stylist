@@ -312,7 +312,6 @@ var Manager_bill = new Vue({
                 console.log(this.bill.grand_total);
                 this.bill.order_booking_id = this.booking.id;
                 this.formErrors.phone = '';
-                $('#booking-inprogress-' + this.booking.id).remove();
                 this.showStylist();
             }).catch((error) => {
                 this.booking = {};

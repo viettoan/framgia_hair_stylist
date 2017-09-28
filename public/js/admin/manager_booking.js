@@ -60,8 +60,8 @@ var manage_service = new Vue({
         var curentDay = new Date().toISOString().slice(0, 10);
         this.start_date = curentDay;
         this.end_date = curentDay;
-        this.selectDepartment();
         this.getBooking();
+        this.showDepar();
 
     },
 
@@ -190,6 +190,7 @@ var manage_service = new Vue({
             this.$set(this, 'status', this.changer_status_booking.status);
             $('#update_status').modal('show');
         },
+
         update_status: function(id){
             var self = this;
             var authOptions = {
@@ -217,6 +218,7 @@ var manage_service = new Vue({
                     }
             });
         },
+
         selectDay: function(event){
             var value = event.target.value;
             this.params.type = value;
@@ -255,15 +257,16 @@ var manage_service = new Vue({
             }
             this.getBooking();
         },
-        showDepartment: function(page) {
+        showDepar: function() {
             axios.get('/api/v0/department').then(response => {
                 this.$set(this, 'showDepartments', response.data.data);
             })
         },
-        selectDepartment: function() {
-            this.params.department_id = this.bill.department_id;
+        selectDepartment: function(event) {
+            this.params.department_id = event.target.value;
             this.getBooking();
         },
+
         addService: function(){
 
             var error = false;
@@ -294,14 +297,12 @@ var manage_service = new Vue({
                 }
             }
             if (!issetBillItem) {
+                this.billItem.order_booking_id = this.bill.order_booking_id;
                 this.billItem.qty = parseInt(this.billItem.qty);
                 this.billItem.row_total = this.billItem.price * parseInt(this.billItem.qty);
                 this.orderItems.get_order_items.push(this.billItem);
             }
             
-            this.billItem = {'qty': 1, 'price': '', 'stylist_id': '', 'service_product_id': ''};
-            this.grand_total();
-
             this.billItem = {'qty': 1, 'price': '', 'stylist_id': '', 'service_product_id': ''};
             this.grand_total();
         },
