@@ -220,26 +220,24 @@ var manage_service = new Vue({
 
         phoneNameValidation: function()
         {
-            var name = this.newItem.name.trim();
-            var phone = this.newItem.phone.trim();
+            var name,phone;
+            
+            name = this.newItem.name;
+            phone = this.newItem.phone;
 
             if(name =="" || name ==null)
             {
                 toastr.error('Name is required!', '', {timeOut: 5000});
                 error = true;
-                $('.booking-circle').click(false);
-                $('.department-circle').click(false);
             }
 
             if(phone == "" || phone == null)
             {
                 toastr.error('Phone is required!', '', {timeOut: 5000});
                 error = true;
-                $('.department-circle').click(false);
-                $('.booking-circle').click(false);
             }
 
-            if(name !=="" && phone !== "")
+            if( typeof name !== "undefined" && name !== "" && typeof phone !== "undefined" && phone !== "")
             {
                 $(".content-step").css("display", "none");
                 $(".content-step2").css("display", "block");
