@@ -34,6 +34,12 @@ class OrderItemRepositoryEloquent extends AbstractRepositoryEloquent implements 
 
     public function getGrandTotal($order_booking_id)
     {
-        return $this->model()->where('order_booking_id', $order_booking_id)->sum('price');
+        $order_items = $this->model()->where('order_booking_id', $order_booking_id)->get();
+        $grandtotal = 0;
+        foreach ($order_items as $item) {
+            $grandtotal = $grandtotal + ($item['price'] * $item['qty']);
+        }
+
+        return $grandtotal;
     }
 }
