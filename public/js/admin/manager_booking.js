@@ -489,7 +489,7 @@ var manage_service = new Vue({
                 toastr.error('Please update service is editing!', '', {timeOut: 5000});
                 return;
             }
-
+            if (!confirm('Do you want to Create this Booking?')) return;
             this.bill.bill_items = JSON.stringify(this.orderItems);
             var authOptions = {
                 method: 'POST',

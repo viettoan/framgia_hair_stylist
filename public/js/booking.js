@@ -25,4 +25,35 @@ $(document).ready(function(){
         $(this).css("color", "white");
         $(this).css("border-bottom", "3px solid green");
     });
+    
+    $(".content-step2").css("display", "none");
+    $(".content-step3").css("display", "none");
+
+    $(".info-circle").on('click',function(){
+        $(".content-step").css("display", "block");
+        $(".content-step2").css("display", "none");
+        $(".content-step3").css("display", "none");
+        $(".info-circle").css("transform", "scale(1.2)");
+        $(".booking-circle").css("transform", "scale(1)");
+        $(".department-circle").css("transform", "scale(1)");
+    });
+
+    $(".department-circle").on('click',function(){
+        $(".content-step").css("display", "none");
+        $(".content-step2").css("display", "block");
+        $(".content-step3").css("display", "none");
+        $(".info-circle").css("transform", "scale(1)");
+        $(".booking-circle").css("transform", "scale(1)");
+        $(".department-circle").css("transform", "scale(1.2)");
+    });
+
+    $(".booking-circle").on('click',function(){
+        $(".content-step").css("display", "none");
+        $(".content-step2").css("display", "none");
+        $(".content-step3").css("display", "block");
+        $(".info-circle").css("transform", "scale(1)");
+        $(".department-circle").css("transform", "scale(1)");
+        $(".booking-circle").css("transform", "scale(1.2)");
+    });
+
 });

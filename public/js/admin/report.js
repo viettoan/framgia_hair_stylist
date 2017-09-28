@@ -629,7 +629,10 @@ var vm = new Vue({
         },
 
         selectStatus: function(event) {
-
+            labels.labelDate = [];
+            labels.labelMonth = [];
+            labels.labelYear = [];
+            
             this.filterParams.status = this.inputStatus;
             this.ChartSales();
         },
