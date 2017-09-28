@@ -48,7 +48,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <label class="col-md-4">{{ __('Status') }}</label>
+               {{--  <label class="col-md-4">{{ __('Status') }}</label>
                 <div class="form-group col-md-8 select_booking_manage">
                     <select  class="form-control select-multi-status" id="sel1" v-on:change="selectStatus" multiple>
                         <option value="">{{ __('All') }}</option>
@@ -56,7 +56,7 @@
                         <option value="1">{{ __('Complete') }}</option>
                         <option value="2">{{ __('Cancel') }}</option>
                     </select>
-                </div>
+                </div> --}}
                 <label class="col-md-4">{{ __('Department') }}</label>
                 <div class="form-group col-md-8 select_booking_manage">
                     <select  class="form-control" v-model="filterParams.department_id" v-on:change="getListBill">
@@ -69,48 +69,54 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                        <input type="text" id="Myinput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name"> 
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" id="Myinput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name"> 
+                    </div>
                         <button class="col-md-offset-1 btn btn-success" v-on:click="addBill">
                             <i class="fa fa-plus" aria-hidden="true"></i>
                             {{ __('Create Bill') }}
                         </button>
                     </div>
                     <!-- booking inprogress -->
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4>
-                                {{__('Booking Inprogress')}}
-                                <span class="label label-warning">
-                                    @{{ booking_inprogress.length }}
-                                </span>
-                            </h4>
-                        </div>
-                        <div class="panel-collapse collapse in">
-                            <div class="panel-body">
-                                <table class="table table-striped table-bordered" id="bookingTable">
-                                    <thead>
-                                        <tr>
-                                            <th>{{__('ID')}}</th>
-                                            <th>{{__('NameCustomer') }}</th>
-                                            <th>{{__('Phone') }}</th>
-                                            <th>{{__('Department') }}</th>
-                                            <th>{{__('NameStylist') }}</th>
-                                            <th>{{ __('Action') }}</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="booking in booking_inprogress" v-bind:id="'booking-inprogress-' + booking.id">
-                                            <th>@{{ booking.id }}</th>
-                                            <th>@{{ booking.name }}</th>
-                                            <th>@{{ booking.phone }}</th>
-                                            <th>@{{ booking.department }}</th>
-                                            <th>@{{ booking.get_stylist.name }}</th>
-                                            <th>
-                                                <a href="javascript:void(0)" v-on:click="addBillBookingInprogress(booking.id)"><i class="fa fa-plus" aria-hidden="true"></i></a>
-                                            </th>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                    <div class="panel-group" id="accordion">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                            {{__('Booking Inprogress')}}
+                                            <span class="label label-warning">
+                                                @{{ booking_inprogress.length }}
+                                            </span>
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseOne" class="panel-collapse collapse in">
+                                <div class="panel-body">
+                                    <table class="table table-striped table-bordered" id="bookingTable">
+                                        <thead>
+                                            <tr>
+                                                <th>{{__('ID')}}</th>
+                                                <th>{{__('NameCustomer') }}</th>
+                                                <th>{{__('Phone') }}</th>
+                                                <th>{{__('Department') }}</th>
+                                                <th>{{__('NameStylist') }}</th>
+                                                <th>{{ __('Action') }}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="booking in booking_inprogress" v-bind:id="'booking-inprogress-' + booking.id">
+                                                <th>@{{ booking.id }}</th>
+                                                <th>@{{ booking.name }}</th>
+                                                <th>@{{ booking.phone }}</th>
+                                                <th>@{{ booking.department }}</th>
+                                                <th>@{{ booking.get_stylist.name }}</th>
+                                                <th>
+                                                    <a href="javascript:void(0)" v-on:click="addBillBookingInprogress(booking.id)"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                                                </th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -241,7 +247,7 @@
                                         <td>@{{ keyObject + 1 }}</td>
                                         <td>@{{ order_item.service_name }}</td>
                                         <td>@{{ order_item.stylist }}</td>
-                                        <td>@{{ order_item.price }} VND</td>
+                                        <td>@{{ (order_item.price).toLocaleString('de-DE') }} VND</td>
                                         <td>@{{ order_item.qty }}</td>    
                                     </tr>
                                     <tr>
@@ -249,7 +255,7 @@
                                         <td></td>
                                         <td></td>
                                         <td>{{ __('Grand Total : ') }}</td>
-                                        <td>@{{ bill.grand_total }} VND</td>
+                                        <td>@{{ (bill.grand_total).toLocaleString('de-DE') }} VND</td>
                                         <td></td>
                                     </tr>
                                 </tbody>

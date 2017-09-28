@@ -40,7 +40,11 @@
                             </div>
                         </div>
                         <div class="form-group col-md-12">
-                            <input type="text" id="Myinput" class="form-control" onkeyup="myFunction()" placeholder="Search for names.." >
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                <input type="text" id="Myinput" onkeyup="myFunction()" class="form-control" name="email" placeholder="Search for names..">
+                            </div>
+                            {{-- <input type="text" id="Myinput" class="form-control" onkeyup="myFunction()" placeholder="Search for names.." > --}}
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -51,7 +55,7 @@
                                 <option value="1">{{ __('Wating') }}</option>
                                 <option value="2">{{ __('Complete') }}</option>
                                 <option value="3">{{ __('Inlate') }}</option>
-                                <option value="4">{{ __('Inprogress') }}</option>
+                `                <option value="4">{{ __('Inprogress') }}</option>
                             </select>
                         </div>
                         <label class="col-md-4">{{ __('Department') }}</label>
@@ -548,7 +552,7 @@
                                                             <td>@{{ keyObject + 1 }}</td>
                                                             <td>@{{ billItem.service_name }}</td>
                                                             <td>@{{ billItem.stylist_name }}</td>
-                                                            <td>@{{ billItem.price }} VND</td>
+                                                            <td>@{{ (billItem.price).toLocaleString('de-DE') }} VND</td>
                                                             <td>@{{ billItem.qty }}</td>
                                                             <td v-if="status == 4"> <a href="javascript:void(0)" v-on:click="editBillItem(keyObject)">
                                                                 <i aria-hidden="true" class="fa fa-pencil-square-o"></i>
