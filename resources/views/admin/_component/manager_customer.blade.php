@@ -49,208 +49,209 @@
                     <option value="50">50</option>
                 </select>
             </div>
-            {{-- <label class="col-md-4">{{ __('Page') }}</label>
-            <div class="form-group col-md-8">
-                <select  class="form-control" v-on:change="showInfor" v-model="params.page">
-                    <option v-bind:value="dataPage" v-for="dataPage in dataPages">
-                        @{{ dataPage }}
-                    </option>
-                </select>
-            </div>  --}}
-        </div>
-    </div>
-      <div class="modal fade" id="showBill_Detail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close"  v-on:click="hideBill"  aria-label="Close"><span aria-hidden="true">×</span>
-                    </button>
-                    <h4 class="modal-title" id="myModalLabel">{{ __('Bill Detail') }}</h4>
-                </div>
-                <div class="modal-body scroll_bill" >
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a data-toggle="tab" href="#home">{{ __('Infor') }}</a></li>
-                        <li><a data-toggle="tab" href="#menu1">{{ __('Images') }}</a></li>
-                    </ul>
+{{-- <label class="col-md-4">{{ __('Page') }}</label>
+<div class="form-group col-md-8">
+<select  class="form-control" v-on:change="showInfor" v-model="params.page">
+<option v-bind:value="dataPage" v-for="dataPage in dataPages">
+@{{ dataPage }}
+</option>
+</select>
+</div>  --}}
+</div>
+</div>
+<div class="modal fade" id="showBill_Detail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"  v-on:click="hideBill"  aria-label="Close"><span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">{{ __('Bill Detail') }}</h4>
+            </div>
+            <div class="modal-body scroll_bill" >
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#home">{{ __('Infor') }}</a></li>
+                    <li><a data-toggle="tab" href="#menu1">{{ __('Images') }}</a></li>
+                </ul>
 
-                    <div class="tab-content">
-                        <div id="home" class="tab-pane fade in active">
+                <div class="tab-content">
+                    <div id="home" class="tab-pane fade in active">
                         <div class="row">
-                        <div class="col-md-10 col-md-offset-1 border_bill col-xs-10 col-xs-offset-1"> 
-                            <div class="bookingleft-agile font_bill" >
-                                <table class="table table-hover">
-                                    <thead>
-                                       <tr>
-                                            <th >{{__('ID : ') }}</th>
-                                            <th>FSL:@{{ showBillDetails.order_booking_id }}</th>
-                                        </tr>
-                                        <tr>
-                                           <th>{{ __('Name Customer') }}</th>
-                                            <th>@{{ showBillDetails.customer_name}} - @{{ showBillDetails.phone }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>{{ __('Date Create') }}</th>
-                                            <th>@{{ showBillDetails.created_at  }}</th>
-                                        </tr>
-                                        <tr>
-                                            <th>{{ __('Service_total') }}</th>
-                                            <th>@{{ showBillDetails.service_total  }}</th>
-                                        </tr>
-                                        <tr>
-                                            <th>{{ __('Department') }}</th>
-                                            <th v-if="showBillDetails.department">@{{ showBillDetails.department.name }}</th>
-                                        </tr>
-                                    </thead>
-                                  </table>
-                                    <div class="clearfix"></div>
-                                    <table class="table">
+                            <div class="col-md-10 col-md-offset-1 border_bill col-xs-10 col-xs-offset-1" id="infor_bill_customer"> 
+                                <div class="bookingleft-agile font_bill" >
+                                    <table class="table table-hover">
                                         <thead>
                                             <tr>
-                                                <th>{{ __('Service') }}</th>
-                                                <th>{{ __('Stylist') }}</th>
-                                                <th>{{ __('Qty') }}</th>
-                                                <th>{{ __('Price') }}</th>
+                                                <th >{{__('ID : ') }}</th>
+                                                <th>FSL:@{{ showBillDetails.order_booking_id }}</th>
                                             </tr>
-                                        </thead>
-                                        <tbody v-if="showBillDetails.booking">
-                                            <tr v-for=" service in showBillDetails.booking.get_order_items">
-                                                <td>@{{ service.service_name }}</td>
-                                                 <td>@{{ service.stylist_name.name }}</td>
-                                                <td>@{{ service.qty }}</td>
-                                                <td>@{{ (service.price).toLocaleString('de-DE') }}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                <br>
-                            </div>
-                        </div>
-                        </div>
-                        </div>
-                        <div id="menu1" class="tab-pane fade">
-                            <div class="col-md-10 col-md-offset-1 border_bill col-xs-10 col-xs-offset-1">
-                                <div v-if="showBillDetails.booking">
-                                    <div v-for="image in showBillDetails.booking.images"> 
-                                        <a class="image-item" v-bind:href="'/'+image.path_origin" target="blank" >
-                                            <img v-bind:src="'/'+image.path_origin" class="img-thumbnail img-responsive"></a>
+                                            <tr>
+                                                <th>{{ __('Name Customer') }}</th>
+                                                <th>@{{ showBillDetails.customer_name}} - @{{ showBillDetails.phone }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>{{ __('Date Create') }}</th>
+                                                    <th>@{{ showBillDetails.created_at  }}</th>
+                                                </tr>
+                                                <tr>
+                                                    <th>{{ __('Service_total') }}</th>
+                                                    <th>@{{ showBillDetails.service_total  }}</th>
+                                                </tr>
+                                                <tr>
+                                                    <th>{{ __('Department') }}</th>
+                                                    <th v-if="showBillDetails.department">@{{ showBillDetails.department.name }}</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                        <div class="clearfix"></div>
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>{{ __('Service') }}</th>
+                                                    <th>{{ __('Stylist') }}</th>
+                                                    <th>{{ __('Qty') }}</th>
+                                                    <th>{{ __('Price') }}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody v-if="showBillDetails.booking">
+                                                <tr v-for=" service in showBillDetails.booking.get_order_items">
+                                                    <td>@{{ service.service_name }}</td>
+                                                    <td>@{{ service.stylist_name.name }}</td>
+                                                    <td>@{{ service.qty }}</td>
+                                                    <td>@{{ (service.price).toLocaleString('de-DE') }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <br>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div id="menu1" class="tab-pane fade">
+                            <div class="col-md-10 col-md-offset-1 border_bill col-xs-10 col-xs-offset-1" id="scroll_image">
+                                <div v-if="showBillDetails.booking">
+                                    <div v-for="image in showBillDetails.booking.images"> 
+                                        <a class="image-item" v-bind:href="'/'+image.path_origin" target="blank" >
+                                            <img v-bind:src="'/'+image.path_origin" class="img-thumbnail img-responsive"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
                     </div>
-                    <br>
-                </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
-            </div>
-        </div>
-    </div>
-    <section class="content">
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box">
-                    <div class="box-header">
-                        <h3 class="box-title">{{ __('Manager Customer') }}
-                            <span class="label label-warning">
-                                @{{ items.length}}            
-                            </span>
-                        </h3>
-                        <button class="col-md-offset-1 btn btn-success" v-on:click="addItem">
-                            <i class="fa fa-plus" aria-hidden="true"></i>
-                            {{ __('Create Customer') }}
-                        </button>
-                    </div>
-                    <div class="box-body over-flow-edit">
-                        <table id="example1" class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>{{ __('ID') }}</th>
-                                    <th>{{ __('Name') }}</th>
-                                    <th>{{ __('Email') }}</th>
-                                    <th>{{ __('Phone') }}</th>
-                                    <th>{{ __('Gender') }}</th>
-                                    <th>{{ __('Permision') }}</th>
-                                    <th>{{ __('admin.Action') }}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="item in items">
-                                    <td>@{{ item.id }}</td>
-                                    <td>
-                                        <a href="javascript:void(0)" v-on:click="viewUser(item)">
-                                            @{{ item.name }}
-                                        </a>
-                                    </td>
-                                    <td>@{{ item.email }}</td>
-                                    <td>@{{ item.phone }}</td>
-                                    <td>@{{ item.gender }}</td>
-                                    <td v-if="item.permission == 0">
-                                        <span class="label label-success">
-                                            {{ __('Nomal') }}
-                                        </span>
-                                    </td>
-                                    <td v-if="item.permission == 1">
-                                        <span class="label label-success">
-                                            {{ __('Assistant') }}
-                                        </span>
-                                    </td>
-                                    <td v-if="item.permission == 2">
-                                        <span class="label label-success">
-                                            {{ __('Main_Worker') }}
-                                        </span>
-                                    </td>
-                                    <td v-if="item.permission == 3">
-                                        <span class="label label-success">
-                                            {{ __('Admin') }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <a href="javascript:void(0)" v-on:click="edit_cutomer(item)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                        <a href="javascript:void(0)" v-on:click="comfirmDeleteItem(item)"><i class="fa fa-fw  fa-close get-color-icon-delete" ></i></a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
                 </div>
             </div>
         </div>
-    </section>
-    {{-- <!-- Show all image-->
-    <div class="modal fade" id="all-images" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content ">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Images</h4>
-                </div>
-                <div class="modal-body row">
-                    <div class="col-md-12 grid-image parent-container">
-                        <a class="image-item" href="{{ asset('images/1.jpg')}}" target="blank" ><img src="{{ asset('images/1.jpg')}}" class="img-thumbnail img-responsive"></a>
-                        <a class="image-item" href="{{ asset('images/2.jpg')}}" target="blank" ><img src="{{ asset('images/2.jpg')}}" class="img-thumbnail img-responsive"></a>
-                        <a class="image-item" href="{{ asset('images/4.jpg')}}" target="blank" ><img src="{{ asset('images/4.jpg')}}" class="img-thumbnail img-responsive"></a>
-                        <a class="image-item" href="{{ asset('images/4.jpg')}}" target="blank" ><img src="{{ asset('images/4.jpg')}}" class="img-thumbnail img-responsive"></a>
+        <section class="content">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">{{ __('Manager Customer') }}
+                                <span class="label label-warning">
+                                    @{{ items.length}}            
+                                </span>
+                            </h3>
+                            <button class="col-md-offset-1 btn btn-success" v-on:click="addItem">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                {{ __('Create Customer') }}
+                            </button>
+                        </div>
+                        <div class="box-body over-flow-edit">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>{{ __('ID') }}</th>
+                                        <th>{{ __('Name') }}</th>
+                                        <th>{{ __('Email') }}</th>
+                                        <th>{{ __('Phone') }}</th>
+                                        <th>{{ __('Gender') }}</th>
+                                        <th>{{ __('Permision') }}</th>
+                                        <th>{{ __('admin.Action') }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="item in items">
+                                        <td>@{{ item.id }}</td>
+                                        <td>
+                                            {{-- <a href="javascript:void(0)" v-on:click="viewUser(item)"> --}}
+                                            <a v-bind:href="'/admin/profile/'+ item.id">
+                                                @{{ item.name }}
+                                            </a>
+                                        </td>
+                                        <td>@{{ item.email }}</td>
+                                        <td>@{{ item.phone }}</td>
+                                        <td>@{{ item.gender }}</td>
+                                        <td v-if="item.permission == 0">
+                                            <span class="label label-success">
+                                                {{ __('Nomal') }}
+                                            </span>
+                                        </td>
+                                        <td v-if="item.permission == 1">
+                                            <span class="label label-success">
+                                                {{ __('Assistant') }}
+                                            </span>
+                                        </td>
+                                        <td v-if="item.permission == 2">
+                                            <span class="label label-success">
+                                                {{ __('Main_Worker') }}
+                                            </span>
+                                        </td>
+                                        <td v-if="item.permission == 3">
+                                            <span class="label label-success">
+                                                {{ __('Admin') }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <a href="javascript:void(0)" v-on:click="edit_cutomer(item)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                            <a href="javascript:void(0)" v-on:click="comfirmDeleteItem(item)"><i class="fa fa-fw  fa-close get-color-icon-delete" ></i></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div><!-- end show all image --> --}}
-    <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
+        </section>
+{{-- <!-- Show all image-->
+<div class="modal fade" id="all-images" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg">
+<div class="modal-content ">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+<h4 class="modal-title" id="myModalLabel">Images</h4>
+</div>
+<div class="modal-body row">
+<div class="col-md-12 grid-image parent-container">
+<a class="image-item" href="{{ asset('images/1.jpg')}}" target="blank" ><img src="{{ asset('images/1.jpg')}}" class="img-thumbnail img-responsive"></a>
+<a class="image-item" href="{{ asset('images/2.jpg')}}" target="blank" ><img src="{{ asset('images/2.jpg')}}" class="img-thumbnail img-responsive"></a>
+<a class="image-item" href="{{ asset('images/4.jpg')}}" target="blank" ><img src="{{ asset('images/4.jpg')}}" class="img-thumbnail img-responsive"></a>
+<a class="image-item" href="{{ asset('images/4.jpg')}}" target="blank" ><img src="{{ asset('images/4.jpg')}}" class="img-thumbnail img-responsive"></a>
+</div>
+</div>
+</div>
+</div>
+</div><!-- end show all image --> --}}
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
                 <form method="POST" enctype="multipart/form-data" v-on:submit.prevent="update_customer(fillItem.id)">
-                <div class="row">
-                    <div class="col-md-8"><h4 class="modal-title" id="myModalLabel">{{ __('Edit Customer') }}</h4>
+                    <div class="row">
+                        <div class="col-md-8"><h4 class="modal-title" id="myModalLabel">{{ __('Edit Customer') }}</h4>
+                        </div>
+                        <div class="col-md-4 button-edit-customer">
+                            <div class="btn btn-default">{{__('Hủy') }}</div>
+                            <button type="submit" class="btn btn-success">
+                                <i class="fa fa-plus" aria-hidden="true"></i> {{ __('Update') }}
+                            </button>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        </div>
                     </div>
-                    <div class="col-md-4 button-edit-customer">
-                        <div class="btn btn-default">{{__('Hủy') }}</div>
-                        <button type="submit" class="btn btn-success">
-                            <i class="fa fa-plus" aria-hidden="true"></i> {{ __('Update') }}
-                        </button>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    </div>
-                </div>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -272,7 +273,7 @@
                                     <label class="text-title-field" for="inputdate">{{ __('Ngày sinh') }}</label>
                                     <input type="date" class="form-control flexbox-grid-form-input" id="inputemail"  v-model="fillItem.birthday">
                                 </div>
-                               <div class="col-md-12 flexbox-grid-form">
+                                <div class="col-md-12 flexbox-grid-form">
                                     <label for="name">{{ __('Gender') }}</label>
                                     <select  class="form-control create_customer" v-model="fillItem.gender">
                                         <option value="" selected>{{ __('Select Gender') }}</option>
@@ -315,44 +316,44 @@
                         </div>
                     </div>
                 </div>
-                </form>
-            </div>
+            </form>
         </div>
     </div>
-    <div class="modal fade" id="showUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                    <div class="modal-body">
-                        <div>
-                            <div class="tab-content">
-                                <div role="tabpanel" class="tab-pane active" id="home">
-                                    <div class="panel panel-primary">
-                                    <div class="panel-heading">
-                                        <i class="fa fa-user" aria-hidden="true"></i>
-                                        {{ __('Information Customer') }}
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                                    </div>
-                                        <div class="panel-body">
-                                            <div class="form-group col-md-4">
-                                                <div class="box-body box-profile">
-                                                    <div class="col-md-10">
-                                                    <img class="img-responsive img-circle" src="{{ asset('images/4.jpg')}}" alt="User profile picture">    
-                                                    <h3 class="profile-username text-center">
+</div>
+<div class="modal fade" id="showUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div>
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="home">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                    {{ __('Information Customer') }}
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="form-group col-md-4">
+                                        <div class="box-body box-profile">
+                                            <div class="col-md-10">
+                                                <img class="img-responsive img-circle" src="{{ asset('images/4.jpg')}}" alt="User profile picture">    
+                                                <h3 class="profile-username text-center">
                                                     <i class="fa fa-leaf" aria-hidden="true"></i>
                                                     @{{ fillItem.name}}
-                                                    </h3>
-                                                    </div>
-                                                </div>
+                                                </h3>
                                             </div>
-                                            <div class="form-group col-md-8" style="border-left: 1px solid #ddd">
-                                                <div class="col-md-12">
-                                                    <div class="nav-tabs-custom">
-                                                    <ul class="nav nav-tabs">
-                                                        <li class="active"><a href="#activity" data-toggle="tab" aria-expanded="true"><i class="fa fa-info" aria-hidden="true"></i> {{ __('Infor') }}</a></li>
-                                                        <li class=""><a href="#timeline" data-toggle="tab" aria-expanded="false"> <i class="fa fa-list" aria-hidden="true"></i> {{ __('List Bill') }}</a></li>
-                                                        <li class=""><a href="#settings" data-toggle="tab" aria-expanded="false"><i class="fa fa-file-image-o" aria-hidden="true"></i> {{ __('Image') }}</a></li>
-                                                    </ul>
-                                                    <div class="tab-content">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-8" style="border-left: 1px solid #ddd">
+                                        <div class="col-md-12">
+                                            <div class="nav-tabs-custom">
+                                                <ul class="nav nav-tabs">
+                                                    <li class="active"><a href="#activity" data-toggle="tab" aria-expanded="true"><i class="fa fa-info" aria-hidden="true"></i> {{ __('Infor') }}</a></li>
+                                                    <li class=""><a href="#timeline" data-toggle="tab" aria-expanded="false"> <i class="fa fa-list" aria-hidden="true"></i> {{ __('List Bill') }}</a></li>
+                                                    <li class=""><a href="#settings" data-toggle="tab" aria-expanded="false"><i class="fa fa-file-image-o" aria-hidden="true"></i> {{ __('Image') }}</a></li>
+                                                </ul>
+                                                <div class="tab-content">
                                                     <div class="tab-pane active" id="activity">
                                                         <div class="post">
                                                             <ul class="list-group list-group-unbordered">
@@ -398,7 +399,7 @@
                                                     </div>
                                                     {{-- List bill --}}
                                                     <div class="tab-pane" id="timeline">
-                                                     <table class="table table-hover">
+                                                        <table class="table table-hover">
                                                             <thead>
                                                                 <tr>
                                                                     <th>{{ __('Code') }}</th>
@@ -424,7 +425,8 @@
                                                                     <div v-for="image in showImages">
                                                                         <div v-for="imgage in image.bookings.images">
                                                                             <a class="image-item" v-bind:href="'/'+imgage.path_origin" target="blank" >
-                                                                            <img v-bind:src="'/'+imgage.path_origin" class="img-thumbnail img-responsive"></a>
+                                                                                <img v-bind:src="'/'+imgage.path_origin" class="img-thumbnail img-responsive"></a>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -434,23 +436,22 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        </div>
-                                        </div>
                                     </div>
                                 </div>
-                                <div role="tabpanel" class="tab-pane" id="messages">
-                                    <div class="modal-body row">
-                                        <div class="col-md-12 grid-image parent-container">
-                                            <a class="image-item" href="{{ asset('images/1.jpg')}}" target="blank" ><img src="{{ asset('images/1.jpg')}}" class="img-thumbnail img-responsive"></a>
-                                            <a class="image-item" href="{{ asset('images/2.jpg')}}" target="blank" ><img src="{{ asset('images/2.jpg')}}" class="img-thumbnail img-responsive"></a>
-                                            <a class="image-item" href="{{ asset('images/4.jpg')}}" target="blank" ><img src="{{ asset('images/4.jpg')}}" class="img-thumbnail img-responsive"></a>
-                                            <a class="image-item" href="{{ asset('images/4.jpg')}}" target="blank" ><img src="{{ asset('images/4.jpg')}}" class="img-thumbnail img-responsive"></a>
-                                        </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="messages">
+                                <div class="modal-body row">
+                                    <div class="col-md-12 grid-image parent-container">
+                                        <a class="image-item" href="{{ asset('images/1.jpg')}}" target="blank" ><img src="{{ asset('images/1.jpg')}}" class="img-thumbnail img-responsive"></a>
+                                        <a class="image-item" href="{{ asset('images/2.jpg')}}" target="blank" ><img src="{{ asset('images/2.jpg')}}" class="img-thumbnail img-responsive"></a>
+                                        <a class="image-item" href="{{ asset('images/4.jpg')}}" target="blank" ><img src="{{ asset('images/4.jpg')}}" class="img-thumbnail img-responsive"></a>
+                                        <a class="image-item" href="{{ asset('images/4.jpg')}}" target="blank" ><img src="{{ asset('images/4.jpg')}}" class="img-thumbnail img-responsive"></a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
             </div>
         </div>
     </div>
@@ -461,8 +462,8 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     <h4 class="modal-title" id="myModalLabel">{{ __('Create Customer') }}</h4>
                 </div>
-                    <div class="modal-body">
-                        <div class="row"> 
+                <div class="modal-body">
+                    <div class="row"> 
                         <form method="POST" enctype="multipart/form-data" v-on:submit.prevent="createItem">
                             <div class="form-group">
                                 <div class="col-sm-12">
@@ -583,9 +584,9 @@
             </div>
         </div>
     </div>
-@endsection
+    @endsection
 
-@section('script')
+    @section('script')
     {{ Html::script('js/admin/manager_customer_admin.js') }}
     {{ Html::script('js/admin/image_zoom.js') }}
-@endsection
+    @endsection
