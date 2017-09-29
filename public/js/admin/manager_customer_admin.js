@@ -260,6 +260,7 @@ var manage_service = new Vue({
 
             axios(authOptions).then((response) => {
                 this.$set(this, 'showBillDetails', response.data.data);
+                console.log(this.showBillDetails);
                 $("#showBill_Detail").modal("show");
                 $("#showUser").modal("hide");
             }).catch((error) => {

@@ -150,7 +150,7 @@
                                     <tbody>
                                        <tr v-for="list in item.list_bill">
                                             <td>@{{ list.id }}</td>
-                                            <td>@{{ list.customer_name }}</td>
+                                            <td> <a v-bind:href="'/admin/profile/'+ list.customer_id">@{{ list.customer_name }}</a></td>
                                             <td>@{{ list.phone }}</td>
                                             <td>@{{ list.department.name }}</td>
                                             <td>@{{ (list.grand_total).toLocaleString('de-DE') }}</td>
@@ -189,40 +189,34 @@
                     <form method="POST" enctype="multipart/form-data" v-on:submit.prevent="" class="form-horizontal">
                         <div class="form-group">
                             <div class="col-sm-6">
-                                <label for="name" class="label_bill ">{{ __('Phone Customer') }}</label>
+                                <label for="name"><i class="fa fa-phone" aria-hidden="true"></i> <strong>{{ __('Phone Customer') }}</strong></label>
                                 <span class="text-danger">
                                     @{{formErrors.phone}}
                                 </span>
                                 <input type="text" name="phone" class="form-control" v-on:keyup="keyPhone" v-model="bill.phone" />
                             </div>
                             <div class="col-sm-6">
-                                <label for="name" class="label_bill">{{ __('Name Customer') }}</label>
+                                <label for="name"><i class="fa fa-user" aria-hidden="true"></i> <strong>{{ __('Name Customer') }}</strong></label>
                                 <input type="text" class="form-control" v-model="bill.customer_name"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-12">
-                                <label for="name" class="text-center label_bill">
-                                    {{ __('Infor Booking') }}
+                                <label for="name" class="text-center">
+                                    <i class="fa fa-info-circle" aria-hidden="true"></i> <strong>{{ __('Infor Booking') }}</strong>
                                 </label>
-                                <span v-if="booking.status == 0" class="label label-danger">Cancel</span>
-                                <span v-if="booking.status == 1" class="label label-default">Pending</span>
-                                <span v-if="booking.status == 2" class="label label-success">Complete</span>
-                                <span v-if="booking.status == 4" class="label label-primary">InProgress</span>
-                                <span v-if="booking.status == 3" class="label label-warning">Inlate</span>
                                 <div v-if="booking.id">
-                                    
                                     <div class="col-sm-4">
-                                        <p>Department: @{{ booking.department.name }}</p>
-                                        <p>Address: @{{ booking.department.address }}</p>
+                                        <p><strong>{{ __('Department:') }}</strong> @{{ booking.department.name }}</p>
+                                        <p><strong>{{ __('Address:') }}</strong>@{{ booking.department.address }}</p>
                                     </div>
                                     <div class="col-sm-4">
-                                        <p>Day Booking: @{{ booking.render_booking.day }}</p>
-                                        <p>Time start: @{{ booking.render_booking.time_start }}</p>
+                                        <p><strong>{{ __('Day Booking:') }}</strong>@{{ booking.render_booking.day }}</p>
+                                        <p><strong>{{ __('Time start:') }}</strong>@{{ booking.render_booking.time_start }}</p>
                                     </div>
                                     <div class="col-sm-4">
-                                        <p>Stylist: @{{ booking.stylist.name }}</p>
-                                        <p>Stylist Phone: @{{ booking.stylist.phone }}</p>
+                                        <p><strong>{{ __('Stylist:') }}</strong> @{{ booking.stylist.name }}</p>
+                                        <p><strong>{{ __('Stylist Phone:') }}</strong>@{{ booking.stylist.phone }}</p>
                                     </div>
                                 </div>
                                 <div v-if="!booking.id">
