@@ -4,9 +4,41 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Contracts\Repositories\UserRepository;
+use App\Contracts\Repositories\DepartmentRepository;
+use App\Helpers\Helper;
+use App\Eloquents\User;
+use Response;
+use Validator;
+use Auth;
 
 class AdminController extends Controller
 {
+    protected $user;
+    protected $department;
+    protected  $selectCustomer = [
+        'id',
+        'name',
+        'email',
+        'phone',
+        'birthday',
+        'avatar',
+        'gender',
+        'permission',
+        'about_me',
+        'department_id',
+        'created_at',
+        'updated_at',
+    ];
+
+    public function __construct(
+        UserRepository $user,
+        DepartmentRepository $department
+    ) {
+        $this->user = $user;
+        $this->department = $department;
+    }
+
     public function home()
     {
         return view('admin._component.home');
@@ -22,9 +54,11 @@ class AdminController extends Controller
         return view('admin._component.manager_booking');
     }
     
-    public function profile()
+    public function profile($id)
     {
-        return view('admin._component.profile');
+        $user = $this->user->find($id);
+        
+        return view('admin._component.profile', compact('user'));
     }
 
     public function bill()

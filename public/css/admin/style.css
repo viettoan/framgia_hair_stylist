@@ -13,6 +13,10 @@
     color:black;
 }
 
+.profile-user-img {
+    border-radius: 50% !important;
+}
+
 #list_service {
     margin-top: 10px;
 }
@@ -31,6 +35,10 @@
     border-radius: 13px;
     box-shadow: 10px 9px 1px 0px rgba(0,0,0,0.2);
     font-family: Times, Times New Roman, Georgia, serif;
+}
+#menu2 {
+    overflow: scroll;
+    height: 400px;
 }
 
 .fix-row {
@@ -217,10 +225,16 @@
     width: 100%;
     /*overflow: scroll;*/
 }
-
-#settings {
+#scroll_image {
     overflow: scroll;
     height: 300px;
+}
+#infor_bill_customer{
+    height: 324px;
+}
+#settings {
+    overflow: scroll;
+    height: 400px;
 },
 /*upload images*/
 .Image-input {
