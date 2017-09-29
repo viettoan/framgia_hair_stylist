@@ -14,6 +14,6 @@ class MediaRepositoryEloquent extends AbstractRepositoryEloquent implements Medi
 
     public function getLastImage($id, $type)
     {
-    	return $this->model()->where('media_table_id', $id)->where('media_table_type', $type)->last();
+    	return $this->model()->where('media_table_id', $id)->where('media_table_type', $type)->get()->last();
     }
 }

@@ -346,7 +346,21 @@ var Manager_bill = new Vue({
                 this.getListBill();
                 this.resetData();
                 this.showBookingInprogress();
+                var authOptions = {
+                    method: 'GET',
+                    url: '/admin/export_bill/' + response.data.data.id,
+                    responseType:'arraybuffer',
+                };
+
+                axios(authOptions).then(response => {
+                    let blob = new Blob([response.data], { type:   'application/pdf' } )
+                    let link = document.createElement('a')
+                    link.href = window.URL.createObjectURL(blob)
+                    link.download = this.billSuccess.id + '_' + this.billSuccess.department.address + '_Report.pdf'
+                    link.click()
+                });
                 $('#showBill').modal('hide');
+
             }).catch((error) => {
                 for (key in error.response.data.message) {
                     toastr.error(error.response.data.message[key], '', {timeOut: 5000});
