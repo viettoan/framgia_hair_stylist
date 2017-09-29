@@ -23,18 +23,20 @@ use DB;
 class BillController extends Controller
 {
 
-    protected $bill, $billItem, $user, $orderBooking;
+    protected $bill, $billItem, $user, $orderBooking, $media;
 
     public function __construct(
         BillRepository $bill,
         BillItemRepository $billItem,
         UserRepository $user,
-        OrderBookingRepository $orderBooking
+        OrderBookingRepository $orderBooking,
+        MediaRepository $media
     ) {
         $this->bill = $bill;
         $this->billItem = $billItem;
         $this->user = $user;
         $this->orderBooking = $orderBooking;
+        $this->media = $media;
     }
 
     public function getBillByCustomerId(Request $request)
@@ -131,6 +133,7 @@ class BillController extends Controller
      */
     public function store(Request $request)
     {
+        $avatarUser = $this->media->getLastImage($request->order_booking_id, 'order_booking')->path_origin;
         $response = Helper::apiFormat();
 
         // Check permission User
@@ -203,6 +206,7 @@ class BillController extends Controller
         } else {
             $customer_id = $findUser->id;
         }
+        
         // End Create User
 
         DB::beginTransaction();
@@ -214,6 +218,10 @@ class BillController extends Controller
             }
 
             $bill = $this->bill->create($dataBill);
+
+            // Update avatar user
+            $findUser->avatar = $avatarUser;
+            $findUser->save();
 
             // Xu ly Complete Booking neu complete bill
             $orderBooking = $this->orderBooking->find($request->order_booking_id);
