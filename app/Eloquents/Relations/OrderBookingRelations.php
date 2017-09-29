@@ -13,7 +13,7 @@ trait OrderBookingRelations
 {
     public function getUser()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function getStylist()
