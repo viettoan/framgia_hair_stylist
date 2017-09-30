@@ -77,6 +77,7 @@ var Manager_bill = new Vue({
             $('#create-item').modal('show');
         },
         exportshowBill: function(item){
+            console.log(item);
             $('#exportshowBill').modal('show');
             this.exportBill.id = item.id;
             this.exportBill.name_customer = item.customer_name;
@@ -340,6 +341,7 @@ var Manager_bill = new Vue({
 
             axios(authOptions).then(response => {
                 this.billSuccess = response.data.data;
+                console.log(this.billSuccess);
                 for (key in response.data.message) {
                     toastr.success(response.data.message[key], '', {timeOut: 5000});
                 }
@@ -347,11 +349,14 @@ var Manager_bill = new Vue({
                 this.resetData();
                 this.showBookingInprogress();
                 $('#showBill').modal('hide');
+                this.exportshowBill(this.billSuccess);
+
             }).catch((error) => {
                 for (key in error.response.data.message) {
                     toastr.error(error.response.data.message[key], '', {timeOut: 5000});
                 }
             });
+            
         },
         editBill: function(bill) {
             this.bill = bill;

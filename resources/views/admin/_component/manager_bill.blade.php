@@ -112,6 +112,7 @@
                                                 <th>@{{ booking.get_stylist.name }}</th>
                                                 <th>
                                                     <a href="javascript:void(0)" v-on:click="addBillBookingInprogress(booking.id)"><i class="fa fa-plus" aria-hidden="true"></i></a>
+
                                                 </th>
                                             </tr>
                                         </tbody>
@@ -165,7 +166,7 @@
                                                 </span>
                                             </td>
                                             <td>
-                                                <a href="javascript:void(0)" v-on:click="exportshowBill(list)"><i class="fa fa-external-link-square" aria-hidden="true"></i></a>
+                                                <a href="javascript:void(0)" v-bind:class="'list-' + list.id" v-on:click="exportshowBill(list)"><i class="fa fa-external-link-square" aria-hidden="true"></i></a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -256,7 +257,6 @@
                             </table>
                         </div>
                         <div class="form-group text-center">
-
                             <button class="btn btn-success" :disabled="booking.status != 4 ||  bill.service_total == 0 " v-on:click="createBill" v-if="!bill.id">
                                 <i class="fa fa-plus" aria-hidden="true"></i> {{ __('Create Bill') }}
                             </button>
