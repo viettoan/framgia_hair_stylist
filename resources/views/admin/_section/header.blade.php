@@ -6,6 +6,9 @@
         <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
             <span class="sr-only">{{ __('Toggle navigation') }}</span>
         </a>
+        <a href="{{ asset('/')  }}" class="back-homepage">
+            {{__('Back to homepage')}}
+        </a>
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
                 <li class="dropdown user user-menu">

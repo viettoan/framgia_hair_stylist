@@ -55,5 +55,4 @@ $(document).ready(function(){
         $(".department-circle").css("transform", "scale(1)");
         $(".booking-circle").css("transform", "scale(1.2)");
     });
-
 });
