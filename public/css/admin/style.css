@@ -298,3 +298,20 @@
     cursor: pointer;
 }
 /*end upload images*/
+.back-homepage
+{
+    padding: 15px 15px;
+    display: inline-block;
+    position: absolute;
+    right: 10%;
+}
+.back-homepage
+{
+    color: #fff;
+    background-color: transparent;
+}
+.back-homepage:hover
+{
+    color: #fff;
+    background-color: #367fa9;
+}

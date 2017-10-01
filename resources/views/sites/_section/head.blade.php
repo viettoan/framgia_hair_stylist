@@ -39,7 +39,10 @@
                         </a>
                     </li>
                     <li v-if="users.name">
-                        <a href="#" data-nav-section="login" >
+                        <a v-if="users.permission == 3" href="/admin/home" data-nav-section="login" >
+                            <span>{{ trans('site.welcome') }} : @{{ users.name }}</span>
+                        </a>
+                        <a v-else href="#" data-nav-section="login" >
                             <span>{{ trans('site.welcome') }} : @{{ users.name }}</span>
                         </a>
                     <li>

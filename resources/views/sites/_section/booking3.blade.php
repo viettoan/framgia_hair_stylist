@@ -6,7 +6,7 @@
             </div>
         </div>
         <div class="row wrap-step">
-            <div class="col-sm-4">
+            <div class="col-sm-4 zIndex-hr">
                 <div class="wrap-icon-step">
                     <a href="javascript:void(0)" class="circle themed-background info-circle">
                         <img src = "/images/beard.png">
@@ -14,6 +14,7 @@
                     <h4 style="margin-left:-6%;"><strong>STEP 1: </strong> Your information</h4>
                 </div>
             </div>
+            <hr class="hr-step">
             <div class="col-sm-4 wrap-overlap overlap-department">
                 <div class="wrap-icon-step">
                     <a href="javascript:void(0)" class="circle themed-background department-circle">
