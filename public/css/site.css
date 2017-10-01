@@ -421,6 +421,7 @@ label.search-name-input, label.search-phone-input {
 }
 .wrap-step
 {
+    position: relative;
     margin-bottom: 20px;
     margin-left: 6%;
     margin-right: auto;
@@ -515,7 +516,21 @@ label.search-name-input, label.search-phone-input {
 {
     font-size: 23px;
 }
+
+.hr-step
+{
+    position: absolute;
+    top: 17%;
+    left: 23.2%;
+    width: 56%;
+    border: 5px solid #fff;
+}
+.zIndex-hr
+{
+    z-index: 1;
+}
 /*End booking3 css*/
+
 @media screen and (max-device-width: 480px) {
     .li-booking-time
     {

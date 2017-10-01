@@ -166,7 +166,7 @@
                                                 </span>
                                             </td>
                                             <td>
-                                                <a href="javascript:void(0)" v-on:click="exportshowBill(list)"><i class="fa fa-external-link-square" aria-hidden="true"></i></a>
+                                                <a href="javascript:void(0)" v-bind:class="'list-' + list.id" v-on:click="exportshowBill(list)"><i class="fa fa-external-link-square" aria-hidden="true"></i></a>
                                             </td>
                                         </tr>
                                     </tbody>

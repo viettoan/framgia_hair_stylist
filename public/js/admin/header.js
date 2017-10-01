@@ -18,6 +18,7 @@ var header = new Vue({
         if (this.users.permission != 3) {
             window.location = '/';
         }
+        console.log(this.users);
     },
     methods: {
         logout: function() {

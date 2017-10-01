@@ -233,7 +233,9 @@ class BillController extends Controller
             // End
             $response['error'] = false;
             $response['status'] = 200;
-            $response['data'] = $this->bill->find($bill->id, ['BillItems', 'BillItems.ServiceProduct', 'BillItems.Stylist', 'Department']);
+            $bill_by_bill_id = $this->bill->find($bill->id, ['Department', 'getOrderBooking.getOrderItems']);
+
+            $response['data'] = $bill_by_bill_id;
             $response['message'][] = __('Create bill successfully!');
             DB::commit();
             
