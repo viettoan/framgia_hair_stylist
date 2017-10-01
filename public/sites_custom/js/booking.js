@@ -87,9 +87,6 @@ var manage_service = new Vue({
             }
 
             axios(authOptions).then(response => {
-                if (!this.token.access_token) {
-                    this.createUser();
-                }
                 $('#infor_user').hide(500);
                 $('#choice_address').hide(800);
                 $('#choice_list_time').hide(900);

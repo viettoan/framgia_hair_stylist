@@ -108,6 +108,29 @@ class OrderBookingController extends Controller
         $user_id = null;
         if ($user) {
             $user_id = $user->id;
+        } else {
+            // Create user if not exits phone
+            $findUser = $this->user->findByPhone($request->phone);
+            
+            if (!$findUser) {
+                for($number = 1; $number < 10000; $number++) {
+                    $email = 'email.' . $request->phone . '.' . $number . '@gmail.com';
+                    $existUser = $this->user->existEmailOrPhone($email, $request->phone);
+                    if (!$existUser) {
+                        $user = [
+                            'name' => $request->name,
+                            'email' => $email,
+                            'phone' => $request->phone,
+                            'password' => $request->phone,
+                        ];
+                        $newUser = $this->user->create($user);
+                        $user_id = $newUser->id;
+                        break;
+                    }
+                }
+            } else {
+                $user_id = $findUser->id;
+            }
         }
 
         if (null === $user_id) {

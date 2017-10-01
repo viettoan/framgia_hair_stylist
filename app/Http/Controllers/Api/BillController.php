@@ -133,6 +133,7 @@ class BillController extends Controller
      */
     public function store(Request $request)
     {
+        
         $avatarUser = $this->media->getLastImage($request->order_booking_id, 'order_booking')->path_origin;
         $response = Helper::apiFormat();
 
@@ -232,7 +233,9 @@ class BillController extends Controller
             // End
             $response['error'] = false;
             $response['status'] = 200;
-            $response['data'] = $this->bill->find($bill->id, ['BillItems', 'BillItems.ServiceProduct', 'BillItems.Stylist', 'Department']);
+            $bill_by_bill_id = $this->bill->find($bill->id, ['Department', 'getOrderBooking.getOrderItems']);
+
+            $response['data'] = $bill_by_bill_id;
             $response['message'][] = __('Create bill successfully!');
             DB::commit();
             
