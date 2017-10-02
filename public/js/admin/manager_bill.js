@@ -345,6 +345,7 @@ var Manager_bill = new Vue({
                 for (key in response.data.message) {
                     toastr.success(response.data.message[key], '', {timeOut: 5000});
                 }
+                ssss
                 this.getListBill();
                 this.resetData();
                 this.showBookingInprogress();
@@ -354,13 +355,6 @@ var Manager_bill = new Vue({
                     responseType:'arraybuffer',
                 };
 
-                axios(authOptions).then(response => {
-                    let blob = new Blob([response.data], { type:   'application/pdf' } )
-                    let link = document.createElement('a')
-                    link.href = window.URL.createObjectURL(blob)
-                    link.download = this.billSuccess.id + '_' + this.billSuccess.department.address + '_Report.pdf'
-                    link.click()
-                });
                 $('#showBill').modal('hide');
                 this.exportshowBill(this.billSuccess);
             }).catch((error) => {
