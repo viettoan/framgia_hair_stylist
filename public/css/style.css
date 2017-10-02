@@ -77,6 +77,20 @@ h1, h2, h3, h4, h5, h6 {
       background: none;
       color: #6173f4 !important;
   }
+  
+  #next_step {
+    display: none;
+  }
+  #prevStep_mobile {
+    display: none;
+  }
+  #nextStep_mobile {
+    display: none;
+  }
+
+  #department_mobile{ 
+    width: 150px;
+   }
   #fh5co-header #navbar li.active a span:before {
       visibility: visible;
       -webkit-transform: scaleX(1);
