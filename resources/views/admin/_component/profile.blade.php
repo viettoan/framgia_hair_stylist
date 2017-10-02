@@ -10,18 +10,20 @@
                 <div class="box box-primary">
                     <div class="box-body box-profile">
                         @if(($user->avatar == '') || ($user->avatar == NULL))
-                        <a class="image-item img-circle" href={{ asset($user->avatar) }} target="blank" >
+                        <a class="image-item-profile" href={{ asset($user->avatar) }} target="blank" >
                             <img class="profile-user-img img-responsive img-circle" src={{ asset('bower/AdminLTE/dist/img/user4-128x128.jpg') }}  alt="User profile picture">
                         </a>
                         @else
-                        <a class="image-item img-circle" href={{ asset($user->avatar) }} target="blank">
+                        <a class="image-item" href={{ asset($user->avatar) }} target="blank">
                             <img class="profile-user-img img-responsive img-circle" src={{ asset($user->avatar) }} alt="User profile picture">
                         </a>
                         @endif
+                        <div class="clearfix"></div>
+                        <br>
                         <h3 class="profile-username text-center">{{ $user->name }}</h3>
                         <br>
                         <ul class="list-group list-group-unbordered">
-                            <li class="list-group-item">
+                            <li class="permistion_profile">
                                 @if($user->permission == 0)
                                 <b>{{ __('Permistion') }}</b> <a class="pull-right">
                                 <span class="label label-success">

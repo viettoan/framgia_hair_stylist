@@ -7,6 +7,7 @@
             <span class="sr-only">{{ __('Toggle navigation') }}</span>
         </a>
         <a href="{{ asset('/')  }}" class="back-homepage">
+            <i class="fa fa-home" aria-hidden="true"></i>
             {{__('Back to homepage')}}
         </a>
         <div class="navbar-custom-menu">

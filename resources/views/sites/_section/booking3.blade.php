@@ -59,7 +59,7 @@
                             </label>
                             <input type="Phone" class="phone-input form-control input-lg" v-model="newItem.phone" placeholder="{{ __('Your phone number') }}">
                         </div>
-                        <button type="button" v-on:click="phoneNameValidation" class="btn btn-primary step-button first-step">Next step 
+                        <button type="button" v-on:click="phoneNameValidation" class="btn btn-primary step-button first-step"> <p id="next_step" >Next step</p>
                             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
                         </button>
                     </form>
@@ -76,7 +76,7 @@
                         </h4>
                     </label>
                     <ul class="ul-booking department-booking">
-                        <li class=" li-booking choose-department" v-for="item in items">
+                        <li class="li-booking choose-department"  id="department_mobile" v-for="item in items">
                         <a>
                             <div  v-bind:class="{den: selected.department_id == item.id}"
                             v-on:click="selectDepartment(item.id)">
@@ -90,10 +90,11 @@
                         </li>
                     </ul>
                     <button type="button" class="btn btn-primary step-button prev-step" v-on:click="prevStep">
+                        <p id="prevStep_mobile">Prev step</p> 
                         <i class="fa fa-angle-double-left" aria-hidden="true"></i>
-                        Prev step 
                     </button>
-                    <button type="button" class="btn btn-primary step-button second-step" v-on:click="nextBookingStep">Next step 
+                    <button type="button" class="btn btn-primary step-button second-step" v-on:click="nextBookingStep">
+                        <p id="nextStep_mobile">Next step</p> 
                         <i class="fa fa-angle-double-right" aria-hidden="true"></i>
                     </button>
                     
