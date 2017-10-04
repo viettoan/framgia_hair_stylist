@@ -204,10 +204,10 @@
     padding: 0px 15px;
 }
 .image-item img{
-    width: 200px;
-    height: 200px;
+    width: 145px;
+    height: 189px;
     float: left;
-    margin: 3px;
+    margin: 10px;
     border-radius: 0px;
 }
 .image-item img:hover {
@@ -217,14 +217,16 @@
 }
 
 .image-item-profile img {
-    margin-left: 36px !important;
+    margin-left: 7px !important;
     width: 200px;
     height: 200px;
     float: left;
     margin: -2px;
     border-radius: 0px;
 }
-
+.total_bill_user {
+    margin-right: 138px;
+}
 .scoll-time {
     height: 300px;
     overflow: scroll;

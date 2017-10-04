@@ -7,6 +7,7 @@ var manage_service = new Vue({
         users: {},
         token: {},
         items: [],
+        date:{},
         showDepartments:{},
         showBills:{},
         showImages:{},
@@ -19,6 +20,7 @@ var manage_service = new Vue({
         this.users = Vue.ls.get('user', {});
         this.token = Vue.ls.get('token', {});
         this.showInfor();
+        this.showBill(id);
 
     },
 
@@ -70,14 +72,10 @@ var manage_service = new Vue({
                 }
             axios(authOptions).then((response) => {
                 this.$set(this, 'showImages', response.data.data);
-                console.log(this.showImages);
-            }).catch((error) => {
-                if (error.response.status == 403) {
-                    self.formErrors = error.response.data.message;
-                    for (key in self.formErrors) {
-                        toastr.error(self.formErrors[key], '', {timeOut: 10000});
-                    }    
+                for (var i = 0; i < this.showImages.length; i++) {
+                    this.date = ((this.showImages[i].created_at).slice(0, 16));
                 }
+            }).catch((error) => {
             });
         },
 

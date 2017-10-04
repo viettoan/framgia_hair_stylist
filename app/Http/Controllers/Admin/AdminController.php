@@ -6,6 +6,12 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Contracts\Repositories\UserRepository;
 use App\Contracts\Repositories\DepartmentRepository;
+use App\Contracts\Repositories\BillRepository;
+use App\Contracts\Repositories\BillItemRepository;
+use App\Contracts\Repositories\MediaRepository;
+use App\Contracts\Repositories\OrderBookingRepository;
+use App\Eloquents\Bill;
+use App\Eloquents\OrderBooking;
 use App\Helpers\Helper;
 use App\Eloquents\User;
 use Response;
@@ -14,30 +20,22 @@ use Auth;
 
 class AdminController extends Controller
 {
-    protected $user;
-    protected $department;
-    protected  $selectCustomer = [
-        'id',
-        'name',
-        'email',
-        'phone',
-        'birthday',
-        'avatar',
-        'gender',
-        'permission',
-        'about_me',
-        'department_id',
-        'created_at',
-        'updated_at',
-    ];
+    protected $bill, $billItem, $user, $orderBooking, $media;
 
     public function __construct(
+        BillRepository $bill,
+        BillItemRepository $billItem,
         UserRepository $user,
-        DepartmentRepository $department
+        OrderBookingRepository $orderBooking,
+        MediaRepository $media
     ) {
+        $this->bill = $bill;
+        $this->billItem = $billItem;
         $this->user = $user;
-        $this->department = $department;
+        $this->orderBooking = $orderBooking;
+        $this->media = $media;
     }
+
 
     public function home()
     {
@@ -55,10 +53,16 @@ class AdminController extends Controller
     }
     
     public function profile($id)
-    {
+    { 
+        $total = 0;
         $user = $this->user->find($id);
+        $billByCustomerId = $this->bill->getListBillByCustomerId($id, ['Department', 'OrderBooking']);
+        $countBill = count($billByCustomerId);
+        foreach ($billByCustomerId as $item) {
+            $total = $total + $item['grand_total'];
+        }
         
-        return view('admin._component.profile', compact('user'));
+        return view('admin._component.profile', compact('user', 'billByCustomerId', 'total', 'countBill'));
     }
 
     public function bill()
