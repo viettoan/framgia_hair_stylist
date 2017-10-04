@@ -14,7 +14,7 @@
                             <img class="profile-user-img img-responsive img-circle" src={{ asset('bower/AdminLTE/dist/img/user4-128x128.jpg') }}  alt="User profile picture">
                         </a>
                         @else
-                        <a class="image-item" href={{ asset($user->avatar) }} target="blank">
+                        <a class="image-item-profile" href={{ asset($user->avatar) }} target="blank">
                             <img class="profile-user-img img-responsive img-circle" src={{ asset($user->avatar) }} alt="User profile picture">
                         </a>
                         @endif
@@ -24,160 +24,155 @@
                         <br>
                         <ul class="list-group list-group-unbordered">
                             <li class="permistion_profile">
-                                @if($user->permission == 0)
-                                <b>{{ __('Permistion') }}</b> <a class="pull-right">
+                                @if($user->permission == config('custom.permistion.nomal'))
+                                <b> <i class="fa fa-snowflake-o" aria-hidden="true"></i> {{ __('Permistion') }}</b> <a class="pull-right">
                                 <span class="label label-success">
                                     {{ __('Nomal') }}
                                 </span></a>
                                 @endif
-                                @if($user->permission == 1)
-                                <b>{{ __('Permistion') }}</b>
+                                @if($user->permission == config('custom.permistion.assistant'))
+                                <b><i class="fa fa-snowflake-o" aria-hidden="true"></i> {{ __('Permistion') }}</b>
                                 <a class="pull-right">
                                     <span class="label label-success">
                                         {{ __('Assistant') }}
                                     </span>
                                 </a>
                                 @endif
-                                @if($user->permission == 2)
-                                <b>{{ __('Permistion') }}</b> <a class="pull-right">
+                                @if($user->permission == config('custom.permistion.main_worker'))
+                                <b><i class="fa fa-snowflake-o" aria-hidden="true"></i> {{ __('Permistion') }}</b> <a class="pull-right">
                                 <span class="label label-success">
                                     {{ __('Main_Worker') }}
                                 </span>
                             </a>
                             @endif
-                            @if($user->permission == 3)
-                            <b>{{ __('Permistion') }}</b> <a class="pull-right">
+                            @if($user->permission == config('custom.permistion.admin'))
+                            <b><i class="fa fa-snowflake-o" aria-hidden="true"></i> {{ __('Permistion') }}</b> <a class="pull-right">
                             <span class="label label-success">
                                 {{ __('Admin') }}
                             </span>
-                        </a>
-                        @endif
-                    </li>
-                </ul>
+                            </a>
+                            @endif
+                        </li>
+                        <br>
+                        <li class="permistion_profile">
+                            <b><i class="fa fa-user-o"></i> {{ __('Name') }}</b> <p class="pull-right">
+                                {{ $user->name }}</p>
+                        </li>
+                        <br>
+                        <li class="permistion_profile">
+                            <b><i class="fa fa-phone" aria-hidden="true"></i> {{ __('Phone') }}</b> <p class="pull-right">
+                                {{ $user->phone }}</p>
+                        </li>
+                        <br>
+                        <li class="permistion_profile">
+                             <b><i class="fa fa-envelope-o"></i> {{ __('Email') }}</b>
+                             @if(empty($user->email))
+                             <p class="pull-right"><span class="label label-success">NUll</span></p>
+                             @else
+                             <p class="pull-right">{{ $user->email }}</p>
+                             @endif
+                        </li>
+                        <br>
+                        <li class="permistion_profile">
+                             <b><i class="fa fa-transgender"> </i>{{ __('Gender') }}</b> <p class="pull-right">
+                               {{ $user->gender }}</p>
+                        </li>
+                        <br>
+                        <li class="permistion_profile">
+                            <b><i class="fa fa-birthday-cake"></i> {{ __('Birthday') }}</b> 
+                            @if(empty($user->birthday))
+                                <p class="pull-right"><span class="label label-success">NUll</span></p>
+                            @else
+                                <p class="pull-right">{{ $user->birthday }}</p>
+                            @endif
+                        </li>
+                        <br>
+                        <li class="permistion_profile">
+                             <b><i class="fa fa-address-card" aria-hidden="true"></i> {{ __('Address') }}</b> 
+                            @if(empty($user->address))
+                                <p class="pull-right"><span class="label label-success">NUll</span></p>
+                            @else
+                                <p class="pull-right">{{ $user->address }}</p>
+                            @endif
+                        </li>
+                        <br>
+                        <li class="permistion_profile">
+                             <b><i class="fa fa-bandcamp" aria-hidden="true"></i> {{ __('Description') }}</b>
+                            @if(empty($user->about_me))
+                                <p class="pull-right"><span class="label label-success">NUll</span></td>
+                            @else
+                                <p class="pull-right">{{ $user->about_me }}</td>
+                            @endif
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </div> 
+        </div> 
     <div class="col-md-9">
         <div class="box box-primary">
             <div class="box-body box-profile">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#home"><i class="fa fa-info" aria-hidden="true"></i> {{ __('INFOR') }}</a></li>
-                    <li><a data-toggle="tab" href="#menu1" v-on:click="showBill('{{ $user->id }}')"><i class="fa fa-list" aria-hidden="true"></i> {{ __('LIST BILL') }}</a></li>
-                    <li><a data-toggle="tab" href="#menu2" v-on:click="showImage('{{ $user->id }}')"><i class="fa fa-file-image-o" aria-hidden="true"></i> {{ __('Image') }}</a></li>
+                    <li class="active" ><a data-toggle="tab" href="#menu1"><i class="fa fa-list" aria-hidden="true"></i> {{ __('Bills') }} <span class="badge">{{ $countBill }}</span></a></li>
+                    <li><a data-toggle="tab" href="#menu2" v-on:click="showImage('{{ $user->id }}')"><i class="fa fa-file-image-o" aria-hidden="true"></i> {{ __('Images') }}</a></li>
                     <a class="btn btn-success pull-right" href={{ route('admin.customer') }} ><i class="fa fa-arrow-left" aria-hidden="true"></i> Exit</a>
                 </ul>
 
                 <div class="tab-content">
-                    <div id="home" class="tab-pane fade in active">
-                        <div class="panel-body">
-                            <table class="table table-hover">
+                    <div id="menu1" class="tab-pane fade in active">
+                        <br>
+                        <div class="col-md-3">
+                        </div>
+                        @if( $billByCustomerId == null || $billByCustomerId == '')
+                            <p class="alert alert-warning text-center"><i class="fa fa-smile-o" aria-hidden="true"></i> {{ __('NO BIll') }}</p>
+                        @else
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>{{ __('Department') }}</th>
+                                    <th>{{  __('Created') }}</th>
+                                    <th>{{ __('Grand Total') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @foreach ($billByCustomerId as $list)
+                                <tr v-on:click="viewBill({{ $list->id }})">
+                                    <td>{{ $list->Department->name }}</td>
+                                    <td>{{ date_format($list->created_at,"d-m-Y | H:i") }}</td>
+                                    <td>{{ number_format($list->grand_total) }} VND</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                        <hr>
+                            <div class="pull-right total_bill_user" >
+                            <strong>
+                                {{ number_format($total) }} VND
+                            </strong>
+                            </div>
+                        @endif
+                    </div>
+                    <div id="menu2" class="tab-pane fade" v-if="showImages.length !=0 ">
+                        <div v-for="image in showImages">
+                        <br>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <div>
+                                        <strong>@{{ date }}</strong>
+                                        <hr>
+                                    </div>
+                                </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="col-md-3">
-                                            <strong>
-                                                <i class="fa fa-user-o"></i> Name
-                                            </strong>
-                                        </td>
-                                        <td>{{ $user->name }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col-md-3">
-                                            <strong>
-                                                <i class="fa fa-envelope-o"></i> Email
-                                            </strong>
-                                        </td>
-                                        @if(($user->email == null) || ($user->email == ''))
-                                        <td><span class="label label-success">NUll</span></td>
-                                        @else
-                                        <td>{{ $user->email }}</td>
-                                        @endif
-                                    </tr>
-                                    <tr>
-                                    </tr>
-                                    <tr>
-                                        <td class="col-md-3">
-                                            <strong>
-                                                <i class="fa fa-transgender"></i> Gender
-                                            </strong>
-                                        </td>
-                                        <td>{{ $user->gender }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col-md-3">
-                                            <strong>
-                                                <i class="fa fa-birthday-cake"></i> Birthday
-                                            </strong>
-                                        </td>
-                                        <td>
-                                            {{ $user->birthday }}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col-md-3">
-                                            <strong>
-                                                <i class="fa fa-address-card" aria-hidden="true"></i> Address
-                                            </strong>
-                                        </td>
-                                        @if(($user->address == null) || ($user->address == ''))
-                                        <td><span class="label label-success">NUll</span></td>
-                                        @else
-                                        <td>{{ $user->address }}</td>
-                                        @endif
-                                    </tr>
-                                    <tr>
-                                        <td class="col-md-3">
-                                            <strong>
-                                                <i class="fa fa-bandcamp" aria-hidden="true"></i> About
-                                            </strong>
-                                        </td>
-                                        @if(($user->about_me == null) || ($user->about_me == ''))
-                                        <td><span class="label label-success">NUll</span></td>
-                                        @else
-                                        <td>{{ $user->about_me }}</td>
-                                        @endif
-                                    </tr>
+                                    <div v-for="imgage in image.bookings.images">
+                                        <div class="text-center" style="margin-left: 50px;">
+                                            <a class="image-item" v-bind:href="'/'+imgage.path_origin" target="blank" >
+                                            <img v-bind:src="'/'+imgage.path_origin" class="img-thumbnail img-responsive"></a>
+                                        </div>
+                                    </div>
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    <div id="menu1" class="tab-pane fade">
-                        <br>
-                        <div class="col-md-3">
-
-                            <h4 v-if=" showBills.length != 0"><span class="label label-success">
-                                {{ __('Total Bill:') }} @{{ showBills.length }}
-                            </span></h4>
-                        </div>
-                        <p v-if=" showBills.length == 0" class="alert alert-warning text-center"><i class="fa fa-smile-o" aria-hidden="true"></i> {{ __('NO BIll') }}</p>
-                        <table class="table table-hover" v-if="showBills.length != 0 ">
-                            <thead>
-                                <tr>
-                                    <th>{{  __('Deparment') }}</th>
-                                    <th>{{  __('Created') }}</th>
-                                    <th>{{ __('View') }}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="showBill in showBills">
-                                    <td>@{{ showBill.department.name}}</td>
-                                    <td>@{{ showBill.created_at }}</td>
-                                    <td><a v-on:click="viewBill(showBill.id)"  class="btn btn-success"> <i class="fa fa-eye" aria-hidden="true"></i> </a></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div id="menu2" class="tab-pane fade" v-if="showImages.length !=0 ">
-                        <div v-for="image in showImages">
-                            <div v-for="imgage in image.bookings.images">
-                                <a class="image-item" v-bind:href="'/'+imgage.path_origin" target="blank" >
-                                    <img v-bind:src="'/'+imgage.path_origin" class="img-thumbnail img-responsive"></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="menu2" class="tab-pane fade" v-if="showImages.length ==0 ">
-                            <p v-if=" showBills.length == 0" class="alert alert-warning text-center"><i class="fa fa-smile-o" aria-hidden="true"></i> {{ __('NO IMAGE') }}</p>
-                        </div>
-                    </div>
+                </div>
                 </ul>
                 <div class="modal fade" id="showBill_Detail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                     <div class="modal-dialog" role="document">
