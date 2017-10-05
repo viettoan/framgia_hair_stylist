@@ -1,4 +1,5 @@
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
 var Manager_bill = new Vue({
     el: '#manager_bill',
 
@@ -40,10 +41,12 @@ var Manager_bill = new Vue({
 
         var curentDay = new Date().toISOString().slice(0, 10);
         this.inputDate.start_date = curentDay;
+
         this.inputDate.end_date = curentDay;
         this.showBookingInprogress();
 
         $('#list_service').hide();
+        this.showDateFrom();
     },
 
     methods: {
@@ -55,8 +58,17 @@ var Manager_bill = new Vue({
             this.billItem = {'qty': 1, 'price': '', 'stylist_id': '', 'service_product_id': ''};
             this.booking = {};
             this.isEditBillItem = {'status': false, 'index' : ''};
+           
         },
-
+        today: function() {
+            var curentDay = new Date().toISOString().slice(0, 10);
+            this.inputDate.start_date = curentDay;
+            this.inputDate.end_date = curentDay;
+            var timestamp = new Date().getTime() / 1000 | 0;
+            this.filterParams.start_date = timestamp;
+            this.filterParams.end_date = timestamp;
+            this.getListBill();
+        },
         getListBill: function() {
             var authOptions = {
                 method: 'get',
@@ -70,6 +82,8 @@ var Manager_bill = new Vue({
             }
             axios(authOptions).then(response => {
                 this.$set(this, 'listBill', response.data.data);
+                this.inputDate.start_date = response.data.data[0].startDate;
+                this.inputDate.end_date = response.data.data[0].endDate;
             })
         },
 
@@ -94,6 +108,7 @@ var Manager_bill = new Vue({
         },
         selectStartDay: function(event) {
             var timestamp = new Date(event.target.value).getTime() / 1000 | 0;
+            console.log(timestamp);
             this.filterParams.start_date = timestamp;
             this.getListBill();
         },
@@ -102,6 +117,7 @@ var Manager_bill = new Vue({
             var timestamp = new Date(event.target.value).getTime() / 1000 | 0;
             this.filterParams.end_date = timestamp;
             this.getListBill();
+
         },
         selectStatus: function(event) {
             var arrStatus = $(event.target).val();
@@ -348,9 +364,21 @@ var Manager_bill = new Vue({
                 this.getListBill();
                 this.resetData();
                 this.showBookingInprogress();
+                var authOptions = {
+                    method: 'GET',
+                    url: '/admin/export_bill/' + response.data.data.id,
+                    responseType:'arraybuffer',
+                };
+
+                axios(authOptions).then(response => {
+                    let blob = new Blob([response.data], { type:   'application/pdf' } )
+                    let link = document.createElement('a')
+                    link.href = window.URL.createObjectURL(blob)
+                    link.download = this.billSuccess.id + '_' + this.billSuccess.department.address + '_Report.pdf'
+                    link.click()
+                });
                 $('#showBill').modal('hide');
                 this.exportshowBill(this.billSuccess);
-
             }).catch((error) => {
                 for (key in error.response.data.message) {
                     toastr.error(error.response.data.message[key], '', {timeOut: 5000});
@@ -411,6 +439,44 @@ var Manager_bill = new Vue({
             axios(authOptions).then(response => {
                 this.$set(this, 'booking_inprogress', response.data.data);
             }); 
+        },
+        chooseDepartment: function(id) {
+            this.filterParams.department_id = id;
+            this.getListBill();
+        },
+        datePrev: function() {
+            if (this.filterParams.type == 'space') {
+                this.filterParams.start_date = this.filterParams.start_date - 60*24*60;
+                
+            } else if (this.filterParams.type == 'day' || this.filterParams.type == '') {
+                this.filterParams.start_date = this.filterParams.start_date - 60*24*60;
+                this.filterParams.end_date = this.filterParams.start_date - 60*24*60;
+            }
+
+            this.getListBill();
+        },
+        dateNext: function() {
+            console.log(this.filterParams.type == 'space');
+            if (this.filterParams.type == 'space') {
+                this.filterParams.end_date = this.filterParams.end_date + 60*24*60;
+                
+            } else if (this.filterParams.type == 'day' || this.filterParams.type == '') {
+                this.filterParams.start_date = this.filterParams.start_date + 60*24*60;
+                this.filterParams.end_date = this.filterParams.start_date + 60*24*60;
+            }
+            this.getListBill();
+        },
+        showDateFrom: function() {
+            if ($('#to:checked').val() == 1) {
+               $('.date-from').show();
+               this.filterParams.type = 'space';
+               this.today();
+            } else {
+                this.today();
+                $('.date-from').hide();
+                this.filterParams.type = 'day';
+            }
+            
         }
     }
 });
