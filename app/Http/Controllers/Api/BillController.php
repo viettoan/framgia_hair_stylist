@@ -420,6 +420,10 @@ class BillController extends Controller
                 $startDate = $date_start->startOfDay()->format('Y-m-d H:i:s');
                 $endDate = $date_end->endOfDay();
                 break;
+            default:
+                $startDate = $date_start->startOfDay()->format('Y-m-d H:i:s');
+                $endDate = $date_start->endOfDay();
+                break;
         }
 
         $filter_status = $request->status; //cancel - finished - pending
@@ -444,6 +448,8 @@ class BillController extends Controller
 
             $data['list_bill'] = $this->bill
                 ->getFilterBillByDate($date_filter, $filter, ['*'], ['Department', 'getOrderBooking.getOrderItems']);
+            $data['startDate'] = $date_start->format('Y-m-d');
+            $data['endDate'] = $date_end->format('Y-m-d');
             $responseData[] = $data;
             $currentDate->addDay(1);
             // dd($responseData);

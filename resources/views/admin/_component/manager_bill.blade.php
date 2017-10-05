@@ -28,98 +28,71 @@
             </li>
         </ol>
     </section>
+
     <section class="content">
         <div class="row">
-            <div class="col-md-6 well">
-                <div class="form-group col-md-12 select_booking_manage">
-                    <select  class="form-control" v-model="filterParams.type" v-on:change="getListBill">
-                        <option value="">{{ __('Today') }}</option>
-                        <option value="day">{{ __('Day') }}</option>
-                        <option value="space">{{__('About Time')}}</option>
-                    </select>
-                </div>
-                <div class="form-group col-md-12 select_booking_manage">
-                    <div class="col-md-6">
-                        <input type="date" class="form-control" v-model="inputDate.start_date" v-on:change="selectStartDay" v-if="filterParams.type != ''">
-                    </div>
-                    <div class="col-md-6">
-                        <input type="date" class="form-control" v-model="inputDate.end_date" v-on:change="selectEndDay" v-if="filterParams.type == 'space'">
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-               {{--  <label class="col-md-4">{{ __('Status') }}</label>
-                <div class="form-group col-md-8 select_booking_manage">
-                    <select  class="form-control select-multi-status" id="sel1" v-on:change="selectStatus" multiple>
-                        <option value="">{{ __('All') }}</option>
-                        <option value="0">{{ __('Wating') }}</option>
-                        <option value="1">{{ __('Complete') }}</option>
-                        <option value="2">{{ __('Cancel') }}</option>
-                    </select>
-                </div> --}}
-                <label class="col-md-4">{{ __('Department') }}</label>
-                <div class="form-group col-md-8 select_booking_manage">
-                    <select  class="form-control" v-model="filterParams.department_id" v-on:change="getListBill">
-                        <option value="">{{ __('All') }}</option>
-                        <option v-bind:value="department.id" v-for="department in departments">@{{ department.name }}</option>
-                    </select>
-                </div>
-            </div>
+            
             <br>
             <div class="col-xs-12">
                 <div class="box">
+                    
                     <div class="box-header">
-                    <div class="col-md-3">
+<!-- 
+                        <div class="col-md-12 department">
+                            <div class="col-md-2 " v-for="department in departments">
+                                <a class="col-md-12 btn btn-primary"   v-on:click="chooseDepartment(department.id)">@{{ department.name }}</a>
+                            </div>
+                        </div> -->
+                        <div class="form-group col-md-12 select_booking_manage">
+                            <div class="col-md-12 well">
+                                <div class="col-md-1">
+                                    <a class="btn btn-primary date-prev" v-on:click = "datePrev()">
+                                        {{ __('Pre Day') }}
+                                    </a>
+                                </div>
+                                <!-- <div class="form-group col-md-12 select_booking_manage">
+                                    <select  class="form-control" v-model="filterParams.type" v-on:change="getListBill">
+                                        <option value="">{{ __('Today') }}</option>
+                                        <option value="day">{{ __('Day') }}</option>
+                                        <option value="space">{{__('About Time')}}</option>
+                                    </select>
+                                </div> -->
+                                <div class="form-group col-md-8 col-md-offset-1 select_booking_manage">
+                                    <div class="col-md-12">
+                                        <button v-on:click="today()" class="col-md-2 btn btn-success">Today</button>
+                                        <div class="col-md-4">
+                                            <input type="date"  class="form-control" v-model="inputDate.start_date" v-on:change="selectStartDay">
+                                        </div>
+                                        <div class="col-md-2 date-to">
+                                            <input type="checkbox" id="to" value="1" v-on:click="showDateFrom()"> Date To:
+                                        </div>
+                                        <div class="col-md-4 date-from">
+                                            <input type="date" class=" form-control" v-model="inputDate.end_date" v-on:change="selectEndDay">
+                                        </div>
+                                    </div>
+                                    <br><br>
+                                    <div class="col-md-12 ">
+                                        
+                                    </div>
+                                    
+                                </div>
+
+                                <div class=" col-md-1">
+                                    <a class="btn btn-primary next-date" v-on:click = "dateNext()">
+                                        {{ __('Next day') }}
+                                    </a>
+                                </div>
+                            </div>  
+                        </div>
+                         
+                    
+                   <!--  <div class="col-md-3">
                         <input type="text" class="form-control" id="Myinput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name"> 
                     </div>
                         <button class="col-md-offset-1 btn btn-success" v-on:click="addBill">
                             <i class="fa fa-plus" aria-hidden="true"></i>
                             {{ __('Create Bill') }}
-                        </button>
-                    </div>
-                    <!-- booking inprogress -->
-                    <div class="panel-group" id="accordion">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                                            {{__('Booking Inprogress')}}
-                                            <span class="label label-warning">
-                                                @{{ booking_inprogress.length }}
-                                            </span>
-                                    </a>
-                                </h4>
-                            </div>
-                            <div id="collapseOne" class="panel-collapse collapse in">
-                                <div class="panel-body">
-                                    <table class="table table-striped table-bordered" id="bookingTable">
-                                        <thead>
-                                            <tr>
-                                                <th>{{__('ID')}}</th>
-                                                <th>{{__('NameCustomer') }}</th>
-                                                <th>{{__('Phone') }}</th>
-                                                <th>{{__('Department') }}</th>
-                                                <th>{{__('NameStylist') }}</th>
-                                                <th>{{ __('Action') }}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr v-for="booking in booking_inprogress" v-bind:id="'booking-inprogress-' + booking.id">
-                                                <th>@{{ booking.id }}</th>
-                                                <th>@{{ booking.name }}</th>
-                                                <th>@{{ booking.phone }}</th>
-                                                <th>@{{ booking.department }}</th>
-                                                <th>@{{ booking.get_stylist.name }}</th>
-                                                <th>
-                                                    <a href="javascript:void(0)" v-on:click="addBillBookingInprogress(booking.id)"><i class="fa fa-plus" aria-hidden="true"></i></a>
-
-                                                </th>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+                        </button> -->
                     </div>
                     <!-- listBill -->
                     <div class="panel panel-default" v-for="item in listBill">
@@ -139,15 +112,35 @@
                                     <thead>
                                         <tr>
                                             <th>{{__('ID') }}</th>
-                                            <th>{{ __('NameCustomer') }}</th>
-                                            <th>{{ __('Phone') }}</th>
-                                            <th>{{ __('Department') }}</th>
+                                            <th class="col-md-3">{{ __('NameCustomer') }}</th>
+                                            <th class="col-md-2">{{ __('Phone') }}</th>
+                                            <th>
+                                               {{ __('Departments') }}
+                                            </th>
                                             <th>{{ __('Grand Total') }}</th>
                                             <th>{{ __('Status') }}</th>
                                             <th>{{ __('Action') }}</th>
                                         </tr>   
                                     </thead>
                                     <tbody>
+                                    <tr>
+                                            <td></td>
+                                            <td>
+                                                <input type="text" class="form-control">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control">
+                                            </td>
+                                            <td>
+                                                <select  class="form-control" v-model="filterParams.department_id" v-on:change="getListBill">
+                                                    <option value="">{{ __('All') }}</option>
+                                                    <option v-bind:value="department.id" v-for="department in departments">@{{ department.name }}</option>
+                                                </select>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
                                        <tr v-for="list in item.list_bill">
                                             <td>@{{ list.id }}</td>
                                             <td> <a v-bind:href="'/admin/profile/'+ list.customer_id">@{{ list.customer_name }}</a></td>
