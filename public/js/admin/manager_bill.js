@@ -91,7 +91,6 @@ var Manager_bill = new Vue({
             $('#create-item').modal('show');
         },
         exportshowBill: function(item){
-            console.log(item);
             $('#exportshowBill').modal('show');
             this.exportBill.id = item.id;
             this.exportBill.name_customer = item.customer_name;
@@ -326,7 +325,6 @@ var Manager_bill = new Vue({
                 this.booking = response.data.data;
                 this.bill.service_total = this.booking.order_items.length;
                 this.bill.grand_total = response.data.data.grand_total;
-                console.log(this.bill.grand_total);
                 this.bill.order_booking_id = this.booking.id;
                 this.formErrors.phone = '';
                 this.showStylist();
@@ -456,7 +454,6 @@ var Manager_bill = new Vue({
             this.getListBill();
         },
         dateNext: function() {
-            console.log(this.filterParams.type == 'space');
             if (this.filterParams.type == 'space') {
                 this.filterParams.end_date = this.filterParams.end_date + 60*24*60;
                 
@@ -476,7 +473,16 @@ var Manager_bill = new Vue({
                 $('.date-from').hide();
                 this.filterParams.type = 'day';
             }
-            
+        },
+        handleDate: function(date) {
+            var date = new Date(date);
+            var hours = date.getHours();
+            var minutes = date.getMinutes();
+
+            if (minutes < 10) {
+                minutes = '0' + minutes;
+            }
+            return hours + ':' + minutes;
         }
     }
 });

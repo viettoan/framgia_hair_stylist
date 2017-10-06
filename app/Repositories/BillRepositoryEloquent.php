@@ -94,7 +94,7 @@ class BillRepositoryEloquent extends AbstractRepositoryEloquent implements BillR
 
     public function getFilterBillByDate($date, $filter, $select = ['*'], $with = [])
     {
-        $query = $this->model()->select($select)->with($with)->whereDate('updated_at', $date);
+        $query = $this->model()->select($select)->with($with)->whereDate('updated_at', $date)->orderBy('updated_at', 'DESC');
 
         if (isset($filter['status']) && null !== $filter['status']) {
             $query->whereIn('status', $filter['status']);
