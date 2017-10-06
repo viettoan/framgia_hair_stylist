@@ -31,18 +31,11 @@
 
     <section class="content">
         <div class="row">
-            
             <br>
             <div class="col-xs-12">
                 <div class="box">
                     
                     <div class="box-header">
-<!-- 
-                        <div class="col-md-12 department">
-                            <div class="col-md-2 " v-for="department in departments">
-                                <a class="col-md-12 btn btn-primary"   v-on:click="chooseDepartment(department.id)">@{{ department.name }}</a>
-                            </div>
-                        </div> -->
                         <div class="form-group col-md-12 select_booking_manage">
                             <div class="col-md-12 well">
                                 <div class="col-md-1">
@@ -50,18 +43,11 @@
                                         {{ __('Pre Day') }}
                                     </a>
                                 </div>
-                                <!-- <div class="form-group col-md-12 select_booking_manage">
-                                    <select  class="form-control" v-model="filterParams.type" v-on:change="getListBill">
-                                        <option value="">{{ __('Today') }}</option>
-                                        <option value="day">{{ __('Day') }}</option>
-                                        <option value="space">{{__('About Time')}}</option>
-                                    </select>
-                                </div> -->
                                 <div class="form-group col-md-8 col-md-offset-1 select_booking_manage">
                                     <div class="col-md-12">
                                         <button v-on:click="today()" class="col-md-2 btn btn-success">Today</button>
                                         <div class="col-md-4">
-                                            <input type="date"  class="form-control" v-model="inputDate.start_date" v-on:change="selectStartDay">
+                                            <input type="date"  class="form-control" v-model="inputDate.start_date" v-on:change="selectStartDay" date-pattern="(0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4}">
                                         </div>
                                         <div class="col-md-2 date-to">
                                             <input type="checkbox" id="to" value="1" v-on:click="showDateFrom()"> Date To:
@@ -70,13 +56,7 @@
                                             <input type="date" class=" form-control" v-model="inputDate.end_date" v-on:change="selectEndDay">
                                         </div>
                                     </div>
-                                    <br><br>
-                                    <div class="col-md-12 ">
-                                        
-                                    </div>
-                                    
                                 </div>
-
                                 <div class=" col-md-1">
                                     <a class="btn btn-primary next-date" v-on:click = "dateNext()">
                                         {{ __('Next day') }}
@@ -84,22 +64,13 @@
                                 </div>
                             </div>  
                         </div>
-                         
-                    
-                   <!--  <div class="col-md-3">
-                        <input type="text" class="form-control" id="Myinput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name"> 
-                    </div>
-                        <button class="col-md-offset-1 btn btn-success" v-on:click="addBill">
-                            <i class="fa fa-plus" aria-hidden="true"></i>
-                            {{ __('Create Bill') }}
-                        </button> -->
                     </div>
                     <!-- listBill -->
                     <div class="panel panel-default" v-for="item in listBill">
                         <div class="panel-heading">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion" v-bind:href="'#open-booking-day-' + item.date">
-                                    {{__('Date Bill') }}: @{{ item.date }}
+                                    <b>@{{ item.date }}</b>
                                     <span class="label label-warning">
                                         @{{ item.list_bill.length }}
                                     </span>
@@ -112,18 +83,18 @@
                                     <thead>
                                         <tr>
                                             <th>{{__('ID') }}</th>
+                                            <th>{{ __('Time') }}</th>
                                             <th class="col-md-3">{{ __('NameCustomer') }}</th>
                                             <th class="col-md-2">{{ __('Phone') }}</th>
                                             <th>
                                                {{ __('Departments') }}
                                             </th>
                                             <th>{{ __('Grand Total') }}</th>
-                                            <th>{{ __('Status') }}</th>
-                                            <th>{{ __('Action') }}</th>
                                         </tr>   
                                     </thead>
                                     <tbody>
                                     <tr>
+                                            <td></td>
                                             <td></td>
                                             <td>
                                                 <input type="text" class="form-control">
@@ -138,29 +109,14 @@
                                                 </select>
                                             </td>
                                             <td></td>
-                                            <td></td>
-                                            <td></td>
                                         </tr>
                                        <tr v-for="list in item.list_bill">
                                             <td>@{{ list.id }}</td>
+                                            <td><b>@{{ handleDate(list.updated_at) }}</b></td>
                                             <td> <a v-bind:href="'/admin/profile/'+ list.customer_id">@{{ list.customer_name }}</a></td>
                                             <td>@{{ list.phone }}</td>
                                             <td>@{{ list.department.name }}</td>
-                                            <td>@{{ (list.grand_total).toLocaleString('de-DE') }}</td>
-                                            <td>
-                                                <span class="label label-danger" v-if="list.status == 0">
-                                                    {{ __('Waiting') }}
-                                                </span>
-                                                <span class="label label-success" v-if="list.status == 1">
-                                                    {{ __('Complete') }}
-                                                </span>
-                                                <span class="label label-warning" v-if="list.status == 2">
-                                                    {{ __('Cancel') }}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <a href="javascript:void(0)" v-bind:class="'list-' + list.id" v-on:click="exportshowBill(list)"><i class="fa fa-external-link-square" aria-hidden="true"></i></a>
-                                            </td>
+                                            <td>@{{ (list.grand_total).toLocaleString('de-DE') }} VND</td>
                                         </tr>
                                     </tbody>
                                 </table>
