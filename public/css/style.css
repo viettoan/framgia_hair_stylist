@@ -19,6 +19,13 @@ a:hover, a:active, a:focus {
     outline: none;
 }
 
+#image_logo {
+        margin-top: -22px;
+    height: 57px;
+    width: 100px;
+    border-radius: 50%;
+}
+
 p {
     margin-bottom: 1.5em;
 }
@@ -45,12 +52,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #fh5co-header {
+
     position: absolute;
     z-index: 99;
     width: 100%;
     opacity: 1;
     top: 0;
-    margin-top: 20px;
+    margin-top: 0px;
 }
 
 @media screen and (max-width: 768px) {
@@ -1120,11 +1128,11 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-.fh5co-animated {
+/*.fh5co-animated {
     animation-duration: .3s;
     animation-fill-mode: both;
 }
-
+*/
 .department tr>td
 {
     color:black;
