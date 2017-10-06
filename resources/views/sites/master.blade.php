@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('siteTitle')</title>
     <link rel="shortcut icon" href="favicon.ico">
-    {{ Html::style('bower/icomoon-bower/style.css') }}
     {{ Html::style('bower/animate.css/animate.css') }}
     {{ Html::style('bower/font-awesome/css/font-awesome.min.css') }}
-    {{ Html::style('bower/simple-line-icons/css/simple-line-icons.css')}}
     {{ Html::style('bower/owl.carousel/dist/assets/owl.carousel.min.css') }}
     {{ Html::style('bower/owl.carousel/dist/assets/owl.theme.default.min.css') }}
     {{ Html::style('bower/bootstrap/dist/css/bootstrap.css') }}

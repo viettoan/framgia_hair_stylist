@@ -2,10 +2,9 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 section-heading text-center">
-                <h2 class="single-animate animate-pricing-1">{{ __('Booking Start') }}</h2>
             </div>
         </div>
-        <div class="row wrap-step">
+        <div class="row wrap-step booking_start">
             <div class="col-sm-4 zIndex-hr">
                 <div class="wrap-icon-step">
                     <a href="javascript:void(0)" class="circle themed-background info-circle">

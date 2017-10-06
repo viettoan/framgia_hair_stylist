@@ -1,3 +1,9 @@
+@extends('sites.master')
+
+@section('siteTitle', __('Home'))
+
+@section('content')
+@include('sites._section.head')
 <div id="fh5co-about-us" data-section="about">
     <div class="container">
         <div class="row row-bottom-padded-lg" id="about-us">
@@ -43,3 +49,4 @@
         </div>
     </div>
 </div>
+@endsection
