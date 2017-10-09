@@ -6,20 +6,22 @@
         </div>
         <div class="row wrap-step booking_start">
             <div class="col-sm-4 zIndex-hr">
-                <div class="wrap-icon-step">
+                <div class="wrap-icon-step step_mobile">
                     <a href="javascript:void(0)" class="circle themed-background info-circle">
                         <img src = "/images/beard.png">
                     </a>
-                    <h4 style="margin-left:-6%;"><strong>STEP 1: </strong> Your information</h4>
+                    <h4 style="margin-left:-6%;" class="step_booking"><strong>STEP 1: </strong> Your information</h4>
                 </div>
             </div>
             <hr class="hr-step">
             <div class="col-sm-4 wrap-overlap overlap-department">
                 <div class="wrap-icon-step">
                     <a href="javascript:void(0)" class="circle themed-background department-circle">
-                        <i class="fa fa-building" aria-hidden="true"></i>
+                        {{-- <i class="fa fa-building" aria-hidden="true"></i> --}}
+                        {{-- <img src = "/logo/13-512.png"> --}}
+                        <img src = "/images/beard.png"> 
                     </a>
-                    <h4><strong>STEP 2: </strong> Departments</h4>
+                    <h4 class="step_booking"><strong>STEP 2: </strong> Departments</h4>
                 </div>
                 <div class="overlap">
                 </div>
@@ -29,7 +31,7 @@
                     <a href="javascript:void(0)" class="circle themed-background booking-circle">
                         <img src = "/images/cut.png">
                     </a>
-                    <h4><strong>STEP 3: </strong>Booking time</h4>
+                    <h4 class="step_booking"><strong>STEP 3: </strong>Booking time</h4>
                 </div>
                 <div class="overlap">
                 </div>
@@ -67,7 +69,7 @@
         </div>
         <div class="content-step2">
             <div id="choice_address">
-                <div class="price-box to-animate department-group-form">
+                <div class="price-box infor_box_customer to-animate department-group-form">
                     <label class="text-success form-name">
                         <h4> 
                             <i class="fa fa-map-marker" aria-hidden="true"></i>
@@ -139,7 +141,7 @@
                                         <li class="li-date-booking">
                                             <div v-bind:class="{active1: selected.date == 3}" v-on:click="selectDay(3)">
                                                 <a class="a-booking" href="javascript:void(0)">
-                                                    {{__('The next day') }}
+                                                    {{__('Next Day') }}
                                                 </a>
                                             </div>
                                         </li>

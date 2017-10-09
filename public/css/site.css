@@ -536,32 +536,121 @@ label.search-name-input, label.search-phone-input {
 /*End booking3 css*/
 
 @media screen and (max-device-width: 480px) {
+    .hr-step { 
+        margin-left: -26px;
+        width: 200px;
+     }
+
+    .zIndex-hr {
+        margin-top: 10px;
+        height: 0px;
+        width: 100px;
+    }
+
+    .step_mobile {
+        margin-left: -19px;
+    }
+
+    .step_booking{
+        display: none;
+    }
+
+    .overlap {
+        display: none;
+    }
+
+    .themed-background {
+        transform: scale(1.2);
+        height: 50px;
+        width: 50px;
+        margin-right: : 150px;
+        margin-left: 10px;
+    }
+
+    .info-circle {
+        margin-right: 10px !important;
+    }
+
+    .wrap-icon-step img {
+        height: 50px;
+        width: 50px;
+        margin-top: -53px;
+    }
+
+    .themed-background {
+        transform: scale(1.2);
+        height: 50px;
+        width: 50px;
+    }
+
+    .department-circle  i {
+        margin-top: -223px !important;
+    }
+
+    .overlap-booking {
+        margin-top: -70px;
+        margin-left: 200px;
+    }
+
+    #fh5co-pricing .price-box {
+        text-align: center;
+        width: 350px;
+    }
+
+    .li-date-booking {
+        width: 32% !important;
+    }
+
+    #choice_list_time{
+        width: 372px;
+        margin-left: -13px;
+    }
+    .ul-booking {
+        margin-top: 15px;
+        margin-left: -72px !important;
+        width: 400px;
+    }
+
+    .ul-date-booking {
+        margin-left: -6% !important;
+        width: 100%;
+        margin-top: -16%;
+    }
+
     .li-booking-time
     {
         width: 30% !important;
+        margin-left: 1px;
     }
+
     .choice_address .price-box 
     {
         padding:0px !important;
     }
+
     .choose-department .den
     {
         border:none !important;
     }
+
     .wrap-stylist-choice select {
         width: 100% !important;
     }
+
     .choice_address .form-group
     {
         padding: 30px !important;
     }
+
     .li-date-booking {
         width: 100%;
     }
+
     .wrap-booking-time .wrap-all-item
     {
         margin-left: -13px;
     }
+    
     .wrap-booking-time .booking-time
     {
         margin-bottom: 20px;
