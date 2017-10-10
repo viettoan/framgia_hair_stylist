@@ -14,7 +14,7 @@ class DepartmentRepositoryEloquent extends AbstractRepositoryEloquent implements
 
     public function getAllData($with = [], $select = ['*'])
     {
-    	return $this->model()->select($select)->with($with)->get();
+    	return $this->model()->select($select)->orderBy('id', 'DESC')->with($with)->get();
     }
 
     public function find($id ,$with = [], $select = ['*'])

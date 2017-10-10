@@ -24,7 +24,7 @@ class ServiceProductRepositoryEloquent extends AbstractRepositoryEloquent implem
 
     public function getAllService($with = [], $select = ['*'])
     {
-        return $this->model()->select($select)->with($with)->get();
+        return $this->model()->select($select)->orderBy('id', 'DESC')->with($with)->get();
     }
 
     public function delete_service($id)
