@@ -41,7 +41,6 @@ var manager_department = new Vue({
             
         createItem: function(){
             var self = this;
-
             var authOptions = {
                 method: 'POST',
                 url: '/api/v0/department',

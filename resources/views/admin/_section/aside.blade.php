@@ -43,22 +43,14 @@
                         </a>
                     </li>
                     <li>
-                        <a href={{ asset('admin/manager_service') }}><i class="fa fa-circle-o"></i>
-                            {{ __('Manager Sevirce') }}
-                        </a>
-                    </li>
-                    <li>
                         <a href={{ asset('admin/list_bill') }}><i class="fa fa-circle-o"></i>
                             {{ __('Manager Bill') }}
                         </a>
                     </li>
-                    <li>
-                        <a href={{ asset('admin/manager_department') }}><i class="fa fa-circle-o"></i>
-                            {{ __('Manager Department') }}
-                        </a>
-                    </li>
                 </ul>
-            <li class="header">LABELS</li>
+            <li class="header">{{ __('SETTING')}}</li>
+                <li><a href="{{ asset('admin/manager_setting') }}"><i class="fa fa-wrench" aria-hidden="true"></i> <span>{{ __('Setting') }}</span></a></li>
+            </li>
         </ul>
     </section>
 </aside>

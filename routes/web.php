@@ -26,7 +26,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin'], fu
     Route::get('manager_customer', 'AdminController@manager_customer')->name('customer');
     Route::get('manager_booking', 'AdminController@manager_booking')->name('booking');
     Route::get('manager_department', 'AdminController@manager_department');
-    Route::get('manager_service', 'AdminController@manager_service')->name('manager_service');
+    Route::get('manager_setting', 'AdminController@manager_service')->name('manager_setting');
     Route::get('profile/{id}', 'AdminController@profile');
     Route::get('bill', 'AdminController@bill');
     Route::get('list_bill', 'AdminController@list_bill')->name('list_bill');

@@ -20,6 +20,8 @@ var manage_service = new Vue({
         formErrorsUpdate: {},
         newItem: {'id': '', 'name': '', 'short_description': '', 'description': '', 'price': '', 'avg_rate': '', 'total_rate': ''},
         fillItem: {'id': '', 'name': '', 'short_description': '', 'description': '', 'price': ''},
+        deparments: {'id': '', 'department_name': '', 'department_address': '' },
+        fillDeparments: {'id': '', 'department_name': '', 'department_address': '' },
         deleteItem: {'name':'','id':''}
     },
 
@@ -52,12 +54,17 @@ var manage_service = new Vue({
         this.users = Vue.ls.get('user', {});
         this.token = Vue.ls.get('token', {});
         this.showInfor(this.pagination.current_page);
+        this.showDeparment();
     },
 
     methods: {
+        showDeparment: function() {
+            axios.get('/api/v0/department').then(response => {
+                this.$set(this, 'deparments', response.data.data);
+            })
+        },
         showInfor: function(page) {
             axios.get('/api/v0/service').then(response => {
-                // console.log(response.data.data);
                 this.$set(this, 'items', response.data.data);
             })
         },
@@ -65,8 +72,66 @@ var manage_service = new Vue({
             this.formErrors = '';
             $("#create-item").modal('show');
         },
-            
+        createDeparment: function() {
+            if (!confirm('Do you want to create this Deparment!')) return;
+            var self = this;
+            var authOptions = {
+                method: 'POST',
+                url: '/api/v0/department',
+                params: this.newItem,
+                headers: {
+                    'Authorization': "Bearer " + this.token.access_token,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                json: true
+            }
+            axios(authOptions).then((response) => {
+                for (key in response.data.message) {
+                    toastr.success(response.data.message[key], '', {timeOut: 5000});
+                }
+                this.showDeparment();
+            }).catch((error) => {
+                self.formErrors = error.response.data.message;
+                for (key in self.formErrors) {
+                    toastr.error(self.formErrors[key], '', {timeOut: 10000});
+                }    
+            });
+        },
+        editDeparment: function(item) {
+            this.fillDeparments.id = item.id;
+            this.fillDeparments.department_name = item.name;
+            this.fillDeparments.department_address = item.address;
+            $('#editDeparment').modal('show');
+        },
+        updateDeparment: function(id) {
+            if (!confirm('Do you want to update this Deparment!')) return;
+            var input = this.fillDeparments;
+            var self = this;
+            var authOptions = {
+                    method: 'PUT',
+                    url: '/api/v0/department/' + id,
+                    params: input,
+                    headers: {
+                        'Authorization': "Bearer " + this.token.access_token,
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    json: true
+                }
+
+            axios(authOptions).then((response) => {
+                this.deparments = {'id': '', 'department_name': '', 'department_address': ''},
+                toastr.success('Update Deparment Success', 'Success', {timeOut: 5000});
+                $('#editDeparment').modal('hide');
+                this.showDeparment();
+            }).catch((error) => {
+                self.formErrors = error.response.data.message;
+                for (key in self.formErrors) {
+                    toastr.error(self.formErrors[key], '', {timeOut: 10000});
+                }    
+            });
+        },
         createItem: function(){
+            if (!confirm('Do you want to create this service!')) return;
             var self = this;
             var input = this.newItem;
             input.avg_rate = 0;
