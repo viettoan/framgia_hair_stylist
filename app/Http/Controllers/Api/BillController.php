@@ -452,10 +452,49 @@ class BillController extends Controller
             $data['endDate'] = $date_end->format('Y-m-d');
             $responseData[] = $data;
             $currentDate->addDay(1);
-            // dd($responseData);
         }
         $response['data'] = $responseData;
 
         return Response::json($response, $response['status']);
+    }
+
+    /**
+     * Search bill by name, phone, department_id
+     *
+     * @return json
+     */
+    public function search(Request $request)
+    {
+        $input = $request->all();
+        $keywords = [
+            'customer_name' => $input['customer_name'],
+            'phone' => $input['phone'],
+            'department_id' => $input['department_id'],
+        ];
+
+        $date = Carbon::now()->timestamp(strtotime($input['date']));
+        $data['date'] = $date->format(config('default.format_date'));
+        $date = $date->format('Y-m-d');
+
+        $response = Helper::apiFormat();
+
+        try {
+
+            $keywords = Helper::handleSearchKeywords($keywords);
+            
+
+            $data['list_bill'] = $this->bill->search($date, $keywords, ['Department', 'getOrderBooking.getOrderItems']);
+
+            $responseData[] = $data;
+            $response['data'] = $responseData;
+            $response['status'] = 200;
+
+            return Response::json($response, $response['status']);
+        } catch (Exception $e) {
+            $response['status'] = 403;
+
+            return Response::json($response, $response['status']);
+        }
+        
     }
 }

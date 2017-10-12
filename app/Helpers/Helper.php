@@ -50,4 +50,25 @@ class Helper
     {
         return number_format($number, 2);
     }
+
+    public static function handleSearchKeywords($keywords = [])
+    {
+        $new_keywords = [];
+
+        foreach ($keywords as $key => $value) {
+            $character = [
+                '%',
+                '_',
+                '\\',
+            ];
+            $replace = [
+                '\%',
+                '\_',
+                '\\\\',
+            ];
+            $new_keywords[$key] = str_replace($character, $replace, $value);
+        }
+
+        return $new_keywords;
+    }
 }

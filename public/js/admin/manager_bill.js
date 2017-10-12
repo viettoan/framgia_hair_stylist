@@ -26,6 +26,7 @@ var Manager_bill = new Vue({
         billSuccess: {},
         exportBill:{'id':'','name_stylist':[],'name_customer':'','phone_customer' :'', 'department_address':'','checkout':'','exportBill_item':[],'service_total':'','grand_total':''},
         booking_inprogress: {},
+        search: {'department_id': '', 'customer_name': '', 'phone': '', 'date': ''},
     },
     mounted : function(){
         this.users = Vue.ls.get('user', {});
@@ -107,7 +108,6 @@ var Manager_bill = new Vue({
         },
         selectStartDay: function(event) {
             var timestamp = new Date(event.target.value).getTime() / 1000 | 0;
-            console.log(timestamp);
             this.filterParams.start_date = timestamp;
             this.getListBill();
         },
@@ -483,7 +483,24 @@ var Manager_bill = new Vue({
                 minutes = '0' + minutes;
             }
             return hours + ':' + minutes;
-        }
+        },
+        searchBill: function(date) {
+            this.search.date = date;
+            var authOptions = {
+                method: 'POST',
+                url: '/api/v0/bill/search',
+                params: this.search,
+                headers: {
+                    'Authorization': "Bearer " + this.token.access_token,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                json: true
+            };
+
+            axios(authOptions).then(response => {
+                this.$set(this, 'listBill', response.data.data);
+            });
+        },
     }
 });
 
