@@ -47,7 +47,7 @@
                                     <div class="col-md-12">
                                         <button v-on:click="today()" class="col-md-2 btn btn-success">Today</button>
                                         <div class="col-md-4">
-                                            <input type="date"  class="form-control" v-model="inputDate.start_date" v-on:change="selectStartDay" date-pattern="(0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4}">
+                                            <input type="date"  class="form-control" v-model="inputDate.start_date" v-on:change="selectStartDay">
                                         </div>
                                         <div class="col-md-2 date-to">
                                             <input type="checkbox" id="to" value="1" v-on:click="showDateFrom()"> Date To:
@@ -97,13 +97,13 @@
                                             <td></td>
                                             <td></td>
                                             <td>
-                                                <input type="text" class="form-control">
+                                                <input type="text" class="form-control" name="customer_name" v-on:keyup="searchBill(item.date)" v-model="search.customer_name">
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control">
+                                                <input type="text" class="form-control" v-on:keyup="searchBill(item.date)" name="phone" v-model="search.phone">
                                             </td>
                                             <td>
-                                                <select  class="form-control" v-model="filterParams.department_id" v-on:change="getListBill">
+                                                <select  class="form-control" v-model="search.department_id" v-on:change="searchBill(item.date)">
                                                     <option value="">{{ __('All') }}</option>
                                                     <option v-bind:value="department.id" v-for="department in departments">@{{ department.name }}</option>
                                                 </select>

@@ -54,6 +54,7 @@ Route::group(['prefix' => 'v0', 'namespace' => 'Api'], function() {
     Route::resource('service', 'ServiceController');
     Route::resource('user', 'UserController');
     Route::resource('bill', 'BillController');
+    Route::post('bill/search', 'BillController@search');
     Route::resource('department', 'DepartmentsController');
     
     Route::get('user-by-phone', 'UserController@getByPhone');
