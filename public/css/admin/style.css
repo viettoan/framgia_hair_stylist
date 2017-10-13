@@ -331,3 +331,38 @@
 .permistion_profile {
     list-style-type: none;
 }
+
+/*css for b.ill*/
+
+.infor_bill {
+    margin-top: 100px;
+    height: 100px;
+}
+
+#hr_bill_infor {
+    margin-top: 33px;
+    width: 96%;
+}
+
+#image_logo_bill {
+    margin-top: -20px;
+    margin-left: -22px;
+}
+
+#infor_fsalon {
+    margin-top: -10px;
+}
+
+.price_servive {
+    padding-left: 100px !important;
+}
+.price_servive_all {
+    padding-left: 100px !important;
+
+}
+
+#total_service {
+    margin-left: 300px;
+    margin-top: -20px;
+    font-size: 15px;
+}

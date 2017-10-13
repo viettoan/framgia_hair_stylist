@@ -110,7 +110,7 @@
                                             </td>
                                             <td></td>
                                         </tr>
-                                       <tr v-for="list in item.list_bill">
+                                       <tr v-for="list in item.list_bill" v-on:click="exportshowBill(list)">
                                             <td>@{{ list.id }}</td>
                                             <td><b>@{{ handleDate(list.updated_at) }}</b></td>
                                             <td> <a v-bind:href="'/admin/profile/'+ list.customer_id">@{{ list.customer_name }}</a></td>
@@ -217,7 +217,7 @@
     </div>
     {{-- Export Bill --}}
     <div class="modal fade" id="exportshowBill" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog " role="document">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
@@ -227,36 +227,45 @@
                     <div class="row">
                         <div class="col-md-10 col-md-offset-1 border_bill col-xs-10 col-xs-offset-1">
                             <div class="col-md-12">
-                                <div class="col-md-4">
-                                    <img src="{{ asset('images/3.png') }}" class="img-responsive">
+                                <div class="col-md-2">              
+                                    <a class="navbar-brand" href="#myPage"><img src="{{ asset('logo/cutmypic.png') }}" id="image_logo_bill"></a>
                                 </div>
-                                <div class="col-md-8">
-                                    <h1>Hair Salon</h1>
-                                    <p>Dia chi: 424 Tran Khat Tran - Hai Ba Trung - Ha Noi</p>
+                                <div class="col-md-6 col-md-offset-1" id="infor_fsalon">
+                                    <h1>{{ __('FSalon') }}</h1>
+                                    <p>{{ __('Address')}}: @{{ exportBill.department_address }}</p>
+                                    <p>{{ __('Phone')}}: 09344323344</p>
+                                </div>
+                                <br>
+                                <div class="col-md-3">
+                                    <p>Bill No: @{{exportBill.id}}</p>
+                                    <p>Date: @{{exportBill.checkout}}</p>
                                 </div>
                             </div>
-                            <div class="col-md-12">
-                                <h3>Bill Detail</h3><hr>
+                            <br>
+                            <div class="clearfix"></div>
+                            <hr id="hr_bill_infor">
+                            <div class="col-md-12" class="infor_bill">
                                 <div>
-                                    <p><b>Bill No: </b>@{{exportBill.id}}</p>
                                     <p><b>Name: </b>@{{exportBill.name_customer}}</p>
                                     <p><b>Phone: </b>@{{exportBill.phone_customer}}</p>
-                                    <p><b>Date: </b>@{{exportBill.checkout}}</p>
+                                    <p><b>Total Service: </b><span class="badge">@{{ exportBill.service_total }}</span></p>
                                 </div><hr>
                                 <div>
-                                    <table class="table">
+                                    <table class="table table-hover">
                                         <thead>
                                             <tr >
                                                 <th>{{ __('Service') }}</th>
-                                                <th>{{ __('Qty') }}</th>
-                                                <th>{{ __('Price') }}</th>
+                                                <th>{{ __('Quantity') }}</th>
+                                                <th class="price_servive">{{ __('Price') }} (VND)</th>
+                                                <th class="price_servive">{{ __('Total') }}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr v-for="export_bill in exportBill.exportBill_item" >
-                                                <td class="col-md-4">@{{export_bill.service_name}}</td>
+                                                <td class="col-md-4">@{{export_bill.service_name }}</td>
                                                 <td class="col-md-4">@{{export_bill.qty}}</td>
-                                                <td class="col-md-4">@{{ (export_bill.price).toLocaleString('de-DE') }} VND</td>
+                                                <td class="col-md-4 price_servive">@{{ (export_bill.price).toLocaleString('de-DE') }}</td>
+                                                <td class="col-md-3 price_servive_all">@{{ (export_bill.service_price_service).toLocaleString('de-DE') }}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -266,8 +275,7 @@
                                         <thead>
                                             <tr>
                                                 <td class="col-md-4"></td>
-                                                <td class="col-md-4"><h3 class="text-right">ToTal :</h3></td>
-                                                <td class="col-md-4"><h3 class="pull-left">@{{ exportBill.grand_total }} VND</h3></td>
+                                                <td><h4 class="pull-left" id="total_service"> Grand Total : @{{ exportBill.grand_total }} <strong>VND</strong></h4></td>
                                             </tr>
                                         </thead>
                                     </table>

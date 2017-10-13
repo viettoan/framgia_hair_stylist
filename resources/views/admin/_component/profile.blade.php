@@ -83,7 +83,7 @@
                             @if(empty($user->birthday))
                                 <p class="pull-right"><span class="label label-success">NUll</span></p>
                             @else
-                                <p class="pull-right">{{ $user->birthday }}</p>
+                                <p class="pull-right">{{ date('d-m-Y', strtotime($user->birthday)) }}</p>
                             @endif
                         </li>
                         <br>

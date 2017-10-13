@@ -16,15 +16,36 @@ var Manager_bill = new Vue({
         departments: [],
         stylists:[],
         services:[],
-        bill: {'customer_id': '', 'phone': '', 'status': 0, 'customer_name': '', 
-            'order_booking_id': '', 'grand_total': 0, 'department_id': '', 'service_total': ''},
+        bill: {
+            'customer_id': '',
+            'phone': '',
+            'status': 0,
+            'customer_name': '', 
+            'order_booking_id': '', 
+            'grand_total': 0, 
+            'department_id': '',
+            'service_total': ''
+        },
         formErrors: {'phone': ''},
         booking: {},
         billItem: {'qty': 1, 'price': '', 'stylist_id': '', 'service_product_id': ''},
         isEditBillItem: {'status': false, 'index' : ''},
         orderItems: {},
         billSuccess: {},
-        exportBill:{'id':'','name_stylist':[],'name_customer':'','phone_customer' :'', 'department_address':'','checkout':'','exportBill_item':[],'service_total':'','grand_total':''},
+        exportBill:{
+            'email': '',
+            'id': '',
+            'name_stylist': [],
+            'name_customer': '',
+            'phone_customer' : '', 
+            'department_address': '',
+            'checkout':'',
+            'price': '',
+            'exportBill_item':[],
+            'service_total': '',
+            'grand_total': '',
+            'service_price_service': ''
+        },
         booking_inprogress: {},
         search: {'department_id': '', 'customer_name': '', 'phone': '', 'date': ''},
     },
@@ -93,19 +114,31 @@ var Manager_bill = new Vue({
         },
         exportshowBill: function(item){
             $('#exportshowBill').modal('show');
-            this.exportBill.id = item.id;
-            this.exportBill.name_customer = item.customer_name;
-            this.exportBill.phone_customer = item.phone;
-            this.exportBill.checkout=item.created_at;
-            this.exportBill.department_address = item.department.address;
-            this.exportBill.exportBill_item = item.get_order_booking.get_order_items;
-            this.exportBill.grand_total = (item.grand_total).toLocaleString('de-DE');
-            this.exportBill.service_total = item.service_total
+                this.exportBill.id = item.id;
+                this.exportBill.name_customer = item.customer_name;
+                this.exportBill.phone_customer = item.phone;
+                var date = (item.created_at).slice(0, 10);
+                this.exportBill.checkout = this.frontEndDateFormat(date);
+                this.exportBill.department_address = item.department.address;
+                this.exportBill.exportBill_item = item.get_order_booking.get_order_items;
+                this.exportBill.email = item.email; 
+                this.exportBill.grand_total = (item.grand_total).toLocaleString('de-DE');
+                for (var i = 0; i < this.exportBill.exportBill_item.length; i++) {
+                    this.exportBill.exportBill_item[i].service_price_service = (this.exportBill.exportBill_item[i]['price'] * this.exportBill.exportBill_item[i]['qty']);
+                }
+
+                this.exportBill.service_total = item.service_total;
+            },
+        frontEndDateFormat: function(date) {
+                return moment(date, 'YYYY-MM-DD').format('DD/MM/YYYY');
+            },
+        backEndDateFormat: function(date) {
+                return moment(date, 'DD/MM/YYYY').format('YYYY-MM-DD');
             },
         addBill: function() {
             this.resetData();
             $('#showBill').modal('show');
-        },
+            },
         selectStartDay: function(event) {
             var timestamp = new Date(event.target.value).getTime() / 1000 | 0;
             this.filterParams.start_date = timestamp;
@@ -355,7 +388,6 @@ var Manager_bill = new Vue({
 
             axios(authOptions).then(response => {
                 this.billSuccess = response.data.data;
-                console.log(this.billSuccess);
                 for (key in response.data.message) {
                     toastr.success(response.data.message[key], '', {timeOut: 5000});
                 }
@@ -414,7 +446,7 @@ var Manager_bill = new Vue({
                 this.bill.department_id = response.data.data.department.id;
                 this.booking = response.data.data;
                 this.bill.service_total = this.booking.order_items.length;
-                console.log(this.bill.service_total);
+
                 this.bill.grand_total = response.data.data.grand_total;
                 this.bill.order_booking_id = this.booking.id;
                 this.bill.phone = response.data.data.phone;
