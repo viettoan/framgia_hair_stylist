@@ -485,7 +485,7 @@ class BillController extends Controller
 
             $data['list_bill'] = $this->bill->search($date, $keywords, ['Department', 'getOrderBooking.getOrderItems']);
 
-            $responseData[] = $data;
+            $responseData = $data;
             $response['data'] = $responseData;
             $response['status'] = 200;
 

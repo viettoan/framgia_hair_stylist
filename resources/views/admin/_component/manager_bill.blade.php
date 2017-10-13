@@ -66,7 +66,7 @@
                         </div>
                     </div>
                     <!-- listBill -->
-                    <div class="panel panel-default" v-for="item in listBill">
+                    <div class="panel panel-default" v-for="(item, keyObject) in listBill">
                         <div class="panel-heading">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion" v-bind:href="'#open-booking-day-' + item.date">
@@ -97,20 +97,25 @@
                                             <td></td>
                                             <td></td>
                                             <td>
-                                                <input type="text" class="form-control" name="customer_name" v-on:keyup="searchBill(item.date)" v-model="search.customer_name">
+                                                <input type="text" class="form-control" name="customer_name" v-on:keyup="searchBill(item.date, keyObject)" v-model="search.customer_name">
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control" v-on:keyup="searchBill(item.date)" name="phone" v-model="search.phone">
+                                                <input type="text" class="form-control" v-on:keyup="searchBill(item.date, keyObject)" name="phone" v-model="search.phone">
                                             </td>
                                             <td>
-                                                <select  class="form-control" v-model="search.department_id" v-on:change="searchBill(item.date)">
+                                                <select  class="form-control" v-model="search.department_id" v-on:change="searchBill(item.date, keyObject)">
                                                     <option value="">{{ __('All') }}</option>
                                                     <option v-bind:value="department.id" v-for="department in departments">@{{ department.name }}</option>
                                                 </select>
                                             </td>
                                             <td></td>
                                         </tr>
-                                       <tr v-for="list in item.list_bill" v-on:click="exportshowBill(list)">
+                                        <paginate
+                                          name="list_bill"
+                                          :list="item.list_bill"
+                                          :per="20"
+                                        >
+                                       <tr v-for="list in paginated('list_bill')" v-on:click="exportshowBill(list)">
                                             <td>@{{ list.id }}</td>
                                             <td><b>@{{ handleDate(list.updated_at) }}</b></td>
                                             <td> <a v-bind:href="'/admin/profile/'+ list.customer_id">@{{ list.customer_name }}</a></td>
@@ -118,8 +123,11 @@
                                             <td>@{{ list.department.name }}</td>
                                             <td>@{{ (list.grand_total).toLocaleString('de-DE') }} VND</td>
                                         </tr>
+                                        </paginate>
                                     </tbody>
+
                                 </table>
+                                <paginate-links for="list_bill" :limit="2" :show-step-links="true" :classes="{'ul': 'pagination'}"></paginate-links>
                             </div>
                         </div>
                     </div>
@@ -302,5 +310,7 @@
     </div>
 @endsection
 @section('script')
+{{ Html::script('bower/vue-paginate/dist/vue-paginate.js') }}
 {{ Html::script('js/admin/manager_bill.js') }}
+
 @endsection
