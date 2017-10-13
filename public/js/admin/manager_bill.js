@@ -48,6 +48,7 @@ var Manager_bill = new Vue({
         },
         booking_inprogress: {},
         search: {'department_id': '', 'customer_name': '', 'phone': '', 'date': ''},
+        paginate: ['list_bill'],
     },
     mounted : function(){
         this.users = Vue.ls.get('user', {});
@@ -69,6 +70,7 @@ var Manager_bill = new Vue({
 
         $('#list_service').hide();
         this.showDateFrom();
+
     },
 
     methods: {
@@ -516,7 +518,7 @@ var Manager_bill = new Vue({
             }
             return hours + ':' + minutes;
         },
-        searchBill: function(date) {
+        searchBill: function(date, key) {
             this.search.date = date;
             var authOptions = {
                 method: 'POST',
@@ -530,7 +532,11 @@ var Manager_bill = new Vue({
             };
 
             axios(authOptions).then(response => {
-                this.$set(this, 'listBill', response.data.data);
+                for (var i = 0; i < this.listBill.length; i++ ) {
+                    if(i == key) {
+                        this.listBill[i].list_bill = response.data.data.list_bill;
+                    }
+                }
             });
         },
     }

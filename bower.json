@@ -44,6 +44,7 @@
     "elevatezoom": "^2.2.3",
     "moment": "^2.18.1",
     "bootstrap-fileinput": "^4.4.3",
-    "chart.js": "^2.7.0"
+    "chart.js": "^2.7.0",
+    "vue-paginate": "^3.5.0"
   }
 }
