@@ -31,6 +31,7 @@ Route::group(['prefix' => 'v0', 'namespace' => 'Api'], function() {
     Route::get('list-bill-by-customer-id', 'BillController@getListBillByCustomerId');
     Route::get('bill-by-customer-id-with-images', 'BillController@getBillByCusIdWithImages');
     Route::get('filter-customer', 'UserController@filterCustomer');
+    Route::get('filter-customer-paginate', 'UserController@paginateCustomer');
 
     Route::post('media-upload/{folder}', 'MediaController@uploadImage');
     

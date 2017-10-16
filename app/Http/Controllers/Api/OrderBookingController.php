@@ -250,7 +250,7 @@ class OrderBookingController extends Controller
                 $endDate = $date_end->endOfDay();
                 break;
         }
-
+ 
         $filter_status = $request->status; //cancel - finished - pending
         if (null !== $filter_status) {
             $filter_status = explode(',', $filter_status);

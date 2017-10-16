@@ -1,5 +1,5 @@
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
+ 
 var manage_service = new Vue({
     el: '#profile_customer   ',
 
@@ -20,8 +20,6 @@ var manage_service = new Vue({
         this.users = Vue.ls.get('user', {});
         this.token = Vue.ls.get('token', {});
         this.showInfor();
-        this.showBill(id);
-
     },
 
     methods: {
@@ -33,7 +31,7 @@ var manage_service = new Vue({
                 headers: {
                     'Authorization': "Bearer " + this.token.access_token
                 }
-            }
+            }  
             axios(authOptions).then(response => {
                 this.$set(this, 'items', response.data.data.data);
                 this.renderPages(response.data.data.total);
@@ -73,8 +71,10 @@ var manage_service = new Vue({
             axios(authOptions).then((response) => {
                 this.$set(this, 'showImages', response.data.data);
                 for (var i = 0; i < this.showImages.length; i++) {
-                    this.date = ((this.showImages[i].created_at).slice(0, 16));
+                    var dateFormat = ((this.showImages[i].created_at).slice(0, 10));
+                    this.date = this.frontEndDateFormat(dateFormat);
                 }
+                
             }).catch((error) => {
             });
         },
@@ -108,7 +108,6 @@ var manage_service = new Vue({
         },
 
         viewBill: function(id) {
-        	// console.log(id);
             var self = this;
             var authOptions = {
                     method: 'GET',
@@ -122,18 +121,19 @@ var manage_service = new Vue({
 
             axios(authOptions).then((response) => {
                 this.$set(this, 'showBillDetails', response.data.data);
-                console.log(this.showBillDetails);
+                var date = (this.showBillDetails.created_at).slice(0, 10);
+                this.showBillDetails.date = this.frontEndDateFormat(date);
                 $("#showBill_Detail").modal("show");
             }).catch((error) => {
-                if (error.response.status == 403) {
-                    self.formErrors = error.response.data.message;
-                    for (key in self.formErrors) {
-                        toastr.error(self.formErrors[key], '', {timeOut: 10000});
-                    }    
-                }
+                    toastr.error('error', '', {timeOut: 10000});
             });
         },
-
+        frontEndDateFormat: function(date) {
+            return moment(date, 'YYYY-MM-DD').format('DD-MM-YYYY');
+            },
+        backEndDateFormat: function(date) {
+            return moment(date, 'DD/MM/YYYY').format('YYYY-MM-DD');
+            },
         hideBill: function(){
             $("#showBill_Detail").modal("hide");
             $("#showUser").modal("show");

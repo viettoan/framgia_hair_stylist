@@ -2,11 +2,12 @@ axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 var manage_service = new Vue({
     el: '#manager_booking',
-
+ 
     data: {
         users: {},
         token: {},
         items: [],
+        listBookings: [],
         show_input: {},
         formErrors: {},
         showDepartments:{},
@@ -162,6 +163,40 @@ var manage_service = new Vue({
             return split[1];
         },
         
+        // getBooking: function() {
+        //     $('.list-booking-indicator').removeClass('hide');
+        //     var authOptions = {
+        //         method: 'get',
+        //         url: '/api/v0/filter-order-booking',
+        //         params: this.params,
+        //         headers: {
+        //             'Authorization': "Bearer " + this.token.access_token
+        //         }
+        //     }
+        //     axios(authOptions).then(response => {
+        //         if(response.data.data[0].list_book.length > 0) {
+        //             response.data.data[0].list_book = this.curent_time(response.data.data[0].list_book);
+        //         }
+        //         this.$set(this, 'listBookings', response.data.data);
+        //         console.log(this.listBookings);
+
+        //         let groupBookings = [], groupBooking = [];
+        //         for(let i = 1 ; i < listBookings.list_book.length; i++ ) {
+        //         if( groupBooking[0].time_start == listBookings[i].list_book.time_start) groupBooking.push(listBookings[i]);
+        //         else {
+        //             groupBookings.push(groupBooking);
+        //             groupBooking = [listBookings[i]];
+        //         }
+        //             console.log(groupBookings);
+
+        //     }
+
+        //         $('.list-booking-indicator').addClass('hide');
+        //     }).catch(function (error) {
+        //         $('.list-booking-indicator').addClass('hide');
+        //     });
+        // },
+ 
         getBooking: function() {
             $('.list-booking-indicator').removeClass('hide');
             var authOptions = {
@@ -176,13 +211,37 @@ var manage_service = new Vue({
                 if(response.data.data[0].list_book.length > 0) {
                     response.data.data[0].list_book = this.curent_time(response.data.data[0].list_book);
                 }
-                this.$set(this, 'items', response.data.data);
+
+                let listBookings = response.data.data;
+
+                let groupBookingFormat = [];
+
+                for (let j = 0; j < listBookings.length; j++) {
+
+                    let listBooking = listBookings[j].list_book;
+                    let lengthBooking = listBooking.length;
+                    let groupBookings = {list_book: [], date_book: listBookings[j].date_book};
+                    let groupBooking = listBooking[0] ? [listBooking[0]] : [];
+
+                    for(let i = 1 ; i < lengthBooking; i++ ) {
+                        if (groupBooking[0].time_start == listBooking[i].time_start) {
+                            groupBooking.push(listBooking[i]) 
+                        } else {
+                            groupBookings.list_book.push(groupBooking);
+                            groupBooking = [listBooking[i]];
+                        }
+                    }
+                    groupBooking.length ? groupBookings.list_book.push(groupBooking) : '';
+                    groupBookingFormat.push(groupBookings);
+                }
+                this.$set(this, 'items', groupBookingFormat);
+
                 $('.list-booking-indicator').addClass('hide');
             }).catch(function (error) {
                 $('.list-booking-indicator').addClass('hide');
             });
         },
- 
+
         changer_status(item){
             this.changer_status_booking.status = item.status;
             this.changer_status_booking.id = item.id;
