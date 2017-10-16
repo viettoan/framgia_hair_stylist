@@ -42,12 +42,36 @@ var manage_service = new Vue({
         deleteItem: {'name':'','id':''},
         isLoadCustomer: false
     },
+    computed: {
+        isActived: function () {
+            return this.pagination.current_page;
+        },
+        pagesNumber: function () {
+            if (!this.pagination.to) {
+                return [];
+            }
+            var from = this.pagination.current_page - this.offset;
+            if (from < 1) {
+                from = 1;
+            }
+            var to = from + (this.offset * 2);
+            if (to >= this.pagination.last_page) {
+                to = this.pagination.last_page;
+            }
+            var pagesArray = [];
+            while (from <= to) {
+                pagesArray.push(from);
+                from++;
+            }
+            return pagesArray;
+        }
+    },
     
     mounted : function(){
         this.users = Vue.ls.get('user', {});
         this.token = Vue.ls.get('token', {});
         this.showDepartment();
-        this.showInfor();
+        this.showInfor(this.pagination.current_page);
     },
 
     methods: {
@@ -59,22 +83,29 @@ var manage_service = new Vue({
             this.dataPages = pages;
         },
 
-        showInfor: function() {
-            var authOptions = {
-                method: 'get',
-                url: '/api/v0/filter-customer',
-                params: this.params,
-                headers: {
-                    'Authorization': "Bearer " + this.token.access_token
-                }
-            }
-            axios(authOptions).then(response => {
+        showInfor: function(page) {
+            axios.get('/api/v0/filter-customer-paginate?page='+ page).then(response => {
                 this.$set(this, 'items', response.data.data.data);
-                this.renderPages(response.data.data.total);
-            }).catch(error => {
-                this.dataPages = [1];
-            });
+                this.$set(this, 'pagination', response.data.pagination);
+                console.log(this.pagination);
+            })
         },
+        // showInfor: function() {
+        //     var authOptions = {
+        //         method: 'get',
+        //         url: '/api/v0/filter-customer',
+        //         params: this.params,
+        //         headers: {
+        //             'Authorization': "Bearer " + this.token.access_token
+        //         }
+        //     }
+        //     axios(authOptions).then(response => {
+        //         this.$set(this, 'items', response.data.data.data);
+        //         this.$set(this, 'pagination', response.data.pagination);
+        //     }).catch(error => {
+        //         this.dataPages = [1];
+        //     });
+        // },
 
         viewUser: function(item) {
             this.fillItem.id = item.id;
@@ -279,7 +310,7 @@ var manage_service = new Vue({
         },
 
         changePage: function (page) {
-            this.params.page = page;
+            this.pagination.current_page = page;
             this.showInfor(page);
         },
     }

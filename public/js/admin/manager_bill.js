@@ -1,5 +1,5 @@
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
+ 
 var Manager_bill = new Vue({
     el: '#manager_bill',
 

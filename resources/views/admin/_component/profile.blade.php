@@ -205,7 +205,7 @@
                                                                 </tr>
                                                                 <tr>
                                                                     <th>{{ __('Date Create') }}</th>
-                                                                    <th>@{{ showBillDetails.created_at  }}</th>
+                                                                    <th>@{{ showBillDetails.date  }}</th>
                                                                 </tr>
                                                                 <tr>
                                                                     <th>{{ __('Service_total') }}</th>

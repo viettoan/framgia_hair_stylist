@@ -35,188 +35,180 @@
                 <input type="text"  v-on:keyup="filteCustomer" v-model="params.keyword"  class="form-control" placeholder="Search for names..">
             </div>
         </div>
-        <div class="col-md-4 col-md-offset-2">
-            <label class="col-md-4">{{ __('Number User') }}</label>
-            <div class="form-group col-md-8 select_booking_manage">
-                <select  class="form-control" v-on:change="showInfor" v-model="params.per_page">
-                    <option value="" selected>{{ __('Select') }}</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                </select>
-            </div>
-{{-- <label class="col-md-4">{{ __('Page') }}</label>
-<div class="form-group col-md-8">
-<select  class="form-control" v-on:change="showInfor" v-model="params.page">
-<option v-bind:value="dataPage" v-for="dataPage in dataPages">
-@{{ dataPage }}
-</option>
-</select>
-</div>  --}}
-</div>
-</div>
-<div class="modal fade" id="showBill_Detail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close"  v-on:click="hideBill"  aria-label="Close"><span aria-hidden="true">×</span>
-                </button>
-                <h4 class="modal-title" id="myModalLabel">{{ __('Bill Detail') }}</h4>
-            </div>
-            <div class="modal-body scroll_bill" >
-                <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#home">{{ __('Infor') }}</a></li>
-                    <li><a data-toggle="tab" href="#menu1">{{ __('Images') }}</a></li>
-                </ul>
+    </div>
+    <div class="clearfix"></div>
+    <div class="modal fade" id="showBill_Detail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close"  v-on:click="hideBill"  aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">{{ __('Bill Detail') }}</h4>
+                </div>
+                <div class="modal-body scroll_bill" >
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#home">{{ __('Infor') }}</a></li>
+                        <li><a data-toggle="tab" href="#menu1">{{ __('Images') }}</a></li>
+                    </ul>
 
-                <div class="tab-content">
-                    <div id="home" class="tab-pane fade in active">
-                        <div class="row">
-                            <div class="col-md-10 col-md-offset-1 border_bill col-xs-10 col-xs-offset-1" id="infor_bill_customer"> 
-                                <div class="bookingleft-agile font_bill" >
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th >{{__('ID : ') }}</th>
-                                                <th>FSL:@{{ showBillDetails.order_booking_id }}</th>
-                                            </tr>
-                                            <tr>
-                                                <th>{{ __('Name Customer') }}</th>
-                                                <th>@{{ showBillDetails.customer_name}} - @{{ showBillDetails.phone }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>{{ __('Date Create') }}</th>
-                                                    <th>@{{ showBillDetails.created_at  }}</th>
-                                                </tr>
-                                                <tr>
-                                                    <th>{{ __('Service_total') }}</th>
-                                                    <th>@{{ showBillDetails.service_total  }}</th>
-                                                </tr>
-                                                <tr>
-                                                    <th>{{ __('Department') }}</th>
-                                                    <th v-if="showBillDetails.department">@{{ showBillDetails.department.name }}</th>
-                                                </tr>
-                                            </thead>
-                                        </table>
-                                        <div class="clearfix"></div>
-                                        <table class="table">
+                    <div class="tab-content">
+                        <div id="home" class="tab-pane fade in active">
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1 border_bill col-xs-10 col-xs-offset-1" id="infor_bill_customer"> 
+                                    <div class="bookingleft-agile font_bill" >
+                                        <table class="table table-hover">
                                             <thead>
                                                 <tr>
-                                                    <th>{{ __('Service') }}</th>
-                                                    <th>{{ __('Stylist') }}</th>
-                                                    <th>{{ __('Qty') }}</th>
-                                                    <th>{{ __('Price') }}</th>
+                                                    <th >{{__('ID : ') }}</th>
+                                                    <th>FSL:@{{ showBillDetails.order_booking_id }}</th>
                                                 </tr>
-                                            </thead>
-                                            <tbody v-if="showBillDetails.booking">
-                                                <tr v-for=" service in showBillDetails.booking.get_order_items">
-                                                    <td>@{{ service.service_name }}</td>
-                                                    <td>@{{ service.stylist_name.name }}</td>
-                                                    <td>@{{ service.qty }}</td>
-                                                    <td>@{{ (service.price).toLocaleString('de-DE') }}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        <br>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="menu1" class="tab-pane fade">
-                            <div class="col-md-10 col-md-offset-1 border_bill col-xs-10 col-xs-offset-1" id="scroll_image">
-                                <div v-if="showBillDetails.booking">
-                                    <div v-for="image in showBillDetails.booking.images"> 
-                                        <a class="image-item" v-bind:href="'/'+image.path_origin" target="blank" >
-                                            <img v-bind:src="'/'+image.path_origin" class="img-thumbnail img-responsive"></a>
+                                                <tr>
+                                                    <th>{{ __('Name Customer') }}</th>
+                                                    <th>@{{ showBillDetails.customer_name}} - @{{ showBillDetails.phone }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>{{ __('Date Create') }}</th>
+                                                        <th>@{{ showBillDetails.created_at  }}</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>{{ __('Service_total') }}</th>
+                                                        <th>@{{ showBillDetails.service_total  }}</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>{{ __('Department') }}</th>
+                                                        <th v-if="showBillDetails.department">@{{ showBillDetails.department.name }}</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                            <div class="clearfix"></div>
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>{{ __('Service') }}</th>
+                                                        <th>{{ __('Stylist') }}</th>
+                                                        <th>{{ __('Qty') }}</th>
+                                                        <th>{{ __('Price') }}</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody v-if="showBillDetails.booking">
+                                                    <tr v-for=" service in showBillDetails.booking.get_order_items">
+                                                        <td>@{{ service.service_name }}</td>
+                                                        <td>@{{ service.stylist_name.name }}</td>
+                                                        <td>@{{ service.qty }}</td>
+                                                        <td>@{{ (service.price).toLocaleString('de-DE') }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <br>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <div id="menu1" class="tab-pane fade">
+                                <div class="col-md-10 col-md-offset-1 border_bill col-xs-10 col-xs-offset-1" id="scroll_image">
+                                    <div v-if="showBillDetails.booking">
+                                        <div v-for="image in showBillDetails.booking.images"> 
+                                            <a class="image-item" v-bind:href="'/'+image.path_origin" target="blank" >
+                                                <img v-bind:src="'/'+image.path_origin" class="img-thumbnail img-responsive"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
                         </div>
-                        <br>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <section class="content">
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="box">
-                        <div class="box-header">
-                            <h3 class="box-title">{{ __('Manager Customer') }}
-                                <span class="label label-warning">
-                                    @{{ items.length}}            
-                                </span>
-                            </h3>
-                            <button class="col-md-offset-1 btn btn-success" v-on:click="addItem">
-                                <i class="fa fa-plus" aria-hidden="true"></i>
-                                {{ __('Create Customer') }}
-                            </button>
-                        </div>
-                        <div class="box-body over-flow-edit">
-                            <table id="example1" class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>{{ __('ID') }}</th>
-                                        <th>{{ __('Name') }}</th>
-                                        <th>{{ __('Email') }}</th>
-                                        <th>{{ __('Phone') }}</th>
-                                        <th>{{ __('Gender') }}</th>
-                                        <th>{{ __('Permision') }}</th>
-                                        <th>{{ __('admin.Action') }}</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="item in items">
-                                        <td>@{{ item.id }}</td>
-                                        <td>
-                                            {{-- <a href="javascript:void(0)" v-on:click="viewUser(item)"> --}}
-                                            <a v-bind:href="'/admin/profile/'+ item.id">
-                                                @{{ item.name }}
-                                            </a>
-                                        </td>
-                                        <td>@{{ item.email }}</td>
-                                        <td>@{{ item.phone }}</td>
-                                        <td>@{{ item.gender }}</td>
-                                        <td v-if="item.permission == 0">
-                                            <span class="label label-success">
-                                                {{ __('Nomal') }}
-                                            </span>
-                                        </td>
-                                        <td v-if="item.permission == 1">
-                                            <span class="label label-success">
-                                                {{ __('Assistant') }}
-                                            </span>
-                                        </td>
-                                        <td v-if="item.permission == 2">
-                                            <span class="label label-success">
-                                                {{ __('Main_Worker') }}
-                                            </span>
-                                        </td>
-                                        <td v-if="item.permission == 3">
-                                            <span class="label label-success">
-                                                {{ __('Admin') }}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <a href="javascript:void(0)" v-on:click="edit_cutomer(item)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                            <a href="javascript:void(0)" v-on:click="comfirmDeleteItem(item)"><i class="fa fa-fw  fa-close get-color-icon-delete" ></i></a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+            <section class="content">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="box">
+                            <div class="box-header">
+                                <h3 class="box-title">{{ __('Manager Customer') }}
+                                    <span class="label label-warning">
+                                        @{{ items.length}}            
+                                    </span>
+                                </h3>
+                                <button class="col-md-offset-1 btn btn-success" v-on:click="addItem">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                    {{ __('Create Customer') }}
+                                </button>
+                            </div>
+                            <div class="box-body over-flow-edit">
+                                <table id="example1" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>{{ __('ID') }}</th>
+                                            <th>{{ __('Name') }}</th>
+                                            <th>{{ __('Email') }}</th>
+                                            <th>{{ __('Phone') }}</th>
+                                            <th>{{ __('Gender') }}</th>
+                                            <th>{{ __('Permision') }}</th>
+                                            <th>{{ __('admin.Action') }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="item in items">
+                                            <td>@{{ item.id }}</td>
+                                            <td>
+                                                <a v-bind:href="'/admin/profile/'+ item.id">
+                                                    @{{ item.name }}
+                                                </a>
+                                            </td>
+                                            <td>@{{ item.email }}</td>
+                                            <td>@{{ item.phone }}</td>
+                                            <td>@{{ item.gender }}</td>
+                                            <td v-if="item.permission == 0">
+                                                <span class="label label-success">
+                                                    {{ __('Nomal') }}
+                                                </span>
+                                            </td>
+                                            <td v-if="item.permission == 1">
+                                                <span class="label label-success">
+                                                    {{ __('Assistant') }}
+                                                </span>
+                                            </td>
+                                            <td v-if="item.permission == 2">
+                                                <span class="label label-success">
+                                                    {{ __('Main_Worker') }}
+                                                </span>
+                                            </td>
+                                            <td v-if="item.permission == 3">
+                                                <span class="label label-success">
+                                                    {{ __('Admin') }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <a href="javascript:void(0)" v-on:click="edit_cutomer(item)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                                <a href="javascript:void(0)" v-on:click="comfirmDeleteItem(item)"><i class="fa fa-fw  fa-close get-color-icon-delete" ></i></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <ul class="pagination">
+                                <li v-if="pagination.current_page > 1">
+                                    <a href="#" aria-label="Previous" @click.prevent="changePage(pagination.current_page - 1)">
+                                        <span aria-hidden="true">«</span>
+                                    </a>
+                                </li>
+                                <li v-for="page in pagesNumber"
+                                v-bind:class="[ page == isActived ? 'active' : '']">
+                                <a href="#" @click.prevent="changePage(page)">@{{ page }}</a>
+                            </li>
+                            <li v-if="pagination.current_page < pagination.last_page">
+                                <a href="#" aria-label="Next" @click.prevent="changePage(pagination.current_page + 1)"> <span aria-hidden="true">»</span>
+                                </a>
+                            </li>
+                        </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 {{-- <!-- Show all image-->
 <div class="modal fade" id="all-images" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 <div class="modal-dialog modal-lg">

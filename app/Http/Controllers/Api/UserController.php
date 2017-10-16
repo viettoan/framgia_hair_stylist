@@ -280,6 +280,28 @@ class UserController extends Controller
         return Response::json($response);
     }
 
+    public function paginateCustomer(Request $request)
+    {
+        if ($request->ajax()) {
+            $userList = $this->user->getAllCustommer('10');
+            $response = [
+                'pagination' => [
+                    'total'        => $userList->total(),
+                    'per_page'     => $userList->perPage(),
+                    'current_page' => $userList->currentPage(),
+                    'last_page'    => $userList->lastPage(),
+                    'from'         => $userList->firstItem(),
+                    'to'           => $userList->lastItem()
+                ],
+                'data' => $userList
+            ];
+
+            return response()->json($response);
+        }
+
+        return view('admin._component.manager_customer');
+    }
+
     public function filterCustomer(Request $request)
     {
         $response = Helper::apiFormat();
