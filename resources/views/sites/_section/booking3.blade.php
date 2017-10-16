@@ -17,9 +17,7 @@
             <div class="col-sm-4 wrap-overlap overlap-department">
                 <div class="wrap-icon-step">
                     <a href="javascript:void(0)" class="circle themed-background department-circle">
-                        {{-- <i class="fa fa-building" aria-hidden="true"></i> --}}
-                        {{-- <img src = "/logo/13-512.png"> --}}
-                        <img src = "/images/beard.png"> 
+                        <i class="fa fa-building" aria-hidden="true"></i>
                     </a>
                     <h4 class="step_booking"><strong>STEP 2: </strong> Departments</h4>
                 </div>

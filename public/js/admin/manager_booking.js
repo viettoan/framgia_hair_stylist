@@ -63,9 +63,19 @@ var manage_service = new Vue({
         this.end_date = curentDay;
         this.getBooking();
         this.showDepar();
-
+        this.kanbanBoard();
+        // popover
+        setTimeout(function(){
+            $('[data-toggle="popover"]').popover({
+                html : true,
+                container: 'body',
+                content: "<div class='pop-over-content js-pop-over-content u-fancy-scrollbar js-tab-parent' style='max-height: 163px;'><div><ul class='pop-over-list'><li><a href='javascript:void(0)' v-if='list.status == 4' data-toggle='modal' data-target='#chooseImg' id='uploadimg'>Upload Photos</a></li><li><a href='#' class='js-copy-list'>Edit booking</a></li></ul></div></div>",
+            }).children().delegate('#uploadimg', 'click', function() {
+            });  
+        }, 1000);
+        // end popover
     },
-
+    
     methods: {
         resetData: function() {
             this.bill = {'customer_id': '',
@@ -93,6 +103,7 @@ var manage_service = new Vue({
         },
         showImage: function(id) {
             this.imageData.order_booking_id = id;
+            $('.popover').hide();
         },
         executeImages: function(e) {
             var files = e.target.files || e.dataTransfer.files;
@@ -617,7 +628,59 @@ var manage_service = new Vue({
                 $('#show_log_status').modal('show');
             })
             
-        }
+        },
+        // kanban function
+        kanbanBoard: function()
+        {
+            var kanbanCol = $('.panel-body');
+            kanbanCol.css('max-height', (window.innerHeight - 150) + 'px');
+
+            var kanbanColCount = parseInt(kanbanCol.length);
+            $('.container-fluid').css('min-width', (kanbanColCount * 350) + 'px');
+
+            this.draggableInit();
+
+            $('body').on('click', '.panel-heading', function() {
+                var $panelBody = $(this).parent().children('.panel-body');
+                $panelBody.slideToggle();
+
+            });
+
+
+        },
+
+        draggableInit: function()
+        {
+            var sourceId;
+            $('body').on('dragstart', '[draggable=true]', function (event) {
+                sourceId = $(this).parent().attr('id');
+                event.originalEvent.dataTransfer.setData("text/plain", event.target.getAttribute('id'));
+
+            });
+
+            $('body').on('dragover', '.drag-td', function (event) {
+                event.preventDefault();
+            });
+            $('body').on('drop', '.drag-td', function (event) {
+                var children = $(this).children().children().children();
+                var targetId = children.attr('id');
+
+                if (sourceId != targetId) {
+                    var elementId = event.originalEvent.dataTransfer.getData("text/plain");
+
+                    $('#processing-modal').modal('toggle'); //before post
+
+                    // Post data 
+                    setTimeout(function () {
+                        var element = document.getElementById(elementId);
+                        children.prepend(element);
+                        $('#processing-modal').modal('toggle'); // after post
+                    }, 1000);
+                }
+                // event.preventDefault();
+            });
+        },
+        // end kanban function
     }
 });
 
@@ -638,3 +701,4 @@ function myFunction() {
         } 
     }
 };
+

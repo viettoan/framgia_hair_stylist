@@ -572,8 +572,8 @@ label.search-name-input, label.search-phone-input {
     }
 
     .wrap-icon-step img {
-        height: 50px;
-        width: 50px;
+        height: 40px;
+        width: 40px;
         margin-top: -53px;
     }
 
@@ -584,7 +584,10 @@ label.search-name-input, label.search-phone-input {
     }
 
     .department-circle  i {
-        margin-top: -223px !important;
+        margin-top: 11px;
+        position: absolute;
+        left: 29%;
+        font-size: 29px;
     }
 
     .overlap-booking {
