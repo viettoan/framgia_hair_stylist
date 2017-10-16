@@ -290,6 +290,8 @@ class OrderBookingController extends Controller
                 }
             }
             $data['list_book'] = $dataBooks;
+            $data['startDate'] = $date_start->format('Y-m-d');
+            $data['endDate'] = $date_end->format('Y-m-d');
             $responseData[] = $data;
 
             $currentDate->addDay(1);

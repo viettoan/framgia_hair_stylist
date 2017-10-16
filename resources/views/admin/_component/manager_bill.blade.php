@@ -66,7 +66,12 @@
                         </div>
                     </div>
                     <!-- listBill -->
-                    <div class="panel panel-default" v-for="(item, keyObject) in listBill">
+                    <paginate
+                      name="list"
+                      :list="listBill"
+                      :per="10"
+                    >
+                    <div class="panel panel-default" v-for="(item, keyObject) in paginated('list')">
                         <div class="panel-heading">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion" v-bind:href="'#open-booking-day-' + item.date">
@@ -110,12 +115,7 @@
                                             </td>
                                             <td></td>
                                         </tr>
-                                        <paginate
-                                          name="list_bill"
-                                          :list="item.list_bill"
-                                          :per="20"
-                                        >
-                                       <tr v-for="list in paginated('list_bill')" v-on:click="exportshowBill(list)">
+                                       <tr v-for="list in item.list_bill" v-on:click="exportshowBill(list)">
                                             <td>@{{ list.id }}</td>
                                             <td><b>@{{ handleDate(list.updated_at) }}</b></td>
                                             <td> <a v-bind:href="'/admin/profile/'+ list.customer_id">@{{ list.customer_name }}</a></td>
@@ -123,18 +123,19 @@
                                             <td>@{{ list.department.name }}</td>
                                             <td>@{{ (list.grand_total).toLocaleString('de-DE') }} VND</td>
                                         </tr>
-                                        </paginate>
                                     </tbody>
-
                                 </table>
-                                <paginate-links for="list_bill" :limit="2" :show-step-links="true" :classes="{'ul': 'pagination'}"></paginate-links>
                             </div>
                         </div>
                     </div>
+                    </paginate>
+                     <paginate-links for="list" :limit="2" :show-step-links="true" :classes="{'ul': 'pagination'}"></paginate-links>
                 </div>
             </div>
         </div>
+        
     </section>
+
     <div class="modal fade" id="showBill" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">

@@ -40,7 +40,7 @@ var manage_service = new Vue({
         logStatus: [],
         formErrorsUpdate: {},
         newItem: {},
-        params: {},
+        params: {'type': '', 'start_date': '', 'end_date': ''},
         start_date: '',
         end_date: '',
         status: '',
@@ -63,6 +63,9 @@ var manage_service = new Vue({
         this.end_date = curentDay;
         this.getBooking();
         this.showDepar();
+
+        this.showDateFrom();
+
         this.kanbanBoard();
         // popover
         setTimeout(function(){
@@ -73,7 +76,7 @@ var manage_service = new Vue({
             }).children().delegate('#uploadimg', 'click', function() {
             });  
         }, 1000);
-        // end popover
+        // end popoverS
     },
     
     methods: {
@@ -97,6 +100,15 @@ var manage_service = new Vue({
             this.billItem = {'qty': 1, 'price': '', 'stylist_id': '', 'service_product_id': ''};
             this.booking = {};
             this.isEditBillItem = {'status': false, 'index' : ''};
+        },
+        today: function() {
+            var curentDay = new Date().toISOString().slice(0, 10);
+            this.start_date = curentDay;
+            this.end_date = curentDay;
+            var timestamp = new Date().getTime() / 1000 | 0;
+            this.params.start_date = timestamp;
+            this.params.end_date = timestamp;
+            this.getBooking();
         },
         showBooking: function() {
             $('#showBooking').modal('show');
@@ -222,7 +234,6 @@ var manage_service = new Vue({
                 if(response.data.data[0].list_book.length > 0) {
                     response.data.data[0].list_book = this.curent_time(response.data.data[0].list_book);
                 }
-
                 let listBookings = response.data.data;
 
                 let groupBookingFormat = [];
@@ -246,6 +257,8 @@ var manage_service = new Vue({
                     groupBookingFormat.push(groupBookings);
                 }
                 this.$set(this, 'items', groupBookingFormat);
+                this.start_date = response.data.data[0].startDate;
+                this.end_date = response.data.data[0].endDate;
 
                 $('.list-booking-indicator').addClass('hide');
             }).catch(function (error) {
@@ -629,6 +642,48 @@ var manage_service = new Vue({
             })
             
         },
+        datePrev: function() {
+            if (this.params.type == 'space') {
+                this.params.start_date = this.params.start_date - 60*24*60;
+                
+            } else if (this.params.type == 'day' || this.params.type == '') {
+                this.params.start_date = this.params.start_date - 60*24*60;
+                this.params.end_date = this.params.start_date - 60*24*60;
+            }
+
+            this.getBooking();
+        },
+        dateNext: function() {
+            if (this.params.type == 'space') {
+                this.params.end_date = this.params.end_date + 60*24*60;
+                
+            } else if (this.params.type == 'day' || this.params.type == '') {
+                this.params.start_date = this.params.start_date + 60*24*60;
+                this.params.end_date = this.params.start_date + 60*24*60;
+            }
+            this.getBooking();
+        },
+        showDateFrom: function() {
+            if ($('#to:checked').val() == 1) {
+               $('.date-from').show();
+               this.params.type = 'space';
+               this.today();
+            } else {
+                this.today();
+                $('.date-from').hide();
+                this.params.type = 'day';
+            }
+        },
+        handleDate: function(date) {
+            var date = new Date(date);
+            var hours = date.getHours();
+            var minutes = date.getMinutes();
+
+            if (minutes < 10) {
+                minutes = '0' + minutes;
+            }
+            return hours + ':' + minutes;
+        },
         // kanban function
         kanbanBoard: function()
         {
@@ -682,6 +737,7 @@ var manage_service = new Vue({
         },
         // end kanban function
     }
+
 });
 
 function myFunction() {
