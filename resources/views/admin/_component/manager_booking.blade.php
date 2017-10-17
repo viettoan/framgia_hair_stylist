@@ -20,52 +20,34 @@
         <div class="row">
           <div class="col-xs-12">
                 <div class="box-header" style="position: relative;">
-                    <div class="indicator hide list-booking-indicator"></div>
-                    <h3 class="box-title">{{ __('Manager Booking') }}</h3>
-                    <div class="clearfix"></div>
-                    <div class="col-md-6 well">
-                        <div class="form-group col-md-12 select_booking_manage">
-                            <select  class="form-control" id="sel1" v-on:change="selectDay">
-                                <option value="">{{ __('Today') }}</option>
-                                <option value="day">{{ __('Day') }}</option>
-                                <option value="space">{{__('About Time')}}</option>
-                            </select>
+                    <div class="form-group col-md-12 select_booking_manage">
+                            <div class="col-md-12 well">
+                                <div class="col-md-1">
+                                    <a class="btn btn-primary date-prev" v-on:click = "datePrev()">
+                                        {{ __('Pre Day') }}
+                                    </a>
+                                </div>
+                                <div class="form-group col-md-8 col-md-offset-1 select_booking_manage">
+                                    <div class="col-md-12">
+                                        <button v-on:click="today()" class="col-md-2 btn btn-success">Today</button>
+                                        <div class="col-md-4">
+                                            <input type="date"  class="form-control" v-model="start_date" v-on:change="selectStartDay">
+                                        </div>
+                                        <div class="col-md-2 date-to">
+                                            <input type="checkbox" id="to" value="1" v-on:click="showDateFrom()"> Date To:
+                                        </div>
+                                        <div class="col-md-4 date-from">
+                                            <input type="date" class=" form-control" v-model="end_date" v-on:change="selectEndDay">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=" col-md-1">
+                                    <a class="btn btn-primary next-date" v-on:click = "dateNext()">
+                                        {{ __('Next day') }}
+                                    </a>
+                                </div>
+                            </div>  
                         </div>
-                        <div class="form-group col-md-12 select_booking_manage">
-                            <div class="col-md-6">
-                                <input type="date" class="form-control" v-model="start_date" v-on:change="selectStartDay" v-if="show_input.start">
-                            </div>
-                            <div class="col-md-6">
-                                <input type="date" class="form-control" v-model="end_date" v-on:change="selectEndDay" v-if="show_input.end">
-                            </div>
-                        </div>
-                        <div class="form-group col-md-12">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                <input type="text" id="Myinput" onkeyup="myFunction()" class="form-control" name="email" placeholder="Search for names..">
-                            </div>
-                            {{-- <input type="text" id="Myinput" class="form-control" onkeyup="myFunction()" placeholder="Search for names.." > --}}
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="col-md-4">{{ __('Status') }}</label>
-                        <div class="form-group col-md-8 select_booking_manage">
-                            <select  class="form-control select-multi-status" id="sel1" v-on:change="selectStatus" multiple>
-                                <option value="0">{{ __('Cancel') }}</option>
-                                <option value="1">{{ __('Wating') }}</option>
-                                <option value="2">{{ __('Complete') }}</option>
-                                <option value="3">{{ __('Inlate') }}</option>
-                `                <option value="4">{{ __('Inprogress') }}</option>
-                            </select>
-                        </div>
-                        <label class="col-md-4">{{ __('Department') }}</label>
-                        <div class="form-group col-md-8 select_booking_manage">
-                            <select  class="form-control" id="sel1" v-on:change="selectDepartment">
-                                <option value="">{{ __('All') }}</option>
-                                <option v-bind:value="department.id" v-for="department in showDepartments">@{{ department.name }}</option>
-                            </select>
-                        </div>
-                    </div>
                 </div>
             <div class="box" style="position: relative;">
                 <div class="indicator hide list-booking-indicator">

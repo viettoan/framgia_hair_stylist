@@ -48,7 +48,7 @@ var Manager_bill = new Vue({
         },
         booking_inprogress: {},
         search: {'department_id': '', 'customer_name': '', 'phone': '', 'date': ''},
-        paginate: ['list_bill'],
+        paginate: ['list'],
     },
     mounted : function(){
         this.users = Vue.ls.get('user', {});

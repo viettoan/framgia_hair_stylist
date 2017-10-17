@@ -97,3 +97,6 @@
 #manager_bill .panel-body {
     padding: 0px !important;
 }
+#manager_bill .box > ul {
+    padding: 0px;
+}
