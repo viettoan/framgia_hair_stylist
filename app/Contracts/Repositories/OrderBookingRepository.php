@@ -31,4 +31,6 @@ interface OrderBookingRepository extends AbstractRepository
     public function getBookingByMonth($month, $year, $status, $select = ['*'], $with = []);
 
     public function getBookingByDate($date, $status, $select = ['*'], $with = []);
+
+    public function search($date, $keywords, $with = [], $select = ['*']);
 }
