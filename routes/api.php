@@ -65,4 +65,5 @@ Route::group(['prefix' => 'v0', 'namespace' => 'Api'], function() {
     Route::get('show-booking-service/{order_id}', 'OrderBookingController@showBookingService');
     Route::get('log-status/{order_booking_id}', 'OrderBookingController@getLogStatus');
     Route::get('show-booking-inprogress', 'OrderBookingController@showBookingInprogress');
+    Route::post('order-booking/search', 'OrderBookingController@search');
 });

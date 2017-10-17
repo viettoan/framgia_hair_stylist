@@ -122,4 +122,17 @@ class OrderBookingRepositoryEloquent extends AbstractRepositoryEloquent implemen
         
         return $query->get();
     }
+
+    public function search($date, $keywords, $with = [], $select = ['*'])
+    {
+        $request = $this->model()->select($select)->with($with)->whereDate('updated_at', $date);
+
+        foreach ($keywords as $key => $value) {
+            if ($value != null) {
+                $request->where($key, 'like', '%' . $value . '%');
+            }
+        }
+
+        return $request->orderBy('updated_at', 'DESC')->get();
+    }
 }

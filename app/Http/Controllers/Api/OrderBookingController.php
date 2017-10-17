@@ -671,5 +671,55 @@ class OrderBookingController extends Controller
 
         return Response::json($response, $response['status']);
     }
+
+    /**
+     * Search bill by name, phone, department_id
+     *
+     * @return json
+     */
+    public function search(Request $request)
+    {
+        $input = $request->all();
+        $keywords = [
+            'phone' => $input['phone'],
+        ];
+
+        $date = Carbon::now()->timestamp(strtotime($input['date']));
+        $data['date'] = $date->format(config('default.format_date'));
+        $date = $date->format('Y-m-d');
+
+        $response = Helper::apiFormat();
+
+        try {
+
+            $keywords = Helper::handleSearchKeywords($keywords);
+            
+
+            $booking = $this->orderBooking->search($date, $keywords, ['Images']);
+            foreach ($booking as $item) {
+                $renderBooking = $this->renderBooking->find($item->render_booking_id);
+                $item->render_booking = $renderBooking;
+                $item->department = $this->department->find($renderBooking->department_id);
+                $item->stylist =  $this->user->find($item->stylist_id);
+                $item->order_items = $this->orderBooking->find($item->id, ['getOrderItems'])->getOrderItems;
+                $item->grand_total = $this->orderItem->getGrandTotal($item->id);
+
+                foreach ($item->order_items as $orderItem) {
+                    $orderItem->stylist = $this->orderItem->find($orderItem->id, ['getStylist'])->getStylist['name'];
+                    $orderItem->service = $this->orderItem->find($orderItem->id, ['getServiceProduct'])->getServiceProduct;
+                }  
+            }
+            
+            $response['data'] = $booking;
+            $response['status'] = 200;
+
+            return Response::json($response, $response['status']);
+        } catch (Exception $e) {
+            $response['status'] = 403;
+
+            return Response::json($response, $response['status']);
+        }
+        
+    }
 }
 
