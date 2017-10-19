@@ -46,6 +46,7 @@ var manage_service = new Vue({
         status: '',
         images: [],
         imageData: {'order_booking_id': '', 'images': []},
+        statusCreatedBill: 0,
     },
     mounted : function(){
         this.showDepartment();
@@ -186,40 +187,6 @@ var manage_service = new Vue({
             return split[1];
         },
         
-        // getBooking: function() {
-        //     $('.list-booking-indicator').removeClass('hide');
-        //     var authOptions = {
-        //         method: 'get',
-        //         url: '/api/v0/filter-order-booking',
-        //         params: this.params,
-        //         headers: {
-        //             'Authorization': "Bearer " + this.token.access_token
-        //         }
-        //     }
-        //     axios(authOptions).then(response => {
-        //         if(response.data.data[0].list_book.length > 0) {
-        //             response.data.data[0].list_book = this.curent_time(response.data.data[0].list_book);
-        //         }
-        //         this.$set(this, 'listBookings', response.data.data);
-        //         console.log(this.listBookings);
-
-        //         let groupBookings = [], groupBooking = [];
-        //         for(let i = 1 ; i < listBookings.list_book.length; i++ ) {
-        //         if( groupBooking[0].time_start == listBookings[i].list_book.time_start) groupBooking.push(listBookings[i]);
-        //         else {
-        //             groupBookings.push(groupBooking);
-        //             groupBooking = [listBookings[i]];
-        //         }
-        //             console.log(groupBookings);
-
-        //     }
-
-        //         $('.list-booking-indicator').addClass('hide');
-        //     }).catch(function (error) {
-        //         $('.list-booking-indicator').addClass('hide');
-        //     });
-        // },
- 
         getBooking: function() {
             $('.list-booking-indicator').removeClass('hide');
             var authOptions = {
@@ -247,19 +214,21 @@ var manage_service = new Vue({
 
                     for(let i = 1 ; i < lengthBooking; i++ ) {
                         if (groupBooking[0].time_start == listBooking[i].time_start) {
-                            groupBooking.push(listBooking[i]) 
+                            groupBooking.push(listBooking[i])
                         } else {
                             groupBookings.list_book.push(groupBooking);
                             groupBooking = [listBooking[i]];
                         }
                     }
+
                     groupBooking.length ? groupBookings.list_book.push(groupBooking) : '';
                     groupBookingFormat.push(groupBookings);
                 }
-                this.$set(this, 'items', groupBookingFormat);
                 this.start_date = response.data.data[0].startDate;
                 this.end_date = response.data.data[0].endDate;
 
+                this.$set(this, 'items', groupBookingFormat);
+               
                 $('.list-booking-indicator').addClass('hide');
             }).catch(function (error) {
                 $('.list-booking-indicator').addClass('hide');
@@ -274,12 +243,13 @@ var manage_service = new Vue({
             $('#update_status').modal('show');
         },
 
-        update_status: function(id){
+        update_status: function(targetId, bookingId){
             var self = this;
+
             var authOptions = {
                     method: 'PUT',
-                    url: '/api/v0/change-status-booking/' + id,
-                    params: {status: this.changer_status_booking.status, message: this.changer_status_booking.message},
+                    url: '/api/v0/change-status-booking/' + bookingId,
+                    params: {status: targetId},
                     headers: {
                         'Authorization': "Bearer " + this.token.access_token,
                         'Content-Type': 'application/x-www-form-urlencoded'
@@ -289,7 +259,7 @@ var manage_service = new Vue({
 
             axios(authOptions).then((response) => {
                 this.changer_status_booking = {'id': '', 'status': ''},
-                 $('#update_status').modal('hide');
+
                     toastr.success('Update Booking Success', 'Success', {timeOut: 5000});
                     this.getBooking();
             }).catch((error) => {
@@ -700,17 +670,15 @@ var manage_service = new Vue({
                 $panelBody.slideToggle();
 
             });
-
-
         },
 
         draggableInit: function()
         {
+            let status = this;
             var sourceId;
             $('body').on('dragstart', '[draggable=true]', function (event) {
                 sourceId = $(this).parent().attr('id');
                 event.originalEvent.dataTransfer.setData("text/plain", event.target.getAttribute('id'));
-
             });
 
             $('body').on('dragover', '.drag-td', function (event) {
@@ -718,24 +686,121 @@ var manage_service = new Vue({
             });
             $('body').on('drop', '.drag-td', function (event) {
                 var children = $(this).children().children().children();
+                var id = $(this).children().children().children().find('article');
                 var targetId = children.attr('id');
-
-                if (sourceId != targetId) {
-                    var elementId = event.originalEvent.dataTransfer.getData("text/plain");
-
-                    $('#processing-modal').modal('toggle'); //before post
-
-                    // Post data 
-                    setTimeout(function () {
-                        var element = document.getElementById(elementId);
-                        children.prepend(element);
-                        $('#processing-modal').modal('toggle'); // after post
-                    }, 1000);
+                if (sourceId == 1) {
+                     if (sourceId != targetId && (targetId == 0 || targetId == 3 || targetId == 4)) {
+                        var elementId = event.originalEvent.dataTransfer.getData("text/plain");
+                        status.update_status(targetId, elementId);
+                        $('#processing-modal').modal('toggle'); //before post
+                        // Post data 
+                        setTimeout(function () {
+                            var element = document.getElementById(elementId);
+                            children.prepend(element);
+                            $('#processing-modal').modal('toggle'); // after post
+                        }, 1000);
+                    }
                 }
-                // event.preventDefault();
+
+                if (sourceId == 4) {
+                     if (sourceId != targetId && (targetId == 2)) {
+                        
+                        var elementId = event.originalEvent.dataTransfer.getData("text/plain");
+                        status.addBillBookingInprogress(elementId);
+                    }
+                }
+
+                if (sourceId == 3) {
+                     if (sourceId != targetId && (targetId == 0 || targetId == 4)) {
+                    
+                        var elementId = event.originalEvent.dataTransfer.getData("text/plain");
+                        status.update_status(targetId, elementId);
+                        $('#processing-modal').modal('toggle'); //before post
+                        // Post data 
+                        setTimeout(function () {
+                            var element = document.getElementById(elementId);
+                            children.prepend(element);
+                            $('#processing-modal').modal('toggle'); // after post
+                        }, 1000);
+                    }
+                }
             });
         },
         // end kanban function
+        addBillBookingInprogress: function(id) {
+            var authOptions = {
+                method: 'GET',
+                url: '/api/v0/get_booking_by_id/' + id,
+                headers: {
+                    'Authorization': "Bearer " + this.token.access_token,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                json: true
+            };
+
+            axios(authOptions).then(response => {
+                this.bill.customer_name = response.data.data.name;
+                this.bill.customer_id = response.data.data.user_id;
+                this.bill.department_id = response.data.data.department.id;
+                this.booking = response.data.data;
+                this.bill.service_total = this.booking.order_items.length;
+
+                this.bill.grand_total = response.data.data.grand_total;
+                this.bill.order_booking_id = this.booking.id;
+                this.bill.phone = response.data.data.phone;
+                this.formErrors.phone = '';
+            });
+
+            $('#showCreateBill').modal('show');
+        },
+        storeBill: function(event){
+            if (!confirm('Do you want to create this bill!')) return;
+            var authOptions = {
+                method: 'POST',
+                url: '/api/v0/bill',
+                params: this.bill,
+                headers: {
+                    'Authorization': "Bearer " + this.token.access_token,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                json: true
+            }
+
+            if (this.bill.id) {
+                authOptions.method = 'PUT';
+                authOptions.url = '/api/v0/bill/' + this.bill.id;
+            }
+
+            axios(authOptions).then(response => {
+                this.billSuccess = response.data.data;
+                for (key in response.data.message) {
+                    toastr.success(response.data.message[key], '', {timeOut: 5000});
+                }
+                $('#showCreateBill').modal('hide');
+                this.getBooking();
+                var authOptions = {
+                    method: 'GET',
+                    url: '/admin/export_bill/' + response.data.data.id,
+                    responseType:'arraybuffer',
+                };
+
+                axios(authOptions).then(response => {
+                    let blob = new Blob([response.data], { type:   'application/pdf' } )
+                    let link = document.createElement('a')
+                    link.href = window.URL.createObjectURL(blob)
+                    link.download = this.billSuccess.id + '_' + this.billSuccess.department.address + '_Report.pdf'
+                    link.click()
+                });
+                
+                this.exportshowBill(this.billSuccess);
+
+
+            }).catch((error) => {
+                for (key in error.response.data.message) {
+                    toastr.error(error.response.data.message[key], '', {timeOut: 5000});
+                }
+            });   
+        },
     }
 
 });

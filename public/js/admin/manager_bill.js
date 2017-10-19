@@ -457,6 +457,7 @@ var Manager_bill = new Vue({
 
             $('#showBill').modal('show');
         },
+        
         showBookingInprogress: function() {
             var authOptions = {
                 method: 'GET',
