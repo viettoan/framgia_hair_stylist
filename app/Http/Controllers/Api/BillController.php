@@ -133,8 +133,11 @@ class BillController extends Controller
      */
     public function store(Request $request)
     {
-        
-        $avatarUser = $this->media->getLastImage($request->order_booking_id, 'order_booking')->path_origin;
+        if ( $this->media->getLastImage($request->order_booking_id, 'order_booking') ) {
+            $avatarUser = $this->media->getLastImage($request->order_booking_id, 'order_booking')->path_origin;
+        } else {
+            $avatarUser = '';
+        }
         $response = Helper::apiFormat();
 
         // Check permission User
