@@ -8,6 +8,18 @@
     color:red;
 }
 
+.scoll-time-booking {
+    /*overflow: scroll;*/
+    /*height: 400px;*/
+
+    /*height: 350px;*/
+}
+
+.scroll_banner {
+    /*overflow: scroll;
+    height: 400px;*/
+}
+
 .get-color-icon-delete
 {
     color:black;

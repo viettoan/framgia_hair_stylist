@@ -65,80 +65,60 @@
                             </h4>
                         </div>
                         <div  v-bind:id="'open-booking-day-' + item.date_book" class="panel-collapse collapse in scoll-time">
-                            <div class="container-fluid">
+                            <div class="container-fluid scroll_banner">
                                 <div id="sortableKanbanBoards" class="row">
                                     <table class="table table-striped">
                                         <thead class="heading-table">    
-                                            <th>Time start</th>
+                                            <th style="width: 100px">Time start</th>
                                             <th class="th-booking-manage">New</th>
                                             <th class="th-booking-manage">Inprogress</th>
-                                            <th class="th-booking-manage">Inlate</th>
+                                            <th class=".th-booking-manage">Inlate</th>
                                             <th class="th-booking-manage">Cancel</th>
                                             <th class="th-booking-manage">Done</th>
                                         </thead>
-                                        <tbody>
+                                        <tbody v-for= "list in item.list_book">
                                             <tr>
-                                                <td class="td-time-booking">8:30</td>
-
+                                                <td class="td-time-booking" >@{{ (list[0].time_start).slice(10, 16) }}</td>
                                                 <td class="drag-td">
-                                                    <div class="panel panel-primary kanban-col" >
-                                                        <div class="panel-body">
-                                                            <div id="NEW" class="kanban-centered">
-
-                                                                <article class="kanban-entry grab" id="item1" draggable="true">
+                                                    <div class="clearfix"></div>
+                                                        <div class="panel panel-primary kanban-col" >
+                                                            <div class="panel-body scoll-time-booking">
+                                                                <div id="1" class="kanban-centered" >
+                                                                <article class="kanban-entry grab" v-for="booking in list" v-if="booking.status == 1" v-bind:id="booking.id" draggable="true">
                                                                     <div class="kanban-entry-inner">
                                                                         <div class="kanban-label">
                                                                             <div class="wrap-name-dot">
-                                                                                <h2><a href="#">Name 1</a></h2>
+                                                                                <h2><a href="#">@{{ booking.name }}</a></h2>
                                                                                 <div class="wrap-dot">
-                                                                                <span data-toggle="popover" data-placement="bottom" id = "abc" title="List Actions">...</span>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="wrap-radius-avt">
-                                                                                <a href="#" class="booking-phone">093235632</a>
-                                                                                <a href="##"><img src="/images/2.jpg"></a>
+                                                                                <a href="#" class="booking-phone">@{{ booking.phone }}</a>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 </article>
-                                                                <article class="kanban-entry grab" id="item2" draggable="true">
-                                                                    <div class="kanban-entry-inner">
-                                                                        <div class="kanban-label">
-                                                                            <div class="wrap-name-dot">
-                                                                                <h2><a href="#">Name 2</a></h2>
-                                                                                <div class="wrap-dot">
-                                                                                    <span>...</span>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="wrap-radius-avt">
-                                                                                <a href="#" class="booking-phone">093235632</a>
-                                                                                <a href="##"><img src="/images/1.jpg"></a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </article>
-
                                                             </div>
                                                         </div>  
                                                     </div>
                                                 </td>
-                                                <td class="drag-td">
+                                                <td class="drag-td ">
                                                     <div class="panel panel-primary kanban-col" >
-                                                        <div class="panel-body">
-                                                            <div id="INPROGRESS" class="kanban-centered">
-
-                                                                <article class="kanban-entry grab" id="item3" draggable="true">
+                                                        <div class="panel-body scoll-time-booking">
+                                                            <div id="4"  class="kanban-centered">
+                                                                 <article class="kanban-entry grab" v-for="booking in list"  v-bind:id="booking.id" v-if="booking.status == 4" draggable="true">
                                                                     <div class="kanban-entry-inner">
                                                                         <div class="kanban-label">
                                                                             <div class="wrap-name-dot">
-                                                                                <h2><a href="#">Name 2</a></h2>
+                                                                                <h2><a href="javascript:void(0)" v-on:click="showLogStatus(booking.id)">@{{ booking.name }}</a></h2>
                                                                                 <div class="wrap-dot">
-                                                                                    <span>...</span>
+                                                                                <a  href="javascript:void(0)" v-on:click="bookingDetail(booking)"><i id = "abc" class="fa fa-plus" aria-hidden="true"></i></a>
+                                                                                
+                                                                                <a href="javascript:void(0)" data-toggle="modal" data-target="#chooseImg" v-on:click="showImage(booking.id)"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="wrap-radius-avt">
-                                                                                <a href="#" class="booking-phone">093235632</a>
-                                                                                <a href="##"><img src="/images/2.jpg"></a>
+                                                                                <a href="#" class="booking-phone">@{{ booking.phone }}</a>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -149,21 +129,19 @@
                                                 </td>
                                                 <td class="drag-td">
                                                     <div class="panel panel-primary kanban-col" >
-                                                        <div class="panel-body">
-                                                            <div id="INLATE" class="kanban-centered">
-
-                                                                <article class="kanban-entry grab" id="item4" draggable="true">
+                                                        <div class="panel-body scoll-time-booking">
+                                                            <div id="3" class="kanban-centered"  >
+                                                            <article class="kanban-entry grab" v-for="booking in list" v-if="booking.status == 3" v-bind:id="booking.id" draggable="true">
                                                                     <div class="kanban-entry-inner">
                                                                         <div class="kanban-label">
                                                                             <div class="wrap-name-dot">
-                                                                                <h2><a href="#">Name 2</a></h2>
+                                                                                <h2><a href="javascript:void(0)" v-on:click="showLogStatus(booking.id)">@{{ booking.name }}</a></h2>
                                                                                 <div class="wrap-dot">
-                                                                                    <span>...</span>
+                                                                                <a  href="javascript:void(0)" v-on:click="bookingDetail(booking)"><i id = "abc" class="fa fa-plus" aria-hidden="true"></i></a>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="wrap-radius-avt">
-                                                                                <a href="#" class="booking-phone">093235632</a>
-                                                                                <a href="##"><img src="/images/4.jpg"></a>
+                                                                                <a href="#" class="booking-phone">@{{ booking.phone }}</a>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -174,21 +152,19 @@
                                                 </td>
                                                 <td class="drag-td">
                                                     <div class="panel panel-primary kanban-col" >
-                                                        <div class="panel-body">
-                                                            <div id="CANCEL" class="kanban-centered">
-
-                                                                <article class="kanban-entry grab" id="item5" draggable="true">
+                                                        <div class="panel-body scoll-time-booking">
+                                                            <div id="0" class="kanban-centered" >
+                                                               <article class="kanban-entry grab" v-for="booking in list" v-bind:id="booking.id" v-if="booking.status == 0" draggable="true">
                                                                     <div class="kanban-entry-inner">
                                                                         <div class="kanban-label">
                                                                             <div class="wrap-name-dot">
-                                                                                <h2><a href="#">Name 2</a></h2>
+                                                                                <h2><a href="javascript:void(0)" v-on:click="showLogStatus(booking.id)">@{{ booking.name }}</a></h2>
                                                                                 <div class="wrap-dot">
-                                                                                    <span>...</span>
+                                                                                <a  href="javascript:void(0)" v-on:click="bookingDetail(booking)"><i id = "abc" class="fa fa-plus" aria-hidden="true"></i></a>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="wrap-radius-avt">
-                                                                                <a href="#" class="booking-phone">093235632</a>
-                                                                                <a href="##"><img src="/images/3.png"></a>
+                                                                                <a href="#" class="booking-phone">@{{ booking.phone }}</a>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -199,48 +175,122 @@
                                                 </td>
                                                 <td class="drag-td">
                                                     <div class="panel panel-primary kanban-col" >
-                                                        <div class="panel-body">
-                                                            <div id="DONE" class="kanban-centered">
-
-                                                                <article class="kanban-entry grab" id="item6" draggable="true">
+                                                        <div class="panel-body scoll-time-booking">
+                                                            <div id="2" class="kanban-centered"  >
+                                                                <article class="kanban-entry grab" v-for="booking in list" v-bind:id="booking.id" v-if="booking.status == 2" draggable="true">
                                                                     <div class="kanban-entry-inner">
                                                                         <div class="kanban-label">
                                                                             <div class="wrap-name-dot">
-                                                                                <h2><a href="#">Name 2</a></h2>
+                                                                                <h2><a href="javascript:void(0)" v-on:click="showLogStatus(booking.id)">@{{ booking.name }}</a></h2>
                                                                                 <div class="wrap-dot">
-                                                                                    <span>...</span>
+                                                                                <a  href="javascript:void(0)" v-on:click="bookingDetail(booking)"><i id = "abc" class="fa fa-plus" aria-hidden="true"></i></a>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="wrap-radius-avt">
-                                                                                <a href="#" class="booking-phone">093235632</a>
-                                                                                <a href="##"><img src="/images/2.jpg"></a>
+                                                                                <a href="#" class="booking-phone">@{{ booking.phone }}</a>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-
                                                                 </article>
-
                                                             </div>
                                                         </div>  
                                                     </div>
                                                 </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="td-time-booking">9:00</td>
-                                                <td>a</td>
-                                                <td>a</td>
-                                                <td>a</td>
-                                                <td>a</td>
-                                                <td>xxx</td>
-
+                                                </div>
                                             </tr>
                                         </tbody>
-
                                     </table>
                                 </div>
                             </div>
-
-
+                            <!-- Create bill -->
+                            <div class="modal fade" id="showCreateBill" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                            <h4 class="modal-title" id="myModalLabel">{{ __('Create Bill') }}</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="POST" enctype="multipart/form-data" v-on:submit.prevent="" class="form-horizontal">
+                                                <div class="form-group">
+                                                    <div class="col-sm-6">
+                                                        <label for="name"><i class="fa fa-phone" aria-hidden="true"></i> <strong>{{ __('Phone Customer') }}</strong></label>
+                                                        <span class="text-danger">
+                                                            @{{formErrors.phone}}
+                                                        </span>
+                                                        <input type="text" name="phone" class="form-control" v-model="bill.phone" />
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <label for="name"><i class="fa fa-user" aria-hidden="true"></i> <strong>{{ __('Name Customer') }}</strong></label>
+                                                        <input type="text" class="form-control" v-model="bill.customer_name"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-sm-12">
+                                                        <label for="name" class="text-center">
+                                                            <i class="fa fa-info-circle" aria-hidden="true"></i> <strong>{{ __('Infor Booking') }}</strong>
+                                                        </label>
+                                                        <div v-if="booking.id">
+                                                            <div class="col-sm-4">
+                                                                <p><strong>{{ __('Department:') }}</strong> @{{ booking.department.name }}</p>
+                                                                <p><strong>{{ __('Address:') }}</strong>@{{ booking.department.address }}</p>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <p><strong>{{ __('Day Booking:') }}</strong>@{{ booking.render_booking.day }}</p>
+                                                                <p><strong>{{ __('Time start:') }}</strong>@{{ booking.render_booking.time_start }}</p>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <p><strong>{{ __('Stylist:') }}</strong> @{{ booking.stylist.name }}</p>
+                                                                <p><strong>{{ __('Stylist Phone:') }}</strong>@{{ booking.stylist.phone }}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div v-if="!booking.id">
+                                                            <div class="col-sm-4" class="text-danger">
+                                                              <i> {{ __('Not Booking') }} </i>
+                                                            </div>
+                                                        </div>
+                                                    </div>  
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <table class="table table-striped">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>{{ __('STT') }}</th>
+                                                                <th>{{ __('Service Name') }}</th>
+                                                                <th>{{ __('Stylist Name') }}</th>
+                                                                <th>{{ __('Price') }}</th>
+                                                                <th>{{ __('Qty') }}</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr id ="list_service" v-for="(order_item, keyObject) in booking.order_items" v-bind:class="{'label-warning': isEditBillItem.status && isEditBillItem.index == keyObject}">
+                                                                <td>@{{ keyObject + 1 }}</td>
+                                                                <td>@{{ order_item.service_name }}</td>
+                                                                <td>@{{ order_item.stylist }}</td>
+                                                                <td>@{{ (order_item.price).toLocaleString('de-DE') }} VND</td>
+                                                                <td>@{{ order_item.qty }}</td>    
+                                                            </tr>
+                                                            <tr>
+                                                                <td ></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td>{{ __('Grand Total : ') }}</td>
+                                                                <td>@{{ (bill.grand_total).toLocaleString('de-DE') }} VND</td>
+                                                                <td></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="form-group text-center">
+                                                    <button class="btn btn-success" :disabled="booking.status != 4 ||  bill.service_total == 0 " v-on:click="storeBill" v-if="!bill.id">
+                                                        <i class="fa fa-plus" aria-hidden="true"></i> {{ __('Create Bill') }}
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <!-- Static Modal -->
                             <div class="modal modal-static fade" id="processing-modal" role="dialog" aria-hidden="true">
                                 <div class="modal-dialog">
@@ -1027,7 +1077,6 @@
 @endsection
 
 @section('script')
-{{ Html::script('js/admin/popover_bookinginfo.js') }}
 {{ Html::script('js/admin/manager_booking.js') }}
 {{ Html::script('bower/AdminLTE/plugins/datatables/jquery.dataTables.min.js') }}
 {{ Html::script('bower/AdminLTE/plugins/datatables/dataTables.bootstrap.min.js') }}
