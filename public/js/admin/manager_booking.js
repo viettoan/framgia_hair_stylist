@@ -235,21 +235,18 @@ var manage_service = new Vue({
             });
         },
 
-        changer_status(item){
-            this.changer_status_booking.status = item.status;
-            this.changer_status_booking.id = item.id;
-            this.changer_status_booking.message = item.message;
-            this.$set(this, 'status', this.changer_status_booking.status);
+        changer_status(targetId, bookingId){
+            this.changer_status_booking.status = targetId;
+            this.changer_status_booking.id = bookingId;
             $('#update_status').modal('show');
         },
 
         update_status: function(targetId, bookingId){
             var self = this;
-
             var authOptions = {
                     method: 'PUT',
                     url: '/api/v0/change-status-booking/' + bookingId,
-                    params: {status: targetId},
+                    params: {status: targetId, message: this.changer_status_booking.message},
                     headers: {
                         'Authorization': "Bearer " + this.token.access_token,
                         'Content-Type': 'application/x-www-form-urlencoded'
@@ -257,11 +254,13 @@ var manage_service = new Vue({
                     json: true
                 }
 
+
             axios(authOptions).then((response) => {
                 this.changer_status_booking = {'id': '', 'status': ''},
 
                     toastr.success('Update Booking Success', 'Success', {timeOut: 5000});
                     this.getBooking();
+                    $('#update_status').modal('hide');
             }).catch((error) => {
                     if (error.response.status == 403) {
                         self.formErrors = error.response.data.message;
@@ -691,19 +690,23 @@ var manage_service = new Vue({
                 if (sourceId == 1) {
                      if (sourceId != targetId && (targetId == 0 || targetId == 3 || targetId == 4)) {
                         var elementId = event.originalEvent.dataTransfer.getData("text/plain");
-                        status.update_status(targetId, elementId);
-                        $('#processing-modal').modal('toggle'); //before post
-                        // Post data 
-                        setTimeout(function () {
-                            var element = document.getElementById(elementId);
-                            children.prepend(element);
-                            $('#processing-modal').modal('toggle'); // after post
-                        }, 1000);
+                        if (targetId == 0) {
+                            status.changer_status(targetId, elementId);
+                        } else {
+                            status.update_status(targetId, elementId);
+                            $('#processing-modal').modal('toggle'); //before post
+                            // Post data 
+                            setTimeout(function () {
+                                var element = document.getElementById(elementId);
+                                children.prepend(element);
+                                $('#processing-modal').modal('toggle'); // after post
+                            }, 1000);
+                        }
                     }
                 }
 
                 if (sourceId == 4) {
-                     if (sourceId != targetId && (targetId == 2)) {
+                    if (sourceId != targetId && (targetId == 2)) {
                         
                         var elementId = event.originalEvent.dataTransfer.getData("text/plain");
                         status.addBillBookingInprogress(elementId);
@@ -711,17 +714,21 @@ var manage_service = new Vue({
                 }
 
                 if (sourceId == 3) {
-                     if (sourceId != targetId && (targetId == 0 || targetId == 4)) {
-                    
+                    if (sourceId != targetId && (targetId == 0 || targetId == 4)) {
                         var elementId = event.originalEvent.dataTransfer.getData("text/plain");
-                        status.update_status(targetId, elementId);
-                        $('#processing-modal').modal('toggle'); //before post
-                        // Post data 
-                        setTimeout(function () {
-                            var element = document.getElementById(elementId);
-                            children.prepend(element);
-                            $('#processing-modal').modal('toggle'); // after post
-                        }, 1000);
+                        if (targetId == 0) {
+                            status.changer_status(targetId, elementId);
+                        } else {
+                            status.update_status(targetId, elementId);
+                            $('#processing-modal').modal('toggle'); //before post
+                            // Post data 
+                            setTimeout(function () {
+                                var element = document.getElementById(elementId);
+                                children.prepend(element);
+                                $('#processing-modal').modal('toggle'); // after post
+                            }, 1000);
+                        }
+                        
                     }
                 }
             });

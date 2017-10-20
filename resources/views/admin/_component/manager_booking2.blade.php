@@ -375,46 +375,7 @@
                                                             <h4 class="modal-title" id="myModalLabel">{{ __('Update Booking') }}</h4>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <form method="POST" enctype="multipart/form-data" v-on:submit.prevent="update_status(changer_status_booking.id)">
-                                                                <div class="form-group row">
-                                                                    <label class="col-md-2" v-if=" status != 4 ">{{ __('Status') }}</label>
-                                                                    <div class="form-group col-md-5 select_booking_manage">
-                                                                        <!-- if status is cancel -->
-                                                                        <select  class="form-control select-multi-status" id="sel1" v-if="status == 0" v-model="changer_status_booking.status" disabled="disabled">
-                                                                            <option v-bind:value="0">{{ __('Cancel') }}</option>
-                                                                            <option v-bind:value="1">{{ __('Waiting') }}</option>
-                                                                            <option v-bind:value="2">{{ __('Complete') }}</option>
-                                                                            <option v-bind:value="3">{{ __('Inlate') }}</option>
-                                                                            <option v-bind:value="4">{{ __('Inprogress') }}</option>
-                                                                        </select>
-
-                                                                        <!-- if status is Complete -->
-                                                                        <select  class="form-control select-multi-status" id="sel1" v-if="status == 2" v-model="changer_status_booking.status" disabled="disabled">
-                                                                            <option v-bind:value="0">{{ __('Cancel') }}</option>
-                                                                            <option v-bind:value="1">{{ __('Waiting') }}</option>
-                                                                            <option v-bind:value="2">{{ __('Complete') }}</option>
-                                                                            <option v-bind:value="3">{{ __('Inlate') }}</option>
-                                                                            <option v-bind:value="4">{{ __('Inprogress') }}</option>
-                                                                        </select>
-
-                                                                        <!-- if status is wating -->
-                                                                        <select  class="form-control select-multi-status" id="sel1" v-if="status == 1" v-model="changer_status_booking.status">
-                                                                            <option v-bind:value="3">{{ __('Inlate') }}</option>
-                                                                            <option v-bind:value="4">{{ __('Inprogress') }}</option>
-                                                                        </select>
-
-                                                                        <!-- if status is Inlate -->
-                                                                        <select  class="form-control select-multi-status" id="sel1" v-if="status == 3" v-model="changer_status_booking.status">
-                                                                            <option v-bind:value="4">{{ __('Inprogress') }}</option>
-                                                                            <template v-if="status == 4">
-                                                                                <option v-bind:value="2">{{ __('Complete') }}</option>
-                                                                            </template>
-                                                                        </select>
-                                                                    </div> 
-                                                                    <div class="alert alert-warning text-center col-md-12" v-if="status == 4">
-                                                                        <strong>{{ __('NOTE!') }} {{ __('Status can not be changed') }}</strong>
-                                                                    </div>
-                                                                </div>
+                                                            <form method="POST" enctype="multipart/form-data" v-on:submit.prevent="update_status(changer_status_booking.status, changer_status_booking.id)">
                                                                 <div class="form-group row" v-if=" status != 4">
                                                                     <label class="col-md-2">{{ __('Message') }}</label>
                                                                     <div class="col-md-9">
